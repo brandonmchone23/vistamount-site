@@ -1,0 +1,564 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>VistaMount — Premium TV Mounting & Smart Home | Phoenix, AZ</title>
+  <meta name="description" content="Phoenix's premier TV mounting and smart home installation service. Clean installs, zero hassle, same-day availability." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <style>
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+
+    :root {
+      --black: #0a0a0b;
+      --dark: #111114;
+      --card: #16161a;
+      --border: rgba(255,255,255,0.07);
+      --blue: #3b7fff;
+      --blue-glow: rgba(59,127,255,0.18);
+      --white: #f0ede8;
+      --muted: rgba(240,237,232,0.45);
+      --font-display: 'Cormorant Garamond', serif;
+      --font-body: 'Montserrat', sans-serif;
+    }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      background: var(--black);
+      color: var(--white);
+      font-family: var(--font-body);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Background texture */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background:
+        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(59,127,255,0.12) 0%, transparent 70%),
+        radial-gradient(ellipse 40% 40% at 90% 80%, rgba(59,127,255,0.06) 0%, transparent 60%);
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* Grain overlay */
+    body::after {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+      pointer-events: none;
+      z-index: 0;
+      opacity: 0.6;
+    }
+
+    /* NAV */
+    nav {
+      position: fixed;
+      top: 0; left: 0; right: 0;
+      z-index: 100;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 28px 48px;
+      background: linear-gradient(to bottom, rgba(10,10,11,0.9), transparent);
+      backdrop-filter: blur(2px);
+    }
+
+    .nav-logo {
+      font-family: var(--font-display);
+      font-size: 1.5rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      color: var(--white);
+      text-decoration: none;
+    }
+
+    .nav-logo span {
+      color: var(--blue);
+    }
+
+    .nav-cta {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: var(--white);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      padding: 11px 24px;
+      transition: all 0.3s ease;
+      background: rgba(255,255,255,0.04);
+    }
+
+    .nav-cta:hover {
+      background: var(--blue);
+      border-color: var(--blue);
+      color: #fff;
+    }
+
+    /* HERO */
+    .hero {
+      position: relative;
+      z-index: 1;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      padding: 140px 48px 80px;
+      max-width: 1200px;
+      margin: 0 auto;
+    }
+
+    .hero-eyebrow {
+      font-family: var(--font-body);
+      font-size: 0.68rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 32px;
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      opacity: 0;
+      animation: fadeUp 0.8s ease 0.2s forwards;
+    }
+
+    .hero-eyebrow::before {
+      content: '';
+      display: block;
+      width: 32px;
+      height: 1px;
+      background: var(--blue);
+    }
+
+    .hero-title {
+      font-family: var(--font-display);
+      font-size: clamp(3.5rem, 8vw, 7.5rem);
+      font-weight: 300;
+      line-height: 1.0;
+      letter-spacing: -0.01em;
+      margin-bottom: 40px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.35s forwards;
+    }
+
+    .hero-title em {
+      font-style: italic;
+      color: var(--blue);
+    }
+
+    .hero-title .line2 {
+      display: block;
+      padding-left: 80px;
+    }
+
+    .hero-body {
+      font-size: 0.88rem;
+      font-weight: 300;
+      letter-spacing: 0.04em;
+      color: var(--muted);
+      max-width: 480px;
+      line-height: 1.8;
+      margin-bottom: 56px;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.5s forwards;
+    }
+
+    .hero-actions {
+      display: flex;
+      align-items: center;
+      gap: 32px;
+      flex-wrap: wrap;
+      opacity: 0;
+      animation: fadeUp 0.9s ease 0.65s forwards;
+    }
+
+    .btn-primary {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 600;
+      letter-spacing: 0.18em;
+      text-transform: uppercase;
+      color: #fff;
+      text-decoration: none;
+      background: var(--blue);
+      padding: 16px 36px;
+      transition: all 0.3s ease;
+      box-shadow: 0 0 40px var(--blue-glow);
+    }
+
+    .btn-primary:hover {
+      background: #5590ff;
+      box-shadow: 0 0 60px rgba(59,127,255,0.3);
+      transform: translateY(-1px);
+    }
+
+    .btn-secondary {
+      font-family: var(--font-body);
+      font-size: 0.72rem;
+      font-weight: 500;
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+      color: var(--muted);
+      text-decoration: none;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      transition: color 0.3s ease;
+    }
+
+    .btn-secondary:hover { color: var(--white); }
+
+    .btn-secondary svg {
+      width: 14px;
+      height: 14px;
+      transition: transform 0.3s ease;
+    }
+
+    .btn-secondary:hover svg { transform: translateX(4px); }
+
+    /* SERVICES STRIP */
+    .services-strip {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      border-bottom: 1px solid var(--border);
+      padding: 28px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0;
+      overflow: hidden;
+    }
+
+    .service-item {
+      font-size: 0.68rem;
+      font-weight: 500;
+      letter-spacing: 0.22em;
+      text-transform: uppercase;
+      color: var(--muted);
+      padding: 0 40px;
+      border-right: 1px solid var(--border);
+      white-space: nowrap;
+      opacity: 0;
+      animation: fadeIn 0.6s ease forwards;
+    }
+
+    .service-item:last-child { border-right: none; }
+    .service-item:nth-child(1) { animation-delay: 0.8s; }
+    .service-item:nth-child(2) { animation-delay: 0.9s; }
+    .service-item:nth-child(3) { animation-delay: 1.0s; }
+    .service-item:nth-child(4) { animation-delay: 1.1s; }
+    .service-item:nth-child(5) { animation-delay: 1.2s; }
+
+    /* FEATURES */
+    .features {
+      position: relative;
+      z-index: 1;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 120px 48px;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 80px;
+      align-items: center;
+    }
+
+    .features-left .section-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 24px;
+    }
+
+    .features-left h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2.2rem, 4vw, 3.5rem);
+      font-weight: 300;
+      line-height: 1.15;
+      margin-bottom: 28px;
+    }
+
+    .features-left h2 em {
+      font-style: italic;
+      color: var(--blue);
+    }
+
+    .features-left p {
+      font-size: 0.85rem;
+      font-weight: 300;
+      color: var(--muted);
+      line-height: 1.9;
+      letter-spacing: 0.03em;
+    }
+
+    .feature-cards {
+      display: flex;
+      flex-direction: column;
+      gap: 2px;
+    }
+
+    .feature-card {
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 28px 32px;
+      display: flex;
+      align-items: flex-start;
+      gap: 20px;
+      transition: border-color 0.3s ease, background 0.3s ease;
+    }
+
+    .feature-card:hover {
+      border-color: rgba(59,127,255,0.3);
+      background: rgba(59,127,255,0.04);
+    }
+
+    .feature-icon {
+      width: 36px;
+      height: 36px;
+      background: var(--blue-glow);
+      border: 1px solid rgba(59,127,255,0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      color: var(--blue);
+      font-size: 1rem;
+    }
+
+    .feature-card h3 {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 400;
+      margin-bottom: 6px;
+      letter-spacing: 0.02em;
+    }
+
+    .feature-card p {
+      font-size: 0.76rem;
+      color: var(--muted);
+      line-height: 1.7;
+      letter-spacing: 0.02em;
+    }
+
+    /* CTA SECTION */
+    .cta-section {
+      position: relative;
+      z-index: 1;
+      margin: 0 48px 120px;
+      background: var(--card);
+      border: 1px solid var(--border);
+      padding: 80px;
+      text-align: center;
+      overflow: hidden;
+    }
+
+    .cta-section::before {
+      content: '';
+      position: absolute;
+      top: 0; left: 50%; transform: translateX(-50%);
+      width: 60%;
+      height: 1px;
+      background: linear-gradient(90deg, transparent, var(--blue), transparent);
+    }
+
+    .cta-section .cta-label {
+      font-size: 0.65rem;
+      font-weight: 600;
+      letter-spacing: 0.3em;
+      text-transform: uppercase;
+      color: var(--blue);
+      margin-bottom: 20px;
+    }
+
+    .cta-section h2 {
+      font-family: var(--font-display);
+      font-size: clamp(2rem, 5vw, 4rem);
+      font-weight: 300;
+      line-height: 1.1;
+      margin-bottom: 20px;
+    }
+
+    .cta-section h2 em {
+      font-style: italic;
+      color: var(--blue);
+    }
+
+    .cta-section p {
+      font-size: 0.85rem;
+      color: var(--muted);
+      margin-bottom: 40px;
+      letter-spacing: 0.04em;
+    }
+
+    .cta-phone {
+      font-family: var(--font-display);
+      font-size: clamp(1.8rem, 4vw, 3rem);
+      font-weight: 300;
+      letter-spacing: 0.06em;
+      color: var(--white);
+      text-decoration: none;
+      display: block;
+      margin-bottom: 40px;
+      transition: color 0.3s ease;
+    }
+
+    .cta-phone:hover { color: var(--blue); }
+
+    /* FOOTER */
+    footer {
+      position: relative;
+      z-index: 1;
+      border-top: 1px solid var(--border);
+      padding: 40px 48px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    footer .logo {
+      font-family: var(--font-display);
+      font-size: 1.1rem;
+      font-weight: 300;
+      letter-spacing: 0.15em;
+      color: var(--muted);
+    }
+
+    footer .logo span { color: var(--blue); }
+
+    footer p {
+      font-size: 0.68rem;
+      color: rgba(240,237,232,0.25);
+      letter-spacing: 0.1em;
+    }
+
+    footer .service-area {
+      font-size: 0.68rem;
+      color: var(--muted);
+      letter-spacing: 0.12em;
+      text-transform: uppercase;
+    }
+
+    /* ANIMATIONS */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* MOBILE */
+    @media (max-width: 768px) {
+      nav { padding: 20px 24px; }
+      .hero { padding: 120px 24px 60px; }
+      .hero-title .line2 { padding-left: 0; }
+      .services-strip { flex-wrap: wrap; gap: 12px; padding: 20px 24px; }
+      .service-item { border-right: none; padding: 4px 16px; }
+      .features { grid-template-columns: 1fr; gap: 48px; padding: 80px 24px; }
+      .cta-section { margin: 0 24px 80px; padding: 48px 24px; }
+      footer { flex-direction: column; gap: 16px; text-align: center; padding: 32px 24px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="/" class="nav-logo">Vista<span>Mount</span></a>
+    <a href="#contact" class="nav-cta">Book Now</a>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-eyebrow">Phoenix, AZ · Same-Day Available</div>
+    <h1 class="hero-title">
+      Precision installs,<br>
+      <em class="line2">flawlessly executed.</em>
+    </h1>
+    <p class="hero-body">
+      VistaMount delivers premium TV mounting and smart home installation for homeowners, businesses, and high-end properties across the Phoenix metro.
+    </p>
+    <div class="hero-actions">
+      <a href="#contact" class="btn-primary">Book Your Install</a>
+      <a href="#services" class="btn-secondary">
+        Our services
+        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
+          <path d="M3 8h10M9 4l4 4-4 4"/>
+        </svg>
+      </a>
+    </div>
+  </section>
+
+  <div class="services-strip" id="services">
+    <div class="service-item">TV Mounting</div>
+    <div class="service-item">Smart Home</div>
+    <div class="service-item">AV Systems</div>
+    <div class="service-item">Projector Install</div>
+    <div class="service-item">Cable Concealment</div>
+  </div>
+
+  <section class="features">
+    <div class="features-left">
+      <div class="section-label">Why VistaMount</div>
+      <h2>The install you <em>actually</em> wanted.</h2>
+      <p>No subcontractors, no surprises. Every job is handled personally with an eye for clean lines, hidden cables, and the kind of finish that looks intentional — because it is.</p>
+    </div>
+    <div class="feature-cards">
+      <div class="feature-card">
+        <div class="feature-icon">✦</div>
+        <div>
+          <h3>Same-Day Availability</h3>
+          <p>Most jobs scheduled and completed the same day you reach out.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">◈</div>
+        <div>
+          <h3>Clean Cable Management</h3>
+          <p>Every install includes professional cable concealment — no exposed wiring.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⬡</div>
+        <div>
+          <h3>All Wall Types</h3>
+          <p>Drywall, concrete, brick, tile, and specialty surfaces handled with confidence.</p>
+        </div>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">◇</div>
+        <div>
+          <h3>Smart Home Integration</h3>
+          <p>From single TVs to full AV racks and PoE systems for high-end properties.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-section">
+    <div class="cta-label">Ready to book?</div>
+    <h2>Let's get your <em>space right.</em></h2>
+    <p>Serving Phoenix, Scottsdale, Chandler, Tempe, and the greater metro area.</p>
+    <a href="tel:+14809034769" class="cta-phone">(480) 903-4769</a>
+    <a href="#contact" class="btn-primary">Book Online</a>
+  </div>
+
+  <footer>
+    <div class="logo">Vista<span>Mount</span></div>
+    <p>© 2026 VistaMount LLC · Phoenix, AZ</p>
+    <div class="service-area">Phoenix Metro</div>
+  </footer>
+
+</body>
+</html>
