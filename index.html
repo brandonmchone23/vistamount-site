@@ -811,26 +811,26 @@ function hCorners(alpha){
 function hText(alpha,oy){
   var W=hc.width,H=hc.height;
   hctx.save();hctx.globalAlpha=alpha;hctx.textAlign='center';
-  var fs=Math.min(100,W*0.13);
+  var fs=Math.min(120,W*0.15);
   hctx.font='600 11px sans-serif';hctx.fillStyle=HBL;
   hctx.fillText("PHOENIX'S PREMIER TV MOUNTING EXPERTS",W/2,H*0.32+oy);
   hctx.font='900 '+fs+'px sans-serif';hctx.fillStyle=HWH;
   hctx.fillText('VISTAMOUNT',W/2,H*0.50+oy);
-  hctx.font='300 13px sans-serif';hctx.fillStyle='rgba(255,255,255,.65)';
+  hctx.font='300 13px sans-serif';hctx.fillStyle='rgba(255,255,255,.95)';
   hctx.fillText('Clean installs. No visible wires. Done right the first time.',W/2,H*0.58+oy);
-  hctx.font='300 9px sans-serif';hctx.fillStyle='rgba(79,172,255,.5)';
+  hctx.font='300 9px sans-serif';hctx.fillStyle='rgba(79,172,255,.85)';
   hctx.fillText('NOW WITH ONLINE BOOKING — INSTANT PRICING & REAL-TIME AVAILABILITY',W/2,H*0.65+oy);
   hctx.textAlign='left';hctx.restore();
 }
 function hCTA(alpha){
   var W=hc.width,H=hc.height;
   hctx.save();hctx.globalAlpha=alpha;
-  var bw=220,bh=50,bx=W/2-bw/2,by=H*0.67;
+  var bw=260,bh=54,bx=W/2-bw/2,by=H*0.67;
   hctx.shadowColor=HBL;hctx.shadowBlur=30;
   hctx.fillStyle='rgba(61,127,255,.18)';hctx.fillRect(bx-8,by-8,bw+16,bh+16);
   hctx.shadowBlur=0;
   hctx.strokeStyle=HBL;hctx.lineWidth=1.5;hctx.strokeRect(bx,by,bw,bh);
-  hctx.fillStyle='rgba(61,127,255,.15)';hctx.fillRect(bx,by,bw,bh);
+  hctx.fillStyle='rgba(45,127,232,.85)';hctx.fillRect(bx,by,bw,bh);
   hctx.font='600 11px sans-serif';hctx.fillStyle=HWH;hctx.textAlign='center';
   hctx.fillText('BOOK YOUR INSTALL',W/2,by+30);
   var scrollY=H*0.90+14;
