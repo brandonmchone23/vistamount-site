@@ -285,7 +285,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
 
 <!-- HERO -->
 <section id="hero">
-  <div id="hero-left"><div style="position:absolute;bottom:160px;left:0;right:0;z-index:10;display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;pointer-events:none;"><span style="color:#FFD700;font-size:13px;">★★★★★</span><span style="color:rgba(255,255,255,.75);font-size:12px;">4.9/5 · 200+ Reviews</span><span style="color:rgba(79,172,255,.3);">|</span><span style="color:rgba(255,255,255,.75);font-size:12px;">800+ Installs</span><span style="color:rgba(79,172,255,.3);">|</span><span style="color:rgba(255,255,255,.75);font-size:12px;">Insured &amp; Guaranteed</span></div><canvas id="hero-canvas"></canvas></div><div id="hero-right"><img src="/images/IMG_1626.jpg" alt="Premium TV mounting installation by VistaMount"/></div>
+  <div id="hero-left"><div style="position:absolute;bottom:200px;left:0;right:0;z-index:10;display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;pointer-events:none;"><span style="color:#FFD700;font-size:13px;">★★★★★</span><span style="color:rgba(255,255,255,.75);font-size:12px;">4.9/5 · 200+ Reviews</span><span style="color:rgba(79,172,255,.3);">|</span><span style="color:rgba(255,255,255,.75);font-size:12px;">800+ Installs</span><span style="color:rgba(79,172,255,.3);">|</span><span style="color:rgba(255,255,255,.75);font-size:12px;">Insured &amp; Guaranteed</span></div><canvas id="hero-canvas"></canvas></div><div id="hero-right"><img src="/images/IMG_1626.jpg" alt="Premium TV mounting installation by VistaMount"/></div>
   <div style="position:absolute;top:0;right:0;width:45%;height:100%;background:radial-gradient(ellipse at 80% 50%,rgba(79,172,255,0.07) 0%,transparent 70%);pointer-events:none;"></div>
   <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:60%;height:40%;background:radial-gradient(ellipse at 50% 100%,rgba(45,127,232,0.06) 0%,transparent 70%);pointer-events:none;"></div>
 </section>
@@ -816,8 +816,8 @@ function hText(alpha,oy){
   hctx.fillText("SAME-DAY INSTALLATION · PHOENIX, AZ",W/2,H*0.32+oy);
   hctx.font='900 '+fs+'px sans-serif';hctx.shadowColor='#2d7fe8';hctx.shadowBlur=40;hctx.fillStyle=HWH;
   hctx.fillText('VISTAMOUNT',W/2,H*0.50+oy);
-  hctx.font='400 16px sans-serif';hctx.fillStyle='#ffffff';
-  hctx.shadowBlur=0;hctx.fillText('Clean installs. No visible wires. Done right the first time.',W/2,H*0.66+oy);
+  hctx.font='400 '+Math.min(16,W*0.032)+'px sans-serif';hctx.fillStyle='#ffffff';
+  hctx.shadowBlur=0;hctx.fillText('Clean installs. No visible wires. Done right the first time.',W/2,H*0.62+oy);
   hctx.font='300 9px sans-serif';hctx.fillStyle='rgba(255,255,255,0)';
   hctx.fillText('NOW WITH ONLINE BOOKING — INSTANT PRICING & REAL-TIME AVAILABILITY',W/2,H*0.65+oy);
   hctx.textAlign='left';hctx.restore();
