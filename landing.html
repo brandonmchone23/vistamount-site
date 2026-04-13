@@ -1,0 +1,363 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>VistaMount – Phoenix TV Mounting | Same-Day Available</title>
+<meta name="description" content="Phoenix's #1 rated TV mounting service. 800+ installs. 4.9★. Same-day available."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<style>
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html,body{height:100%;font-family:"DM Sans",sans-serif;background:#06080f;color:#e8edf5;overflow-x:hidden;}
+
+header{background:rgba(6,8,15,.97);border-bottom:1px solid rgba(79,172,255,.12);padding:14px 32px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;}
+.logo{font-size:1.3rem;font-weight:500;color:#fff;text-decoration:none;}
+.logo b{color:#2d7fe8;}
+.hdr-right{display:flex;align-items:center;gap:16px;}
+.hdr-phone{font-family:"Bebas Neue",sans-serif;font-size:1.1rem;letter-spacing:.08em;color:#fff;text-decoration:none;transition:color .2s;}
+.hdr-phone:hover{color:#4facff;}
+.hdr-btn{background:#2d7fe8;color:#fff;padding:9px 20px;font-size:.68rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;text-decoration:none;transition:background .2s;white-space:nowrap;}
+.hdr-btn:hover{background:#4facff;}
+
+.page{min-height:calc(100vh - 57px);display:grid;grid-template-columns:1fr 480px;}
+
+.left{padding:64px 56px;display:flex;flex-direction:column;justify-content:center;border-right:1px solid rgba(79,172,255,.08);}
+.eyebrow{display:inline-flex;align-items:center;gap:8px;margin-bottom:20px;}
+.eyebrow-dot{width:7px;height:7px;background:#4facff;border-radius:50%;animation:blink 2s ease infinite;}
+@keyframes blink{0%,100%{opacity:1;}50%{opacity:.3;}}
+.eyebrow span{font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;}
+h1{font-family:"Bebas Neue",sans-serif;font-size:clamp(3.8rem,6vw,6rem);line-height:.9;letter-spacing:.02em;color:#fff;margin-bottom:24px;}
+h1 em{color:#2d7fe8;font-style:normal;}
+.sub{font-size:.95rem;color:rgba(232,237,245,.6);line-height:1.8;margin-bottom:36px;max-width:440px;}
+
+.trust{display:flex;flex-direction:column;gap:12px;margin-bottom:40px;}
+.trust-item{display:flex;align-items:center;gap:12px;font-size:.82rem;color:rgba(232,237,245,.7);}
+.trust-item strong{color:#fff;}
+.trust-icon{width:28px;height:28px;border:1px solid rgba(79,172,255,.25);display:flex;align-items:center;justify-content:center;font-size:.8rem;flex-shrink:0;}
+
+.phone-cta a{display:inline-flex;align-items:center;gap:12px;font-family:"Bebas Neue",sans-serif;font-size:1.8rem;letter-spacing:.06em;color:#fff;text-decoration:none;transition:color .2s;}
+.phone-cta a:hover{color:#4facff;}
+.phone-cta a span{font-size:.62rem;font-family:"DM Sans",sans-serif;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.4);font-weight:400;}
+.urgency{margin-top:14px;font-size:.72rem;color:rgba(255,160,50,.85);display:flex;align-items:center;gap:8px;}
+.urgency::before{content:"";width:6px;height:6px;background:rgba(255,160,50,.85);border-radius:50%;flex-shrink:0;animation:blink 1.5s ease infinite;}
+
+.right{background:#0b0d18;display:flex;flex-direction:column;}
+.form-wrap{padding:40px 36px;flex:1;overflow-y:auto;}
+.form-heading{font-family:"Bebas Neue",sans-serif;font-size:1.5rem;letter-spacing:.04em;color:#fff;margin-bottom:2px;}
+.form-sub{font-size:.7rem;color:rgba(232,237,245,.4);margin-bottom:24px;}
+
+.prog{display:flex;gap:4px;margin-bottom:8px;}
+.prog-s{flex:1;height:2px;background:rgba(255,255,255,.07);transition:background .3s;}
+.prog-s.on{background:#2d7fe8;}
+.prog-lbls{display:flex;justify-content:space-between;margin-bottom:24px;}
+.prog-l{font-size:.52rem;letter-spacing:.1em;text-transform:uppercase;color:rgba(255,255,255,.2);transition:color .3s;}
+.prog-l.on{color:#4facff;}
+
+.fstep{display:none;}
+.fstep.active{display:block;}
+.opt-group{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px;}
+.opt{background:rgba(255,255,255,.02);border:1px solid rgba(79,172,255,.1);padding:14px 12px;cursor:pointer;font-family:"DM Sans",sans-serif;color:rgba(232,237,245,.6);font-size:.78rem;text-align:center;transition:all .25s;line-height:1.5;}
+.opt:hover{border-color:rgba(79,172,255,.35);color:#fff;}
+.opt.on{border-color:#4facff;background:rgba(45,127,232,.1);color:#fff;}
+.opt .price{display:block;font-size:.65rem;color:#4facff;margin-top:3px;}
+.flabel{font-size:.58rem;letter-spacing:.18em;text-transform:uppercase;color:rgba(232,237,245,.4);margin-bottom:8px;display:block;}
+.finput{width:100%;background:rgba(255,255,255,.03);border:1px solid rgba(79,172,255,.1);color:#fff;padding:11px 13px;font-family:"DM Sans",sans-serif;font-size:.85rem;outline:none;transition:border-color .25s;margin-bottom:12px;}
+.finput:focus{border-color:#2d7fe8;}
+.finput::placeholder{color:rgba(255,255,255,.2);}
+.finput[type=date]{color-scheme:dark;}
+.frow{display:grid;grid-template-columns:1fr 1fr;gap:10px;}
+.ftextarea{width:100%;background:rgba(255,255,255,.03);border:1px solid rgba(79,172,255,.1);color:#fff;padding:11px 13px;font-family:"DM Sans",sans-serif;font-size:.85rem;outline:none;resize:vertical;min-height:70px;transition:border-color .25s;margin-bottom:12px;}
+.ftextarea:focus{border-color:#2d7fe8;}
+
+.est{background:rgba(45,127,232,.06);border:1px solid rgba(79,172,255,.15);padding:14px 16px;margin:16px 0;display:flex;justify-content:space-between;align-items:center;}
+.est-label{font-size:.6rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(232,237,245,.4);}
+.est-price{font-family:"Bebas Neue",sans-serif;font-size:1.7rem;color:#4facff;letter-spacing:.04em;}
+.est-note{font-size:.6rem;color:rgba(232,237,245,.25);margin-top:4px;}
+
+.fnav{display:flex;gap:8px;margin-top:16px;}
+.btn-back{background:none;border:1px solid rgba(79,172,255,.12);color:rgba(232,237,245,.4);padding:10px 16px;cursor:pointer;font-family:"DM Sans",sans-serif;font-size:.65rem;letter-spacing:.12em;text-transform:uppercase;transition:all .2s;}
+.btn-back:hover{border-color:#fff;color:#fff;}
+.btn-next{flex:1;background:#2d7fe8;border:none;color:#fff;padding:12px;cursor:pointer;font-family:"DM Sans",sans-serif;font-size:.7rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;transition:background .2s;}
+.btn-next:hover{background:#4facff;}
+.btn-next:disabled{opacity:.4;pointer-events:none;}
+.btn-submit{width:100%;background:#2d7fe8;border:none;color:#fff;padding:14px;cursor:pointer;font-family:"DM Sans",sans-serif;font-size:.75rem;font-weight:600;letter-spacing:.18em;text-transform:uppercase;transition:background .2s;margin-top:16px;box-shadow:0 0 30px rgba(45,127,232,.3);}
+.btn-submit:hover{background:#4facff;}
+
+.slots{display:flex;flex-direction:column;gap:6px;margin-bottom:12px;min-height:60px;}
+.slot-btn{background:rgba(255,255,255,.02);border:1px solid rgba(79,172,255,.1);padding:10px 14px;cursor:pointer;font-family:"DM Sans",sans-serif;color:rgba(232,237,245,.7);font-size:.8rem;text-align:left;transition:all .2s;display:flex;justify-content:space-between;align-items:center;width:100%;}
+.slot-btn:hover{border-color:rgba(79,172,255,.4);color:#fff;}
+.slot-btn.on{border-color:#4facff;background:rgba(45,127,232,.1);color:#fff;}
+
+.form-trust{display:flex;gap:12px;flex-wrap:wrap;margin-top:12px;}
+.form-trust span{font-size:.58rem;color:rgba(255,255,255,.25);display:flex;align-items:center;gap:4px;}
+
+.success{display:none;text-align:center;padding:60px 20px;}
+.success.show{display:block;}
+.success-icon{font-size:2.5rem;margin-bottom:16px;}
+.success-title{font-family:"Bebas Neue",sans-serif;font-size:2.2rem;color:#fff;margin-bottom:10px;}
+.success-sub{font-size:.82rem;color:rgba(232,237,245,.5);line-height:1.7;margin-bottom:24px;}
+.success-call{display:inline-block;background:#2d7fe8;color:#fff;padding:12px 28px;text-decoration:none;font-size:.7rem;letter-spacing:.15em;text-transform:uppercase;}
+
+@media(max-width:768px){
+  .page{grid-template-columns:1fr;}
+  .left{padding:40px 24px 32px;border-right:none;border-bottom:1px solid rgba(79,172,255,.08);}
+  h1{font-size:3.2rem;}
+  .form-wrap{padding:32px 24px;}
+  header{padding:12px 20px;}
+  .frow{grid-template-columns:1fr;}
+}
+</style>
+</head>
+<body>
+
+<header>
+  <a href="https://vistamountaz.com" class="logo">Vista<b>Mount</b></a>
+  <div class="hdr-right">
+    <a href="tel:+14809034769" class="hdr-phone">(480) 903-4769</a>
+    <a href="#form-anchor" class="hdr-btn">Book Now</a>
+  </div>
+</header>
+
+<div class="page">
+  <div class="left">
+    <div class="eyebrow"><div class="eyebrow-dot"></div><span>Phoenix, AZ · Same-Day Available</span></div>
+    <h1>TV Mounting<br><em>Done Right.</em><br>First Time.</h1>
+    <p class="sub">Clean installs. No visible wires. Every wall type — drywall, tile, stone, brick, fireplace. Get an instant quote and book in 60 seconds.</p>
+    <div class="trust">
+      <div class="trust-item"><div class="trust-icon">★</div><strong>4.9/5</strong>&nbsp;rating · 200+ reviews</div>
+      <div class="trust-item"><div class="trust-icon">✓</div><strong>800+</strong>&nbsp;installs in Phoenix metro</div>
+      <div class="trust-item"><div class="trust-icon">🛡</div><strong>Insured</strong>&nbsp;· 1-year workmanship warranty</div>
+      <div class="trust-item"><div class="trust-icon">⚡</div><strong>Same-day</strong>&nbsp;· Confirmed within 2 hours</div>
+    </div>
+    <div class="phone-cta">
+      <a href="tel:+14809034769"><span>Or call us directly</span>(480) 903-4769</a>
+    </div>
+    <div class="urgency">Same-day spots fill fast — book now to lock your slot</div>
+  </div>
+
+  <div class="right" id="form-anchor">
+    <div class="form-wrap">
+      <div class="form-heading">Get Your Instant Quote</div>
+      <div class="form-sub">60 seconds · No payment until job is done</div>
+      <div class="prog">
+        <div class="prog-s on" id="p1"></div>
+        <div class="prog-s" id="p2"></div>
+        <div class="prog-s" id="p3"></div>
+        <div class="prog-s" id="p4"></div>
+      </div>
+      <div class="prog-lbls">
+        <span class="prog-l on" id="pl1">TV</span>
+        <span class="prog-l" id="pl2">Add-ons</span>
+        <span class="prog-l" id="pl3">Time</span>
+        <span class="prog-l" id="pl4">Info</span>
+      </div>
+
+      <div id="form-body">
+        <div class="fstep active" id="s1">
+          <span class="flabel">TV Size</span>
+          <div class="opt-group" id="og-size">
+            <button class="opt on" data-v="<32" onclick="pick('size',this)">Under 32"<span class="price">$100 base</span></button>
+            <button class="opt" data-v="32-64" onclick="pick('size',this)">32"–64"<span class="price">$125 base</span></button>
+            <button class="opt" data-v="65-84" onclick="pick('size',this)">65"–84"<span class="price">$150 base</span></button>
+            <button class="opt" data-v="85+" onclick="pick('size',this)">85"+<span class="price">$200 base</span></button>
+          </div>
+          <span class="flabel">Mount Type</span>
+          <div class="opt-group" id="og-mount">
+            <button class="opt on" data-v="fullmotion" onclick="pick('mount',this)">Full-Motion<span class="price">+$65</span></button>
+            <button class="opt" data-v="tilt" onclick="pick('mount',this)">Tilt<span class="price">+$50</span></button>
+            <button class="opt" data-v="flat" onclick="pick('mount',this)">Flat/Fixed<span class="price">+$50</span></button>
+            <button class="opt" data-v="own" onclick="pick('mount',this)">I have one<span class="price">Included</span></button>
+          </div>
+          <span class="flabel">Cord Management</span>
+          <div class="opt-group" id="og-cords">
+            <button class="opt on" data-v="none" onclick="pick('cords',this)">None<span class="price">Included</span></button>
+            <button class="opt" data-v="raceway" onclick="pick('cords',this)">Raceway<span class="price">+$40</span></button>
+            <button class="opt" data-v="inwall" onclick="pick('cords',this)">In-Wall<span class="price">+$75</span></button>
+            <button class="opt" data-v="outlet" onclick="pick('cords',this)">+ Outlet<span class="price">+$150</span></button>
+          </div>
+          <div class="est">
+            <div><div class="est-label">Estimated Total</div><div class="est-note">Confirmed on-site · No payment until done</div></div>
+            <div class="est-price" id="est">$165</div>
+          </div>
+          <div class="fnav"><div></div><button class="btn-next" onclick="go(2)">Next &rarr;</button></div>
+        </div>
+
+        <div class="fstep" id="s2">
+          <span class="flabel">Soundbar Install?</span>
+          <div class="opt-group" id="og-soundbar">
+            <button class="opt on" data-v="0" onclick="pick('soundbar',this)">No<span class="price">$0</span></button>
+            <button class="opt" data-v="100" onclick="pick('soundbar',this)">Yes<span class="price">+$100</span></button>
+          </div>
+          <span class="flabel">Remove Existing Mount?</span>
+          <div class="opt-group" id="og-dismount">
+            <button class="opt on" data-v="0" onclick="pick('dismount',this)">No<span class="price">$0</span></button>
+            <button class="opt" data-v="25" onclick="pick('dismount',this)">Yes<span class="price">+$25</span></button>
+          </div>
+          <span class="flabel">Wall Type</span>
+          <div class="opt-group" id="og-wall">
+            <button class="opt on" data-v="drywall" onclick="pick('wall',this)">Drywall<span class="price">Standard</span></button>
+            <button class="opt" data-v="tile" onclick="pick('wall',this)">Tile / Stone<span class="price">Specialist</span></button>
+            <button class="opt" data-v="fireplace" onclick="pick('wall',this)">Fireplace<span class="price">Specialist</span></button>
+            <button class="opt" data-v="brick" onclick="pick('wall',this)">Brick / Concrete<span class="price">Specialist</span></button>
+          </div>
+          <div class="fnav">
+            <button class="btn-back" onclick="go(1)">&larr;</button>
+            <button class="btn-next" onclick="go(3)">Next &rarr;</button>
+          </div>
+        </div>
+
+        <div class="fstep" id="s3">
+          <span class="flabel">Preferred Date</span>
+          <input type="date" class="finput" id="f-date" onchange="loadSlots()"/>
+          <div class="slots" id="slots"><p style="font-size:.75rem;color:rgba(232,237,245,.35);">Select a date to see available times.</p></div>
+          <div class="fnav">
+            <button class="btn-back" onclick="go(2)">&larr;</button>
+            <button class="btn-next" id="time-next" onclick="go(4)" disabled>Next &rarr;</button>
+          </div>
+        </div>
+
+        <div class="fstep" id="s4">
+          <div class="frow">
+            <div><span class="flabel">First Name</span><input class="finput" type="text" id="f-fname" placeholder="John"/></div>
+            <div><span class="flabel">Last Name</span><input class="finput" type="text" id="f-lname" placeholder="Smith"/></div>
+          </div>
+          <span class="flabel">Phone</span>
+          <input class="finput" type="tel" id="f-phone" placeholder="(480) 555-0100"/>
+          <span class="flabel">Email</span>
+          <input class="finput" type="email" id="f-email" placeholder="you@example.com"/>
+          <span class="flabel">Service Address</span>
+          <input class="finput" type="text" id="f-address" placeholder="123 Main St, Phoenix, AZ 85001"/>
+          <span class="flabel">Notes (optional)</span>
+          <textarea class="ftextarea" id="f-notes" placeholder="Fireplace, tile, condo restrictions..."></textarea>
+          <button class="btn-submit" id="f-submit" onclick="submitForm()">Confirm Booking ✓</button>
+          <div class="form-trust">
+            <span>✓ No payment until done</span>
+            <span>✓ Call within 2 hrs</span>
+            <span>✓ 1-year warranty</span>
+          </div>
+          <div class="fnav" style="margin-top:12px;"><button class="btn-back" onclick="go(3)">&larr; Back</button><div></div></div>
+        </div>
+      </div>
+
+      <div class="success" id="f-success">
+        <div class="success-icon">✅</div>
+        <div class="success-title">You're Booked!</div>
+        <p class="success-sub">We'll call within 2 hours to confirm. We look forward to getting your space right.</p>
+        <a href="tel:+14809034769" class="success-call">(480) 903-4769</a>
+      </div>
+      </div>
+    </div>
+    <div style="padding:16px 36px;border-top:1px solid rgba(79,172,255,.08);text-align:center;">
+      <a href="https://vistamountaz.com" style="font-size:.65rem;color:rgba(232,237,245,.25);text-decoration:none;letter-spacing:.1em;text-transform:uppercase;transition:color .2s;" onmouseover="this.style.color='rgba(232,237,245,.6)'" onmouseout="this.style.color='rgba(232,237,245,.25)'">Learn more about VistaMount &rarr;</a>
+    </div>
+  </div>
+</div>
+
+<script>
+var st={size:'<32',mount:'fullmotion',cords:'none',soundbar:0,dismount:0,wall:'drywall'};
+var selSlot=null;
+var WORKER='https://vistamount-worker.billowing-recipe-0ae7.workers.dev';
+
+function pick(key,btn){
+  btn.closest('.opt-group').querySelectorAll('.opt').forEach(function(b){b.classList.remove('on');});
+  btn.classList.add('on');
+  var v=btn.dataset.v;
+  st[key]=isNaN(v)?v:Number(v);
+  calcEst();
+}
+
+function calcEst(){
+  var p=({'<32':100,'32-64':125,'65-84':150,'85+':200}[st.size]||125);
+  if(st.mount!=='own')p+=({'fullmotion':65,'tilt':50,'flat':50}[st.mount]||0);
+  if(st.cords==='inwall')p+=75;
+  else if(st.cords==='raceway')p+=40;
+  else if(st.cords==='outlet')p+=150;
+  var el=document.getElementById('est');
+  if(el)el.textContent='$'+p;
+}
+
+function go(n){
+  document.querySelectorAll('.fstep').forEach(function(s){s.classList.remove('active');});
+  document.getElementById('s'+n).classList.add('active');
+  for(var i=1;i<=4;i++){
+    document.getElementById('p'+i).classList.toggle('on',i<=n);
+    document.getElementById('pl'+i).classList.toggle('on',i===n);
+  }
+  if(n===3)initDate();
+}
+
+function initDate(){
+  var d=document.getElementById('f-date');
+  if(d.value)return;
+  var t=new Date();
+  d.min=t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0');
+}
+
+function loadSlots(){
+  var date=document.getElementById('f-date').value;
+  if(!date)return;
+  var wrap=document.getElementById('slots');
+  wrap.innerHTML='<p style="font-size:.75rem;color:rgba(232,237,245,.35);">Loading...</p>';
+  selSlot=null;
+  document.getElementById('time-next').disabled=true;
+  fetch(WORKER+'/availability?date='+date+'&duration=120')
+    .then(function(r){return r.json();})
+    .then(function(data){
+      var slots=data.slots||[];
+      if(!slots.length){wrap.innerHTML='<p style="font-size:.75rem;color:rgba(232,237,245,.35);">No availability. Try another day.</p>';return;}
+      wrap.innerHTML='';
+      slots.forEach(function(slot){
+        var b=document.createElement('button');
+        b.className='slot-btn';
+        b.innerHTML='<span>'+slot.time+'</span><span style="font-size:.65rem;color:rgba(232,237,245,.4);">'+slot.label+'</span>';
+        b.onclick=function(){
+          wrap.querySelectorAll('.slot-btn').forEach(function(x){x.classList.remove('on');});
+          b.classList.add('on');
+          selSlot={start:slot.start,end:slot.end,time:slot.time,label:slot.label};
+          document.getElementById('time-next').disabled=false;
+        };
+        wrap.appendChild(b);
+      });
+    })
+    .catch(function(){wrap.innerHTML='<p style="font-size:.75rem;color:rgba(232,237,245,.35);">Error. Call (480) 903-4769.</p>';});
+}
+
+async function submitForm(){
+  if(!selSlot){alert('Please select a time slot.');return;}
+  var fname=document.getElementById('f-fname').value.trim();
+  var phone=document.getElementById('f-phone').value.trim();
+  if(!fname||!phone){alert('Please enter your name and phone number.');return;}
+  var btn=document.getElementById('f-submit');
+  btn.textContent='Booking...';btn.disabled=true;
+  var summary='Size:'+st.size+' Mount:'+st.mount+' Cords:'+st.cords+' Wall:'+st.wall+(st.soundbar?' +soundbar':'')+(st.dismount?' +dismount':'');
+  try{
+    var res=await fetch(WORKER+'/book',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        name:(fname+' '+(document.getElementById('f-lname').value||'')).trim(),
+        phone:phone,email:document.getElementById('f-email').value,
+        address:document.getElementById('f-address').value,
+        slotStart:selSlot.start,slotEnd:selSlot.end,
+        summary:summary,notes:document.getElementById('f-notes').value
+      })
+    });
+    var data=await res.json();
+    if(data.success){
+      document.getElementById('form-body').style.display='none';
+      document.getElementById('f-success').classList.add('show');
+    }else{
+      btn.textContent='Confirm Booking ✓';btn.disabled=false;
+      alert('Booking failed. Please call (480) 903-4769.');
+    }
+  }catch(e){
+    btn.textContent='Confirm Booking ✓';btn.disabled=false;
+    alert('Connection error. Please call (480) 903-4769.');
+  }
+}
+
+calcEst();
+</script>
+</body>
+</html>
