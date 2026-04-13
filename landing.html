@@ -182,7 +182,12 @@ footer{background:#02030a;border-top:1px solid rgba(79,172,255,.08);padding:24px
 .footer-ph a{font-family:"Bebas Neue",sans-serif;font-size:.95rem;letter-spacing:.08em;color:rgba(255,255,255,.3);text-decoration:none;transition:color .2s;}
 .footer-ph a:hover{color:#4facff;}
 
-/* ── MOBILE ── */
+.tip{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;border:1px solid rgba(79,172,255,.6);color:#4facff;font-size:.62rem;font-weight:700;cursor:pointer;margin-left:6px;position:relative;font-family:"DM Sans",sans-serif;vertical-align:middle;transition:all .2s;background:rgba(79,172,255,.12);box-shadow:0 0 6px rgba(79,172,255,.3);}
+.tip:hover{border-color:#4facff;color:#fff;background:rgba(79,172,255,.3);box-shadow:0 0 12px rgba(79,172,255,.5);}
+.tip-box{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#07091a;border:1px solid rgba(79,172,255,.35);padding:12px 14px;width:260px;font-size:.68rem;color:rgba(232,237,245,.75);line-height:1.7;z-index:100;box-shadow:0 0 24px rgba(45,127,232,.2),0 4px 20px rgba(0,0,0,.5);}
+.tip-box::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#07091a;}
+.tip:hover .tip-box,.tip:focus .tip-box{display:block;}
+
 @media(max-width:900px){
   .pf-section{grid-template-columns:1fr;}
   .pf-photo{height:40vh;}
@@ -459,56 +464,77 @@ function buildTVCards(){
     {border:'rgba(80,220,150,.35)',label:'#50dc96',header:'rgba(45,200,130,.15)',glow:'rgba(80,220,150,.1)'},
   ];
 
+  var selectStyle='width:100%;background:#07091a;border:1px solid rgba(79,172,255,.15);color:#e8edf5;padding:9px 12px;font-family:DM Sans,sans-serif;font-size:.82rem;outline:none;cursor:pointer;-webkit-appearance:none;appearance:none;';
+
   for(var i=0;i<st.tvcount;i++){
     (function(idx){
       var c=colors[idx]||colors[0];
       var tv=st.tvs[idx];
       var card=document.createElement('div');
-      card.style.cssText='border:1px solid '+c.border+';margin-bottom:16px;overflow:hidden;box-shadow:0 0 20px '+c.glow+';';
+      card.style.cssText='border:1px solid '+c.border+';margin-bottom:14px;overflow:hidden;box-shadow:0 0 16px '+c.glow+';';
 
+      // Header
       var hdr=document.createElement('div');
-      hdr.style.cssText='background:'+c.header+';padding:12px 16px;border-bottom:1px solid '+c.border+';display:flex;align-items:center;gap:8px;';
-      hdr.innerHTML='<span style="font-family:Bebas Neue,sans-serif;font-size:1.2rem;letter-spacing:.08em;color:'+c.label+';text-shadow:0 0 20px '+c.label+'80;">TV '+(idx+1)+'</span><span style="font-size:.58rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(232,237,245,.3);">Configure below</span>';
+      hdr.style.cssText='background:'+c.header+';padding:10px 14px;border-bottom:1px solid '+c.border+';display:flex;align-items:center;justify-content:space-between;';
+      hdr.innerHTML='<span style="font-family:Bebas Neue,sans-serif;font-size:1.15rem;letter-spacing:.08em;color:'+c.label+';text-shadow:0 0 16px '+c.label+'90;">TV '+(idx+1)+'</span><span id="tv-summary-'+idx+'" style="font-size:.62rem;color:rgba(232,237,245,.35);"></span>';
       card.appendChild(hdr);
 
+      // 2-column grid of dropdowns
       var body=document.createElement('div');
-      body.style.cssText='padding:16px;background:rgba(0,0,0,.2);display:flex;flex-direction:column;gap:16px;';
+      body.style.cssText='padding:14px;background:rgba(0,0,0,.15);display:grid;grid-template-columns:1fr 1fr;gap:10px;';
 
-      function makeGrid(key,options,currentVal,labelText){
+      function makeSelect(key,options,currentVal,labelText,tipText){
         var w=document.createElement('div');
         var lbl=document.createElement('span');
-        lbl.style.cssText='font-size:.56rem;letter-spacing:.18em;text-transform:uppercase;color:'+c.label+';margin-bottom:8px;display:block;opacity:.8;';
+        lbl.style.cssText='font-size:.54rem;letter-spacing:.16em;text-transform:uppercase;color:'+c.label+';opacity:.7;margin-bottom:5px;display:flex;align-items:center;';
         lbl.textContent=labelText;
+        if(tipText){
+          var tip=document.createElement('span');
+          tip.className='tip';
+          tip.setAttribute('tabindex','0');
+          tip.innerHTML='?<span class="tip-box">'+tipText+'</span>';
+          lbl.appendChild(tip);
+        }
         w.appendChild(lbl);
-        var grid=document.createElement('div');
-        grid.className='opt-group';
-        grid.style.marginBottom='0';
+        var sel=document.createElement('select');
+        sel.style.cssText=selectStyle+'border-color:rgba(79,172,255,.12);';
+        sel.addEventListener('focus',function(){this.style.borderColor=c.label;this.style.boxShadow='0 0 8px '+c.glow;});
+        sel.addEventListener('blur',function(){this.style.borderColor='rgba(79,172,255,.12)';this.style.boxShadow='';});
         options.forEach(function(o){
-          var b=document.createElement('button');
-          b.className='opt'+(currentVal===o[0]?' on':'');
-          if(currentVal===o[0]){b.style.borderColor=c.label;b.style.boxShadow='0 0 12px '+c.glow;}
-          b.innerHTML=o[1]+'<span class="price" style="color:'+c.label+';">'+o[2]+'</span>';
-          b.onclick=function(){
-            grid.querySelectorAll('.opt').forEach(function(x){x.classList.remove('on');x.style.borderColor='';x.style.boxShadow='';});
-            b.classList.add('on');b.style.borderColor=c.label;b.style.boxShadow='0 0 12px '+c.glow;
-            st.tvs[idx][key]=o[0];
-            calcEst();
-          };
-          grid.appendChild(b);
+          var opt=document.createElement('option');
+          opt.value=o[0];
+          opt.textContent=o[1]+' ('+o[2]+')';
+          if(o[0]===currentVal)opt.selected=true;
+          sel.appendChild(opt);
         });
-        w.appendChild(grid);
+        sel.onchange=function(){
+          st.tvs[idx][key]=this.value;
+          updateSummary(idx,c);
+          calcEst();
+        };
+        w.appendChild(sel);
         return w;
       }
 
-      body.appendChild(makeGrid('size',[['<32','Under 32"','$100'],['32-64','32"–64"','$125'],['65-84','65"–84"','$150'],['85+','85"+','$200']],tv.size,'TV Size'));
-      body.appendChild(makeGrid('mount',[['fullmotion','Full-Motion','+$65'],['tilt','Tilt','+$50'],['flat','Flat/Fixed','+$50'],['own','I have one','Incl.']],tv.mount,'Mount Type'));
-      body.appendChild(makeGrid('cords',[['none','None','Incl.'],['raceway','Raceway','+$40'],['inwall','In-Wall','+$75'],['outlet','+Outlet','+$150']],tv.cords,'Cord Management'));
-      body.appendChild(makeGrid('wall',[['drywall','Drywall','Standard'],['stucco','Stucco','+$75'],['brick','Brick/Concrete','+$100'],['tile','Tile/Stone','+$150'],['fireplace','Fireplace','+$75']],tv.wall,'Wall Type'));
+      body.appendChild(makeSelect('size',[['<32','Under 32"','$100'],['32-64','32"–64"','$125'],['65-84','65"–84"','$150'],['85+','85"+','$200']],tv.size,'Size','Measure your TV diagonally from corner to corner — that\'s the official size. Most bedroom TVs are 32–55". Living room TVs are usually 55–75". Not sure? Check the box or the back of the TV.'));
+      body.appendChild(makeSelect('mount',[['fullmotion','Full-Motion','+$65'],['tilt','Tilt','+$50'],['flat','Flat/Fixed','+$50'],['own','I have one','Incl.']],tv.mount,'Mount','<b>Full-Motion (+$65)</b> — Arm extends out and swivels left/right. Best if your seating isn\'t directly in front of the TV.<br><br><b>Tilt (+$50)</b> — Angles down 5–15°. Ideal above a fireplace or high on the wall.<br><br><b>Flat/Fixed (+$50)</b> — Sits flush to the wall. Cleanest, sleekest look. Best when TV is at eye level.<br><br><b>I have one</b> — Already bought a bracket? We\'ll install it for you.'));
+      body.appendChild(makeSelect('cords',[['none','None','Incl.'],['raceway','Raceway','+$40'],['inwall','In-Wall','+$75'],['outlet','+Outlet','+$150']],tv.cords,'Wiring','<b>None (included)</b> — Cords run behind the TV but aren\'t hidden. Fine if your TV stand covers them.<br><br><b>Raceway (+$40)</b> — A slim painted channel runs down your wall and hides the cords. Clean look, no wall cutting.<br><br><b>In-Wall (+$75)</b> — Cords disappear completely inside the wall. The cleanest possible finish — looks like the TV has no cords at all.<br><br><b>+Outlet (+$150)</b> — We install a power outlet directly behind your TV so there\'s no cord hanging to the floor at all.'));
+      body.appendChild(makeSelect('wall',[['drywall','Drywall','Std.'],['stucco','Stucco','+$75'],['brick','Brick/Concrete','+$100'],['tile','Tile/Stone','+$150'],['fireplace','Fireplace','+$75']],tv.wall,'Wall Type','<b>Drywall</b> — Standard interior wall. Most common, easiest to work with.<br><br><b>Stucco (+$75)</b> — Common on Phoenix exterior and some interior walls. Requires specialty anchors and technique.<br><br><b>Brick/Concrete (+$100)</b> — Masonry walls need diamond-tip bits and heavy-duty anchors. Takes more time and expertise.<br><br><b>Tile/Stone (+$150)</b> — The most delicate surface. We drill without cracking — a specialty most installers won\'t touch.<br><br><b>Fireplace (+$75)</b> — Mounting above a fireplace adds heat management considerations and often requires a tilting mount for comfortable viewing.'));
 
       card.appendChild(body);
       wrap.appendChild(card);
+      updateSummary(idx,c);
     })(i);
   }
+}
+
+function updateSummary(idx,c){
+  var tv=st.tvs[idx];
+  var el=document.getElementById('tv-summary-'+idx);
+  if(!el)return;
+  var sizeLabel={'<32':'<32"','32-64':'32–64"','65-84':'65–84"','85+':'85"+'}[tv.size]||tv.size;
+  var wallLabel={drywall:'Drywall',stucco:'Stucco',brick:'Brick',tile:'Tile',fireplace:'Fireplace'}[tv.wall]||tv.wall;
+  el.textContent=sizeLabel+' · '+wallLabel;
 }
 
 function pickQty(key,val,btn){
