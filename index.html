@@ -24,7 +24,7 @@ html{scroll-behavior:smooth;overflow-x:hidden;}
 body{background:var(--bg);color:var(--w);font-family:var(--font);overflow-x:hidden;}
 
 /* NAV */
-nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:22px 52px;transition:background .4s,border-color .4s;}
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:22px 52px;background:rgba(6,8,15,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(79,172,255,0.12);}
 nav.scrolled-dark{background:rgba(6,8,15,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(79,172,255,0.12);box-shadow:0 1px 40px rgba(45,127,232,0.08);}
 nav.scrolled-light{background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,.08);}
 .nav-logo{text-decoration:none;display:flex;align-items:center;transition:opacity .3s;}
@@ -274,7 +274,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
 <body>
 
 <nav id="nav">
-  <a href="/" class="nav-logo"><img class="nav-logo-dark" src="/images/logo-final.png" alt="VistaMount" style="height:72px;width:auto;mix-blend-mode:screen;"/><img class="nav-logo-light" src="/images/logo-final.png" alt="VistaMount" style="height:72px;width:auto;"/></a>
+  <a href="/" class="nav-logo"><img src="/images/logo-final.png" alt="VistaMount" style="height:72px;width:auto;mix-blend-mode:screen;"/></a>
   <div class="nav-links">
     <a href="#services-section">Services</a>
     <a href="#process-section">Process</a>
@@ -875,7 +875,7 @@ function updateNav(){
   var bookingTop=booking.getBoundingClientRect().top+scrollY;
   if(scrollY<heroH*0.8){nav.className='';return;}
   if(scrollY>bookingTop-100){nav.className='scrolled-dark';return;}
-  nav.className='scrolled-light';
+  nav.className='scrolled-dark';
 }
 window.addEventListener('scroll',updateNav);
 
