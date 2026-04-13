@@ -1072,12 +1072,12 @@ function buildMainBreakdown(){
   var lines=[];
   mainState.tvs.forEach(function(tv,i){
     var p=MAIN_PRICES[tv.size]||125;
-    lines.push({label:'TV '+(i+1)+' — '+MAIN_SIZE_LABELS[tv.size],amt:'$'+p});
+    var disc=i>0?25:0;
+    lines.push({label:'TV '+(i+1)+' — '+MAIN_SIZE_LABELS[tv.size]+(disc?' (multi-unit discount applied)':''),amt:'$'+(p-disc),highlight:disc>0});
     if(tv.mount!=='own'){var mp=({fullmotion:65,tilt:50,flat:50}[tv.mount]||0);lines.push({label:MAIN_MOUNT_LABELS[tv.mount],amt:mp?'+$'+mp:'Incl.'});}
     else lines.push({label:'Customer-supplied mount',amt:'Incl.'});
     if(tv.cords!=='none'){var cp=({raceway:40,inwall:75,outlet:150}[tv.cords]||0);lines.push({label:MAIN_CORDS_LABELS[tv.cords],amt:'+$'+cp});}
     if(tv.wall!=='drywall'){var wp=MAIN_WALL_PRICES[tv.wall]||0;lines.push({label:MAIN_WALL_LABELS[tv.wall]+' wall upcharge',amt:'+$'+wp});}
-    if(i>0)lines.push({label:'Multi-unit discount',amt:'−$25',disc:true});
   });
   if(mainState.soundbars>0)lines.push({label:'Soundbar install ×'+mainState.soundbars,amt:'+$'+(100+(mainState.soundbars-1)*75)});
   if(mainState.dismounts>0)lines.push({label:'Mount removal ×'+mainState.dismounts,amt:'+$'+(mainState.dismounts*25)});
@@ -1087,8 +1087,9 @@ function buildMainBreakdown(){
   linesEl.innerHTML='';
   lines.forEach(function(l){
     var row=document.createElement('div');
-    row.style.cssText='display:flex;justify-content:space-between;align-items:center;font-size:.8rem;'+(l.disc?'opacity:.6;':'');
-    row.innerHTML='<span style="color:rgba(232,237,245,'+(l.disc?.4:.6)+');">'+l.label+'</span><span style="color:'+(l.disc?'rgba(255,100,100,.8)':l.amt.startsWith('+')?'var(--bl)':'var(--w)')+';">'+l.amt+'</span>';
+    row.style.cssText='display:flex;justify-content:space-between;align-items:center;font-size:.8rem;';
+    var amtColor=l.highlight?'#50dc96':l.amt.startsWith('+')?'var(--bl)':'var(--w)';
+    row.innerHTML='<span style="color:rgba(232,237,245,.6);">'+l.label+'</span><span style="color:'+amtColor+';">'+l.amt+'</span>';
     linesEl.appendChild(row);
   });
   var total=calcMainEst()||0;
