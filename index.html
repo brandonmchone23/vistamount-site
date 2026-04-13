@@ -47,8 +47,8 @@ nav.scrolled-light .nav-links a:hover{color:var(--dark-text);}
 nav.scrolled-light .nav-book{color:#fff!important;}
 
 /* HERO */
-#hero{position:relative;height:100vh;display:flex;align-items:stretch;overflow:hidden;background:#000;}#hero-left{position:relative;width:55%;flex-shrink:0;}#hero-right{flex:1;position:relative;overflow:hidden;}#hero-right img{width:100%;height:100%;object-fit:cover;object-position:center;display:block;}#hero-right::before{content:"";position:absolute;inset:0;background:linear-gradient(to right,rgba(6,8,15,.85) 0%,rgba(6,8,15,.2) 40%,transparent 100%);z-index:1;}#hero-right::after{content:"";position:absolute;inset:0;border-left:1px solid rgba(79,172,255,0.25);z-index:2;}@media(max-width:768px){#hero{flex-direction:column;}#hero-left{width:100%;height:70vh;}#hero-right{width:100%;height:30vh;}}
-#hero-canvas{position:absolute;inset:0;width:100%;height:100%;cursor:pointer;}
+#hero{position:relative;height:100vh;display:flex;align-items:stretch;overflow:hidden;background:#000;}#hero-left{position:relative;width:55%;flex-shrink:0;}#hero-right{flex:1;position:relative;overflow:hidden;}#hero-right img{width:100%;height:100%;object-fit:cover;object-position:20% center;display:block;}#hero-right::before{content:"";position:absolute;inset:0;background:linear-gradient(to right,rgba(6,8,15,1) 0%,rgba(6,8,15,.6) 30%,rgba(6,8,15,.1) 70%,transparent 100%);z-index:1;}#hero-right::after{content:"";position:absolute;inset:0;border-left:1px solid rgba(79,172,255,0.25);z-index:2;}@media(max-width:768px){#hero{flex-direction:column;}#hero-left{width:100%;height:70vh;}#hero-right{width:100%;height:30vh;}}
+#hero-canvas{position:absolute;inset:0;width:100%;height:100%;cursor:pointer;}#hero-left{display:flex;align-items:center;justify-content:center;}
 .hero-scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeHint 1s ease 3.5s forwards;}
 @keyframes fadeHint{to{opacity:.5;}}
 .scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,var(--bl),transparent);animation:scrollPulse 1.5s ease-in-out 3.5s infinite;}
