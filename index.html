@@ -812,13 +812,13 @@ function hText(alpha,oy){
   var W=hc.width,H=hc.height;
   hctx.save();hctx.globalAlpha=alpha;hctx.textAlign='center';
   var fs=Math.min(120,W*0.15);
-  hctx.font='600 11px sans-serif';hctx.fillStyle=HBL;
+  hctx.font='700 13px sans-serif';hctx.letterSpacing='3px';hctx.fillStyle='#4facff';
   hctx.fillText("PHOENIX'S PREMIER TV MOUNTING EXPERTS",W/2,H*0.32+oy);
   hctx.font='900 '+fs+'px sans-serif';hctx.fillStyle=HWH;
   hctx.fillText('VISTAMOUNT',W/2,H*0.50+oy);
-  hctx.font='300 13px sans-serif';hctx.fillStyle='rgba(255,255,255,.95)';
+  hctx.font='400 16px sans-serif';hctx.fillStyle='#ffffff';
   hctx.fillText('Clean installs. No visible wires. Done right the first time.',W/2,H*0.58+oy);
-  hctx.font='300 9px sans-serif';hctx.fillStyle='rgba(255,255,255,.55)';
+  hctx.font='300 9px sans-serif';hctx.fillStyle='rgba(255,255,255,0)';
   hctx.fillText('NOW WITH ONLINE BOOKING — INSTANT PRICING & REAL-TIME AVAILABILITY',W/2,H*0.65+oy);
   hctx.textAlign='left';hctx.restore();
 }
