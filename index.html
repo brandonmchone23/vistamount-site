@@ -28,13 +28,902 @@ nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:cen
 nav.scrolled-dark{background:rgba(6,8,15,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(79,172,255,0.12);box-shadow:0 1px 40px rgba(45,127,232,0.08);}
 nav.scrolled-light{background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,.08);}
 .nav-logo{text-decoration:none;display:flex;align-items:center;transition:opacity .3s;}
-nav.scrolled-light .nav-logo{color:var(--dark-text);}
+nav.scrolled-light .nav-logo{color:var(--dark-text)!important;}.nav-logo:visited,.nav-logo:active{color:var(--w)!important;}nav.scrolled-light .nav-logo:visited,nav.scrolled-light .nav-logo:active{color:var(--dark-text)!important;}
 .nav-logo-text em{color:var(--bl);font-style:normal;}
 .nav-logo-text{line-height:1;}
 .nav-logo-dark{display:block;transition:opacity .3s;}
 .nav-logo-light{display:none;transition:opacity .3s;}
 nav.scrolled-light .nav-logo-dark{display:none;}
 nav.scrolled-light .nav-logo-light{display:block;}
+.nav-logo:hover img{opacity:.8;}
+.nav-links{display:flex;align-items:center;gap:36px;}
+.nav-links a{font-size:.72rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--m);text-decoration:none;transition:color .3s;}
+nav.scrolled-light .nav-links a{color:var(--mid-text);}
+nav.scrolled-light .nav-links a:hover{color:var(--dark-text);}
+.nav-links a:hover{color:var(--w);}
+.nav-book{color:#fff!important;background:var(--bl)!important;padding:10px 22px;transition:background .3s!important;}
+.nav-book:hover{background:var(--blb)!important;}
+nav.scrolled-light .nav-book{color:#fff!important;}
+
+/* HERO */
+#hero{position:relative;height:100vh;display:flex;align-items:center;justify-content:center;overflow:hidden;background:#000;}
+#hero-canvas{position:absolute;inset:0;width:100%;height:100%;cursor:pointer;}
+.hero-scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeHint 1s ease 3.5s forwards;}
+@keyframes fadeHint{to{opacity:.5;}}
+.scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,var(--bl),transparent);animation:scrollPulse 1.5s ease-in-out 3.5s infinite;}
+@keyframes scrollPulse{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}51%{transform:scaleY(1);transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+.scroll-hint-text{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.5);}
+
+/* SECTION TRANSITIONS */
+.section-dark{background:var(--bg);color:var(--w);}
+.section-light{background:var(--light);color:var(--dark-text);}
+.section-light2{background:var(--light2);color:var(--dark-text);}
+.section-light3{background:var(--light3);color:var(--dark-text);}
+
+/* STATS - WHITE */
+.stats-section{background:var(--light);padding:80px 52px;border-bottom:1px solid rgba(0,0,0,.06);}
+.stats-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:0;}
+.stat{padding:48px 40px;text-align:center;border-right:1px solid rgba(0,0,0,.08);position:relative;overflow:hidden;}
+.stat:last-child{border-right:none;}
+.stat-n{font-family:"Bebas Neue",sans-serif;font-size:clamp(2.5rem,5vw,4rem);color:var(--dark-text);line-height:1;margin-bottom:4px;}
+.stat-n .num{color:var(--bl);}
+.stat-l{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mid-text);}
+
+/* MARQUEE */
+.marquee-wrap{overflow:hidden;background:var(--bl);padding:20px 0;}
+.marquee-track{display:flex;gap:48px;animation:mq 18s linear infinite;white-space:nowrap;}
+.marquee-item{font-family:"Bebas Neue",sans-serif;font-size:.95rem;letter-spacing:.2em;color:rgba(5,5,7,.7);flex-shrink:0;display:flex;align-items:center;gap:48px;}
+.marquee-item::after{content:"\2726";color:rgba(5,5,7,.4);}
+@keyframes mq{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* SERVICES - WHITE */
+.services-section{background:var(--light3);padding:120px 52px;}
+.services-inner{max-width:1200px;margin:0 auto;}
+.section-eyebrow{font-size:.62rem;font-weight:500;letter-spacing:.35em;text-transform:uppercase;color:var(--bl);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.section-eyebrow::before{content:"";width:20px;height:1px;background:var(--bl);}
+.section-title-light{font-family:"Bebas Neue",sans-serif;font-size:clamp(3rem,6vw,6rem);line-height:.95;letter-spacing:.02em;color:var(--dark-text);margin-bottom:64px;}
+.section-title-light em{color:var(--bl);font-style:normal;}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.svc{background:var(--light);padding:44px 36px;border:1px solid rgba(0,0,0,.06);position:relative;overflow:hidden;transition:all .4s var(--ease);cursor:default;}
+.svc::after{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--bl),var(--blb));transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease);}
+.svc:hover{box-shadow:0 8px 40px rgba(0,0,0,.08),0 0 0 1px rgba(79,172,255,.15),0 0 30px rgba(45,127,232,.06);transform:translateY(-4px);}
+.svc:hover::after{transform:scaleX(1);}
+.svc-num{font-family:"Bebas Neue",sans-serif;font-size:4rem;color:rgba(61,127,255,.12);line-height:1;margin-bottom:16px;transition:color .3s;}
+.svc:hover .svc-num{color:rgba(61,127,255,.2);}
+.svc-name{font-size:1.05rem;font-weight:500;color:var(--dark-text);margin-bottom:8px;}
+.svc-desc{font-size:.8rem;color:var(--mid-text);line-height:1.8;}
+.svc-price{font-size:.72rem;color:var(--bl);margin-top:14px;font-weight:500;letter-spacing:.05em;}
+
+/* PROCESS - LIGHT GRAY */
+.process-section{background:var(--light2);padding:120px 52px;}
+.process-inner{max-width:1200px;margin:0 auto;}
+.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:80px;position:relative;}
+.process-line{position:absolute;top:28px;left:12%;right:12%;height:1px;background:rgba(0,0,0,.1);overflow:hidden;}
+.process-line-fill{height:100%;background:var(--bl);width:0;transition:width 1.2s var(--ease);}
+.process-line-fill.visible{width:100%;}
+.step{padding:0 28px;}
+.step-dot{width:56px;height:56px;border:1.5px solid rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;margin-bottom:28px;background:var(--light2);transition:border-color .4s,box-shadow .4s;}
+.step:hover .step-dot{border-color:var(--bl);box-shadow:0 0 0 4px rgba(61,127,255,.1);}
+.step-num{font-family:"Bebas Neue",sans-serif;font-size:1.1rem;color:var(--bl);}
+.step-title{font-size:.95rem;font-weight:500;color:var(--dark-text);margin-bottom:8px;}
+.step-desc{font-size:.78rem;color:var(--mid-text);line-height:1.8;}
+
+/* WHY - WHITE */
+.why-section{background:var(--light);padding:120px 52px;}
+.why-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center;}
+.why-left{}
+.why-big-stat{font-family:"Bebas Neue",sans-serif;font-size:clamp(5rem,12vw,10rem);line-height:.85;color:var(--dark-text);margin-bottom:12px;}
+.why-big-stat span{color:var(--bl);}
+.why-big-label{font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--mid-text);}
+.why-right h2{font-family:"Bebas Neue",sans-serif;font-size:clamp(2.5rem,4vw,4rem);line-height:.95;color:var(--dark-text);margin-bottom:24px;}
+.why-right h2 em{color:var(--bl);font-style:normal;}
+.why-right p{font-size:.9rem;color:var(--mid-text);line-height:1.9;margin-bottom:40px;}
+.why-points{display:flex;flex-direction:column;gap:0;}
+.why-point{display:flex;align-items:center;gap:16px;font-size:.82rem;color:var(--mid-text);padding:16px 0;border-bottom:1px solid rgba(0,0,0,.06);transition:color .3s;}
+.why-point:hover{color:var(--dark-text);}
+.why-point::before{content:"";width:6px;height:6px;background:var(--bl);border-radius:50%;flex-shrink:0;}
+.why-cta{display:inline-flex;align-items:center;gap:12px;margin-top:40px;background:var(--bl);color:#fff;padding:16px 32px;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:all .3s;font-family:var(--font);font-weight:500;cursor:pointer;border:none;box-shadow:0 0 30px rgba(79,172,255,.25);}
+.why-cta:hover{background:var(--blb);}
+
+/* BOOKING - DARK */
+#booking{background:var(--bg);position:relative;}
+#booking::before{content:"";position:absolute;top:-60px;left:0;right:0;height:60px;background:linear-gradient(to bottom,transparent,var(--bg));}
+.booking-wrap{max-width:900px;margin:0 auto;padding:100px 52px;}
+.booking-eyebrow{font-size:.62rem;font-weight:500;letter-spacing:.35em;text-transform:uppercase;color:var(--bl);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.booking-eyebrow::before{content:"";width:20px;height:1px;background:var(--bl);}
+.booking-title{font-family:"Bebas Neue",sans-serif;font-size:clamp(2.5rem,5vw,5rem);line-height:.95;color:var(--w);margin-bottom:48px;}
+.booking-title em{color:var(--bl);font-style:normal;}
+
+/* PROGRESS */
+.progress-bar{display:flex;gap:0;margin-bottom:12px;}
+.prog-step{flex:1;height:2px;background:rgba(255,255,255,.1);transition:background .4s;}
+.prog-step.active{background:var(--bl);}
+.prog-labels{display:flex;justify-content:space-between;margin-bottom:48px;}
+.prog-label{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.3);transition:color .3s;}
+.prog-label.active{color:var(--bl);}
+
+/* FORM */
+.form-step{display:none;}
+.form-step.active{display:block;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
+.form-row.single{grid-template-columns:1fr;}
+.form-group{display:flex;flex-direction:column;gap:8px;}
+.form-group label{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--m);}
+.form-group input,.form-group select,.form-group textarea{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--w);padding:14px 16px;font-family:var(--font);font-size:.88rem;outline:none;transition:border-color .3s;-webkit-appearance:none;appearance:none;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--bl);}
+.form-group select option{background:#0d0d12;color:var(--w);}
+.form-group textarea{resize:vertical;min-height:100px;}
+
+/* TV CARDS */
+.tv-cards{display:flex;flex-direction:column;gap:20px;margin-bottom:24px;}
+.tv-card{background:rgba(255,255,255,.02);border:1px solid rgba(79,172,255,.1);padding:32px;box-shadow:inset 0 1px 0 rgba(79,172,255,.06);}
+.tv-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;}
+.tv-card-title{font-size:.85rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--bl);}
+.remove-tv{background:none;border:1px solid var(--border);color:var(--m);cursor:pointer;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:6px 14px;transition:all .3s;font-family:var(--font);}
+.remove-tv:hover{color:#ff5555;border-color:#ff5555;}
+.option-grid{display:grid;gap:10px;margin-top:8px;}
+.option-grid.cols2{grid-template-columns:1fr 1fr;}
+.option-grid.cols3{grid-template-columns:1fr 1fr 1fr;}
+.option-btn{background:rgba(255,255,255,.02);border:1px solid var(--border);padding:20px 16px;cursor:pointer;transition:all .3s;text-align:left;display:flex;flex-direction:column;gap:6px;color:var(--w);}
+.option-btn:hover{border-color:rgba(61,127,255,.4);}
+.option-btn.selected{border-color:var(--blb);background:rgba(45,127,232,.08);box-shadow:0 0 20px rgba(79,172,255,.1);}
+.opt-illustration{width:100%;height:60px;display:flex;align-items:center;justify-content:center;margin-bottom:4px;}
+.opt-title{font-size:.82rem;font-weight:500;color:var(--w);}
+.opt-desc{font-size:.72rem;color:var(--m);line-height:1.6;}
+.opt-price{font-size:.68rem;color:var(--bl);font-weight:500;}
+.option-label{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--m);margin-top:20px;margin-bottom:6px;display:block;}
+.add-tv-btn{display:flex;align-items:center;gap:10px;background:none;border:1px solid var(--border);color:var(--m);padding:14px 20px;cursor:pointer;font-family:var(--font);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;transition:all .3s;width:100%;}
+.add-tv-btn:hover{border-color:var(--bl);color:var(--bl);}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:rgba(255,255,255,.02);border:1px solid var(--border);margin-bottom:10px;}
+.toggle-label{display:flex;flex-direction:column;gap:4px;}
+.toggle-label span{font-size:.85rem;font-weight:400;color:var(--w);}
+.toggle-label small{font-size:.72rem;color:var(--m);}
+.toggle-price{font-size:.78rem;color:var(--bl);font-weight:500;white-space:nowrap;}
+.toggle-switch{position:relative;width:44px;height:24px;flex-shrink:0;}
+.toggle-switch input{opacity:0;width:0;height:0;}
+.slider{position:absolute;inset:0;background:rgba(255,255,255,.1);border:1px solid var(--border);cursor:pointer;transition:.3s;}
+.slider::before{content:"";position:absolute;height:16px;width:16px;left:3px;bottom:3px;background:var(--m);transition:.3s;}
+.toggle-switch input:checked+.slider{background:var(--bl);border-color:var(--bl);}
+.toggle-switch input:checked+.slider::before{transform:translateX(20px);background:#fff;}
+.qty-row{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:rgba(255,255,255,.02);border:1px solid var(--border);margin-bottom:10px;}
+.qty-control{display:flex;align-items:center;}
+.qty-btn{width:36px;height:36px;background:none;border:1px solid var(--border);color:var(--w);cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all .3s;font-family:var(--font);}
+.qty-btn:hover{border-color:var(--bl);color:var(--bl);}
+.qty-val{width:48px;text-align:center;font-size:.95rem;font-weight:500;color:var(--w);}
+
+/* QUOTE */
+.quote-box{background:rgba(45,127,232,.06);border:1px solid rgba(79,172,255,.2);padding:28px;margin:24px 0;box-shadow:0 0 40px rgba(45,127,232,.05),inset 0 1px 0 rgba(79,172,255,.1);}
+.quote-title{font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:var(--bl);margin-bottom:16px;}
+.quote-items{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;}
+.quote-item{display:flex;justify-content:space-between;font-size:.82rem;color:var(--m);}
+.quote-item span:last-child{color:var(--w);font-weight:500;}
+.quote-divider{height:1px;background:rgba(61,127,255,.2);margin:12px 0;}
+.quote-total{display:flex;justify-content:space-between;font-size:1rem;font-weight:500;color:var(--w);}
+.quote-total-price{color:var(--bl);font-family:"Bebas Neue",sans-serif;font-size:1.6rem;letter-spacing:.05em;}
+.quote-note{font-size:.7rem;color:var(--m);margin-top:10px;font-style:italic;}
+
+/* CALENDAR SLOTS */
+.slots-wrap{display:flex;flex-direction:column;gap:8px;min-height:120px;}
+.slot-pick-label{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--m);margin-bottom:8px;margin-top:20px;display:block;}
+
+/* FORM NAV */
+.form-nav{display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:32px;border-top:1px solid var(--border);}
+.btn-back{background:none;border:1px solid var(--border);color:var(--m);padding:14px 28px;cursor:pointer;font-family:var(--font);font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;transition:all .3s;}
+.btn-back:hover{border-color:var(--w);color:var(--w);}
+.btn-next{background:var(--bl);border:none;color:#fff;padding:14px 36px;cursor:pointer;font-family:var(--font);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;transition:all .3s;box-shadow:0 0 30px rgba(79,172,255,.3),0 0 60px rgba(45,127,232,.15);}
+.btn-next:hover{background:var(--blb);}
+.btn-submit{background:var(--bl);border:none;color:#fff;padding:16px 48px;cursor:pointer;font-family:var(--font);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;transition:all .3s;box-shadow:0 0 30px rgba(79,172,255,.3),0 0 60px rgba(45,127,232,.15);}
+.btn-submit:hover{background:var(--blb);}
+
+/* SUCCESS */
+.success-state{display:none;text-align:center;padding:80px 40px;}
+.success-state.show{display:block;}
+.success-icon{width:64px;height:64px;border:1px solid var(--bl);display:flex;align-items:center;justify-content:center;margin:0 auto 28px;font-size:1.5rem;color:var(--bl);}
+.success-title{font-family:"Bebas Neue",sans-serif;font-size:3rem;letter-spacing:.05em;color:var(--w);margin-bottom:12px;}
+.success-sub{color:var(--m);font-size:.9rem;line-height:1.8;max-width:440px;margin:0 auto 32px;}
+.success-phone{display:inline-block;background:var(--bl);color:#fff;padding:14px 32px;text-decoration:none;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;}
+
+/* FOOTER */
+footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;}
+.footer-logo{font-family:"Bebas Neue",sans-serif;font-size:1.3rem;letter-spacing:.12em;color:var(--m);text-decoration:none;}
+.footer-logo span{color:var(--bl);}
+.footer-center{font-size:.65rem;color:rgba(240,237,232,.2);letter-spacing:.1em;text-align:center;}
+.footer-phone{text-align:right;font-family:"Bebas Neue",sans-serif;font-size:1.1rem;letter-spacing:.08em;}
+.footer-phone a{color:var(--m);text-decoration:none;transition:color .3s;}
+.footer-phone a:hover{color:var(--bl);}
+
+/* ANIMATIONS */
+.fade-up{opacity:0;transform:translateY(40px);transition:opacity .8s var(--ease),transform .8s var(--ease);}
+.fade-up.visible{opacity:1;transform:translateY(0);}
+.fade-in{opacity:0;transition:opacity .8s ease;}
+.fade-in.visible{opacity:1;}
+.clip-text{overflow:hidden;}
+.clip-text .inner{transform:translateY(110%);transition:transform .9s var(--ease);}
+.clip-text.visible .inner{transform:translateY(0);}
+.scale-in{opacity:0;transform:scale(.95) translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease);}
+.scale-in.visible{opacity:1;transform:scale(1) translateY(0);}
+.d1{transition-delay:.05s!important;}.d2{transition-delay:.12s!important;}.d3{transition-delay:.19s!important;}
+.d4{transition-delay:.08s!important;}.d5{transition-delay:.16s!important;}.d6{transition-delay:.24s!important;}
+
+/* MOBILE */
+@media(max-width:768px){.step4-grid{grid-template-columns:1fr!important;}
+  nav{padding:18px 24px;}.nav-links{display:none;}
+  .stats-grid{grid-template-columns:1fr 1fr;}.stat:nth-child(2){border-right:none;}
+  .services-section,.process-section,.why-section{padding:80px 24px;}
+  .svc-grid{grid-template-columns:1fr;}
+  .process-grid{grid-template-columns:1fr 1fr;gap:40px;}.process-line{display:none;}
+  .why-inner{grid-template-columns:1fr;gap:48px;}
+  .booking-wrap{padding:60px 24px;}
+  .form-row{grid-template-columns:1fr;}
+  .option-grid.cols3{grid-template-columns:1fr 1fr;}
+  footer{grid-template-columns:1fr;gap:12px;padding:32px 24px;}.footer-phone{text-align:left;}
+}
+</style>
+</head>
+<body>
+
+<nav id="nav">
+  <a href="/" class="nav-logo"><img src="data:image/png;base64,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" alt="VistaMount" style="height:72px;width:auto;display:block;"/></a>
+  <div class="nav-links">
+    <a href="#services-section">Services</a>
+    <a href="#process-section">Process</a>
+    <a href="#booking" class="nav-book">Book Now</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <canvas id="hero-canvas"></canvas>
+  <div style="position:absolute;top:0;right:0;width:45%;height:100%;background:radial-gradient(ellipse at 80% 50%,rgba(79,172,255,0.07) 0%,transparent 70%);pointer-events:none;"></div>
+  <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:60%;height:40%;background:radial-gradient(ellipse at 50% 100%,rgba(45,127,232,0.06) 0%,transparent 70%);pointer-events:none;"></div>
+
+</section>
+
+<!-- STATS - WHITE -->
+<div class="stats-section">
+  <div class="stats-grid">
+    <div class="stat fade-up"><div class="stat-n"><span class="num count" data-t="500">0</span>+</div><div class="stat-l">Jobs Completed</div></div>
+    <div class="stat fade-up d1"><div class="stat-n"><span class="num count" data-t="100">0</span>%</div><div class="stat-l">5-Star Rated</div></div>
+    <div class="stat fade-up d2"><div class="stat-n" style="font-size:2rem;">Same Day</div><div class="stat-l">Availability</div></div>
+    <div class="stat fade-up d3"><div class="stat-n"><span class="num count" data-t="4">0</span>+ Yr</div><div class="stat-l">Experience</div></div>
+  </div>
+</div>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item">TV Mounting</div><div class="marquee-item">Cable Concealment</div><div class="marquee-item">Smart Home</div><div class="marquee-item">AV Systems</div><div class="marquee-item">Projector Install</div><div class="marquee-item">Same-Day Service</div><div class="marquee-item">Phoenix Metro</div>
+    <div class="marquee-item">TV Mounting</div><div class="marquee-item">Cable Concealment</div><div class="marquee-item">Smart Home</div><div class="marquee-item">AV Systems</div><div class="marquee-item">Projector Install</div><div class="marquee-item">Same-Day Service</div><div class="marquee-item">Phoenix Metro</div>
+  </div>
+</div>
+
+<!-- SERVICES - LIGHT -->
+<section class="services-section" id="services-section">
+  <div class="services-inner">
+    <div class="section-eyebrow fade-up">What We Do</div>
+    <h2 class="section-title-light clip-text"><span class="inner">Every Install,<br><em>Flawlessly Done.</em></span></h2>
+    <div class="svc-grid">
+      <div class="svc scale-in d1"><div class="svc-num">01</div><div class="svc-name">TV Mounting</div><p class="svc-desc">Flat, tilt, and full-motion mounts on any wall type. Drywall, concrete, brick, tile handled with precision.</p><div class="svc-price">From $100</div></div>
+      <div class="svc scale-in d2"><div class="svc-num">02</div><div class="svc-name">Cable Concealment</div><p class="svc-desc">In-wall routing or surface raceways. Zero visible wiring. Your TV looks like it grew out of the wall.</p><div class="svc-price">From $40</div></div>
+      <div class="svc scale-in d3"><div class="svc-num">03</div><div class="svc-name">Outlet Installation</div><p class="svc-desc">In-wall power outlet added behind your TV for a completely clean look. No extension cords, no clutter.</p><div class="svc-price">~$150/hr + parts</div></div>
+      <div class="svc scale-in d4"><div class="svc-num">04</div><div class="svc-name">Soundbar Install</div><p class="svc-desc">Wall-mounted soundbars aligned perfectly below your TV. Cables managed, brackets secured, audio calibrated.</p><div class="svc-price">From $100</div></div>
+      <div class="svc scale-in d5"><div class="svc-num">05</div><div class="svc-name">Smart Home & AV</div><p class="svc-desc">Full AV rack builds, surround sound, PoE systems. High-end Airbnbs, commercial spaces, luxury residences.</p><div class="svc-price">Contact for quote</div></div>
+      <div class="svc scale-in d6"><div class="svc-num">06</div><div class="svc-name">TV Delivery & Dismount</div><p class="svc-desc">We deliver TVs to your location and safely remove existing mounted TVs. Under 75" is $25, 75"+ is $70.</p><div class="svc-price">From $25/TV</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS - LIGHT GRAY -->
+<section class="process-section" id="process-section">
+  <div class="process-inner">
+    <div class="section-eyebrow fade-up">How It Works</div>
+    <h2 class="section-title-light clip-text" style="margin-bottom:0;"><span class="inner">Simple.<br><em>Fast. Done.</em></span></h2>
+    <div class="process-grid">
+      <div class="process-line"><div class="process-line-fill fade-line"></div></div>
+      <div class="step fade-up d1"><div class="step-dot"><span class="step-num">01</span></div><div class="step-title">Book Online</div><p class="step-desc">Fill out the form. Get an instant quote. Pick a real available time slot.</p></div>
+      <div class="step fade-up d2"><div class="step-dot"><span class="step-num">02</span></div><div class="step-title">We Confirm</div><p class="step-desc">A member of the VistaMount team will call within 2 hours to confirm details and answer any questions.</p></div>
+      <div class="step fade-up d3"><div class="step-dot"><span class="step-num">03</span></div><div class="step-title">Precision Install</div><p class="step-desc">Arrive on time, install clean, test everything, leave zero mess.</p></div>
+      <div class="step fade-up d4" style="transition-delay:.19s;"><div class="step-dot"><span class="step-num">04</span></div><div class="step-title">Enjoy It</div><p class="step-desc">Your setup looks exactly how it should. Pay when done.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY - WHITE -->
+<section class="why-section">
+  <div class="why-inner">
+    <div class="why-left fade-up">
+      <div class="why-big-stat"><span class="count" data-t="500" style="display:inline;">0</span><span>+</span></div>
+      <div class="why-big-label">Jobs completed in Phoenix metro</div>
+    </div>
+    <div class="why-right">
+      <div class="section-eyebrow fade-up">Why VistaMount</div>
+      <h2 class="clip-text fade-up d1"><span class="inner">The install you <em>actually</em> wanted.</span></h2>
+      <p class="fade-up d2">No subcontractors, no surprises. Every job is handled personally — consistent quality, zero handoffs, and an installer who actually cares how it looks when we leave.</p>
+      <div class="why-points fade-up d3">
+        <div class="why-point">Same-day availability across the Phoenix metro</div>
+        <div class="why-point">All wall types including concrete and brick</div>
+        <div class="why-point">In-wall cable concealment on every install</div>
+        <div class="why-point">Sanus and ONN mounts - no cheap hardware</div>
+        <div class="why-point">Cleanup included - we leave no trace</div>
+      </div>
+      <button class="why-cta" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Book Your Install &rarr;</button>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING - DARK -->
+<section id="booking">
+  <div class="booking-wrap">
+    <div id="booking-header">
+      <div class="booking-eyebrow fade-up">Book Your Install</div>
+      <h2 class="booking-title fade-up d1">Get an <em>Instant Quote</em></h2>
+      <div class="progress-bar">
+        <div class="prog-step active" id="p1"></div>
+        <div class="prog-step" id="p2"></div>
+        <div class="prog-step" id="p3"></div>
+        <div class="prog-step" id="p4"></div>
+      </div>
+      <div class="prog-labels">
+        <span class="prog-label active" id="pl1">Your Info</span>
+        <span class="prog-label" id="pl2">Your TVs</span>
+        <span class="prog-label" id="pl3">Add-ons</span>
+        <span class="prog-label" id="pl4">Review & Book</span>
+      </div>
+    </div>
+
+    <div id="form-wrap">
+
+      <!-- Step 1: TV Details -->
+      <div class="form-step active" id="step1">
+        <div class="tv-cards" id="tv-cards"></div>
+        <button class="add-tv-btn" onclick="addTV()" id="add-tv-btn">+ Add Another TV</button>
+        <div class="form-nav"><div></div><button class="btn-next" onclick="goStep(2)">Next: Add-ons &rarr;</button></div>
+      </div>
+
+      <!-- Step 2: Add-ons -->
+      <div class="form-step" id="step2">
+        <div class="qty-row">
+          <div class="toggle-label"><span>Soundbar Installation</span><small>Wall-mounted below your TV, cables managed</small></div>
+          <div style="display:flex;align-items:center;gap:16px;">
+            <span class="toggle-price" id="soundbar-price-label">$0</span>
+            <div class="qty-control">
+              <button class="qty-btn" onclick="adj('soundbars',-1)">-</button>
+              <span class="qty-val" id="soundbars-val">0</span>
+              <button class="qty-btn" onclick="adj('soundbars',1)">+</button>
+            </div>
+          </div>
+        </div>
+        <div class="qty-row">
+          <div class="toggle-label"><span>TV Dismount</span><small>Safe removal of an existing mounted TV - $25 each</small></div>
+          <div style="display:flex;align-items:center;gap:16px;">
+            <span class="toggle-price">$25 each</span>
+            <div class="qty-control">
+              <button class="qty-btn" onclick="adj('dismounts',-1)">-</button>
+              <span class="qty-val" id="dismounts-val">0</span>
+              <button class="qty-btn" onclick="adj('dismounts',1)">+</button>
+            </div>
+          </div>
+        </div>
+        <div class="toggle-row">
+          <div class="toggle-label"><span>TV Delivery / Transport</span><small>We deliver your TV to your location. Under 75" = $25, 75"+ = $70 per TV</small></div>
+          <div style="display:flex;align-items:center;gap:16px;">
+            <span class="toggle-price">from $25/TV</span>
+            <label class="toggle-switch"><input type="checkbox" id="transport" onchange="updateQuote()"/><span class="slider"></span></label>
+          </div>
+        </div>
+        <div class="form-row single" style="margin-top:24px;">
+          <div class="form-group"><label>Anything else we should know?</label><textarea id="notes" placeholder="Special wall type, condo restrictions, specific mount preference, etc."></textarea></div>
+        </div>
+        <div class="form-nav">
+          <button class="btn-back" onclick="goStep(1)">&larr; Back</button>
+          <button class="btn-next" onclick="goStep(3)">Next: Pick a Time &rarr;</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Date & Time -->
+      <div class="form-step" id="step3">
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;" class="step4-grid">
+          <div>
+            <div class="quote-box" id="final-quote"></div>
+          </div>
+          <div>
+            <div class="booking-eyebrow" style="margin-bottom:16px;">Pick a Date and Time</div>
+            <div class="form-group" style="margin-bottom:16px;">
+              <label>Preferred Date</label>
+              <input type="date" id="cal-date" onchange="loadSlots()" oninput="loadSlots()" style="width:100%;color-scheme:dark;cursor:pointer;"/>
+            </div>
+            <div class="slots-wrap" id="slots-wrap">
+              <p style="font-size:.8rem;color:var(--m);">Select a date to see available times.</p>
+            </div>
+          </div>
+        </div>
+        <div class="form-nav">
+          <button class="btn-back" onclick="goStep(2)">&larr; Back</button>
+          <button class="btn-next" id="time-next-btn" onclick="goStep(4)" style="opacity:.4;pointer-events:none;">Next: Your Info &rarr;</button>
+        </div>
+      </div>
+
+      <!-- Step 4: Info + Address + Submit -->
+      <div class="form-step" id="step4">
+        <div class="form-row">
+          <div class="form-group"><label>First Name</label><input type="text" id="fname" placeholder="John"/></div>
+          <div class="form-group"><label>Last Name</label><input type="text" id="lname" placeholder="Smith"/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Phone</label><input type="tel" id="phone" placeholder="(480) 555-0100"/></div>
+          <div class="form-group"><label>Email</label><input type="email" id="email" placeholder="you@example.com"/></div>
+        </div>
+        <div class="form-row single">
+          <div class="form-group"><label>Service Address</label><input type="text" id="address" placeholder="123 Main St, Phoenix, AZ 85001"/></div>
+        </div>
+        <div class="quote-box" id="final-quote-confirm" style="margin-top:8px;"></div>
+        <div class="form-nav">
+          <button class="btn-back" onclick="goStep(3)">&larr; Back</button>
+          <button class="btn-submit" id="submit-btn" onclick="submitForm()">Confirm Booking &#10003;</button>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="success-state" id="success">
+      <div class="success-icon">&#10003;</div>
+      <div class="success-title">You're Booked!</div>
+      <p class="success-sub">A member of the VistaMount team will call within 2 hours to confirm your appointment. We look forward to getting your space right.</p>
+      <a href="tel:+14809034769" class="success-phone">(480) 903-4769</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="/" class="footer-logo"><img src="data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABgAAAAkCAYAAACTz/ouAAAEoUlEQVR42u2WW2yURRTH/2fm291ut7TdlnLZ0hul0EKJGCxqJUq4mIjISy30CWNEjJEYE2P0wWQlmogvxph4IaISHiSpPmjCLTFVBBugaLiWtlAo0Gq7UlqKu/3afvvN34fd1aUUkyZqfOg/+TKTyZnzOzNnvjMDTGlK/4pIqtQXDidaAJJuEw6HVfg2u7AKh8PqHwlgMo5kguhldHS0wufzWa1HmjAQjaIvCrRirHPbhg1jJEVE+E1j47xiGfZVPdHAsVMt2HGgCT2un++9+WqniDgpf1b6toiIAVBkWdaZW9FhX0/GbBgf3dJir0ZH+wskPxIR0rHXHD7dtrcDWR7PpS65klWEspXrsdzr9gGYB8BJBWKNX81IPD4/w7J8zuiI2brzhOoe9EtD3WK8UlW0VUQ+JJnfdfH8rmfOhLz2tQtmsa9HDgbXu9u8Z3Td0+s6RSQWDodTwUKNB3hEFgBgfn6uW79kBkZHoPYcvWHiM8uqSK5GNPLu2+25oc6Ldnx+9wHVFGpAxckvODQisB10AMCKFW/86feOZIlIVQKmZPNj1ciZ6ccYp8tnrSMEnMatOw9v+qQ5zvu7P7Xalm7BnKst8EZ/w2DmfPg9qj0B+MtfOiCxJKUWAEDcNVIyKw+PV/oBT6Z82eWRr78/FvzgbBCFl78SWVSLvps+zL26F62olpWzbQCJFQDgbYBkQgxJC0BZMuuiMwJ4cXUJPDKE3tg07O6M84Gxk5gzHTiGWtx3/mOcYDXWlkM/+VAZAVyaEJCmAgCzElsFcY1BTVUIjxTcgvQNosO3UEp9XfjZ8zCW9O5HPKcI2T4fa0s8ONQauQ6g+26AVFsJIGCMcZRSAgiUN4AtSwNg7zl0tN3A5WmLUNH3A0r8Q2iL5uOpRcZ83hxxKwvz+iytfk+kUe4AGJIC4BqAE0opj4gY0BhjiLXL5qJSOmFOH0Ncz0C4oRL72gUby4fNkfbr3PxotS4tnH7INUSyrNye5BRRRC4BWG6MeQeA0lorQ8YD07Lx7PJZYNuPeDDPxvvfdqPM2+8um5unnltXY722sWYbgJdJKqWU+3dFTtL6q1zXvciE4t2/Rkzd82/xpe27ibJ659yFK7RHxnpJrr1b2bkrJHmaQDJIclcSwgNNRx2E1rgHm0+R5HckS5J21mRKtYyfNDw6uonkwL5DP3HHnn0kub2+vlGn26XNk/SdmAy4nOQ3JOsnMy9F9QJwk+fXn+xnA5Dh4WGdmZk5KCJ2Gsyybbvw+PHjvxQUFKhgMGiFQiFHRJxYLFYoIsrv9/eKSFwAIBqNzg4EAnWu697SWucCKHRd94rWWgPIMMbMJHlBa10CoMgYM0TynNZ6IYD9juOUK6VWAWjRWtMYE1JKvQ7AViR1VlZWrzGmGEAxgB7XdXtEpALAWdd1ryulMkTkXmOMNsZElFJ+rbUYY2wAtVrrIpJtIlLjOE6LUqpZRGIAJD05Of39/dkk/bZtl5IsJemLxWJzSFokgzdv3gwCQCQSySJ5T/I+LicZIunp7+/PHhgYyBkcHMz9zx4QMtFPlnY3cPx42liqAk94JNPr0ZSm9D/XH+vjh0uqbfZGAAAAAElFTkSuQmCC" alt="VistaMount" style="height:28px;width:auto;display:block;opacity:.5;"/></a>
+  <p class="footer-center">&copy; 2026 VistaMount LLC &middot; Phoenix, AZ</p>
+  <div class="footer-phone"><a href="tel:+14809034769">(480) 903-4769</a></div>
+</footer>
+
+<script>
+// HERO CANVAS
+var hc=document.getElementById('hero-canvas');
+
+var hctx=hc.getContext('2d');
+function resizeHero(){hc.width=hc.offsetWidth;hc.height=hc.offsetHeight;}
+resizeHero();
+window.addEventListener('resize',resizeHero);
+var HBL='#3d7fff',HBG='#000000',HWH='#ffffff';
+function eO(t){return 1-(1-t)*(1-t);}
+function eOC(t){return 1-Math.pow(1-t,3);}
+function hclamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function hpg(t,s,e){return hclamp((t-s)/(e-s),0,1);}
+function hLine(y,p,alpha){
+  if(p<=0)return;
+  var W=hc.width;
+  hctx.save();hctx.globalAlpha=alpha;hctx.strokeStyle=HBL;hctx.lineWidth=1;
+  hctx.beginPath();hctx.moveTo(0,y);hctx.lineTo(W*Math.min(p,1),y);hctx.stroke();
+  if(p>0&&p<1){hctx.beginPath();hctx.arc(W*p,y,2.5,0,Math.PI*2);hctx.fillStyle=HBL;hctx.fill();}
+  hctx.restore();
+}
+function hCorners(alpha){
+  var W=hc.width,H=hc.height,len=22;
+  hctx.save();hctx.strokeStyle=HBL;hctx.lineWidth=1;hctx.lineCap='square';
+  [[0,0,1,1],[W,0,-1,1],[0,H,1,-1],[W,H,-1,-1]].forEach(function(c){
+    hctx.globalAlpha=alpha;
+    hctx.beginPath();hctx.moveTo(c[0]+c[2]*len,c[1]);hctx.lineTo(c[0],c[1]);hctx.lineTo(c[0],c[1]+c[3]*len);hctx.stroke();
+  });
+  hctx.restore();
+}
+function hText(alpha,oy){
+  var W=hc.width,H=hc.height;
+  hctx.save();hctx.globalAlpha=alpha;hctx.textAlign='center';
+  var fs=Math.min(100,W*0.13);
+  hctx.font='400 11px sans-serif';hctx.fillStyle=HBL;
+  hctx.fillText('PHOENIX, AZ  -  SAME-DAY AVAILABLE',W/2,H*0.38+oy);
+  hctx.font='900 '+fs+'px sans-serif';hctx.fillStyle=HWH;
+  hctx.fillText('VISTAMOUNT',W/2,H*0.54+oy);
+  hctx.font='300 11px sans-serif';hctx.fillStyle='rgba(255,255,255,.38)';
+  hctx.fillText('TV MOUNTING & SMART HOME INSTALLATION',W/2,H*0.63+oy);
+  hctx.textAlign='left';hctx.restore();
+}
+function hCTA(alpha){
+  var W=hc.width,H=hc.height;
+  hctx.save();hctx.globalAlpha=alpha;
+  var bw=220,bh=50,bx=W/2-bw/2,by=H*0.67;
+  // Strong blue glow behind button
+  hctx.shadowColor=HBL;hctx.shadowBlur=30;
+  hctx.fillStyle='rgba(61,127,255,.18)';hctx.fillRect(bx-8,by-8,bw+16,bh+16);
+  hctx.shadowBlur=0;
+  // Button border and fill
+  hctx.strokeStyle=HBL;hctx.lineWidth=1.5;hctx.strokeRect(bx,by,bw,bh);
+  hctx.fillStyle='rgba(61,127,255,.15)';hctx.fillRect(bx,by,bw,bh);
+  // Button text
+  hctx.font='600 11px sans-serif';hctx.fillStyle=HWH;hctx.textAlign='center';
+  hctx.fillText('BOOK YOUR INSTALL',W/2,by+30);
+  // SCROLL and line below the bottom border (BY)
+  var scrollY=H*0.82+14;
+  hctx.globalAlpha=alpha*0.5;
+  hctx.font='400 9px sans-serif';hctx.fillStyle=HBL;hctx.letterSpacing='3px';
+  hctx.fillText('SCROLL',W/2,scrollY+12);
+  hctx.globalAlpha=alpha*0.4;
+  hctx.strokeStyle=HBL;hctx.lineWidth=1;
+  hctx.beginPath();hctx.moveTo(W/2,scrollY+18);hctx.lineTo(W/2,scrollY+48);hctx.stroke();
+  hctx.textAlign='left';hctx.restore();
+}
+function hPulse(t){return .7+Math.sin(t*1.2)*.3;}
+var ht0=null;
+function heroFrame(ts){
+  if(!ht0)ht0=ts;
+  var t=(ts-ht0)/1000;
+  var W=hc.width,H=hc.height;
+  hctx.fillStyle=HBG;hctx.fillRect(0,0,W,H);
+  var TY=H*.15,BY=H*.82;
+  hLine(TY,eOC(hpg(t,.1,.9)),t>.9?hPulse(t):1);
+  hLine(BY,eOC(hpg(t,1.5,2.1)),t>2.1?hPulse(t+.8):1);
+  if(t>.9){
+    hctx.save();hctx.globalAlpha=eO(hpg(t,.9,1.4))*.18;
+    hctx.strokeStyle=HBL;hctx.lineWidth=.5;hctx.setLineDash([2,8]);
+    hctx.beginPath();hctx.moveTo(W/2,TY);hctx.lineTo(W/2,BY);hctx.stroke();
+    hctx.setLineDash([]);hctx.restore();
+  }
+  if(t>2.1)hCorners(eO(hpg(t,2.1,2.6))*(t>2.6?hPulse(t*.5+1):1));
+  if(t>.6){var a=eO(hpg(t,.6,1.3));hText(a,(1-a)*18);}
+  if(t>2.3)hCTA(eO(hpg(t,2.3,2.9)));
+  // No loop - animation plays once and holds final state
+  requestAnimationFrame(heroFrame);
+}
+requestAnimationFrame(heroFrame);
+hc.style.cursor='pointer';
+hc.addEventListener('click',function(){document.getElementById('booking').scrollIntoView({behavior:'smooth'});});
+
+// NAV
+function updateNav(){
+  var nav=document.getElementById('nav');
+  var st=document.getElementById('stats-section-anchor');
+  var booking=document.getElementById('booking');
+  var scrollY=window.scrollY;
+  var heroH=document.getElementById('hero').offsetHeight;
+  var bookingTop=booking.getBoundingClientRect().top+scrollY;
+  if(scrollY<heroH*0.8){nav.className='';return;}
+  if(scrollY>bookingTop-100){nav.className='scrolled-dark';return;}
+  nav.className='scrolled-light';
+}
+window.addEventListener('scroll',updateNav);
+
+// SCROLL ANIMATIONS
+var observed=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){
+    if(e.isIntersecting){e.target.classList.add('visible');}
+  });
+},{threshold:.1});
+document.querySelectorAll('.fade-up,.fade-in,.clip-text,.scale-in').forEach(function(el){observed.observe(el);});
+
+// PROCESS LINE
+var lineObs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:.3});
+document.querySelectorAll('.fade-line').forEach(function(el){lineObs.observe(el);});
+
+// COUNT UP
+var co=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(e.isIntersecting){
+      var el=e.target,tgt=parseInt(el.dataset.t);
+      var s=null;
+      var step=function(ts){if(!s)s=ts;var p=Math.min((ts-s)/1400,1);el.textContent=Math.floor(p*tgt);if(p<1)requestAnimationFrame(step);else el.textContent=tgt;};
+      requestAnimationFrame(step);co.unobserve(el);
+    }
+  });
+},{threshold:.5});
+document.querySelectorAll('.count').forEach(function(el){co.observe(el);});
+
+// PRICING
+var PRICE={
+  size:{'<32':100,'32-64':125,'65-84':150,'85+':200},
+  mount:{fullmotion:65,flat:50,tilt:50,own:0},
+  inwall:{first:75,add:50},raceway:{first:40,add:20},outlet:150,
+  soundbar:{first:100,add:75},dismount:25,
+  transport:{small:25,large:70}
+};
+var state={tvs:[],soundbars:0,dismounts:0,transport:false};
+
+var racewayCount=0;
+function tvPrice(tv,isFirstInwall,isFirstRaceway){
+  var p=PRICE.size[tv.size]||125;
+  if(!tv.hasMount)p+=PRICE.mount[tv.mountType]||50;
+  if(tv.cords==='inwall')p+=isFirstInwall?PRICE.inwall.first:PRICE.inwall.add;
+  if(tv.cords==='raceway')p+=isFirstRaceway?PRICE.raceway.first:PRICE.raceway.add;
+  if(tv.outlet)p+=PRICE.outlet;
+  return p;
+}
+function calcTotal(){
+  var total=0,inwc=0,rwc=0;
+  state.tvs.forEach(function(tv){
+    var isFirstIn=inwc===0&&tv.cords==='inwall';
+    var isFirstRw=rwc===0&&tv.cords==='raceway';
+    if(tv.cords==='inwall')inwc++;
+    if(tv.cords==='raceway')rwc++;
+    total+=tvPrice(tv,isFirstIn,isFirstRw);
+  });
+  if(state.soundbars>0)total+=PRICE.soundbar.first+(state.soundbars-1)*PRICE.soundbar.add;
+  total+=state.dismounts*PRICE.dismount;
+  if(state.transport){state.tvs.forEach(function(tv){total+=(['65-84','85+'].indexOf(tv.size)>=0)?PRICE.transport.large:PRICE.transport.small;});}
+  return total;
+}
+function updateQuote(){state.transport=document.getElementById('transport').checked;}
+function adj(key,delta){
+  state[key]=Math.max(0,state[key]+delta);
+  document.getElementById(key+'-val').textContent=state[key];
+  if(key==='soundbars'){
+    var lbl=document.getElementById('soundbar-price-label');
+    if(state.soundbars===0)lbl.textContent='$0';
+    else lbl.textContent='$'+(PRICE.soundbar.first+(state.soundbars-1)*PRICE.soundbar.add);
+  }
+}
+
+// SVG HELPERS
+function svgFlat(){return '<svg width="100" height="70" viewBox="0 0 100 70" fill="none"><rect x="2" y="0" width="10" height="70" fill="#0c0c1a" stroke="#3d7fff" stroke-width="1.2"/><line x1="4" y1="17" x2="10" y2="17" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="4" y1="35" x2="10" y2="35" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="4" y1="53" x2="10" y2="53" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><rect x="12" y="31" width="10" height="6" rx="1" fill="#3d7fff"/><rect x="22" y="10" width="9" height="48" rx="2" fill="#060612" stroke="#3d7fff" stroke-width="1.5"/><rect x="23.5" y="12" width="6" height="44" rx="1" fill="rgba(61,127,255,0.12)"/></svg>';}
+function svgTilt(){return '<svg width="100" height="70" viewBox="0 0 100 70" fill="none"><rect x="2" y="0" width="10" height="70" fill="#0c0c1a" stroke="#3d7fff" stroke-width="1.2"/><line x1="4" y1="17" x2="10" y2="17" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="4" y1="35" x2="10" y2="35" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="4" y1="53" x2="10" y2="53" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="12" y1="18" x2="22" y2="22" stroke="#3d7fff" stroke-width="1.5" stroke-linecap="round"/><circle cx="14" cy="19" r="2" fill="#3d7fff"/><polygon points="22,10 31,14 29,58 20,54" fill="#060612" stroke="#3d7fff" stroke-width="1.5"/><polygon points="23.5,13 29.5,16 27.5,55 21.5,52" fill="rgba(61,127,255,0.12)"/><path d="M50 18 L60 35" stroke="rgba(61,127,255,0.4)" stroke-width="0.8" stroke-dasharray="2 3"/></svg>';}
+function svgFM(){return '<svg width="100" height="70" viewBox="0 0 100 70" fill="none"><rect x="2" y="0" width="10" height="70" fill="#0c0c1a" stroke="#3d7fff" stroke-width="1.2"/><line x1="4" y1="17" x2="10" y2="17" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="4" y1="35" x2="10" y2="35" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="4" y1="53" x2="10" y2="53" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="12" y1="35" x2="32" y2="35" stroke="#3d7fff" stroke-width="1.5" stroke-linecap="round"/><circle cx="14" cy="35" r="2.5" fill="#3d7fff"/><circle cx="32" cy="35" r="2.5" fill="#3d7fff"/><line x1="32" y1="35" x2="52" y2="35" stroke="#3d7fff" stroke-width="1.5" stroke-linecap="round"/><circle cx="52" cy="35" r="2.5" fill="#3d7fff"/><rect x="53" y="13" width="9" height="44" rx="2" fill="#060612" stroke="#3d7fff" stroke-width="1.5"/><rect x="54.5" y="15" width="6" height="40" rx="1" fill="rgba(61,127,255,0.12)"/></svg>';}
+function svgNone(){return '<svg width="100" height="72" viewBox="0 0 100 72" fill="none"><rect x="10" y="0" width="80" height="72" fill="#0a0a16"/><rect x="18" y="6" width="64" height="38" rx="2" fill="#060612" stroke="#3d7fff" stroke-width="1.5"/><rect x="21" y="9" width="58" height="32" rx="1" fill="rgba(61,127,255,0.08)"/><path d="M40 44 C40 50 36 53 36 58 C36 62 40 63 40 66" stroke="#888" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M60 44 C60 48 62 52 60 56 C58 60 62 63 60 66" stroke="#888" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>';}
+function svgRaceway(){return '<svg width="100" height="72" viewBox="0 0 100 72" fill="none"><rect x="10" y="0" width="80" height="72" fill="#0a0a16"/><rect x="18" y="6" width="64" height="38" rx="2" fill="#060612" stroke="#3d7fff" stroke-width="1.5"/><rect x="21" y="9" width="58" height="32" rx="1" fill="rgba(61,127,255,0.08)"/><rect x="44" y="44" width="12" height="24" rx="3" fill="#0c0c1e" stroke="#3d7fff" stroke-width="1.2"/><line x1="50" y1="44" x2="50" y2="68" stroke="#3d7fff" stroke-width="0.8" opacity="0.6"/><line x1="46" y1="51" x2="54" y2="51" stroke="#3d7fff" stroke-width="0.4" opacity="0.4"/><line x1="46" y1="57" x2="54" y2="57" stroke="#3d7fff" stroke-width="0.4" opacity="0.4"/><line x1="46" y1="63" x2="54" y2="63" stroke="#3d7fff" stroke-width="0.4" opacity="0.4"/></svg>';}
+function svgInwall(){return '<svg width="100" height="72" viewBox="0 0 100 72" fill="none"><rect x="10" y="0" width="80" height="72" fill="#0a0a16"/><rect x="18" y="6" width="64" height="38" rx="2" fill="#060612" stroke="#3d7fff" stroke-width="1.5"/><rect x="21" y="9" width="58" height="32" rx="1" fill="rgba(61,127,255,0.08)"/><path d="M50 44 L50 56" stroke="#3d7fff" stroke-width="1" stroke-dasharray="2 2" opacity="0.6"/><rect x="42" y="56" width="16" height="12" rx="2" fill="#0c0c1e" stroke="#3d7fff" stroke-width="1.2"/><circle cx="47" cy="62" r="2" fill="none" stroke="#3d7fff" stroke-width="1"/><circle cx="53" cy="62" r="2" fill="none" stroke="#3d7fff" stroke-width="1"/></svg>';}
+
+function handleOpt(el){
+  var id=parseInt(el.dataset.id),key=el.dataset.key,val=el.dataset.val;
+  if(val==='true')val=true;else if(val==='false')val=false;
+  setTV(id,key,val,el);
+}
+
+// TV CARD BUILDER
+var tvCount=0;
+function addTV(){
+  if(tvCount>=6)return;
+  tvCount++;
+  var id=tvCount;
+  state.tvs.push({id:id,size:'32-64',hasMount:false,mountType:'fullmotion',cords:'none',outlet:false});
+  buildTVCard(id);
+  if(tvCount>=6)document.getElementById('add-tv-btn').style.display='none';
+}
+
+function buildTVCard(id){
+  var idx=state.tvs.findIndex(function(t){return t.id===id;});
+  var existing=document.getElementById('tv-card-'+id);
+  if(existing)existing.remove();
+  var tv=state.tvs[idx];
+  var card=document.createElement('div');
+  card.className='tv-card';card.id='tv-card-'+id;
+
+  function ob(key,val,label,desc,price,svg,sel){
+    var b=document.createElement('button');
+    b.className='option-btn'+(sel?' selected':'');
+    b.dataset.id=id;b.dataset.key=key;b.dataset.val=val;
+    b.setAttribute('onclick','handleOpt(this)');
+    var h='';
+    if(svg)h+='<div class="opt-illustration">'+svg+'</div>';
+    h+='<span class="opt-title">'+label+'</span>';
+    if(desc)h+='<span class="opt-desc">'+desc+'</span>';
+    if(price)h+='<span class="opt-price">'+price+'</span>';
+    b.innerHTML=h;return b;
+  }
+  function grid(c){var g=document.createElement('div');g.className='option-grid cols'+c;return g;}
+  function lbl(t){var s=document.createElement('span');s.className='option-label';s.textContent=t;return s;}
+
+  var hdr=document.createElement('div');hdr.className='tv-card-header';
+  hdr.innerHTML='<span class="tv-card-title">TV '+id+'</span>';
+  if(id>1){var rb=document.createElement('button');rb.className='remove-tv';rb.textContent='Remove';rb.setAttribute('onclick','removeTV('+id+')');hdr.appendChild(rb);}
+  card.appendChild(hdr);
+
+  card.appendChild(lbl('TV Size'));
+  var sg=grid(2);
+  [['<32','Under 32"','$100'],['32-64','32" - 64"','$125'],['65-84','65" - 84"','$150'],['85+','85" and up','$200']].forEach(function(s){
+    sg.appendChild(ob('size',s[0],s[0],null,s[2]+' base',null,tv.size===s[0]));
+  });
+  card.appendChild(sg);
+
+  card.appendChild(lbl('Do you have a mount?'));
+  var mg=grid(2);
+  mg.appendChild(ob('hasMount','false','No - I need one','We supply and install a premium mount',null,null,!tv.hasMount));
+  mg.appendChild(ob('hasMount','true','Yes - I have my own','We install your existing mount',null,null,tv.hasMount));
+  card.appendChild(mg);
+
+  var mtd=document.createElement('div');mtd.id='mount-type-'+id;if(tv.hasMount)mtd.style.display='none';
+  mtd.appendChild(lbl('Mount Type'));
+  var mtg=grid(3);
+  mtg.appendChild(ob('mountType','flat','Flat / Fixed','Flush against wall.','+$50',svgFlat(),tv.mountType==='flat'));
+  mtg.appendChild(ob('mountType','tilt','Tilt','Angles down 5-15 degrees.','+$50',svgTilt(),tv.mountType==='tilt'));
+  mtg.appendChild(ob('mountType','fullmotion','Full-Motion','Swivels and extends.','+$65',svgFM(),tv.mountType==='fullmotion'));
+  mtd.appendChild(mtg);card.appendChild(mtd);
+
+  card.appendChild(lbl('Cord Management'));
+  var cg=grid(3);
+  cg.appendChild(ob('cords','none','None','Cords hang behind TV.','Included',svgNone(),tv.cords==='none'));
+  cg.appendChild(ob('cords','raceway','On-Wall Raceway','Clean channel on wall.','$40 first / $20 addl',svgRaceway(),tv.cords==='raceway'));
+  cg.appendChild(ob('cords','inwall','In-Wall','Completely hidden inside wall.','+$75 first / +$50 addl',svgInwall(),tv.cords==='inwall'));
+  card.appendChild(cg);
+
+  var outRow=document.createElement('div');
+  outRow.style.cssText='margin-top:20px;padding:16px 20px;background:rgba(255,255,255,.02);border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;';
+  outRow.innerHTML='<div class="toggle-label"><span>Add In-Wall Power Outlet</span><small>Outlet installed behind TV - completely clean look</small></div>'
+    +'<div style="display:flex;align-items:center;gap:16px;"><span class="toggle-price">~$150</span>'
+    +'<label class="toggle-switch"><input type="checkbox" '+(tv.outlet?'checked':'')+' onchange="setTVOutlet('+id+',this.checked)"/><span class="slider"></span></label></div>';
+  card.appendChild(outRow);
+  document.getElementById('tv-cards').appendChild(card);
+}
+
+function setTV(id,key,val,btn){
+  var idx=state.tvs.findIndex(function(t){return t.id===id;});
+  if(idx<0)return;
+  state.tvs[idx][key]=val;
+  if(key==='size'||key==='mountType'||key==='cords'){
+    btn.closest('.option-grid').querySelectorAll('.option-btn').forEach(function(b){b.classList.remove('selected');});
+    btn.classList.add('selected');
+  }
+  if(key==='hasMount'){
+    btn.closest('.option-grid').querySelectorAll('.option-btn').forEach(function(b){b.classList.remove('selected');});
+    btn.classList.add('selected');
+    document.getElementById('mount-type-'+id).style.display=val?'none':'';
+  }
+}
+function setTVOutlet(id,checked){
+  var idx=state.tvs.findIndex(function(t){return t.id===id;});
+  if(idx>=0)state.tvs[idx].outlet=checked;
+}
+function removeTV(id){
+  state.tvs=state.tvs.filter(function(t){return t.id!==id;});
+  document.getElementById('tv-card-'+id).remove();
+  if(tvCount<6)document.getElementById('add-tv-btn').style.display='';
+}
+
+// FORM STEPS
+function goStep(n){
+  if(n===1&&state.tvs.length===0)addTV();
+  document.querySelectorAll('.form-step').forEach(function(s){s.classList.remove('active');});
+  document.getElementById('step'+n).classList.add('active');
+  for(var i=1;i<=4;i++){
+    document.getElementById('p'+i).classList.toggle('active',i<=n);
+    document.getElementById('pl'+i).classList.toggle('active',i===n);
+  }
+  if(n===3){renderFinalQuote();initDatePicker();}if(n===4){renderConfirmQuote();}
+  document.getElementById('booking').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function renderFinalQuote(){
+  state.transport=document.getElementById('transport')?document.getElementById('transport').checked:false;
+  var total=calcTotal(),items='',inwc=0,rwc=0;
+  var sl={'<32':'Under 32"','32-64':'32-64"','65-84':'65-84"','85+':'85"+'};
+  state.tvs.forEach(function(tv,i){
+    var inwFirst=inwc===0&&tv.cords==='inwall';
+    var rwFirst=rwc===0&&tv.cords==='raceway';
+    if(tv.cords==='inwall')inwc++;
+    if(tv.cords==='raceway')rwc++;
+    var p=tvPrice(tv,inwFirst,rwFirst);
+    var inwFirst=inwc===0&&tv.cords==='inwall',rwFirst=rwc===0&&tv.cords==='raceway';
+    var cl={'none':'','raceway':rwFirst?' + Raceway ($40)':' + Raceway ($20)','inwall':inwFirst?' + In-Wall ($75)':' + In-Wall ($50)'}[tv.cords];
+    var ol=tv.outlet?' + Outlet':'';
+    items+='<div class="quote-item"><span>TV '+(i+1)+' - '+(sl[tv.size]||tv.size)+' '+(tv.hasMount?'(your mount)':tv.mountType)+cl+ol+'</span><span>$'+p+'</span></div>';
+  });
+  if(state.soundbars>0)items+='<div class="quote-item"><span>Soundbar'+(state.soundbars>1?' ('+state.soundbars+')':'')+'</span><span>$'+(PRICE.soundbar.first+(state.soundbars-1)*PRICE.soundbar.add)+'</span></div>';
+  if(state.dismounts>0)items+='<div class="quote-item"><span>Dismount'+(state.dismounts>1?' ('+state.dismounts+')':'')+'</span><span>$'+(state.dismounts*25)+'</span></div>';
+  if(state.transport){var tc=0;state.tvs.forEach(function(tv){tc+=(['65-84','85+'].indexOf(tv.size)>=0)?70:25;});items+='<div class="quote-item"><span>TV Delivery</span><span>$'+tc+'</span></div>';}
+  var qi=document.getElementById('final-quote');
+  if(qi)qi.innerHTML='<div class="quote-title">Estimate Breakdown</div><div class="quote-items">'+items+'</div><div class="quote-divider"></div><div class="quote-total"><span>Total Estimate</span><span class="quote-total-price">$'+total+'</span></div><p class="quote-note">Estimate only. Final pricing confirmed when we call.</p>';
+}
+
+function renderConfirmQuote(){
+  var total=calcTotal();
+  var items='',inwc=0;
+  var sl={'<32':'Under 32"','32-64':'32-64"','65-84':'65-84"','85+':'85"+'};
+  state.tvs.forEach(function(tv,i){
+    var inwFirst=inwc===0&&tv.cords==='inwall';
+    var rwFirst=rwc===0&&tv.cords==='raceway';
+    if(tv.cords==='inwall')inwc++;
+    if(tv.cords==='raceway')rwc++;
+    var p=tvPrice(tv,inwFirst,rwFirst);
+    var inwFirst=inwc===0&&tv.cords==='inwall',rwFirst=rwc===0&&tv.cords==='raceway';
+    var cl={'none':'','raceway':rwFirst?' + Raceway ($40)':' + Raceway ($20)','inwall':inwFirst?' + In-Wall ($75)':' + In-Wall ($50)'}[tv.cords];
+    var ol=tv.outlet?' + Outlet':'';
+    items+='<div class="quote-item"><span>TV '+(i+1)+' - '+(sl[tv.size]||tv.size)+' '+(tv.hasMount?'(your mount)':tv.mountType)+cl+ol+'</span><span>$'+p+'</span></div>';
+  });
+  if(state.soundbars>0)items+='<div class="quote-item"><span>Soundbar'+(state.soundbars>1?' ('+state.soundbars+')':'')+'</span><span>$'+(PRICE.soundbar.first+(state.soundbars-1)*PRICE.soundbar.add)+'</span></div>';
+  if(state.dismounts>0)items+='<div class="quote-item"><span>Dismount'+(state.dismounts>1?' ('+state.dismounts+')':'')+'</span><span>$'+(state.dismounts*25)+'</span></div>';
+  if(state.transport){var tc=0;state.tvs.forEach(function(tv){tc+=(['65-84','85+'].indexOf(tv.size)>=0)?70:25;});items+='<div class="quote-item"><span>TV Delivery</span><span>$'+tc+'</span></div>';}
+  if(selectedSlot){var d=new Date(selectedSlot.start);items+='<div class="quote-item"><span>Appointment</span><span>'+d.toLocaleDateString('en-US',{weekday:'short',month:'short',day:'numeric'})+' at '+d.toLocaleTimeString('en-US',{hour:'numeric',minute:'2-digit'})+'</span></div>';}
+  var qi=document.getElementById('final-quote-confirm');
+  if(qi)qi.innerHTML='<div class="quote-title">Booking Summary</div><div class="quote-items">'+items+'</div><div class="quote-divider"></div><div class="quote-total"><span>Total Estimate</span><span class="quote-total-price">$'+total+'</span></div><p class="quote-note">Final pricing confirmed on the call.</p>';
+}
+
+// CALENDAR
+var WORKER='https://vistamount-worker.billowing-recipe-0ae7.workers.dev';
+var selectedSlot=null;
+
+function calcDuration(){
+  var mins=0;
+  state.tvs.forEach(function(tv){
+    mins+=45;
+    if(!tv.hasMount&&tv.mountType==='fullmotion')mins+=15;
+    if(tv.cords==='inwall')mins+=45;
+    else if(tv.cords==='raceway')mins+=15;
+    if(tv.outlet)mins+=60;
+  });
+  mins+=state.soundbars*30;mins+=state.dismounts*15;
+  return Math.max(60,mins);
+}
+
+function initDatePicker(){
+  var d=document.getElementById('cal-date');
+  if(!d)return;
+  var today=new Date();
+  today.setDate(today.getDate()+1);
+  d.min=today.toISOString().split('T')[0];
+}
+async function loadSlots(){
+  var date=document.getElementById('cal-date').value;
+  if(!date)return;
+  var wrap=document.getElementById('slots-wrap');
+  wrap.innerHTML='<p style="font-size:.8rem;color:var(--m);">Checking availability...</p>';
+  selectedSlot=null;
+  var btn=document.getElementById('time-next-btn');
+  if(btn){btn.style.opacity='.4';btn.style.pointerEvents='none';}
+  try{
+    var res=await fetch(WORKER+'/availability?date='+date+'&duration='+calcDuration());
+    var data=await res.json();
+    if(!data.slots||data.slots.length===0){
+      wrap.innerHTML='<p style="font-size:.8rem;color:var(--m);">No availability on this date. Please try another day.</p>';return;
+    }
+    window._slots=data.slots;
+    var html='';
+    data.slots.forEach(function(s,i){
+      html+='<div class="option-btn" style="flex-direction:row;align-items:center;justify-content:space-between;padding:16px 20px;" onclick="selectSlot(this,'+i+')">'
+        +'<span class="opt-title" style="margin:0;">'+s.label+'</span>'
+        +'<span style="font-size:.85rem;color:var(--bl);font-weight:500;">'+s.time+'</span></div>';
+    });
+    wrap.innerHTML=html;
+  }catch(e){
+    console.error('loadSlots error:',e);wrap.innerHTML='<p style="font-size:.8rem;color:#ff6666;">Error: '+e.message+'. Please try again or call (480) 903-4769.</p>';
+  }
+}
+
+function selectSlot(el,idx){
+  document.querySelectorAll('#slots-wrap .option-btn').forEach(function(b){b.classList.remove('selected');});
+  el.classList.add('selected');
+  selectedSlot=window._slots[idx];
+  var btn=document.getElementById('time-next-btn');
+  if(btn){btn.style.opacity='1';btn.style.pointerEvents='auto';}
+}
+
+async function submitForm(){
+  if(!selectedSlot)return;
+  var btn=document.getElementById('submit-btn');
+  btn.textContent='Booking...';btn.style.opacity='.7';
+  var sl={'<32':'Under 32"','32-64':'32-64"','65-84':'65-84"','85+':'85"+'};
+  var lines=state.tvs.map(function(tv,i){
+    return 'TV '+(i+1)+': '+(sl[tv.size]||tv.size)+', '+(tv.hasMount?'own mount':tv.mountType)+', '+({'none':'no conceal','raceway':'raceway','inwall':'in-wall'}[tv.cords])+(tv.outlet?' + outlet':'');
+  });
+  var addons=[];
+  if(state.soundbars>0)addons.push(state.soundbars+' soundbar(s)');
+  if(state.dismounts>0)addons.push(state.dismounts+' dismount(s)');
+  if(state.transport)addons.push('TV delivery');
+  var summary=lines.join(' | ')+(addons.length?' | Add-ons: '+addons.join(', '):'') +' | Est: $'+calcTotal();
+  try{
+    var res=await fetch(WORKER+'/book',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        name:(document.getElementById('fname').value+' '+document.getElementById('lname').value).trim(),
+        phone:document.getElementById('phone').value,
+        email:document.getElementById('email').value,
+        address:document.getElementById('address').value,
+        slotStart:selectedSlot.start,slotEnd:selectedSlot.end,
+        summary:summary,notes:document.getElementById('notes').value
+      })
+    });
+    var data=await res.json();
+    if(data.success && data.eventId){
+      document.getElementById('form-wrap').style.display='none';
+      document.getElementById('success').classList.add('show');
+      document.getElementById('booking-header').style.display='none';
+    }else{btn.textContent='Confirm Booking';btn.style.opacity='1';alert('Booking failed — the appointment was not added to our calendar. Please call (480) 903-4769.');}
+  }catch(e){btn.textContent='Confirm Booking';btn.style.opacity='1';alert('Connection error. Please call (480) 903-4769.');}
+}
+</script>
+</body>
+</html>nav.scrolled-light .nav-logo-light{display:block;}
 .nav-logo:hover img{opacity:.8;}
 .nav-links{display:flex;align-items:center;gap:36px;}
 .nav-links a{font-size:.72rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--m);text-decoration:none;transition:color .3s;}
