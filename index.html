@@ -556,14 +556,14 @@ function hText(alpha,oy){
   var W=hc.width,H=hc.height;
   hctx.save();hctx.globalAlpha=alpha;hctx.textAlign='center';
   var fs=Math.min(100,W*0.13);
-  hctx.font='500 10px sans-serif';hctx.fillStyle=HBL;
-  hctx.fillText('PHOENIX\'S PREMIER TV MOUNTING EXPERTS',W/2,H*0.30+oy);
+  hctx.font='600 11px sans-serif';hctx.fillStyle=HBL;
+  hctx.letterSpacing='2px';
+  hctx.fillText('PHOENIX\'S PREMIER TV MOUNTING EXPERTS',W/2,H*0.32+oy);
+  hctx.letterSpacing='0px';
   hctx.font='900 '+fs+'px sans-serif';hctx.fillStyle=HWH;
-  hctx.fillText('VISTAMOUNT',W/2,H*0.46+oy);
-  hctx.font='300 12px sans-serif';hctx.fillStyle='rgba(255,255,255,.55)';
-  hctx.fillText('Same-Day Service  ·  No Visible Wires  ·  Done Right',W/2,H*0.55+oy);
-  hctx.font='300 10px sans-serif';hctx.fillStyle='rgba(255,255,255,.3)';
-  hctx.fillText('Clean installs. No visible wires. Done right the first time.',W/2,H*0.61+oy);
+  hctx.fillText('VISTAMOUNT',W/2,H*0.50+oy);
+  hctx.font='300 13px sans-serif';hctx.fillStyle='rgba(255,255,255,.65)';
+  hctx.fillText('Clean installs. No visible wires. Done right the first time.',W/2,H*0.60+oy);
   hctx.textAlign='left';hctx.restore();
 }
 function hCTA(alpha){
