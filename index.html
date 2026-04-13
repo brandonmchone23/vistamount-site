@@ -47,7 +47,7 @@ nav.scrolled-light .nav-links a:hover{color:var(--dark-text);}
 nav.scrolled-light .nav-book{color:#fff!important;}
 
 /* HERO */
-#hero{position:relative;height:100vh;display:flex;align-items:stretch;overflow:hidden;background:#000;}#hero-left{position:relative;width:55%;flex-shrink:0;}#hero-right{flex:1;position:relative;overflow:hidden;}#hero-right img{width:100%;height:100%;object-fit:cover;object-position:20% center;display:block;}#hero-right::before{content:"";position:absolute;inset:0;background:linear-gradient(to right,rgba(6,8,15,1) 0%,rgba(6,8,15,.5) 25%,rgba(6,8,15,.05) 55%,transparent 100%);z-index:1;}#hero-right::after{content:"";position:absolute;inset:0;border-left:1px solid rgba(79,172,255,0.25);z-index:2;}@media(max-width:768px){#hero{flex-direction:column;}#hero-left{width:100%;height:70vh;}#hero-right{width:100%;height:30vh;}}
+#hero{position:relative;height:100vh;display:flex;align-items:stretch;overflow:hidden;background:#000;}#hero-left{position:relative;width:55%;flex-shrink:0;}#hero-right{flex:1;position:relative;overflow:hidden;}#hero-right img{width:100%;height:100%;object-fit:cover;object-position:20% center;display:block;}#hero-right::before{content:"";position:absolute;inset:0;background:linear-gradient(to right,rgba(6,8,15,1) 0%,rgba(6,8,15,.5) 25%,rgba(6,8,15,.05) 55%,transparent 100%);z-index:1;}#hero-right::after{content:"";position:absolute;inset:0;border-left:1px solid rgba(79,172,255,0.25);z-index:2;}@media(max-width:768px){#hero{flex-direction:column;height:100vh;}#hero-left{width:100%;height:70vh;}#hero-right{width:100%;flex:1;}}
 #hero-canvas{position:absolute;inset:0;width:100%;height:100%;cursor:pointer;}#hero-left{display:flex;align-items:center;justify-content:center;}
 .hero-scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeHint 1s ease 3.5s forwards;}
 @keyframes fadeHint{to{opacity:.5;}}
@@ -253,7 +253,34 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
 .gallery-item:hover .gallery-overlay{opacity:1!important;}
 .gallery-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 50%);opacity:0;transition:opacity .3s;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;}
 
-/* MOBILE */
+/* MOBILE NAV BOOK BUTTON */
+.nav-book-mobile{display:none;color:#fff!important;background:var(--bl)!important;padding:8px 16px;font-size:.7rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;transition:background .3s;}
+.nav-book-mobile:hover{background:var(--blb)!important;}
+@media(max-width:768px){.nav-book-mobile{display:block;}}
+
+/* BOOKING MODAL */
+#booking-modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.85);backdrop-filter:blur(6px);overflow-y:auto;}
+#booking-modal.open{display:flex;align-items:flex-start;justify-content:center;padding:20px;}
+#booking-modal-inner{background:var(--bg);border:1px solid var(--border);width:100%;max-width:900px;position:relative;margin:auto;}
+#booking-modal-close{position:absolute;top:16px;right:20px;background:none;border:none;color:var(--m);font-size:1.4rem;cursor:pointer;z-index:10;line-height:1;}
+#booking-modal-close:hover{color:#fff;}
+
+/* EXIT POPUP */
+#exit-popup{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);align-items:center;justify-content:center;}
+#exit-popup.show{display:flex;}
+#exit-popup-inner{background:var(--bg);border:1px solid rgba(79,172,255,.25);max-width:480px;width:90%;padding:48px 40px;position:relative;text-align:center;box-shadow:0 0 60px rgba(45,127,232,.15);}
+#exit-popup-close{position:absolute;top:14px;right:18px;background:none;border:none;color:var(--m);font-size:1.2rem;cursor:pointer;}
+#exit-popup-close:hover{color:#fff;}
+.exit-popup-eyebrow{font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--bl);margin-bottom:12px;}
+.exit-popup-title{font-family:"Bebas Neue",sans-serif;font-size:2.8rem;color:#fff;line-height:1;margin-bottom:12px;}
+.exit-popup-title em{color:var(--bl);font-style:normal;}
+.exit-popup-sub{font-size:.85rem;color:var(--m);line-height:1.7;margin-bottom:28px;}
+.exit-popup-cta{display:inline-block;background:var(--bl);color:#fff;padding:14px 36px;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;cursor:pointer;border:none;font-family:var(--font);transition:background .3s;box-shadow:0 0 30px rgba(79,172,255,.25);}
+.exit-popup-cta:hover{background:var(--blb);}
+.exit-popup-dismiss{display:block;margin-top:14px;font-size:.68rem;color:var(--m);cursor:pointer;text-decoration:underline;}
+.exit-popup-dismiss:hover{color:#fff;}
+
+@media(max-width:768px){#booking-modal-inner{margin:0;}#exit-popup-inner{padding:36px 24px;}}
 @media(max-width:768px){#hero-stats{bottom:20px!important;gap:8px!important;padding:0 12px;}#hero-stats span{font-size:10px!important;}}
   nav{padding:18px 24px;}.nav-links{display:none;}
   .stats-grid{grid-template-columns:1fr 1fr;}.stat:nth-child(2){border-right:none;}
@@ -279,8 +306,9 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
   <div class="nav-links">
     <a href="#services-section">Services</a>
     <a href="#process-section">Process</a>
-    <a href="#booking" class="nav-book">Book Now</a>
+    <a href="#booking" class="nav-book" onclick="openBookingModal();return false;">Book Now</a>
   </div>
+  <a href="#booking" class="nav-book-mobile" onclick="openBookingModal();return false;">Book Now</a>
 </nav>
 
 <!-- HERO -->
@@ -812,8 +840,8 @@ function hText(alpha,oy){
   var W=hc.width,H=hc.height;
   hctx.save();hctx.globalAlpha=alpha;hctx.textAlign='center';
   var fs=Math.min(110,W*0.13);
-  hctx.font='700 13px sans-serif';hctx.letterSpacing='3px';hctx.fillStyle='#4facff';
-  hctx.fillText("SAME-DAY INSTALLATION · PHOENIX, AZ",W/2,H*0.32+oy);
+  hctx.font='700 '+Math.min(13,W*0.028)+'px sans-serif';hctx.letterSpacing='3px';hctx.fillStyle='#4facff';
+  hctx.fillText("SAME-DAY INSTALLATION · PHOENIX, AZ",W/2,H*0.22+oy);
   hctx.font='900 '+fs+'px sans-serif';hctx.shadowColor='#2d7fe8';hctx.shadowBlur=40;hctx.fillStyle=HWH;
   hctx.fillText('VISTAMOUNT',W/2,H*0.50+oy);
   hctx.font='400 '+Math.min(16,W*0.032)+'px sans-serif';hctx.fillStyle='#ffffff';
@@ -1282,5 +1310,309 @@ async function submitForm(){
 addTV();
 </script>
 
+<!-- BOOKING MODAL -->
+<div id="booking-modal">
+  <div id="booking-modal-inner">
+    <button id="booking-modal-close" onclick="closeBookingModal()">&#x2715;</button>
+    <div class="booking-wrap" style="padding:60px 52px;">
+      <div class="booking-eyebrow">Book Your Install</div>
+      <h2 class="booking-title">Join <em>800+ Happy Customers</em></h2>
+      <div style="display:flex;gap:24px;margin-bottom:32px;flex-wrap:wrap;">
+        <span style="font-size:.75rem;color:var(--bl);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">⚡</span> Takes 60 seconds</span>
+        <span style="font-size:.75rem;color:var(--bl);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">⚡</span> Instant pricing</span>
+        <span style="font-size:.75rem;color:rgba(255,120,0,.85);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">⚠️</span> Same-day spots fill quickly</span>
+      </div>
+      <div class="progress-bar">
+        <div class="prog-step active" id="mp1"></div>
+        <div class="prog-step" id="mp2"></div>
+        <div class="prog-step" id="mp3"></div>
+        <div class="prog-step" id="mp4"></div>
+      </div>
+      <div class="prog-labels">
+        <span class="prog-label active" id="mpl1">Your TVs</span>
+        <span class="prog-label" id="mpl2">Add-ons</span>
+        <span class="prog-label" id="mpl3">Pick a Time</span>
+        <span class="prog-label" id="mpl4">Your Info</span>
+      </div>
+      <div id="modal-form-wrap">
+        <div class="form-step active" id="mstep1">
+          <div class="tv-cards" id="modal-tv-cards"></div>
+          <button class="add-tv-btn" onclick="addModalTV()">+ Add Another TV</button>
+          <div class="form-nav"><div></div><button class="btn-next" onclick="goModalStep(2)">Next: Add-ons &rarr;</button></div>
+        </div>
+        <div class="form-step" id="mstep2">
+          <div class="qty-row"><div class="toggle-label"><span>Soundbar Installation</span><small>Wall-mounted below your TV, cables managed</small></div><div style="display:flex;align-items:center;gap:16px;"><span class="toggle-price" id="modal-soundbar-price">$0</span><div class="qty-control"><button class="qty-btn" onclick="adjModal('soundbars',-1)">-</button><span class="qty-val" id="modal-soundbars-val">0</span><button class="qty-btn" onclick="adjModal('soundbars',1)">+</button></div></div></div>
+          <div class="qty-row"><div class="toggle-label"><span>TV Dismount</span><small>Safe removal of existing mounted TV - $25 each</small></div><div style="display:flex;align-items:center;gap:16px;"><span class="toggle-price">$25 each</span><div class="qty-control"><button class="qty-btn" onclick="adjModal('dismounts',-1)">-</button><span class="qty-val" id="modal-dismounts-val">0</span><button class="qty-btn" onclick="adjModal('dismounts',1)">+</button></div></div></div>
+          <div class="toggle-row"><div class="toggle-label"><span>TV Delivery / Transport</span><small>Under 75" = $25, 75"+ = $70 per TV</small></div><div style="display:flex;align-items:center;gap:16px;"><span class="toggle-price">from $25/TV</span><label class="toggle-switch"><input type="checkbox" id="modal-transport" onchange="updateModalQuote()"/><span class="slider"></span></label></div></div>
+          <div class="form-row single" style="margin-top:24px;"><div class="form-group"><label>Anything else we should know?</label><textarea id="modal-notes" placeholder="Special wall type, condo restrictions, etc."></textarea></div></div>
+          <div class="form-nav"><button class="btn-back" onclick="goModalStep(1)">&larr; Back</button><button class="btn-next" onclick="goModalStep(3)">Next: Pick a Time &rarr;</button></div>
+        </div>
+        <div class="form-step" id="mstep3">
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;" class="step4-grid">
+            <div><div class="quote-box" id="modal-final-quote"></div></div>
+            <div>
+              <div class="booking-eyebrow" style="margin-bottom:16px;">Pick a Date and Time</div>
+              <div class="form-group" style="margin-bottom:16px;"><label>Preferred Date</label><input type="date" id="modal-cal-date" onchange="loadModalSlots()" style="width:100%;color-scheme:dark;cursor:pointer;"/></div>
+              <div class="slots-wrap" id="modal-slots-wrap"><p style="font-size:.8rem;color:var(--m);">Select a date to see available times.</p></div>
+            </div>
+          </div>
+          <div class="form-nav"><button class="btn-back" onclick="goModalStep(2)">&larr; Back</button><button class="btn-next" id="modal-time-next-btn" onclick="goModalStep(4)" style="opacity:.4;pointer-events:none;">Next: Your Info &rarr;</button></div>
+        </div>
+        <div class="form-step" id="mstep4">
+          <div class="form-row"><div class="form-group"><label>First Name</label><input type="text" id="modal-fname" placeholder="John"/></div><div class="form-group"><label>Last Name</label><input type="text" id="modal-lname" placeholder="Smith"/></div></div>
+          <div class="form-row"><div class="form-group"><label>Phone</label><input type="tel" id="modal-phone" placeholder="(480) 555-0100"/></div><div class="form-group"><label>Email</label><input type="email" id="modal-email" placeholder="you@example.com"/></div></div>
+          <div class="form-row single"><div class="form-group"><label>Service Address</label><input type="text" id="modal-address" placeholder="123 Main St, Phoenix, AZ 85001"/></div></div>
+          <div class="quote-box" id="modal-final-quote-confirm" style="margin-top:8px;"></div>
+          <div class="form-nav"><button class="btn-back" onclick="goModalStep(3)">&larr; Back</button><button class="btn-submit" id="modal-submit-btn" onclick="submitModalForm()">Confirm Booking &#10003;</button></div>
+        </div>
+      </div>
+      <div class="success-state" id="modal-success">
+        <div class="success-icon">&#10003;</div>
+        <div class="success-title">You're Booked!</div>
+        <p class="success-sub">We'll call within 2 hours to confirm. We look forward to getting your space right.</p>
+        <a href="tel:+14809034769" class="success-phone">(480) 903-4769</a>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- EXIT POPUP -->
+<div id="exit-popup">
+  <div id="exit-popup-inner">
+    <button id="exit-popup-close" onclick="closeExitPopup()">&#x2715;</button>
+    <div class="exit-popup-eyebrow">Don't leave yet</div>
+    <div class="exit-popup-title">Same-Day Spots<br><em>Fill Fast.</em></div>
+    <p class="exit-popup-sub">Phoenix's #1 rated TV mounting service. 800+ installs. 4.9★ rating. Book in 60 seconds — no payment until the job is done.</p>
+    <button class="exit-popup-cta" onclick="closeExitPopup();openBookingModal();">Book Your Install &rarr;</button>
+    <span class="exit-popup-dismiss" onclick="closeExitPopup()">No thanks, I'll figure it out myself</span>
+  </div>
+</div>
+
+<script>
+// ==================== MODAL ====================
+var modalState={tvs:[],soundbars:0,dismounts:0,transport:false};
+var modalTVCount=0;
+var modalSelectedSlot=null;
+
+function openBookingModal(){
+  document.getElementById('booking-modal').classList.add('open');
+  document.body.style.overflow='hidden';
+  if(modalTVCount===0)addModalTV();
+}
+function closeBookingModal(){
+  document.getElementById('booking-modal').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.getElementById('booking-modal').addEventListener('click',function(e){
+  if(e.target===this)closeBookingModal();
+});
+
+function goModalStep(n){
+  document.querySelectorAll('#modal-form-wrap .form-step').forEach(function(s){s.classList.remove('active');});
+  document.getElementById('mstep'+n).classList.add('active');
+  for(var i=1;i<=4;i++){
+    document.getElementById('mp'+i).classList.toggle('active',i<=n);
+    document.getElementById('mpl'+i).classList.toggle('active',i===n);
+  }
+  if(n===3){updateModalQuote();initModalDatePicker();}
+  if(n===4){updateModalQuote();}
+}
+
+function addModalTV(){
+  if(modalTVCount>=6)return;
+  modalTVCount++;
+  var id='m'+modalTVCount;
+  modalState.tvs.push({id:id,size:'32-64',hasMount:false,mountType:'fullmotion',cords:'none',outlet:false});
+  buildModalTVCard(id);
+}
+
+function buildModalTVCard(id){
+  var idx=modalState.tvs.findIndex(function(t){return t.id===id;});
+  var tv=modalState.tvs[idx];
+  var card=document.createElement('div');
+  card.className='tv-card';card.id='tv-card-'+id;
+  var num=modalTVCount;
+  var hdr=document.createElement('div');hdr.className='tv-card-header';
+  hdr.innerHTML='<span class="tv-card-title">TV '+num+'</span>';
+  if(num>1){var rb=document.createElement('button');rb.className='remove-tv';rb.textContent='Remove';rb.setAttribute('onclick','removeModalTV("'+id+'")');hdr.appendChild(rb);}
+  card.appendChild(hdr);
+
+  function lbl(t){var s=document.createElement('span');s.className='option-label';s.textContent=t;return s;}
+  function grid(c){var g=document.createElement('div');g.className='option-grid cols'+c;return g;}
+  function ob(key,val,label,desc,price,sel){
+    var b=document.createElement('button');
+    b.className='option-btn'+(sel?' selected':'');
+    b.setAttribute('onclick','setModalTV("'+id+'","'+key+'","'+val+'",this)');
+    b.innerHTML='<span class="opt-title">'+label+'</span>'+(desc?'<span class="opt-desc">'+desc+'</span>':'')+(price?'<span class="opt-price">'+price+'</span>':'');
+    return b;
+  }
+
+  card.appendChild(lbl('TV Size'));
+  var sg=grid(2);
+  [['<32','Under 32"','$100'],['32-64','32"–64"','$125'],['65-84','65"–84"','$150'],['85+','85"+','$200']].forEach(function(s){sg.appendChild(ob('size',s[0],s[0],null,s[2]+' base',tv.size===s[0]));});
+  card.appendChild(sg);
+
+  card.appendChild(lbl('Do you have a mount?'));
+  var mg=grid(2);
+  mg.appendChild(ob('hasMount','false','No - I need one','We supply and install',null,!tv.hasMount));
+  mg.appendChild(ob('hasMount','true','Yes - I have my own','We install your mount',null,tv.hasMount));
+  card.appendChild(mg);
+
+  var mtd=document.createElement('div');mtd.id='mmt-'+id;if(tv.hasMount)mtd.style.display='none';
+  mtd.appendChild(lbl('Mount Type'));
+  var mtg=grid(3);
+  [['flat','Flat / Fixed','+$50'],['tilt','Tilt','+$50'],['fullmotion','Full-Motion','+$65']].forEach(function(m){mtg.appendChild(ob('mountType',m[0],m[0],null,m[2],tv.mountType===m[0]));});
+  mtd.appendChild(mtg);card.appendChild(mtd);
+
+  card.appendChild(lbl('Cord Management'));
+  var cg=grid(3);
+  [['none','None','Included'],['raceway','Raceway','$40 first'],['inwall','In-Wall','+$75 first']].forEach(function(c){cg.appendChild(ob('cords',c[0],c[0],null,c[2],tv.cords===c[0]));});
+  card.appendChild(cg);
+
+  document.getElementById('modal-tv-cards').appendChild(card);
+}
+
+function setModalTV(id,key,val,btn){
+  var idx=modalState.tvs.findIndex(function(t){return t.id===id;});
+  if(idx<0)return;
+  if(val==='true')val=true;else if(val==='false')val=false;
+  modalState.tvs[idx][key]=val;
+  btn.closest('.option-grid').querySelectorAll('.option-btn').forEach(function(b){b.classList.remove('selected');});
+  btn.classList.add('selected');
+  if(key==='hasMount'){document.getElementById('mmt-'+id).style.display=val?'none':'';}
+}
+
+function removeModalTV(id){
+  modalState.tvs=modalState.tvs.filter(function(t){return t.id!==id;});
+  var el=document.getElementById('tv-card-'+id);if(el)el.remove();
+}
+
+function adjModal(key,delta){
+  modalState[key]=Math.max(0,modalState[key]+delta);
+  document.getElementById('modal-'+key+'-val').textContent=modalState[key];
+  updateModalQuote();
+}
+
+function updateModalQuote(){
+  modalState.transport=document.getElementById('modal-transport')?document.getElementById('modal-transport').checked:false;
+  var q=buildModalQuoteHTML();
+  var e1=document.getElementById('modal-final-quote');
+  var e2=document.getElementById('modal-final-quote-confirm');
+  if(e1)e1.innerHTML=q;
+  if(e2)e2.innerHTML=q;
+}
+
+function buildModalQuoteHTML(){
+  if(modalState.tvs.length===0)return '';
+  var total=0;
+  modalState.tvs.forEach(function(tv){
+    var p=({'<32':100,'32-64':125,'65-84':150,'85+':200}[tv.size]||125);
+    if(!tv.hasMount)p+=({'fullmotion':65,'flat':50,'tilt':50}[tv.mountType]||50);
+    if(tv.cords==='inwall')p+=75;
+    if(tv.cords==='raceway')p+=40;
+    total+=p;
+  });
+  if(modalState.soundbars>0)total+=100+(modalState.soundbars-1)*75;
+  if(modalState.dismounts>0)total+=modalState.dismounts*25;
+  var html='<div style="font-size:.72rem;color:var(--m);letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;">Your Estimate</div>';
+  html+='<div style="display:flex;justify-content:space-between;padding:14px;border-top:1px solid rgba(255,255,255,.12);margin-top:4px;">';
+  html+='<div style="font-size:.9rem;color:var(--w);font-weight:500;">Estimated Total</div>';
+  html+='<div style="font-size:1.3rem;font-weight:700;color:#4facff;">$'+total+'</div></div>';
+  html+='<div style="font-size:.65rem;color:var(--m);margin-top:10px;line-height:1.7;">Final price confirmed on-site. No payment until job is complete.</div>';
+  return html;
+}
+
+function initModalDatePicker(){
+  var input=document.getElementById('modal-cal-date');
+  if(!input||input.value)return;
+  var today=new Date();
+  input.min=today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
+}
+
+function loadModalSlots(){
+  var input=document.getElementById('modal-cal-date');
+  var date=input?input.value:'';
+  if(!date)return;
+  var wrap=document.getElementById('modal-slots-wrap');
+  wrap.innerHTML='<p style="font-size:.8rem;color:var(--m);">Loading...</p>';
+  document.getElementById('modal-time-next-btn').style.opacity='.4';
+  document.getElementById('modal-time-next-btn').style.pointerEvents='none';
+  modalSelectedSlot=null;
+  fetch('https://vistamount-worker.billowing-recipe-0ae7.workers.dev/availability?date='+date+'&duration=120')
+    .then(function(r){return r.json();})
+    .then(function(data){
+      var slots=data.slots||[];
+      if(!slots.length){wrap.innerHTML='<p style="font-size:.8rem;color:var(--m);">No availability. Try another day.</p>';return;}
+      wrap.innerHTML='';
+      slots.forEach(function(slot){
+        var btn=document.createElement('button');
+        btn.className='option-btn';
+        btn.innerHTML='<span class="opt-title">'+slot.time+'</span><span class="opt-desc">'+slot.label+'</span>';
+        btn.onclick=function(){
+          document.querySelectorAll('#modal-slots-wrap .option-btn').forEach(function(b){b.classList.remove('selected');});
+          this.classList.add('selected');
+          modalSelectedSlot={start:slot.start,end:slot.end,label:slot.label,time:slot.time};
+          var nb=document.getElementById('modal-time-next-btn');
+          nb.style.opacity='1';nb.style.pointerEvents='auto';
+        };
+        wrap.appendChild(btn);
+      });
+    })
+    .catch(function(){wrap.innerHTML='<p style="font-size:.8rem;color:var(--m);">Could not load. Call (480) 903-4769.</p>';});
+}
+
+async function submitModalForm(){
+  if(!modalSelectedSlot){alert('Please select a time slot.');return;}
+  var fname=document.getElementById('modal-fname').value.trim();
+  var phone=document.getElementById('modal-phone').value.trim();
+  if(!fname||!phone){alert('Please fill in your name and phone number.');return;}
+  var btn=document.getElementById('modal-submit-btn');
+  btn.textContent='Booking...';btn.style.opacity='.7';btn.disabled=true;
+  try{
+    var res=await fetch('https://vistamount-worker.billowing-recipe-0ae7.workers.dev/book',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        name:(fname+' '+(document.getElementById('modal-lname').value||'')).trim(),
+        phone:phone,email:document.getElementById('modal-email').value,
+        address:document.getElementById('modal-address').value,
+        slotStart:modalSelectedSlot.start,slotEnd:modalSelectedSlot.end,
+        summary:'Modal booking',notes:document.getElementById('modal-notes').value
+      })
+    });
+    var data=await res.json();
+    if(data.success){
+      document.getElementById('modal-form-wrap').style.display='none';
+      document.getElementById('modal-success').classList.add('show');
+    } else {
+      btn.textContent='Confirm Booking';btn.style.opacity='1';btn.disabled=false;
+      alert('Booking failed. Please call (480) 903-4769.');
+    }
+  }catch(e){
+    btn.textContent='Confirm Booking';btn.style.opacity='1';btn.disabled=false;
+    alert('Connection error. Please call (480) 903-4769.');
+  }
+}
+
+// ==================== EXIT POPUP ====================
+var exitPopupShown=false;
+function showExitPopup(){
+  if(exitPopupShown)return;
+  exitPopupShown=true;
+  document.getElementById('exit-popup').classList.add('show');
+}
+function closeExitPopup(){
+  document.getElementById('exit-popup').classList.remove('show');
+}
+
+// Desktop: mouse leaving top of page
+document.addEventListener('mouseleave',function(e){
+  if(e.clientY<=0)showExitPopup();
+});
+
+// Mobile: back button / page hide after 30s of engagement
+var mobileTimer=setTimeout(function(){
+  if(window.innerWidth<=768)showExitPopup();
+},30000);
+</script>
 </body>
 </html>
