@@ -184,8 +184,7 @@ footer{background:#02030a;border-top:1px solid rgba(79,172,255,.08);padding:24px
 
 .tip{display:inline-flex;align-items:center;justify-content:center;width:16px;height:16px;border-radius:50%;border:1px solid rgba(79,172,255,.6);color:#4facff;font-size:.62rem;font-weight:700;cursor:pointer;margin-left:6px;position:relative;font-family:"DM Sans",sans-serif;vertical-align:middle;transition:all .2s;background:rgba(79,172,255,.12);box-shadow:0 0 6px rgba(79,172,255,.3);}
 .tip:hover{border-color:#4facff;color:#fff;background:rgba(79,172,255,.3);box-shadow:0 0 12px rgba(79,172,255,.5);}
-.tip-box{display:none;position:absolute;bottom:calc(100% + 8px);left:50%;transform:translateX(-50%);background:#07091a;border:1px solid rgba(79,172,255,.35);padding:12px 14px;width:260px;font-size:.68rem;color:rgba(232,237,245,.75);line-height:1.7;z-index:100;box-shadow:0 0 24px rgba(45,127,232,.2),0 4px 20px rgba(0,0,0,.5);}
-.tip-box::after{content:"";position:absolute;top:100%;left:50%;transform:translateX(-50%);border:5px solid transparent;border-top-color:#07091a;}
+.tip-box{display:none;position:fixed;background:#07091a;border:1px solid rgba(79,172,255,.4);padding:14px 16px;width:280px;max-width:90vw;font-size:.72rem;color:rgba(232,237,245,.85);line-height:1.8;z-index:9999;box-shadow:0 0 30px rgba(45,127,232,.25),0 8px 32px rgba(0,0,0,.7);pointer-events:none;}
 .tip:hover .tip-box,.tip:focus .tip-box{display:block;}
 
 @media(max-width:900px){
@@ -641,6 +640,21 @@ async function submitForm(){
     alert('Connection error. Please call (480) 903-4769.');
   }
 }
+
+// Tooltip positioning — keeps boxes inside viewport
+document.addEventListener('mouseover',function(e){
+  var tip=e.target.closest('.tip');
+  if(!tip)return;
+  var box=tip.querySelector('.tip-box');
+  if(!box)return;
+  var r=tip.getBoundingClientRect();
+  var bw=280;
+  var left=r.left+r.width/2-bw/2;
+  left=Math.max(8,Math.min(left,window.innerWidth-bw-8));
+  var top=r.bottom+10;
+  box.style.left=left+'px';
+  box.style.top=top+'px';
+});
 
 buildTVCards();
 calcEst();
