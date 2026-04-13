@@ -256,6 +256,24 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
 /* MOBILE NAV BOOK BUTTON */
 .nav-book-mobile{display:none;color:#fff!important;background:var(--bl)!important;padding:8px 16px;font-size:.7rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;transition:background .3s;}
 .nav-book-mobile:hover{background:var(--blb)!important;}
+/* ACCORDION */
+.accordion-wrap{border-bottom:1px solid rgba(0,0,0,.08);background:#fff;}
+.accordion-wrap-dark{border-bottom:1px solid rgba(0,0,0,.08);background:#fff;}
+.acc-header{display:flex;align-items:center;justify-content:space-between;padding:22px 52px;cursor:pointer;user-select:none;transition:background .2s;}
+.accordion-wrap .acc-header:hover,.accordion-wrap-dark .acc-header:hover{background:rgba(0,0,0,.02);}
+.acc-left{display:flex;flex-direction:column;gap:3px;}
+.acc-title{font-family:"Bebas Neue",sans-serif;font-size:1.4rem;letter-spacing:.06em;color:#0f1218;}
+.accordion-wrap-dark .acc-title{color:#0f1218;}
+.acc-sub{font-size:.7rem;color:#6b7280;letter-spacing:.03em;}
+.accordion-wrap-dark .acc-sub{color:#6b7280;}
+.acc-icon{width:32px;height:32px;border:1px solid rgba(0,0,0,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s;background:#fff;}
+.accordion-wrap-dark .acc-icon{border-color:rgba(0,0,0,.15);background:#fff;}
+.acc-chevron{font-size:.65rem;color:#6b7280;display:block;transition:transform .3s;line-height:1;}
+.accordion-wrap-dark .acc-chevron{color:#6b7280;}
+.acc-body{overflow:hidden;max-height:0;transition:max-height .5s cubic-bezier(0.16,1,0.3,1);}
+.acc-body.open{max-height:5000px;}
+@media(max-width:768px){.acc-header{padding:18px 24px;}.acc-title{font-size:1.15rem;}}
+
 @media(max-width:768px){.nav-book-mobile{display:block;}}
 
 /* BOOKING MODAL */
@@ -407,7 +425,25 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
   </div>
 </div>
 
+<!-- ACCORDION INTRO -->
+<div style="background:#fff;padding:40px 52px 28px;border-top:1px solid rgba(0,0,0,.06);">
+  <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+    <div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.05em;color:#0f1218;margin-bottom:4px;">Learn More About Us</div>
+      <div style="font-size:.78rem;color:#6b7280;line-height:1.7;">Tap any section below to expand it — or skip straight to booking if you're ready.</div>
+    </div>
+    <button onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})" style="background:#2d7fe8;color:#fff;border:none;padding:12px 28px;font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;white-space:nowrap;box-shadow:0 0 20px rgba(45,127,232,.3);transition:background .2s;" onmouseover="this.style.background='#4facff'" onmouseout="this.style.background='#2d7fe8'">Skip to Booking &darr;</button>
+  </div>
+</div>
+
 <!-- SERVICES -->
+<div style="border-top:1px solid rgba(0,0,0,.08);">
+<div class="accordion-wrap">
+<div class="acc-header" onclick="toggleAcc(this)" id="acc-services">
+  <div class="acc-left"><div class="acc-title">Our Services</div><div class="acc-sub">TV mounting, wiring, soundbars, smart home & more</div></div>
+  <div class="acc-icon"><span class="acc-chevron">▼</span></div>
+</div>
+<div class="acc-body">
 <section class="services-section" id="services-section">
   <div class="services-inner">
     <div class="section-eyebrow fade-up">What We Do</div>
@@ -424,6 +460,13 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
 </section>
 
 <!-- PROCESS -->
+</div></div><!-- end services accordion -->
+<div class="accordion-wrap">
+<div class="acc-header" onclick="toggleAcc(this)" id="acc-process">
+  <div class="acc-left"><div class="acc-title">How It Works</div><div class="acc-sub">Book online, we confirm, install, done — 4 simple steps</div></div>
+  <div class="acc-icon"><span class="acc-chevron">▼</span></div>
+</div>
+<div class="acc-body">
 <section class="process-section" id="process-section">
   <div class="process-inner">
     <div class="section-eyebrow fade-up">How It Works</div>
@@ -439,6 +482,13 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
 </section>
 
 <!-- WHY -->
+</div></div><!-- end process accordion -->
+<div class="accordion-wrap">
+<div class="acc-header" onclick="toggleAcc(this)" id="acc-why">
+  <div class="acc-left"><div class="acc-title">Why VistaMount</div><div class="acc-sub">800+ installs · no subcontractors · 1-year warranty</div></div>
+  <div class="acc-icon"><span class="acc-chevron">▼</span></div>
+</div>
+<div class="acc-body">
 <section class="why-section">
   <div class="why-inner">
     <div class="why-left fade-up">
@@ -462,6 +512,13 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
 </section>
 
 <!-- WHO THIS IS FOR -->
+</div></div><!-- end why accordion -->
+<div class="accordion-wrap">
+<div class="acc-header" onclick="toggleAcc(this)" id="acc-who">
+  <div class="acc-left"><div class="acc-title">Who It's For</div><div class="acc-sub">New homes, fireplaces, Airbnbs, living room upgrades</div></div>
+  <div class="acc-icon"><span class="acc-chevron">▼</span></div>
+</div>
+<div class="acc-body">
 <section style="background:var(--light2);padding:80px 52px;">
   <div style="max-width:1200px;margin:0 auto;">
     <div class="section-eyebrow fade-up">Who It's For</div>
@@ -492,6 +549,13 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
 </section>
 
 <!-- TOOLS -->
+</div></div><!-- end who accordion -->
+<div class="accordion-wrap accordion-wrap-dark">
+<div class="acc-header" onclick="toggleAcc(this)" id="acc-tools">
+  <div class="acc-left"><div class="acc-title">Professional Equipment</div><div class="acc-sub">Milwaukee tools, laser levels, thermal cameras & more</div></div>
+  <div class="acc-icon"><span class="acc-chevron">▼</span></div>
+</div>
+<div class="acc-body">
 <section style="background:#0a0a0a;padding:80px 52px;">
   <div style="max-width:1200px;margin:0 auto;">
     <div class="section-eyebrow fade-up" style="color:#4facff;">Professional Grade</div>
@@ -511,6 +575,13 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
 </section>
 
 <!-- GALLERY -->
+</div></div><!-- end tools accordion -->
+<div class="accordion-wrap">
+<div class="acc-header" onclick="toggleAcc(this)" id="acc-gallery">
+  <div class="acc-left"><div class="acc-title">Real Work</div><div class="acc-sub">Photos from actual Phoenix installs</div></div>
+  <div class="acc-icon"><span class="acc-chevron">▼</span></div>
+</div>
+<div class="acc-body">
 <section style="background:var(--light3);padding:100px 52px;overflow:hidden;">
   <div style="max-width:1200px;margin:0 auto;">
     <div class="section-eyebrow fade-up">Real Work</div>
@@ -588,6 +659,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
 <script>
 (function(){
   var card=document.getElementById('gal-slider');
+  if(!card)return;
   var during=document.getElementById('gal-during');
   var div=document.getElementById('gal-sdivider');
   var dragging=false;
@@ -630,6 +702,13 @@ function closeLightbox(){
 </script>
 
 <!-- REVIEWS -->
+</div></div><!-- end gallery accordion -->
+<div class="accordion-wrap">
+<div class="acc-header" onclick="toggleAcc(this)" id="acc-reviews">
+  <div class="acc-left"><div class="acc-title">Customer Reviews</div><div class="acc-sub">4.9★ across Google, Facebook & Thumbtack</div></div>
+  <div class="acc-icon"><span class="acc-chevron">▼</span></div>
+</div>
+<div class="acc-body">
 <section style="background:var(--light);padding:100px 52px;">
   <div style="max-width:1200px;margin:0 auto;">
     <div class="section-eyebrow fade-up">Real Reviews</div>
@@ -642,6 +721,13 @@ function closeLightbox(){
 </section>
 
 <!-- WARRANTY -->
+</div></div><!-- end reviews accordion -->
+<div class="accordion-wrap accordion-wrap-dark">
+<div class="acc-header" onclick="toggleAcc(this)" id="acc-warranty">
+  <div class="acc-left"><div class="acc-title">Our Guarantee</div><div class="acc-sub">1-year workmanship warranty · insured · no payment until done</div></div>
+  <div class="acc-icon"><span class="acc-chevron">▼</span></div>
+</div>
+<div class="acc-body">
 <section style="background:#050810;padding:70px 52px;">
   <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:center;">
     <div class="fade-up warranty-wrap" style="border:1px solid rgba(45,127,232,.25);border-radius:20px;padding:48px 56px;display:flex;align-items:center;gap:52px;max-width:900px;width:100%;position:relative;overflow:hidden;">
@@ -667,6 +753,8 @@ function closeLightbox(){
 </section>
 
 <!-- BOOKING - DARK -->
+</div></div><!-- end warranty accordion -->
+</div><!-- end accordion wrapper -->
 <section id="booking">
   <div class="booking-wrap">
     <div id="booking-header">
@@ -815,6 +903,15 @@ function closeLightbox(){
 </footer>
 
 <script>
+// ==================== ACCORDION ====================
+function toggleAcc(header){
+  var body=header.nextElementSibling;
+  var icon=header.querySelector('.acc-chevron');
+  var isOpen=body.classList.contains('open');
+  body.classList.toggle('open',!isOpen);
+  if(icon)icon.style.transform=isOpen?'rotate(0deg)':'rotate(180deg)';
+}
+
 // ==================== HERO CANVAS ====================
 var hc=document.getElementById('hero-canvas');
 var hctx=hc.getContext('2d');
@@ -846,41 +943,58 @@ function hCorners(alpha){
 function hText(alpha,oy){
   var W=hc.width,H=hc.height;
   hctx.save();hctx.globalAlpha=alpha;hctx.textAlign='center';
-  var fs=Math.min(110,W*0.13);
-  hctx.font='700 '+Math.min(13,W*0.028)+'px sans-serif';hctx.letterSpacing='3px';hctx.fillStyle='#4facff';
-  hctx.fillText("SAME-DAY INSTALLATION · PHOENIX, AZ",W/2,H*0.22+oy);
-  hctx.font='900 '+fs+'px sans-serif';hctx.shadowColor='#2d7fe8';hctx.shadowBlur=40;hctx.fillStyle=HWH;
-  hctx.fillText('VISTAMOUNT',W/2,H*0.50+oy);
-  hctx.font='400 '+Math.min(16,W*0.032)+'px sans-serif';hctx.fillStyle='#ffffff';
+
+  // Eyebrow
+  var eyebrowSize=Math.min(12,W*0.022);
+  hctx.font='600 '+eyebrowSize+'px sans-serif';
+  hctx.letterSpacing='3px';hctx.fillStyle='#4facff';
+  hctx.fillText('SAME-DAY INSTALLATION · PHOENIX, AZ',W/2,H*0.30+oy);
+
+  // Main wordmark
+  var fs=Math.min(W*0.145,H*0.22);
+  hctx.font='900 '+fs+'px sans-serif';
+  hctx.letterSpacing='0px';
+  hctx.shadowColor='#2d7fe8';hctx.shadowBlur=50;hctx.fillStyle='#ffffff';
+  hctx.fillText('VISTAMOUNT',W/2,H*0.52+oy);
   hctx.shadowBlur=0;
-  if(W<500){
-    hctx.fillText('Clean installs. No visible wires.',W/2,H*0.62+oy);
-    hctx.fillText('Done right the first time.',W/2,H*0.62+oy+Math.min(16,W*0.032)+6);
+
+  // Tagline
+  var tagSize=Math.min(15,W*0.028);
+  hctx.font='300 '+tagSize+'px sans-serif';
+  hctx.fillStyle='rgba(255,255,255,.8)';
+  hctx.letterSpacing='0.5px';
+  if(W<420){
+    hctx.fillText('Clean installs. No visible wires.',W/2,H*0.61+oy);
+    hctx.fillText('Done right the first time.',W/2,H*0.61+oy+tagSize+5);
   } else {
-    hctx.fillText('Clean installs. No visible wires. Done right the first time.',W/2,H*0.62+oy);
+    hctx.fillText('Clean installs. No visible wires. Done right the first time.',W/2,H*0.61+oy);
   }
-  hctx.font='300 9px sans-serif';hctx.fillStyle='rgba(255,255,255,0)';
-  hctx.fillText('NOW WITH ONLINE BOOKING — INSTANT PRICING & REAL-TIME AVAILABILITY',W/2,H*0.65+oy);
   hctx.textAlign='left';hctx.restore();
 }
 function hCTA(alpha){
   var W=hc.width,H=hc.height;
   hctx.save();hctx.globalAlpha=alpha;
-  var bw=260,bh=54,bx=W/2-bw/2,by=H*0.67;
-  hctx.shadowColor=HBL;hctx.shadowBlur=30;
-  hctx.fillStyle='rgba(45,127,232,.15)';hctx.fillRect(bx-8,by-8,bw+16,bh+16);
-  hctx.shadowBlur=0;
-  hctx.shadowColor='#4facff';hctx.shadowBlur=20;hctx.strokeStyle='#4facff';hctx.lineWidth=2;hctx.strokeRect(bx,by,bw,bh);hctx.shadowBlur=0;
-  hctx.fillStyle='rgba(45,127,232,.12)';hctx.fillRect(bx,by,bw,bh);
-  hctx.font='600 11px sans-serif';hctx.fillStyle=HWH;hctx.textAlign='center';
-  hctx.fillText('BOOK YOUR INSTALL',W/2,by+30);
-  var scrollY=by+bh+24;
-  hctx.globalAlpha=alpha*0.9;
-  hctx.font='400 9px sans-serif';hctx.fillStyle=HBL;
-  hctx.fillText('SCROLL',W/2,scrollY+12);
-  hctx.globalAlpha=alpha*0.7;
-  hctx.strokeStyle=HBL;hctx.lineWidth=1;
-  hctx.beginPath();hctx.moveTo(W/2,scrollY+18);hctx.lineTo(W/2,scrollY+64);hctx.stroke();
+
+  // Button — solid fill, clean
+  var bw=Math.min(260,W*0.65),bh=50,bx=W/2-bw/2,by=H*0.69;
+  hctx.fillStyle='#2d7fe8';
+  hctx.fillRect(bx,by,bw,bh);
+  hctx.font='700 12px sans-serif';
+  hctx.letterSpacing='2px';
+  hctx.fillStyle='#ffffff';
+  hctx.textAlign='center';
+  hctx.fillText('BOOK YOUR INSTALL',W/2,by+bh/2+4);
+
+  // SCROLL
+  var scrollY=by+bh+20;
+  hctx.globalAlpha=alpha*0.45;
+  hctx.font='500 9px sans-serif';
+  hctx.letterSpacing='3px';
+  hctx.fillStyle='#4facff';
+  hctx.fillText('SCROLL',W/2,scrollY+10);
+  hctx.globalAlpha=alpha*0.35;
+  hctx.strokeStyle='#4facff';hctx.lineWidth=1;
+  hctx.beginPath();hctx.moveTo(W/2,scrollY+16);hctx.lineTo(W/2,scrollY+52);hctx.stroke();
   hctx.textAlign='left';hctx.restore();
 }
 function hPulse(t){return .7+Math.sin(t*1.2)*.3;}
