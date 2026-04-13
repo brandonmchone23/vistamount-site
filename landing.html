@@ -468,7 +468,7 @@ footer{background:#02030a;border-top:1px solid rgba(79,172,255,.08);padding:24px
 </div>
 
 <script>
-var st={tvs:[{size:'32-64',mount:'fullmotion',cords:'none',wall:'drywall'}],soundbars:0,dismounts:0,tvcount:1};
+var st={tvs:[{size:'32-64',mount:'own',cords:'none',wall:'drywall'}],soundbars:0,dismounts:0,tvcount:1};
 var selSlot=null;
 var WORKER='https://vistamount-worker.billowing-recipe-0ae7.workers.dev';
 var PRICES={'<32':100,'32-64':125,'65-84':150,'85+':200};
@@ -479,7 +479,7 @@ function setTVCount(n,btn){
   btn.classList.add('on');
   st.tvcount=n;
   if(n>=4){document.getElementById('est').textContent='Call us';buildTVCards();return;}
-  while(st.tvs.length<n)st.tvs.push({size:'32-64',mount:'fullmotion',cords:'none',wall:'drywall'});
+  while(st.tvs.length<n)st.tvs.push({size:'32-64',mount:'own',cords:'none',wall:'drywall'});
   st.tvs=st.tvs.slice(0,n);
   buildTVCards();
   calcEst();
@@ -492,7 +492,7 @@ function buildTVCards(){
     wrap.innerHTML='<div style="background:rgba(45,127,232,.08);border:1px solid rgba(79,172,255,.2);padding:14px;margin-bottom:16px;font-size:.8rem;color:rgba(232,237,245,.6);">For 4+ TVs please call us at <a href="tel:+14809034769" style="color:#4facff;">(480) 903-4769</a> for a custom quote.</div>';
     return;
   }
-  while(st.tvs.length<st.tvcount)st.tvs.push({size:'32-64',mount:'fullmotion',cords:'none',wall:'drywall'});
+  while(st.tvs.length<st.tvcount)st.tvs.push({size:'32-64',mount:'own',cords:'none',wall:'drywall'});
   st.tvs=st.tvs.slice(0,st.tvcount);
 
   var colors=[
