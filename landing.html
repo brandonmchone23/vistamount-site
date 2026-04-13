@@ -617,12 +617,14 @@ function go(n){
     var SIZE_LABELS={'<32':'Under 32"','32-64':'32"–64"','65-84':'65"–84"','85+':'85"+'};
     st.tvs.forEach(function(tv,i){
       var p=PRICES[tv.size]||125;
-      lines.push({label:'TV '+(i+1)+' — '+SIZE_LABELS[tv.size],amt:'$'+p});
+      var disc=i>0?25:0;
+      var tvTotal=p-disc;
+      var tvLabel='TV '+(i+1)+' — '+SIZE_LABELS[tv.size]+(disc?' (multi-unit discount applied)':'');
+      lines.push({label:tvLabel,amt:'$'+tvTotal,highlight:disc>0});
       if(tv.mount!=='own'){var mp=({'fullmotion':65,'tilt':50,'flat':50}[tv.mount]||0);lines.push({label:MOUNT_LABELS[tv.mount],amt:mp?'+$'+mp:'Incl.'});}
       else{lines.push({label:'Customer-supplied mount installation',amt:'Incl.'});}
       if(tv.cords!=='none'){var cp=({'raceway':40,'inwall':75,'outlet':150}[tv.cords]||0);lines.push({label:CORDS_LABELS[tv.cords],amt:'+$'+cp});}
       if(tv.wall!=='drywall'){var wp=WALL_PRICES[tv.wall]||0;lines.push({label:WALL_LABELS[tv.wall]+' wall upcharge',amt:'+$'+wp});}
-      if(i>0)lines.push({label:'Multi-unit discount',amt:'−$25',dim:true});
     });
     if(st.soundbars>0)lines.push({label:'Soundbar install ×'+st.soundbars,amt:'+$'+(100+(st.soundbars-1)*75)});
     if(st.dismounts>0)lines.push({label:'Mount removal ×'+st.dismounts,amt:'+$'+(st.dismounts*25)});
@@ -631,7 +633,8 @@ function go(n){
     lines.forEach(function(l){
       var row=document.createElement('div');
       row.style.cssText='display:flex;justify-content:space-between;align-items:center;font-size:.75rem;'+(l.dim?'opacity:.5;':'');
-      row.innerHTML='<span style="color:rgba(232,237,245,'+(l.dim?'.4':'.65')+');">'+l.label+'</span><span style="color:'+(l.dim?'rgba(255,100,100,.7)':l.amt.startsWith('+')?'#4facff':'#fff')+';">'+l.amt+'</span>';
+      var amtColor=l.dim?'rgba(255,100,100,.7)':l.highlight?'#50dc96':l.amt.startsWith('+')?'#4facff':'#fff';
+      row.innerHTML='<span style="color:rgba(232,237,245,'+(l.dim?.4:.65)+');">'+l.label+'</span><span style="color:'+amtColor+';">'+l.amt+'</span>';
       linesEl.appendChild(row);
     });
     document.getElementById('s3-price').textContent=document.getElementById('est').textContent;
