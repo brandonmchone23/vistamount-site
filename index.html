@@ -817,7 +817,7 @@ function hText(alpha,oy){
   hctx.font='900 '+fs+'px sans-serif';hctx.shadowColor='#2d7fe8';hctx.shadowBlur=40;hctx.fillStyle=HWH;
   hctx.fillText('VISTAMOUNT',W/2,H*0.50+oy);
   hctx.font='400 16px sans-serif';hctx.fillStyle='#ffffff';
-  hctx.shadowBlur=0;hctx.fillText('Clean installs. No visible wires. Done right the first time.',W/2,H*0.62+oy);
+  hctx.shadowBlur=0;hctx.fillText('Clean installs. No visible wires. Done right the first time.',W/2,H*0.66+oy);
   hctx.font='300 9px sans-serif';hctx.fillStyle='rgba(255,255,255,0)';
   hctx.fillText('NOW WITH ONLINE BOOKING — INSTANT PRICING & REAL-TIME AVAILABILITY',W/2,H*0.65+oy);
   hctx.textAlign='left';hctx.restore();
@@ -849,7 +849,7 @@ function heroFrame(ts){
   var t=(ts-ht0)/1000;
   var W=hc.width,H=hc.height;
   hctx.fillStyle=HBG;hctx.fillRect(0,0,W,H);
-  var TY=H*.15,BY=H*.82;
+  var TY=H*.15,BY=H*.87;
   hLine(TY,eOC(hpg(t,.1,.9)),t>.9?hPulse(t):1);
   hLine(BY,eOC(hpg(t,1.5,2.1)),t>2.1?hPulse(t+.8):1);
   if(t>.9){
