@@ -945,7 +945,7 @@ var co=new IntersectionObserver(function(es){
 document.querySelectorAll('.count').forEach(function(el){co.observe(el);});
 
 // ==================== BOOKING FORM ====================
-var mainState={tvs:[{size:'32-64',mount:'fullmotion',cords:'none',wall:'drywall'}],soundbars:0,dismounts:0,tvcount:1};
+var mainState={tvs:[{size:'32-64',mount:'own',cords:'none',wall:'drywall'}],soundbars:0,dismounts:0,tvcount:1};
 var selectedSlot=null;
 var WORKER='https://vistamount-worker.billowing-recipe-0ae7.workers.dev';
 var MAIN_PRICES={'<32':100,'32-64':125,'65-84':150,'85+':200};
@@ -960,7 +960,7 @@ function setMainTVCount(n,btn){
   btn.classList.add('selected');
   mainState.tvcount=n;
   if(n>=4){buildMainTVCards();return;}
-  while(mainState.tvs.length<n)mainState.tvs.push({size:'32-64',mount:'fullmotion',cords:'none',wall:'drywall'});
+  while(mainState.tvs.length<n)mainState.tvs.push({size:'32-64',mount:'own',cords:'none',wall:'drywall'});
   mainState.tvs=mainState.tvs.slice(0,n);
   buildMainTVCards();
   calcMainEst();
@@ -978,7 +978,7 @@ function buildMainTVCards(){
     {border:'rgba(255,140,80,.4)',label:'#ff8c50',header:'rgba(232,100,45,.2)'},
     {border:'rgba(80,220,150,.35)',label:'#50dc96',header:'rgba(45,200,130,.15)'},
   ];
-  while(mainState.tvs.length<mainState.tvcount)mainState.tvs.push({size:'32-64',mount:'fullmotion',cords:'none',wall:'drywall'});
+  while(mainState.tvs.length<mainState.tvcount)mainState.tvs.push({size:'32-64',mount:'own',cords:'none',wall:'drywall'});
   mainState.tvs=mainState.tvs.slice(0,mainState.tvcount);
 
   mainState.tvs.forEach(function(tv,idx){
