@@ -4,561 +4,379 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>VistaMount — Premium TV Mounting & Smart Home | Phoenix, AZ</title>
-  <meta name="description" content="Phoenix's premier TV mounting and smart home installation service. Clean installs, zero hassle, same-day availability." />
+  <meta name="description" content="Phoenix's premier TV mounting and smart home installation. Same-day available. Clean installs, zero hassle." />
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Montserrat:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&family=DM+Serif+Display:ital@0;1&display=swap" rel="stylesheet" />
   <style>
-    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-
     :root {
-      --black: #0a0a0b;
-      --dark: #111114;
-      --card: #16161a;
-      --border: rgba(255,255,255,0.07);
-      --blue: #3b7fff;
-      --blue-glow: rgba(59,127,255,0.18);
-      --white: #f0ede8;
-      --muted: rgba(240,237,232,0.45);
-      --font-display: 'Cormorant Garamond', serif;
-      --font-body: 'Montserrat', sans-serif;
+      --black: #050507;
+      --dark: #0c0c10;
+      --blue: #3d7fff;
+      --blue-bright: #5b93ff;
+      --blue-dim: rgba(61,127,255,0.15);
+      --blue-glow: rgba(61,127,255,0.35);
+      --white: #f2f0eb;
+      --muted: rgba(242,240,235,0.5);
+      --border: rgba(255,255,255,0.06);
     }
+    *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
+    html { scroll-behavior: smooth; overflow-x: hidden; }
+    body { background: var(--black); color: var(--white); font-family: 'DM Sans', sans-serif; overflow-x: hidden; cursor: none; }
 
-    html { scroll-behavior: smooth; }
+    .cursor { position: fixed; width: 10px; height: 10px; background: var(--blue); border-radius: 50%; pointer-events: none; z-index: 9999; transition: transform 0.15s ease, width 0.3s ease, height 0.3s ease; transform: translate(-50%, -50%); }
+    .cursor-ring { position: fixed; width: 36px; height: 36px; border: 1px solid rgba(61,127,255,0.5); border-radius: 50%; pointer-events: none; z-index: 9998; transition: transform 0.4s cubic-bezier(0.23,1,0.32,1); transform: translate(-50%, -50%); }
 
-    body {
-      background: var(--black);
-      color: var(--white);
-      font-family: var(--font-body);
-      min-height: 100vh;
-      overflow-x: hidden;
-    }
+    #intro { position: fixed; inset: 0; background: var(--black); z-index: 1000; display: flex; align-items: center; justify-content: center; flex-direction: column; gap: 0; }
+    .intro-line { width: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--blue), transparent); animation: lineExpand 0.8s cubic-bezier(0.4,0,0.2,1) 0.3s forwards; }
+    @keyframes lineExpand { to { width: min(600px, 80vw); } }
+    .intro-logo { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 10vw, 8rem); letter-spacing: 0.12em; color: var(--white); opacity: 0; transform: translateY(20px); animation: introFade 0.9s ease 0.9s forwards; }
+    .intro-logo span { color: var(--blue); }
+    .intro-sub { font-size: 0.7rem; letter-spacing: 0.35em; text-transform: uppercase; color: var(--muted); opacity: 0; animation: introFade 0.6s ease 1.4s forwards; margin-top: 8px; }
+    @keyframes introFade { to { opacity: 1; transform: translateY(0); } }
+    #intro.fade-out { animation: introOut 0.8s ease forwards; }
+    @keyframes introOut { to { opacity: 0; pointer-events: none; } }
 
-    /* Background texture */
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background:
-        radial-gradient(ellipse 80% 50% at 50% -10%, rgba(59,127,255,0.12) 0%, transparent 70%),
-        radial-gradient(ellipse 40% 40% at 90% 80%, rgba(59,127,255,0.06) 0%, transparent 60%);
-      pointer-events: none;
-      z-index: 0;
-    }
+    #bg-canvas { position: fixed; inset: 0; z-index: 0; opacity: 0.4; }
 
-    /* Grain overlay */
-    body::after {
-      content: '';
-      position: fixed;
-      inset: 0;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
-      pointer-events: none;
-      z-index: 0;
-      opacity: 0.6;
-    }
+    nav { position: fixed; top: 0; left: 0; right: 0; z-index: 100; display: flex; align-items: center; justify-content: space-between; padding: 24px 60px; transition: background 0.4s ease; }
+    nav.scrolled { background: rgba(5,5,7,0.85); backdrop-filter: blur(20px); border-bottom: 1px solid var(--border); }
+    .nav-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.6rem; letter-spacing: 0.12em; color: var(--white); text-decoration: none; opacity: 0; }
+    .nav-logo span { color: var(--blue); }
+    .nav-links { display: flex; align-items: center; gap: 40px; opacity: 0; }
+    .nav-links a { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.12em; text-transform: uppercase; color: var(--muted); text-decoration: none; transition: color 0.3s ease; }
+    .nav-links a:hover { color: var(--white); }
+    .nav-book { color: var(--white) !important; background: var(--blue); padding: 10px 22px; transition: background 0.3s ease !important; }
+    .nav-book:hover { background: var(--blue-bright) !important; }
+    .nav-visible { animation: navFadeIn 0.6s ease 2.2s forwards; }
+    @keyframes navFadeIn { to { opacity: 1; } }
 
-    /* NAV */
-    nav {
-      position: fixed;
-      top: 0; left: 0; right: 0;
-      z-index: 100;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 28px 48px;
-      background: linear-gradient(to bottom, rgba(10,10,11,0.9), transparent);
-      backdrop-filter: blur(2px);
-    }
+    .hero { position: relative; z-index: 1; min-height: 100vh; display: flex; flex-direction: column; align-items: center; justify-content: center; text-align: center; padding: 120px 40px 80px; overflow: hidden; }
+    .hero-glow { position: absolute; width: 800px; height: 800px; background: radial-gradient(circle, rgba(61,127,255,0.12) 0%, transparent 70%); top: 50%; left: 50%; transform: translate(-50%, -50%); pointer-events: none; animation: glowPulse 4s ease-in-out infinite; }
+    @keyframes glowPulse { 0%, 100% { opacity: 0.6; transform: translate(-50%,-50%) scale(1); } 50% { opacity: 1; transform: translate(-50%,-50%) scale(1.1); } }
+    .hero-eyebrow { font-size: 0.65rem; font-weight: 500; letter-spacing: 0.4em; text-transform: uppercase; color: var(--blue); margin-bottom: 32px; opacity: 0; transform: translateY(16px); display: flex; align-items: center; gap: 16px; }
+    .hero-eyebrow::before, .hero-eyebrow::after { content: ''; width: 40px; height: 1px; background: var(--blue); opacity: 0.6; }
+    .hero-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(4.5rem, 14vw, 13rem); line-height: 0.92; letter-spacing: 0.03em; margin-bottom: 40px; opacity: 0; transform: translateY(30px); }
+    .hero-title .line-blue { color: var(--blue); display: block; }
+    .hero-title .line-white { color: var(--white); display: block; }
+    .hero-title .line-outline { display: block; -webkit-text-stroke: 1px rgba(242,240,235,0.25); color: transparent; }
+    .hero-sub { font-family: 'DM Serif Display', serif; font-style: italic; font-size: clamp(1rem, 2.5vw, 1.4rem); color: var(--muted); margin-bottom: 56px; max-width: 500px; line-height: 1.6; opacity: 0; transform: translateY(20px); }
+    .hero-actions { display: flex; align-items: center; gap: 24px; opacity: 0; transform: translateY(20px); flex-wrap: wrap; justify-content: center; }
 
-    .nav-logo {
-      font-family: var(--font-display);
-      font-size: 1.5rem;
-      font-weight: 300;
-      letter-spacing: 0.15em;
-      color: var(--white);
-      text-decoration: none;
-    }
+    .btn-primary { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: #fff; text-decoration: none; background: var(--blue); padding: 18px 44px; transition: all 0.3s ease; box-shadow: 0 0 60px rgba(61,127,255,0.25); position: relative; overflow: hidden; }
+    .btn-primary:hover { box-shadow: 0 0 80px rgba(61,127,255,0.5); transform: translateY(-2px); }
+    .btn-ghost { font-size: 0.72rem; font-weight: 400; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); text-decoration: none; padding: 18px 32px; border: 1px solid var(--border); transition: all 0.3s ease; }
+    .btn-ghost:hover { color: var(--white); border-color: rgba(255,255,255,0.2); }
 
-    .nav-logo span {
-      color: var(--blue);
-    }
+    .hero-scroll { position: absolute; bottom: 40px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 8px; opacity: 0; animation: scrollHint 0.6s ease 3s forwards; }
+    @keyframes scrollHint { to { opacity: 0.4; } }
+    .scroll-line { width: 1px; height: 50px; background: linear-gradient(to bottom, var(--blue), transparent); animation: scrollLine 1.5s ease-in-out 3s infinite; }
+    @keyframes scrollLine { 0% { transform: scaleY(0); transform-origin: top; } 50% { transform: scaleY(1); transform-origin: top; } 51% { transform: scaleY(1); transform-origin: bottom; } 100% { transform: scaleY(0); transform-origin: bottom; } }
+    .scroll-text { font-size: 0.58rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--muted); }
 
-    .nav-cta {
-      font-family: var(--font-body);
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: var(--white);
-      text-decoration: none;
-      border: 1px solid var(--border);
-      padding: 11px 24px;
-      transition: all 0.3s ease;
-      background: rgba(255,255,255,0.04);
-    }
+    .stats { position: relative; z-index: 1; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border); display: grid; grid-template-columns: repeat(4, 1fr); }
+    .stat-item { padding: 60px 40px; text-align: center; border-right: 1px solid var(--border); position: relative; overflow: hidden; opacity: 0; transform: translateY(20px); transition: background 0.3s ease, opacity 0.6s ease, transform 0.6s ease; }
+    .stat-item:last-child { border-right: none; }
+    .stat-item:hover { background: rgba(61,127,255,0.04); }
+    .stat-item.visible { opacity: 1; transform: translateY(0); }
+    .stat-number { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 5vw, 4.5rem); letter-spacing: 0.05em; color: var(--white); line-height: 1; margin-bottom: 8px; }
+    .stat-number span { color: var(--blue); }
+    .stat-label { font-size: 0.68rem; letter-spacing: 0.2em; text-transform: uppercase; color: var(--muted); }
 
-    .nav-cta:hover {
-      background: var(--blue);
-      border-color: var(--blue);
-      color: #fff;
-    }
+    .marquee-wrap { position: relative; z-index: 1; padding: 24px 0; overflow: hidden; background: var(--blue); }
+    .marquee-track { display: flex; gap: 60px; animation: marquee 20s linear infinite; white-space: nowrap; }
+    .marquee-item { font-family: 'Bebas Neue', sans-serif; font-size: 1rem; letter-spacing: 0.2em; color: rgba(5,5,7,0.7); display: flex; align-items: center; gap: 60px; flex-shrink: 0; }
+    .marquee-item::after { content: '✦'; color: rgba(5,5,7,0.4); }
+    @keyframes marquee { from { transform: translateX(0); } to { transform: translateX(-50%); } }
 
-    /* HERO */
-    .hero {
-      position: relative;
-      z-index: 1;
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-      justify-content: center;
-      padding: 140px 48px 80px;
-      max-width: 1200px;
-      margin: 0 auto;
-    }
+    .services { position: relative; z-index: 1; padding: 160px 60px; max-width: 1400px; margin: 0 auto; }
+    .section-label { font-size: 0.62rem; font-weight: 500; letter-spacing: 0.35em; text-transform: uppercase; color: var(--blue); margin-bottom: 24px; display: flex; align-items: center; gap: 12px; }
+    .section-label::before { content: ''; width: 24px; height: 1px; background: var(--blue); }
+    .services-header { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: end; margin-bottom: 80px; }
+    .services-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(3rem, 6vw, 6rem); line-height: 0.95; letter-spacing: 0.03em; }
+    .services-title em { color: var(--blue); font-style: normal; }
+    .services-desc { font-size: 0.9rem; color: var(--muted); line-height: 1.9; letter-spacing: 0.02em; }
+    .services-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 2px; }
+    .service-card { background: rgba(255,255,255,0.02); border: 1px solid var(--border); padding: 48px 40px; position: relative; overflow: hidden; transition: all 0.4s ease; opacity: 0; transform: translateY(30px); }
+    .service-card::before { content: ''; position: absolute; top: 0; left: 0; right: 0; height: 1px; background: linear-gradient(90deg, transparent, var(--blue), transparent); transform: scaleX(0); transition: transform 0.5s ease; }
+    .service-card:hover { background: rgba(61,127,255,0.05); border-color: rgba(61,127,255,0.2); transform: translateY(-4px) !important; }
+    .service-card:hover::before { transform: scaleX(1); }
+    .service-card.visible { opacity: 1; transform: translateY(0); }
+    .service-num { font-family: 'Bebas Neue', sans-serif; font-size: 5rem; color: rgba(61,127,255,0.08); line-height: 1; margin-bottom: 24px; transition: color 0.3s ease; }
+    .service-card:hover .service-num { color: rgba(61,127,255,0.15); }
+    .service-name { font-family: 'DM Serif Display', serif; font-size: 1.5rem; margin-bottom: 16px; color: var(--white); }
+    .service-desc { font-size: 0.8rem; color: var(--muted); line-height: 1.8; }
+    .service-arrow { position: absolute; bottom: 40px; right: 40px; width: 32px; height: 32px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; color: var(--muted); transition: all 0.3s ease; }
+    .service-card:hover .service-arrow { background: var(--blue); border-color: var(--blue); color: white; transform: rotate(45deg); }
 
-    .hero-eyebrow {
-      font-family: var(--font-body);
-      font-size: 0.68rem;
-      font-weight: 600;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--blue);
-      margin-bottom: 32px;
-      display: flex;
-      align-items: center;
-      gap: 14px;
-      opacity: 0;
-      animation: fadeUp 0.8s ease 0.2s forwards;
-    }
+    .why { position: relative; z-index: 1; padding: 160px 60px; max-width: 1400px; margin: 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 120px; align-items: center; }
+    .why-visual { width: 100%; aspect-ratio: 4/3; background: var(--dark); border: 1px solid var(--border); position: relative; overflow: hidden; display: flex; align-items: center; justify-content: center; }
+    .why-visual-inner { width: 70%; aspect-ratio: 16/9; background: var(--black); border: 2px solid rgba(61,127,255,0.3); box-shadow: 0 0 80px rgba(61,127,255,0.15), inset 0 0 40px rgba(61,127,255,0.05); position: relative; animation: tvGlow 3s ease-in-out infinite; }
+    @keyframes tvGlow { 0%, 100% { box-shadow: 0 0 80px rgba(61,127,255,0.15), inset 0 0 40px rgba(61,127,255,0.05); } 50% { box-shadow: 0 0 120px rgba(61,127,255,0.25), inset 0 0 60px rgba(61,127,255,0.08); } }
+    .tv-lines { position: absolute; inset: 0; background: repeating-linear-gradient(0deg, transparent, transparent 3px, rgba(61,127,255,0.02) 3px, rgba(61,127,255,0.02) 4px); }
+    .scan-line { position: absolute; left: 0; right: 0; height: 2px; background: linear-gradient(90deg, transparent, rgba(61,127,255,0.3), transparent); animation: scanLine 4s linear infinite; }
+    @keyframes scanLine { 0% { top: 0%; } 100% { top: 100%; } }
+    .why-badge { position: absolute; bottom: -20px; right: -20px; background: var(--blue); padding: 20px 28px; text-align: center; }
+    .why-badge-num { font-family: 'Bebas Neue', sans-serif; font-size: 2.5rem; letter-spacing: 0.05em; line-height: 1; color: white; }
+    .why-badge-label { font-size: 0.6rem; letter-spacing: 0.2em; text-transform: uppercase; color: rgba(255,255,255,0.8); }
+    .why-left { position: relative; }
+    .why-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.8rem, 5vw, 5rem); line-height: 0.95; letter-spacing: 0.03em; margin-bottom: 32px; }
+    .why-title em { color: var(--blue); font-style: normal; }
+    .why-body { font-size: 0.88rem; color: var(--muted); line-height: 1.9; margin-bottom: 48px; }
+    .why-points { display: flex; flex-direction: column; gap: 0; }
+    .why-point { display: flex; align-items: center; gap: 16px; font-size: 0.82rem; color: var(--muted); padding: 16px 0; border-bottom: 1px solid var(--border); transition: color 0.3s ease; }
+    .why-point:hover { color: var(--white); }
+    .why-point::before { content: ''; width: 6px; height: 6px; background: var(--blue); border-radius: 50%; flex-shrink: 0; box-shadow: 0 0 10px var(--blue); }
 
-    .hero-eyebrow::before {
-      content: '';
-      display: block;
-      width: 32px;
-      height: 1px;
-      background: var(--blue);
-    }
+    .process { position: relative; z-index: 1; padding: 160px 60px; background: linear-gradient(180deg, transparent, rgba(61,127,255,0.03), transparent); }
+    .process-inner { max-width: 1400px; margin: 0 auto; }
+    .process-steps { display: grid; grid-template-columns: repeat(4, 1fr); gap: 0; margin-top: 80px; position: relative; }
+    .process-steps::before { content: ''; position: absolute; top: 28px; left: 10%; right: 10%; height: 1px; background: linear-gradient(90deg, transparent, var(--border), var(--border), transparent); }
+    .process-step { padding: 0 32px; opacity: 0; transform: translateY(24px); transition: opacity 0.6s ease, transform 0.6s ease; }
+    .process-step.visible { opacity: 1; transform: translateY(0); }
+    .step-dot { width: 56px; height: 56px; border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; margin-bottom: 32px; background: var(--black); transition: border-color 0.3s ease, box-shadow 0.3s ease; }
+    .process-step:hover .step-dot { border-color: var(--blue); box-shadow: 0 0 30px var(--blue-dim); }
+    .step-num { font-family: 'Bebas Neue', sans-serif; font-size: 1.2rem; color: var(--blue); }
+    .step-title { font-family: 'DM Serif Display', serif; font-size: 1.1rem; margin-bottom: 12px; color: var(--white); }
+    .step-desc { font-size: 0.78rem; color: var(--muted); line-height: 1.8; }
 
-    .hero-title {
-      font-family: var(--font-display);
-      font-size: clamp(3.5rem, 8vw, 7.5rem);
-      font-weight: 300;
-      line-height: 1.0;
-      letter-spacing: -0.01em;
-      margin-bottom: 40px;
-      opacity: 0;
-      animation: fadeUp 0.9s ease 0.35s forwards;
-    }
+    .cta-section { position: relative; z-index: 1; margin: 0 60px 160px; overflow: hidden; }
+    .cta-inner { background: var(--blue); padding: 100px 80px; display: grid; grid-template-columns: 1fr auto; align-items: center; gap: 60px; position: relative; overflow: hidden; }
+    .cta-inner::before { content: ''; position: absolute; top: -100px; right: -100px; width: 500px; height: 500px; background: radial-gradient(circle, rgba(255,255,255,0.08) 0%, transparent 70%); }
+    .cta-inner::after { content: 'VM'; position: absolute; right: -20px; bottom: -40px; font-family: 'Bebas Neue', sans-serif; font-size: 20rem; color: rgba(255,255,255,0.04); line-height: 1; pointer-events: none; }
+    .cta-label { font-size: 0.65rem; letter-spacing: 0.3em; text-transform: uppercase; color: rgba(255,255,255,0.7); margin-bottom: 20px; }
+    .cta-title { font-family: 'Bebas Neue', sans-serif; font-size: clamp(2.5rem, 6vw, 5.5rem); line-height: 0.95; color: white; }
+    .cta-phone { font-family: 'Bebas Neue', sans-serif; font-size: clamp(1.5rem, 3vw, 2.5rem); letter-spacing: 0.1em; color: white; text-decoration: none; display: block; margin-top: 16px; opacity: 0.85; transition: opacity 0.3s ease; }
+    .cta-phone:hover { opacity: 1; }
+    .cta-right { display: flex; flex-direction: column; gap: 16px; align-items: flex-end; flex-shrink: 0; }
+    .btn-white { font-size: 0.72rem; font-weight: 500; letter-spacing: 0.2em; text-transform: uppercase; color: var(--blue); background: white; padding: 18px 44px; text-decoration: none; transition: all 0.3s ease; white-space: nowrap; }
+    .btn-white:hover { background: var(--black); color: white; }
+    .btn-outline-white { font-size: 0.72rem; letter-spacing: 0.15em; text-transform: uppercase; color: rgba(255,255,255,0.8); border: 1px solid rgba(255,255,255,0.3); padding: 18px 44px; text-decoration: none; transition: all 0.3s ease; white-space: nowrap; }
+    .btn-outline-white:hover { border-color: white; color: white; }
 
-    .hero-title em {
-      font-style: italic;
-      color: var(--blue);
-    }
+    footer { position: relative; z-index: 1; border-top: 1px solid var(--border); padding: 48px 60px; display: grid; grid-template-columns: 1fr auto 1fr; align-items: center; }
+    .footer-logo { font-family: 'Bebas Neue', sans-serif; font-size: 1.4rem; letter-spacing: 0.12em; color: var(--muted); text-decoration: none; }
+    .footer-logo span { color: var(--blue); }
+    .footer-center { font-size: 0.65rem; letter-spacing: 0.15em; color: rgba(242,240,235,0.2); text-align: center; }
+    .footer-right { text-align: right; font-size: 0.65rem; letter-spacing: 0.15em; text-transform: uppercase; color: var(--muted); }
 
-    .hero-title .line2 {
-      display: block;
-      padding-left: 80px;
-    }
+    .reveal { opacity: 0; transform: translateY(32px); transition: opacity 0.8s ease, transform 0.8s ease; }
+    .reveal.visible { opacity: 1; transform: translateY(0); }
+    .reveal-delay-1 { transition-delay: 0.12s; }
+    .reveal-delay-2 { transition-delay: 0.24s; }
+    .reveal-delay-3 { transition-delay: 0.36s; }
 
-    .hero-body {
-      font-size: 0.88rem;
-      font-weight: 300;
-      letter-spacing: 0.04em;
-      color: var(--muted);
-      max-width: 480px;
-      line-height: 1.8;
-      margin-bottom: 56px;
-      opacity: 0;
-      animation: fadeUp 0.9s ease 0.5s forwards;
-    }
-
-    .hero-actions {
-      display: flex;
-      align-items: center;
-      gap: 32px;
-      flex-wrap: wrap;
-      opacity: 0;
-      animation: fadeUp 0.9s ease 0.65s forwards;
-    }
-
-    .btn-primary {
-      font-family: var(--font-body);
-      font-size: 0.72rem;
-      font-weight: 600;
-      letter-spacing: 0.18em;
-      text-transform: uppercase;
-      color: #fff;
-      text-decoration: none;
-      background: var(--blue);
-      padding: 16px 36px;
-      transition: all 0.3s ease;
-      box-shadow: 0 0 40px var(--blue-glow);
-    }
-
-    .btn-primary:hover {
-      background: #5590ff;
-      box-shadow: 0 0 60px rgba(59,127,255,0.3);
-      transform: translateY(-1px);
-    }
-
-    .btn-secondary {
-      font-family: var(--font-body);
-      font-size: 0.72rem;
-      font-weight: 500;
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-      color: var(--muted);
-      text-decoration: none;
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      transition: color 0.3s ease;
-    }
-
-    .btn-secondary:hover { color: var(--white); }
-
-    .btn-secondary svg {
-      width: 14px;
-      height: 14px;
-      transition: transform 0.3s ease;
-    }
-
-    .btn-secondary:hover svg { transform: translateX(4px); }
-
-    /* SERVICES STRIP */
-    .services-strip {
-      position: relative;
-      z-index: 1;
-      border-top: 1px solid var(--border);
-      border-bottom: 1px solid var(--border);
-      padding: 28px 48px;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      gap: 0;
-      overflow: hidden;
-    }
-
-    .service-item {
-      font-size: 0.68rem;
-      font-weight: 500;
-      letter-spacing: 0.22em;
-      text-transform: uppercase;
-      color: var(--muted);
-      padding: 0 40px;
-      border-right: 1px solid var(--border);
-      white-space: nowrap;
-      opacity: 0;
-      animation: fadeIn 0.6s ease forwards;
-    }
-
-    .service-item:last-child { border-right: none; }
-    .service-item:nth-child(1) { animation-delay: 0.8s; }
-    .service-item:nth-child(2) { animation-delay: 0.9s; }
-    .service-item:nth-child(3) { animation-delay: 1.0s; }
-    .service-item:nth-child(4) { animation-delay: 1.1s; }
-    .service-item:nth-child(5) { animation-delay: 1.2s; }
-
-    /* FEATURES */
-    .features {
-      position: relative;
-      z-index: 1;
-      max-width: 1200px;
-      margin: 0 auto;
-      padding: 120px 48px;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 80px;
-      align-items: center;
-    }
-
-    .features-left .section-label {
-      font-size: 0.65rem;
-      font-weight: 600;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--blue);
-      margin-bottom: 24px;
-    }
-
-    .features-left h2 {
-      font-family: var(--font-display);
-      font-size: clamp(2.2rem, 4vw, 3.5rem);
-      font-weight: 300;
-      line-height: 1.15;
-      margin-bottom: 28px;
-    }
-
-    .features-left h2 em {
-      font-style: italic;
-      color: var(--blue);
-    }
-
-    .features-left p {
-      font-size: 0.85rem;
-      font-weight: 300;
-      color: var(--muted);
-      line-height: 1.9;
-      letter-spacing: 0.03em;
-    }
-
-    .feature-cards {
-      display: flex;
-      flex-direction: column;
-      gap: 2px;
-    }
-
-    .feature-card {
-      background: var(--card);
-      border: 1px solid var(--border);
-      padding: 28px 32px;
-      display: flex;
-      align-items: flex-start;
-      gap: 20px;
-      transition: border-color 0.3s ease, background 0.3s ease;
-    }
-
-    .feature-card:hover {
-      border-color: rgba(59,127,255,0.3);
-      background: rgba(59,127,255,0.04);
-    }
-
-    .feature-icon {
-      width: 36px;
-      height: 36px;
-      background: var(--blue-glow);
-      border: 1px solid rgba(59,127,255,0.25);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-      color: var(--blue);
-      font-size: 1rem;
-    }
-
-    .feature-card h3 {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      font-weight: 400;
-      margin-bottom: 6px;
-      letter-spacing: 0.02em;
-    }
-
-    .feature-card p {
-      font-size: 0.76rem;
-      color: var(--muted);
-      line-height: 1.7;
-      letter-spacing: 0.02em;
-    }
-
-    /* CTA SECTION */
-    .cta-section {
-      position: relative;
-      z-index: 1;
-      margin: 0 48px 120px;
-      background: var(--card);
-      border: 1px solid var(--border);
-      padding: 80px;
-      text-align: center;
-      overflow: hidden;
-    }
-
-    .cta-section::before {
-      content: '';
-      position: absolute;
-      top: 0; left: 50%; transform: translateX(-50%);
-      width: 60%;
-      height: 1px;
-      background: linear-gradient(90deg, transparent, var(--blue), transparent);
-    }
-
-    .cta-section .cta-label {
-      font-size: 0.65rem;
-      font-weight: 600;
-      letter-spacing: 0.3em;
-      text-transform: uppercase;
-      color: var(--blue);
-      margin-bottom: 20px;
-    }
-
-    .cta-section h2 {
-      font-family: var(--font-display);
-      font-size: clamp(2rem, 5vw, 4rem);
-      font-weight: 300;
-      line-height: 1.1;
-      margin-bottom: 20px;
-    }
-
-    .cta-section h2 em {
-      font-style: italic;
-      color: var(--blue);
-    }
-
-    .cta-section p {
-      font-size: 0.85rem;
-      color: var(--muted);
-      margin-bottom: 40px;
-      letter-spacing: 0.04em;
-    }
-
-    .cta-phone {
-      font-family: var(--font-display);
-      font-size: clamp(1.8rem, 4vw, 3rem);
-      font-weight: 300;
-      letter-spacing: 0.06em;
-      color: var(--white);
-      text-decoration: none;
-      display: block;
-      margin-bottom: 40px;
-      transition: color 0.3s ease;
-    }
-
-    .cta-phone:hover { color: var(--blue); }
-
-    /* FOOTER */
-    footer {
-      position: relative;
-      z-index: 1;
-      border-top: 1px solid var(--border);
-      padding: 40px 48px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    footer .logo {
-      font-family: var(--font-display);
-      font-size: 1.1rem;
-      font-weight: 300;
-      letter-spacing: 0.15em;
-      color: var(--muted);
-    }
-
-    footer .logo span { color: var(--blue); }
-
-    footer p {
-      font-size: 0.68rem;
-      color: rgba(240,237,232,0.25);
-      letter-spacing: 0.1em;
-    }
-
-    footer .service-area {
-      font-size: 0.68rem;
-      color: var(--muted);
-      letter-spacing: 0.12em;
-      text-transform: uppercase;
-    }
-
-    /* ANIMATIONS */
-    @keyframes fadeUp {
-      from { opacity: 0; transform: translateY(24px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
-    }
-
-    /* MOBILE */
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
+      body { cursor: auto; }
+      .cursor, .cursor-ring { display: none; }
       nav { padding: 20px 24px; }
-      .hero { padding: 120px 24px 60px; }
-      .hero-title .line2 { padding-left: 0; }
-      .services-strip { flex-wrap: wrap; gap: 12px; padding: 20px 24px; }
-      .service-item { border-right: none; padding: 4px 16px; }
-      .features { grid-template-columns: 1fr; gap: 48px; padding: 80px 24px; }
-      .cta-section { margin: 0 24px 80px; padding: 48px 24px; }
-      footer { flex-direction: column; gap: 16px; text-align: center; padding: 32px 24px; }
+      .nav-links { display: none; }
+      .hero { padding: 100px 24px 60px; }
+      .stats { grid-template-columns: repeat(2, 1fr); }
+      .stat-item:nth-child(2) { border-right: none; }
+      .services { padding: 80px 24px; }
+      .services-header { grid-template-columns: 1fr; gap: 24px; }
+      .services-grid { grid-template-columns: 1fr; }
+      .why { grid-template-columns: 1fr; padding: 80px 24px; gap: 60px; }
+      .process { padding: 80px 24px; }
+      .process-steps { grid-template-columns: repeat(2, 1fr); gap: 40px; }
+      .process-steps::before { display: none; }
+      .cta-section { margin: 0 24px 80px; }
+      .cta-inner { grid-template-columns: 1fr; padding: 60px 32px; }
+      .cta-right { align-items: flex-start; }
+      footer { grid-template-columns: 1fr; gap: 12px; padding: 32px 24px; }
+      .footer-right { text-align: left; }
     }
   </style>
 </head>
 <body>
+  <div class="cursor" id="cursor"></div>
+  <div class="cursor-ring" id="cursorRing"></div>
 
-  <nav>
-    <a href="/" class="nav-logo">Vista<span>Mount</span></a>
-    <a href="#contact" class="nav-cta">Book Now</a>
+  <div id="intro">
+    <div class="intro-line"></div>
+    <div class="intro-logo">Vista<span>Mount</span></div>
+    <div class="intro-sub">Phoenix, AZ · Est. 2024</div>
+  </div>
+
+  <canvas id="bg-canvas"></canvas>
+
+  <nav id="nav">
+    <a href="/" class="nav-logo nav-visible">Vista<span>Mount</span></a>
+    <div class="nav-links nav-visible">
+      <a href="#services">Services</a>
+      <a href="#process">Process</a>
+      <a href="#contact">Contact</a>
+      <a href="#contact" class="nav-book">Book Now</a>
+    </div>
   </nav>
 
   <section class="hero">
-    <div class="hero-eyebrow">Phoenix, AZ · Same-Day Available</div>
-    <h1 class="hero-title">
-      Precision installs,<br>
-      <em class="line2">flawlessly executed.</em>
+    <div class="hero-glow"></div>
+    <div class="hero-eyebrow" id="heroEyebrow">Phoenix, AZ · Same-Day Available</div>
+    <h1 class="hero-title" id="heroTitle">
+      <span class="line-white">Precision</span>
+      <span class="line-blue">Installs.</span>
+      <span class="line-outline">Flawlessly.</span>
     </h1>
-    <p class="hero-body">
-      VistaMount delivers premium TV mounting and smart home installation for homeowners, businesses, and high-end properties across the Phoenix metro.
-    </p>
-    <div class="hero-actions">
+    <p class="hero-sub" id="heroSub">Premium TV mounting and smart home installation for homeowners and businesses across the Phoenix metro.</p>
+    <div class="hero-actions" id="heroActions">
       <a href="#contact" class="btn-primary">Book Your Install</a>
-      <a href="#services" class="btn-secondary">
-        Our services
-        <svg viewBox="0 0 16 16" fill="none" stroke="currentColor" stroke-width="1.5">
-          <path d="M3 8h10M9 4l4 4-4 4"/>
-        </svg>
-      </a>
+      <a href="#services" class="btn-ghost">Explore Services</a>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      <span class="scroll-text">Scroll</span>
     </div>
   </section>
 
-  <div class="services-strip" id="services">
-    <div class="service-item">TV Mounting</div>
-    <div class="service-item">Smart Home</div>
-    <div class="service-item">AV Systems</div>
-    <div class="service-item">Projector Install</div>
-    <div class="service-item">Cable Concealment</div>
+  <div class="stats">
+    <div class="stat-item reveal"><div class="stat-number"><span class="count" data-target="500">0</span><span>+</span></div><div class="stat-label">Jobs Completed</div></div>
+    <div class="stat-item reveal reveal-delay-1"><div class="stat-number"><span class="count" data-target="100">0</span><span>%</span></div><div class="stat-label">5-Star Rated</div></div>
+    <div class="stat-item reveal reveal-delay-2"><div class="stat-number"><span>Same</span></div><div class="stat-label">Day Availability</div></div>
+    <div class="stat-item reveal reveal-delay-3"><div class="stat-number"><span class="count" data-target="4">0</span><span>+</span></div><div class="stat-label">Years Experience</div></div>
   </div>
 
-  <section class="features">
-    <div class="features-left">
-      <div class="section-label">Why VistaMount</div>
-      <h2>The install you <em>actually</em> wanted.</h2>
-      <p>No subcontractors, no surprises. Every job is handled personally with an eye for clean lines, hidden cables, and the kind of finish that looks intentional — because it is.</p>
+  <div class="marquee-wrap">
+    <div class="marquee-track">
+      <div class="marquee-item">TV Mounting</div><div class="marquee-item">Smart Home</div><div class="marquee-item">AV Systems</div><div class="marquee-item">Cable Concealment</div><div class="marquee-item">Projector Install</div><div class="marquee-item">Same-Day Service</div><div class="marquee-item">Phoenix Metro</div><div class="marquee-item">TV Mounting</div><div class="marquee-item">Smart Home</div><div class="marquee-item">AV Systems</div><div class="marquee-item">Cable Concealment</div><div class="marquee-item">Projector Install</div><div class="marquee-item">Same-Day Service</div><div class="marquee-item">Phoenix Metro</div>
     </div>
-    <div class="feature-cards">
-      <div class="feature-card">
-        <div class="feature-icon">✦</div>
-        <div>
-          <h3>Same-Day Availability</h3>
-          <p>Most jobs scheduled and completed the same day you reach out.</p>
-        </div>
+  </div>
+
+  <section class="services" id="services">
+    <div class="services-header">
+      <div>
+        <div class="section-label reveal">What We Do</div>
+        <h2 class="services-title reveal reveal-delay-1">Every<br>Install,<br><em>Perfect.</em></h2>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">◈</div>
-        <div>
-          <h3>Clean Cable Management</h3>
-          <p>Every install includes professional cable concealment — no exposed wiring.</p>
-        </div>
+      <p class="services-desc reveal reveal-delay-2">No subcontractors, no surprises. Every job is handled personally with an obsessive eye for clean lines, hidden cables, and finishes that look intentional — because they are.</p>
+    </div>
+    <div class="services-grid">
+      <div class="service-card reveal"><div class="service-num">01</div><div class="service-name">TV Mounting</div><p class="service-desc">Flat, tilting, and full-motion mounts on any wall type. Drywall, concrete, brick, tile — handled with precision every time.</p><div class="service-arrow">→</div></div>
+      <div class="service-card reveal reveal-delay-1"><div class="service-num">02</div><div class="service-name">Cable Concealment</div><p class="service-desc">In-wall cable management or surface raceways. Zero visible wiring. Every install looks like the TV grew out of the wall.</p><div class="service-arrow">→</div></div>
+      <div class="service-card reveal reveal-delay-2"><div class="service-num">03</div><div class="service-name">Smart Home</div><p class="service-desc">Automated lighting, voice control, smart displays. We make your home smarter without making it complicated.</p><div class="service-arrow">→</div></div>
+      <div class="service-card reveal reveal-delay-1"><div class="service-num">04</div><div class="service-name">AV Systems</div><p class="service-desc">Full AV rack builds, surround sound, PoE systems. High-end Airbnbs, commercial spaces, and luxury residences.</p><div class="service-arrow">→</div></div>
+      <div class="service-card reveal reveal-delay-2"><div class="service-num">05</div><div class="service-name">Projector Install</div><p class="service-desc">Ceiling-mounted projectors, screens, and full home cinema setups installed cleanly and calibrated perfectly.</p><div class="service-arrow">→</div></div>
+      <div class="service-card reveal reveal-delay-3"><div class="service-num">06</div><div class="service-name">Commercial</div><p class="service-desc">Multi-screen displays, conference rooms, digital signage. Professional installs for businesses across the Phoenix metro.</p><div class="service-arrow">→</div></div>
+    </div>
+  </section>
+
+  <section class="why">
+    <div class="why-left reveal">
+      <div class="why-visual">
+        <div class="why-visual-inner"><div class="tv-lines"></div><div class="scan-line"></div></div>
       </div>
-      <div class="feature-card">
-        <div class="feature-icon">⬡</div>
-        <div>
-          <h3>All Wall Types</h3>
-          <p>Drywall, concrete, brick, tile, and specialty surfaces handled with confidence.</p>
-        </div>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">◇</div>
-        <div>
-          <h3>Smart Home Integration</h3>
-          <p>From single TVs to full AV racks and PoE systems for high-end properties.</p>
-        </div>
+      <div class="why-badge"><div class="why-badge-num">★ 5.0</div><div class="why-badge-label">Google Rating</div></div>
+    </div>
+    <div class="why-right">
+      <div class="section-label reveal">Why VistaMount</div>
+      <h2 class="why-title reveal reveal-delay-1">The install<br>you <em>actually</em><br>wanted.</h2>
+      <p class="why-body reveal reveal-delay-2">We're not a franchise. There's no crew of subcontractors showing up in unmarked vans. Brandon handles every job personally — which means consistent quality, zero handoffs, and an installer who actually cares how it looks when he leaves.</p>
+      <div class="why-points reveal reveal-delay-3">
+        <div class="why-point">Same-day availability across the Phoenix metro</div>
+        <div class="why-point">All wall types including concrete and brick</div>
+        <div class="why-point">In-wall cable concealment on every install</div>
+        <div class="why-point">Sanus and ONN mounts — no cheap hardware</div>
+        <div class="why-point">Cleanup included — we leave no trace</div>
       </div>
     </div>
   </section>
 
-  <div class="cta-section">
-    <div class="cta-label">Ready to book?</div>
-    <h2>Let's get your <em>space right.</em></h2>
-    <p>Serving Phoenix, Scottsdale, Chandler, Tempe, and the greater metro area.</p>
-    <a href="tel:+14809034769" class="cta-phone">(480) 903-4769</a>
-    <a href="#contact" class="btn-primary">Book Online</a>
+  <section class="process" id="process">
+    <div class="process-inner">
+      <div class="section-label reveal">How It Works</div>
+      <h2 class="services-title reveal reveal-delay-1">Simple.<br><em>Fast. Done.</em></h2>
+      <div class="process-steps">
+        <div class="process-step reveal"><div class="step-dot"><span class="step-num">01</span></div><div class="step-title">Book Online</div><p class="step-desc">Pick your service and a time that works. Same-day slots available most days.</p></div>
+        <div class="process-step reveal reveal-delay-1"><div class="step-dot"><span class="step-num">02</span></div><div class="step-title">We Show Up</div><p class="step-desc">Brandon arrives on time with all tools and hardware needed for your job.</p></div>
+        <div class="process-step reveal reveal-delay-2"><div class="step-dot"><span class="step-num">03</span></div><div class="step-title">Precision Install</div><p class="step-desc">Your TV is mounted level, cables concealed, everything tested and working.</p></div>
+        <div class="process-step reveal reveal-delay-3"><div class="step-dot"><span class="step-num">04</span></div><div class="step-title">Enjoy It</div><p class="step-desc">We clean up and leave. You just enjoy a perfectly mounted setup.</p></div>
+      </div>
+    </div>
+  </section>
+
+  <div class="cta-section" id="contact">
+    <div class="cta-inner reveal">
+      <div>
+        <div class="cta-label">Ready for a perfect install?</div>
+        <h2 class="cta-title">Let's get<br>your space right.</h2>
+        <a href="tel:+14809034769" class="cta-phone">(480) 903-4769</a>
+      </div>
+      <div class="cta-right">
+        <a href="#contact" class="btn-white">Book Online</a>
+        <a href="tel:+14809034769" class="btn-outline-white">Call Now</a>
+      </div>
+    </div>
   </div>
 
   <footer>
-    <div class="logo">Vista<span>Mount</span></div>
-    <p>© 2026 VistaMount LLC · Phoenix, AZ</p>
-    <div class="service-area">Phoenix Metro</div>
+    <a href="/" class="footer-logo">Vista<span>Mount</span></a>
+    <p class="footer-center">© 2026 VistaMount LLC · Phoenix, AZ</p>
+    <div class="footer-right">Phoenix Metro</div>
   </footer>
 
+  <script>
+    const cursor = document.getElementById('cursor');
+    const ring = document.getElementById('cursorRing');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; cursor.style.left = mx + 'px'; cursor.style.top = my + 'px'; });
+    function animateRing() { rx += (mx - rx) * 0.12; ry += (my - ry) * 0.12; ring.style.left = rx + 'px'; ring.style.top = ry + 'px'; requestAnimationFrame(animateRing); }
+    animateRing();
+    document.querySelectorAll('a, button').forEach(el => {
+      el.addEventListener('mouseenter', () => { cursor.style.transform = 'translate(-50%,-50%) scale(2.5)'; ring.style.width = '60px'; ring.style.height = '60px'; });
+      el.addEventListener('mouseleave', () => { cursor.style.transform = 'translate(-50%,-50%) scale(1)'; ring.style.width = '36px'; ring.style.height = '36px'; });
+    });
+
+    setTimeout(() => {
+      document.getElementById('intro').classList.add('fade-out');
+      setTimeout(() => document.getElementById('intro').style.display = 'none', 800);
+      setTimeout(() => { document.getElementById('heroEyebrow').style.cssText = 'opacity:1;transform:translateY(0);transition:all 0.7s ease'; }, 100);
+      setTimeout(() => { document.getElementById('heroTitle').style.cssText = 'opacity:1;transform:translateY(0);transition:all 0.8s ease'; }, 300);
+      setTimeout(() => { document.getElementById('heroSub').style.cssText = 'opacity:1;transform:translateY(0);transition:all 0.7s ease'; }, 500);
+      setTimeout(() => { document.getElementById('heroActions').style.cssText = 'opacity:1;transform:translateY(0);transition:all 0.7s ease'; }, 700);
+    }, 2000);
+
+    window.addEventListener('scroll', () => { document.getElementById('nav').classList.toggle('scrolled', window.scrollY > 60); });
+
+    const observer = new IntersectionObserver(entries => { entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); }); }, { threshold: 0.1 });
+    document.querySelectorAll('.reveal, .stat-item, .service-card, .process-step').forEach(el => observer.observe(el));
+
+    const countObserver = new IntersectionObserver(entries => {
+      entries.forEach(e => {
+        if (e.isIntersecting) {
+          const el = e.target, target = parseInt(el.dataset.target);
+          let start = 0;
+          const step = ts => { if (!start) start = ts; const p = Math.min((ts - start) / 1500, 1); el.textContent = Math.floor(p * target); if (p < 1) requestAnimationFrame(step); else el.textContent = target; };
+          requestAnimationFrame(step);
+          countObserver.unobserve(el);
+        }
+      });
+    }, { threshold: 0.5 });
+    document.querySelectorAll('.count').forEach(el => countObserver.observe(el));
+
+    const canvas = document.getElementById('bg-canvas');
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
+    function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+    resize();
+    window.addEventListener('resize', resize);
+    class Particle {
+      constructor() { this.reset(); }
+      reset() { this.x = Math.random() * W; this.y = Math.random() * H; this.vx = (Math.random() - 0.5) * 0.3; this.vy = (Math.random() - 0.5) * 0.3; this.life = Math.random(); this.maxLife = 0.6 + Math.random() * 0.4; this.size = Math.random() * 1.5; }
+      update() { this.x += this.vx; this.y += this.vy; this.life += 0.003; if (this.life > this.maxLife || this.x < 0 || this.x > W || this.y < 0 || this.y > H) this.reset(); }
+      draw() { const a = Math.sin((this.life / this.maxLife) * Math.PI) * 0.5; ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fillStyle = `rgba(61,127,255,${a})`; ctx.fill(); }
+    }
+    for (let i = 0; i < 80; i++) particles.push(new Particle());
+    function drawCanvas() {
+      ctx.clearRect(0, 0, W, H);
+      for (let i = 0; i < particles.length; i++) for (let j = i + 1; j < particles.length; j++) {
+        const dx = particles[i].x - particles[j].x, dy = particles[i].y - particles[j].y, d = Math.sqrt(dx*dx + dy*dy);
+        if (d < 120) { ctx.beginPath(); ctx.moveTo(particles[i].x, particles[i].y); ctx.lineTo(particles[j].x, particles[j].y); ctx.strokeStyle = `rgba(61,127,255,${0.08*(1-d/120)})`; ctx.lineWidth = 0.5; ctx.stroke(); }
+      }
+      particles.forEach(p => { p.update(); p.draw(); });
+      requestAnimationFrame(drawCanvas);
+    }
+    drawCanvas();
+  </script>
 </body>
 </html>
