@@ -829,8 +829,8 @@ function hCTA(alpha){
   hctx.shadowColor=HBL;hctx.shadowBlur=30;
   hctx.fillStyle='rgba(45,127,232,.15)';hctx.fillRect(bx-8,by-8,bw+16,bh+16);
   hctx.shadowBlur=0;
-  hctx.strokeStyle=HBL;hctx.lineWidth=1.5;hctx.strokeRect(bx,by,bw,bh);
-  hctx.fillStyle='rgba(45,127,232,.9)';hctx.fillRect(bx,by,bw,bh);
+  hctx.shadowColor='#4facff';hctx.shadowBlur=20;hctx.strokeStyle='#4facff';hctx.lineWidth=2;hctx.strokeRect(bx,by,bw,bh);hctx.shadowBlur=0;
+  hctx.fillStyle='rgba(45,127,232,.12)';hctx.fillRect(bx,by,bw,bh);
   hctx.font='600 11px sans-serif';hctx.fillStyle=HWH;hctx.textAlign='center';
   hctx.fillText('BOOK YOUR INSTALL',W/2,by+30);
   var scrollY=H*0.90+14;
