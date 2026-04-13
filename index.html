@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -246,6 +245,13 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
 .d1{transition-delay:.05s!important;}.d2{transition-delay:.12s!important;}.d3{transition-delay:.19s!important;}
 .d4{transition-delay:.08s!important;}.d5{transition-delay:.16s!important;}.d6{transition-delay:.24s!important;}
 
+/* GALLERY */
+.gallery-item{height:280px;max-height:280px;overflow:hidden;display:block;position:relative;}
+.gallery-item img{height:280px;width:100%;object-fit:cover;display:block;transition:transform .5s ease;}
+.gallery-item:hover img{transform:scale(1.04);}
+.gallery-item:hover .gallery-overlay{opacity:1!important;}
+.gallery-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 50%);opacity:0;transition:opacity .3s;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;}
+
 /* MOBILE */
 @media(max-width:768px){.step4-grid{grid-template-columns:1fr!important;}
   nav{padding:18px 24px;}.nav-links{display:none;}
@@ -259,6 +265,9 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
   .option-grid.cols3{grid-template-columns:1fr 1fr;}
   footer{grid-template-columns:1fr;gap:12px;padding:32px 24px;}.footer-phone{text-align:left;}
 }
+@media(max-width:900px){.gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;}.tools-grid{grid-template-columns:repeat(2,1fr)!important;}}
+@media(max-width:500px){.gallery-grid{grid-template-columns:1fr!important;}.tools-grid{grid-template-columns:1fr!important;}}
+@media(max-width:768px){.stats-main-grid{grid-template-columns:1fr!important;}.who-grid{grid-template-columns:1fr 1fr!important;}.warranty-wrap{flex-direction:column!important;text-align:center;gap:28px!important;}.warranty-wrap > div:nth-child(2){display:none!important;}}
 </style>
 <script src="https://elfsightcdn.com/platform.js" async></script>
 </head>
@@ -269,7 +278,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
   <div class="nav-links">
     <a href="#services-section">Services</a>
     <a href="#process-section">Process</a>
-    <a href="#booking" class="nav-book" onclick="openBookingModal();return false;">Book Now</a>
+    <a href="#booking" class="nav-book">Book Now</a>
   </div>
 </nav>
 
@@ -278,7 +287,6 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
   <canvas id="hero-canvas"></canvas>
   <div style="position:absolute;top:0;right:0;width:45%;height:100%;background:radial-gradient(ellipse at 80% 50%,rgba(79,172,255,0.07) 0%,transparent 70%);pointer-events:none;"></div>
   <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:60%;height:40%;background:radial-gradient(ellipse at 50% 100%,rgba(45,127,232,0.06) 0%,transparent 70%);pointer-events:none;"></div>
-
 </section>
 
 <!-- STATS - WHITE -->
@@ -311,7 +319,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
     </div>
   </div>
 </div>
-<style>@media(max-width:768px){.stats-main-grid{grid-template-columns:1fr!important;}}</style>
+
 <script>
 (function(){
   var c=document.getElementById('vm-gauge');
@@ -370,7 +378,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
   </div>
 </div>
 
-<!-- SERVICES - LIGHT -->
+<!-- SERVICES -->
 <section class="services-section" id="services-section">
   <div class="services-inner">
     <div class="section-eyebrow fade-up">What We Do</div>
@@ -386,7 +394,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
   </div>
 </section>
 
-<!-- PROCESS - LIGHT GRAY -->
+<!-- PROCESS -->
 <section class="process-section" id="process-section">
   <div class="process-inner">
     <div class="section-eyebrow fade-up">How It Works</div>
@@ -401,7 +409,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
   </div>
 </section>
 
-<!-- WHY - WHITE -->
+<!-- WHY -->
 <section class="why-section">
   <div class="why-inner">
     <div class="why-left fade-up">
@@ -453,7 +461,6 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
     </div>
   </div>
 </section>
-<style>@media(max-width:768px){.who-grid{grid-template-columns:1fr 1fr!important;}}</style>
 
 <!-- TOOLS -->
 <section style="background:#0a0a0a;padding:80px 52px;">
@@ -461,61 +468,18 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
     <div class="section-eyebrow fade-up" style="color:#4facff;">Professional Grade</div>
     <h2 class="fade-up" style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);color:#fff;letter-spacing:.03em;margin:0 0 12px;line-height:1;">We Show Up Equipped.</h2>
     <p class="fade-up" style="font-size:.9rem;color:rgba(255,255,255,.4);max-width:560px;line-height:1.8;margin:0 0 52px;">Not every installer brings the right tools. We do. Every job gets the full kit — no guessing, no damage, no callbacks.</p>
-
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.06);" class="tools-grid">
-
-      <div class="fade-up d1" style="background:#0a0a0a;padding:28px 24px;">
-        <div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Drilling & Driving</div>
-        <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee M18 FUEL</div>
-        <div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Drill & impact driver. Maximum torque for any wall type — drywall, tile, concrete, brick.</div>
-      </div>
-
-      <div class="fade-up d2" style="background:#0a0a0a;padding:28px 24px;">
-        <div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Leveling</div>
-        <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee + Bosch Laser</div>
-        <div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Laser levels for perfect alignment every time. No eyeballing — your TV is always straight.</div>
-      </div>
-
-      <div class="fade-up d3" style="background:#0a0a0a;padding:28px 24px;">
-        <div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Wall Scanning</div>
-        <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Walabot Advanced Stud Finder</div>
-        <div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Sees studs, pipes, and live wires behind the wall before we drill. Zero surprises.</div>
-      </div>
-
-      <div class="fade-up d4" style="background:#0a0a0a;padding:28px 24px;">
-        <div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Inspection</div>
-        <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Borescope + Thermal Camera</div>
-        <div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">See inside walls before cutting. Thermal camera detects heat signatures and hidden wiring.</div>
-      </div>
-
-      <div class="fade-up d1" style="background:#0a0a0a;padding:28px 24px;">
-        <div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Electrical Safety</div>
-        <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Voltmeter + Safety Kit</div>
-        <div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Full electrical safety equipment and voltmeter on every job involving outlet work.</div>
-      </div>
-
-      <div class="fade-up d2" style="background:#0a0a0a;padding:28px 24px;">
-        <div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Cutting & Finishing</div>
-        <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee Multi-Tool</div>
-        <div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Precise cuts for outlet boxes, cable access, and in-wall work. Clean edges, no mess left behind.</div>
-      </div>
-
-      <div class="fade-up d3" style="background:#0a0a0a;padding:28px 24px;">
-        <div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Cleanup</div>
-        <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee Vacuum</div>
-        <div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">We clean up after ourselves. Drywall dust, debris — gone before we leave.</div>
-      </div>
-
-      <div class="fade-up d4" style="background:#0a0a0a;padding:28px 24px;display:flex;flex-direction:column;justify-content:center;border:1px solid rgba(45,127,232,.25);">
-        <div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">The result</div>
-        <div style="font-size:1.1rem;font-weight:500;color:#fff;margin-bottom:6px;line-height:1.4;">Done right.<br>The first time.</div>
-        <div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Professional tools mean fewer holes, cleaner installs, and zero damage to your home.</div>
-      </div>
-
+      <div class="fade-up d1" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Drilling & Driving</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee M18 FUEL</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Drill & impact driver. Maximum torque for any wall type — drywall, tile, concrete, brick.</div></div>
+      <div class="fade-up d2" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Leveling</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee + Bosch Laser</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Laser levels for perfect alignment every time. No eyeballing — your TV is always straight.</div></div>
+      <div class="fade-up d3" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Wall Scanning</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Walabot Advanced Stud Finder</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Sees studs, pipes, and live wires behind the wall before we drill. Zero surprises.</div></div>
+      <div class="fade-up d4" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Inspection</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Borescope + Thermal Camera</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">See inside walls before cutting. Thermal camera detects heat signatures and hidden wiring.</div></div>
+      <div class="fade-up d1" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Electrical Safety</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Voltmeter + Safety Kit</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Full electrical safety equipment and voltmeter on every job involving outlet work.</div></div>
+      <div class="fade-up d2" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Cutting & Finishing</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee Multi-Tool</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Precise cuts for outlet boxes, cable access, and in-wall work. Clean edges, no mess left behind.</div></div>
+      <div class="fade-up d3" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Cleanup</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee Vacuum</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">We clean up after ourselves. Drywall dust, debris — gone before we leave.</div></div>
+      <div class="fade-up d4" style="background:#0a0a0a;padding:28px 24px;display:flex;flex-direction:column;justify-content:center;border:1px solid rgba(45,127,232,.25);"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">The result</div><div style="font-size:1.1rem;font-weight:500;color:#fff;margin-bottom:6px;line-height:1.4;">Done right.<br>The first time.</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Professional tools mean fewer holes, cleaner installs, and zero damage to your home.</div></div>
     </div>
   </div>
 </section>
-<style>@media(max-width:900px){.tools-grid{grid-template-columns:repeat(2,1fr)!important;}}@media(max-width:500px){.tools-grid{grid-template-columns:1fr!important;}}</style>
 
 <!-- GALLERY -->
 <section style="background:var(--light3);padding:100px 52px;overflow:hidden;">
@@ -523,142 +487,97 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
     <div class="section-eyebrow fade-up">Real Work</div>
     <h2 class="section-title-light clip-text" style="margin-bottom:48px;"><span class="inner">Real Results.<br><em>Every time.</em></span></h2>
     <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px;overflow:hidden;" class="gallery-grid">
-      
-      <div class="gallery-item fade-up" style="overflow:hidden;position:relative;cursor:pointer;" onclick="openLightbox('Large Format Mount','Precision flat mount above farmhouse console. Zero visible wires.','Phoenix Metro, AZ',this.querySelector('img').src)">
-        <img src="/images/IMG_1020.jpg" alt="Large Format Mount" style="width:100%;height:280px;object-fit:cover;display:block;transition:transform .5s ease;"/>
-        <div class="gallery-overlay" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 50%);opacity:0;transition:opacity .3s;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;">
-          <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);margin-bottom:4px;">Chandler, AZ</div>
-          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Large Format Mount</div>
-          <div style="font-size:.75rem;color:rgba(255,255,255,.7);">Precision flat mount above farmhouse console. Zero visible wires.</div>
-        </div>
-      </div>
-      <div class="gallery-item fade-up" style="overflow:hidden;position:relative;cursor:pointer;" onclick="openLightbox('Frame TV Over Fireplace','Samsung Frame TV above electric fireplace. Cord-free finish.','Phoenix Metro, AZ',this.querySelector('img').src)">
-        <img src="/images/IMG_1167.jpg" alt="Frame TV Over Fireplace" style="width:100%;height:280px;object-fit:cover;display:block;transition:transform .5s ease;"/>
-        <div class="gallery-overlay" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 50%);opacity:0;transition:opacity .3s;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;">
-          <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);margin-bottom:4px;">Scottsdale, AZ</div>
-          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Frame TV Over Fireplace</div>
-          <div style="font-size:.75rem;color:rgba(255,255,255,.7);">Samsung Frame TV above electric fireplace. Cord-free finish.</div>
-        </div>
-      </div>
-      
-        </div>
-      </div>
-      
-        </div>
-      </div>
 
-      <div class="gallery-item fade-up" style="overflow:hidden;position:relative;cursor:pointer;" onclick="openLightbox('Frame TV · Designer Room','Samsung Frame TV with seamless shelf integration. High-end setup.','Phoenix Metro, AZ',this.querySelector('img').src)">
-        <img src="/images/IMG_1352.jpg" alt="Frame TV · Designer Room" style="width:100%;height:280px;object-fit:cover;display:block;transition:transform .5s ease;"/>
-        <div class="gallery-overlay" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 50%);opacity:0;transition:opacity .3s;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;">
-          <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);margin-bottom:4px;">Scottsdale, AZ</div>
-          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Frame TV · Designer Room</div>
-          <div style="font-size:.75rem;color:rgba(255,255,255,.7);">Samsung Frame TV with seamless shelf integration. High-end setup.</div>
-        </div>
-      </div>
-
-      
-        </div>
-      </div>
-
-      
-        </div>
-      </div>
-
-      <div class="gallery-item fade-up" style="overflow:hidden;position:relative;cursor:pointer;" onclick="openLightbox('Frame TV · High Ceilings','Samsung Frame TV in open-concept home. Vaulted ceilings, seamless finish.','Phoenix Metro, AZ',this.querySelector('img').src)">
-        <img src="/images/IMG_1356.jpg" alt="Frame TV high ceiling living room" style="width:100%;height:280px;object-fit:cover;display:block;transition:transform .5s ease;"/>
-        <div class="gallery-overlay" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 50%);opacity:0;transition:opacity .3s;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;">
+      <div class="gallery-item fade-up" style="cursor:pointer;" onclick="openLightbox('Frame TV · Fireplace','Samsung Frame TV mounted above fireplace. Clean cord-free finish.','Phoenix Metro, AZ',this.querySelector('img').src)">
+        <img src="/images/IMG_1358.jpg" alt="Frame TV above fireplace"/>
+        <div class="gallery-overlay">
           <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);margin-bottom:4px;">Phoenix Metro, AZ</div>
-          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Frame TV · High Ceilings</div>
-          <div style="font-size:.75rem;color:rgba(255,255,255,.7);">Samsung Frame TV in open-concept home. Vaulted ceilings, seamless finish.</div>
+          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Frame TV · Fireplace</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7);">Samsung Frame TV mounted above fireplace. Clean cord-free finish.</div>
         </div>
       </div>
 
-      <div class="gallery-item fade-up" style="overflow:hidden;position:relative;cursor:pointer;" onclick="openLightbox('Frame TV · Van Gogh','Samsung Frame TV with custom wood console. Zero visible wires.','Phoenix Metro, AZ',this.querySelector('img').src)">
-        <img src="/images/IMG_1358.jpg" alt="Frame TV · Van Gogh" style="width:100%;height:280px;object-fit:cover;display:block;transition:transform .5s ease;"/>
-        <div class="gallery-overlay" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 50%);opacity:0;transition:opacity .3s;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;">
+      <div class="gallery-item fade-up" style="cursor:pointer;" onclick="openLightbox('Frame TV · Christmas','Samsung Frame TV mounted next to Christmas tree. Zero visible wires.','Phoenix Metro, AZ',this.querySelector('img').src)">
+        <img src="/images/IMG_1020.jpg" alt="Frame TV next to Christmas tree"/>
+        <div class="gallery-overlay">
           <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);margin-bottom:4px;">Phoenix Metro, AZ</div>
-          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Frame TV · Van Gogh</div>
-          <div style="font-size:.75rem;color:rgba(255,255,255,.7);">Samsung Frame TV with custom wood console. Zero visible wires.</div>
+          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Frame TV · Christmas</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7);">Samsung Frame TV mounted next to Christmas tree. Zero visible wires.</div>
         </div>
       </div>
 
-      
-        </div>
-      </div>
-
-      
-        </div>
-      </div>
-
-      
-
-      <div class="gallery-item fade-up" style="overflow:hidden;position:relative;height:280px;cursor:ew-resize;user-select:none;" id="gal-slider" style="height:280px;max-height:280px;">
-        <div style="position:absolute;inset:0;">
-          <img src="/images/IMG_1360.jpg" alt="Ceiling mount finished" style="width:100%;height:100%;object-fit:cover;display:block;"/>
-          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 50%);"></div>
-        </div>
-        <div id="gal-during" style="position:absolute;inset:0;height:280px;clip-path:inset(0 50% 0 0);">
-          <img src="/images/IMG_1435.jpg" alt="Ceiling mount installation" style="width:100%;height:100%;object-fit:cover;display:block;"/>
-          <div style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.65) 0%,transparent 50%);"></div>
-          <div style="position:absolute;top:12px;left:12px;background:rgba(0,0,0,.5);border-radius:20px;padding:4px 10px;">
-            <span style="font-size:.6rem;letter-spacing:.1em;color:rgba(255,255,255,.7);text-transform:uppercase;">During</span>
-          </div>
-        </div>
-        <div id="gal-sdivider" style="position:absolute;top:0;bottom:0;left:50%;width:2px;background:#2d7fe8;transform:translateX(-50%);z-index:10;pointer-events:none;">
-          <div style="position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);width:32px;height:32px;border-radius:50%;background:#2d7fe8;display:flex;align-items:center;justify-content:center;">
-            <svg width="14" height="14" viewBox="0 0 16 16" fill="none"><path d="M5 8H11M5 8L7 6M5 8L7 10M11 8L9 6M11 8L9 10" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          </div>
-        </div>
-        <div style="position:absolute;top:12px;right:12px;z-index:20;background:rgba(45,127,232,.85);border-radius:20px;padding:4px 10px;pointer-events:none;">
-          <span style="font-size:.6rem;letter-spacing:.1em;color:#fff;text-transform:uppercase;">drag to compare</span>
-        </div>
-        <div style="position:absolute;bottom:16px;left:16px;right:16px;z-index:20;pointer-events:none;">
-          <div style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#4facff;margin-bottom:3px;">Phoenix Metro, AZ</div>
-          <div style="font-size:.9rem;font-weight:500;color:#fff;">Flip-Down Ceiling Mount</div>
-          <div style="font-size:.7rem;color:rgba(255,255,255,.6);margin-top:2px;">During install → finished result</div>
-        </div>
-      </div>
-      <script>
-      (function(){
-        var card=document.getElementById('gal-slider');
-        var during=document.getElementById('gal-during');
-        var div=document.getElementById('gal-sdivider');
-        var dragging=false;
-        function setPos(x){
-          var rect=card.getBoundingClientRect();
-          var pct=Math.max(2,Math.min(98,((x-rect.left)/rect.width)*100));
-          during.style.clipPath='inset(0 '+(100-pct)+'% 0 0)';
-          div.style.left=pct+'%';
-        }
-        card.addEventListener('mousedown',function(e){dragging=true;setPos(e.clientX);});
-        document.addEventListener('mouseup',function(){dragging=false;});
-        document.addEventListener('mousemove',function(e){if(dragging)setPos(e.clientX);});
-        card.addEventListener('touchstart',function(e){dragging=true;setPos(e.touches[0].clientX);},{passive:true});
-        document.addEventListener('touchend',function(){dragging=false;});
-        card.addEventListener('touchmove',function(e){if(dragging)setPos(e.touches[0].clientX);},{passive:true});
-      })();
-      </script>
-
-      <div class="gallery-item fade-up" style="overflow:hidden;position:relative;cursor:pointer;" onclick="openLightbox('Floating Shelf Install','Floating shelf with full cord concealment. Clean finish top to bottom.','Phoenix Metro, AZ',this.querySelector('img').src)">
-        <img src="/images/IMG_1626.jpg" alt="Floating Shelf Install" style="width:100%;height:280px;object-fit:cover;display:block;transition:transform .5s ease;"/>
-        <div class="gallery-overlay" style="position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 50%);opacity:0;transition:opacity .3s;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;">
+      <div class="gallery-item fade-up" style="cursor:pointer;" onclick="openLightbox('Frame TV · Designer Setup','Frame TV with tall plant and custom TV stand. Immaculate finish.','Phoenix Metro, AZ',this.querySelector('img').src)">
+        <img src="/images/IMG_1626.jpg" alt="Frame TV with tall plant and orange TV stand"/>
+        <div class="gallery-overlay">
           <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);margin-bottom:4px;">Phoenix Metro, AZ</div>
-          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Floating Shelf Install</div>
-          <div style="font-size:.75rem;color:rgba(255,255,255,.7);">Floating shelf with full cord concealment. Clean finish top to bottom.</div>
+          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Frame TV · Designer Setup</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7);">Frame TV with tall plant and custom TV stand. Immaculate finish.</div>
         </div>
       </div>
+
+      <div class="gallery-item fade-up" style="cursor:pointer;" onclick="openLightbox('Clean Mount · Chevron Stand','TV mounted above chevron console. Wires completely hidden.','Phoenix Metro, AZ',this.querySelector('img').src)">
+        <img src="/images/IMG_1352.jpg" alt="TV above chevron stand"/>
+        <div class="gallery-overlay">
+          <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);margin-bottom:4px;">Phoenix Metro, AZ</div>
+          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Clean Mount · Chevron Stand</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7);">TV mounted above chevron console. Wires completely hidden.</div>
+        </div>
+      </div>
+
+      <div class="gallery-item fade-up" style="cursor:pointer;" onclick="openLightbox('Living Room Mount','TV above white console with shelf and plant styling. Zero clutter.','Phoenix Metro, AZ',this.querySelector('img').src)">
+        <img src="/images/IMG_1356.jpg" alt="TV above white TV stand with plant"/>
+        <div class="gallery-overlay">
+          <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);margin-bottom:4px;">Phoenix Metro, AZ</div>
+          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Living Room Mount</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7);">TV above white console with shelf and plant styling. Zero clutter.</div>
+        </div>
+      </div>
+
+      <div class="gallery-item fade-up" style="cursor:pointer;" onclick="openLightbox('Frame TV · Built-In Look','Frame TV between custom shelving with ceiling fan. Perfectly level.','Phoenix Metro, AZ',this.querySelector('img').src)">
+        <img src="/images/IMG_1435.jpg" alt="Frame TV between shelves with ceiling fan"/>
+        <div class="gallery-overlay">
+          <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);margin-bottom:4px;">Phoenix Metro, AZ</div>
+          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Frame TV · Built-In Look</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7);">Frame TV between custom shelving with ceiling fan. Perfectly level.</div>
+        </div>
+      </div>
+
+      <div class="gallery-item fade-up" style="cursor:pointer;" onclick="openLightbox('Fall Setup · Frame TV','Seasonal styling meets a flawless mount. Every detail on point.','Phoenix Metro, AZ',this.querySelector('img').src)">
+        <img src="/images/IMG_1167.jpg" alt="Frame TV with fall pumpkin decor"/>
+        <div class="gallery-overlay">
+          <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);margin-bottom:4px;">Phoenix Metro, AZ</div>
+          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Fall Setup · Frame TV</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7);">Seasonal styling meets a flawless mount. Every detail on point.</div>
+        </div>
+      </div>
+
     </div>
     <p class="fade-up" style="margin-top:24px;font-size:.75rem;color:var(--mid-text);text-align:center;letter-spacing:.08em;">800+ installs across Phoenix, Scottsdale, Chandler, Gilbert &amp; surrounding areas</p>
   </div>
 </section>
-<style>
-.gallery-item:hover img{transform:scale(1.04);}
-.gallery-item:hover .gallery-overlay{opacity:1;}
-.gallery-grid > * { min-width: 0; min-height: 0; overflow: hidden; } .gallery-item { height: 280px; max-height: 280px; overflow: hidden; display: block; } .gallery-item img { height: 280px; width: 100%; object-fit: cover; display: block; }
-@media(max-width:900px){.gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;}}
-@media(max-width:500px){.gallery-grid{grid-template-columns:1fr!important;}}
-</style>
 
+<script>
+(function(){
+  var card=document.getElementById('gal-slider');
+  var during=document.getElementById('gal-during');
+  var div=document.getElementById('gal-sdivider');
+  var dragging=false;
+  function setPos(x){
+    var rect=card.getBoundingClientRect();
+    var pct=Math.max(2,Math.min(98,((x-rect.left)/rect.width)*100));
+    during.style.clipPath='inset(0 '+(100-pct)+'% 0 0)';
+    div.style.left=pct+'%';
+  }
+  card.addEventListener('mousedown',function(e){dragging=true;setPos(e.clientX);});
+  document.addEventListener('mouseup',function(){dragging=false;});
+  document.addEventListener('mousemove',function(e){if(dragging)setPos(e.clientX);});
+  card.addEventListener('touchstart',function(e){dragging=true;setPos(e.touches[0].clientX);},{passive:true});
+  document.addEventListener('touchend',function(){dragging=false;});
+  card.addEventListener('touchmove',function(e){if(dragging)setPos(e.touches[0].clientX);},{passive:true});
+})();
+</script>
+
+<!-- LIGHTBOX -->
 <div id="lightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;align-items:center;justify-content:center;flex-direction:column;padding:40px;" onclick="closeLightbox()">
   <img id="lb-img" src="" style="max-width:90vw;max-height:75vh;object-fit:contain;margin-bottom:20px;"/>
   <div id="lb-tag" style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--bl);margin-bottom:6px;"></div>
@@ -693,58 +612,30 @@ function closeLightbox(){
   </div>
 </section>
 
-<!-- WARRANTY BADGE -->
+<!-- WARRANTY -->
 <section style="background:#050810;padding:70px 52px;">
   <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:center;">
     <div class="fade-up warranty-wrap" style="border:1px solid rgba(45,127,232,.25);border-radius:20px;padding:48px 56px;display:flex;align-items:center;gap:52px;max-width:900px;width:100%;position:relative;overflow:hidden;">
-
-      <!-- Subtle bg glow -->
       <div style="position:absolute;top:-60px;left:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(45,127,232,.12) 0%,transparent 70%);pointer-events:none;"></div>
-
-      <!-- Logo badge circle -->
       <div style="flex-shrink:0;text-align:center;">
-          <svg width="140" height="165" viewBox="0 0 140 165" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="wsfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a4080"/><stop offset="100%" stop-color="#0d1a2e"/></linearGradient></defs><path d="M70 6L10 28v46c0 36 25 68 60 78 35-10 60-42 60-78V28L70 6z" fill="url(#wsfill)" stroke="#2d7fe8" stroke-width="2.5"/><path d="M70 18L22 37v37c0 28 20 53 48 62 28-9 48-34 48-62V37L70 18z" fill="none" stroke="rgba(79,172,255,.15)" stroke-width="1"/><image href="/images/IMG_4234.jpg" x="22" y="22" width="96" height="80" preserveAspectRatio="xMidYMid meet"/><line x1="22" y1="110" x2="118" y2="110" stroke="rgba(45,127,232,.35)" stroke-width="0.75"/><text x="70" y="124" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="7" fill="#4facff" letter-spacing="2">1-YEAR WARRANTY</text><text x="70" y="136" text-anchor="middle" font-family="sans-serif" font-size="5.5" fill="rgba(255,255,255,.3)" letter-spacing="1">INSURED · GUARANTEED</text></svg>
-        </div>
-
-      <!-- Divider -->
+        <svg width="140" height="165" viewBox="0 0 140 165" fill="none" xmlns="http://www.w3.org/2000/svg"><defs><linearGradient id="wsfill" x1="0" y1="0" x2="0" y2="1"><stop offset="0%" stop-color="#1a4080"/><stop offset="100%" stop-color="#0d1a2e"/></linearGradient></defs><path d="M70 6L10 28v46c0 36 25 68 60 78 35-10 60-42 60-78V28L70 6z" fill="url(#wsfill)" stroke="#2d7fe8" stroke-width="2.5"/><path d="M70 18L22 37v37c0 28 20 53 48 62 28-9 48-34 48-62V37L70 18z" fill="none" stroke="rgba(79,172,255,.15)" stroke-width="1"/><image href="/images/IMG_4234.jpg" x="22" y="22" width="96" height="80" preserveAspectRatio="xMidYMid meet"/><line x1="22" y1="110" x2="118" y2="110" stroke="rgba(45,127,232,.35)" stroke-width="0.75"/><text x="70" y="124" text-anchor="middle" font-family="sans-serif" font-weight="700" font-size="7" fill="#4facff" letter-spacing="2">1-YEAR WARRANTY</text><text x="70" y="136" text-anchor="middle" font-family="sans-serif" font-size="5.5" fill="rgba(255,255,255,.3)" letter-spacing="1">INSURED · GUARANTEED</text></svg>
+      </div>
       <div style="width:1px;height:90px;background:linear-gradient(to bottom,transparent,rgba(45,127,232,.3),transparent);flex-shrink:0;"></div>
-
-      <!-- Content -->
       <div style="flex:1;">
         <div style="font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">VistaMount Workmanship Guarantee</div>
         <div style="font-size:1.6rem;font-weight:700;color:#fff;margin-bottom:20px;font-family:'Bebas Neue',sans-serif;letter-spacing:.04em;line-height:1.1;">We Stand Behind<br>Every Install.</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 32px;">
-          <div style="display:flex;align-items:flex-start;gap:8px;">
-            <span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">✓</span>
-            <span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">1-year workmanship warranty on all installs</span>
-          </div>
-          <div style="display:flex;align-items:flex-start;gap:8px;">
-            <span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">✓</span>
-            <span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">Free callback if anything shifts or loosens</span>
-          </div>
-          <div style="display:flex;align-items:flex-start;gap:8px;">
-            <span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">✓</span>
-            <span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">Fully insured — your home is protected</span>
-          </div>
-          <div style="display:flex;align-items:flex-start;gap:8px;">
-            <span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">✓</span>
-            <span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">No payment until the job is complete</span>
-          </div>
-          <div style="display:flex;align-items:flex-start;gap:8px;">
-            <span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">✓</span>
-            <span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">800+ installs — consistent 5-star results</span>
-          </div>
-          <div style="display:flex;align-items:flex-start;gap:8px;">
-            <span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">✓</span>
-            <span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">Satisfaction guaranteed or we make it right</span>
-          </div>
+          <div style="display:flex;align-items:flex-start;gap:8px;"><span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">✓</span><span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">1-year workmanship warranty on all installs</span></div>
+          <div style="display:flex;align-items:flex-start;gap:8px;"><span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">✓</span><span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">Free callback if anything shifts or loosens</span></div>
+          <div style="display:flex;align-items:flex-start;gap:8px;"><span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">✓</span><span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">Fully insured — your home is protected</span></div>
+          <div style="display:flex;align-items:flex-start;gap:8px;"><span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">✓</span><span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">No payment until the job is complete</span></div>
+          <div style="display:flex;align-items:flex-start;gap:8px;"><span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">✓</span><span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">800+ installs — consistent 5-star results</span></div>
+          <div style="display:flex;align-items:flex-start;gap:8px;"><span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">✓</span><span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">Satisfaction guaranteed or we make it right</span></div>
         </div>
       </div>
-
     </div>
   </div>
 </section>
-<style>@media(max-width:768px){.warranty-wrap{flex-direction:column!important;text-align:center;gap:28px!important;}.warranty-wrap > div:nth-child(2){display:none!important;}}</style>
 
 <!-- BOOKING - DARK -->
 <section id="booking">
@@ -758,6 +649,7 @@ function closeLightbox(){
         <span style="font-size:.75rem;color:var(--bl);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">⚡</span> Real-time availability</span>
         <span style="font-size:.75rem;color:rgba(255,120,0,.85);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">⚠️</span> Same-day spots fill quickly</span>
       </div>
+      <!-- FIX: Progress bar labels now match actual step order -->
       <div class="progress-bar">
         <div class="prog-step active" id="p1"></div>
         <div class="prog-step" id="p2"></div>
@@ -765,10 +657,10 @@ function closeLightbox(){
         <div class="prog-step" id="p4"></div>
       </div>
       <div class="prog-labels">
-        <span class="prog-label active" id="pl1">Your Info</span>
-        <span class="prog-label" id="pl2">Your TVs</span>
-        <span class="prog-label" id="pl3">Add-ons</span>
-        <span class="prog-label" id="pl4">Review & Book</span>
+        <span class="prog-label active" id="pl1">Your TVs</span>
+        <span class="prog-label" id="pl2">Add-ons</span>
+        <span class="prog-label" id="pl3">Pick a Time</span>
+        <span class="prog-label" id="pl4">Your Info</span>
       </div>
     </div>
 
@@ -887,9 +779,8 @@ function closeLightbox(){
 </footer>
 
 <script>
-// HERO CANVAS
+// ==================== HERO CANVAS ====================
 var hc=document.getElementById('hero-canvas');
-
 var hctx=hc.getContext('2d');
 function resizeHero(){hc.width=hc.offsetWidth;hc.height=hc.offsetHeight;}
 resizeHero();
@@ -921,9 +812,7 @@ function hText(alpha,oy){
   hctx.save();hctx.globalAlpha=alpha;hctx.textAlign='center';
   var fs=Math.min(100,W*0.13);
   hctx.font='600 11px sans-serif';hctx.fillStyle=HBL;
-  hctx.letterSpacing='2px';
-  hctx.fillText('PHOENIX\'S PREMIER TV MOUNTING EXPERTS',W/2,H*0.32+oy);
-  hctx.letterSpacing='0px';
+  hctx.fillText("PHOENIX'S PREMIER TV MOUNTING EXPERTS",W/2,H*0.32+oy);
   hctx.font='900 '+fs+'px sans-serif';hctx.fillStyle=HWH;
   hctx.fillText('VISTAMOUNT',W/2,H*0.50+oy);
   hctx.font='300 13px sans-serif';hctx.fillStyle='rgba(255,255,255,.65)';
@@ -936,20 +825,16 @@ function hCTA(alpha){
   var W=hc.width,H=hc.height;
   hctx.save();hctx.globalAlpha=alpha;
   var bw=220,bh=50,bx=W/2-bw/2,by=H*0.67;
-  // Strong blue glow behind button
   hctx.shadowColor=HBL;hctx.shadowBlur=30;
   hctx.fillStyle='rgba(61,127,255,.18)';hctx.fillRect(bx-8,by-8,bw+16,bh+16);
   hctx.shadowBlur=0;
-  // Button border and fill
   hctx.strokeStyle=HBL;hctx.lineWidth=1.5;hctx.strokeRect(bx,by,bw,bh);
   hctx.fillStyle='rgba(61,127,255,.15)';hctx.fillRect(bx,by,bw,bh);
-  // Button text
   hctx.font='600 11px sans-serif';hctx.fillStyle=HWH;hctx.textAlign='center';
   hctx.fillText('BOOK YOUR INSTALL',W/2,by+30);
-  // SCROLL and line below the bottom border (BY)
   var scrollY=H*0.82+14;
   hctx.globalAlpha=alpha*0.5;
-  hctx.font='400 9px sans-serif';hctx.fillStyle=HBL;hctx.letterSpacing='3px';
+  hctx.font='400 9px sans-serif';hctx.fillStyle=HBL;
   hctx.fillText('SCROLL',W/2,scrollY+12);
   hctx.globalAlpha=alpha*0.4;
   hctx.strokeStyle=HBL;hctx.lineWidth=1;
@@ -975,20 +860,18 @@ function heroFrame(ts){
   if(t>2.1)hCorners(eO(hpg(t,2.1,2.6))*(t>2.6?hPulse(t*.5+1):1));
   if(t>.6){var a=eO(hpg(t,.6,1.3));hText(a,(1-a)*18);}
   if(t>2.3)hCTA(eO(hpg(t,2.3,2.9)));
-  // No loop - animation plays once and holds final state
   requestAnimationFrame(heroFrame);
 }
 requestAnimationFrame(heroFrame);
 hc.style.cursor='pointer';
 hc.addEventListener('click',function(){document.getElementById('booking').scrollIntoView({behavior:'smooth'});});
 
-// NAV
+// ==================== NAV ====================
 function updateNav(){
   var nav=document.getElementById('nav');
-  var st=document.getElementById('stats-section-anchor');
-  var booking=document.getElementById('booking');
   var scrollY=window.scrollY;
   var heroH=document.getElementById('hero').offsetHeight;
+  var booking=document.getElementById('booking');
   var bookingTop=booking.getBoundingClientRect().top+scrollY;
   if(scrollY<heroH*0.8){nav.className='';return;}
   if(scrollY>bookingTop-100){nav.className='scrolled-dark';return;}
@@ -996,21 +879,17 @@ function updateNav(){
 }
 window.addEventListener('scroll',updateNav);
 
-// SCROLL ANIMATIONS
+// ==================== SCROLL ANIMATIONS ====================
 var observed=new IntersectionObserver(function(entries){
-  entries.forEach(function(e){
-    if(e.isIntersecting){e.target.classList.add('visible');}
-  });
+  entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');}});
 },{threshold:.1});
 document.querySelectorAll('.fade-up,.fade-in,.clip-text,.scale-in').forEach(function(el){observed.observe(el);});
 
-// PROCESS LINE
 var lineObs=new IntersectionObserver(function(entries){
   entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible');});
 },{threshold:.3});
 document.querySelectorAll('.fade-line').forEach(function(el){lineObs.observe(el);});
 
-// COUNT UP
 var co=new IntersectionObserver(function(es){
   es.forEach(function(e){
     if(e.isIntersecting){
@@ -1023,7 +902,11 @@ var co=new IntersectionObserver(function(es){
 },{threshold:.5});
 document.querySelectorAll('.count').forEach(function(el){co.observe(el);});
 
-// PRICING
+// ==================== BOOKING FORM ====================
+
+// FIX: Declare selectedSlot at top scope so all functions can access it
+var selectedSlot = null;
+
 var PRICE={
   size:{'<32':100,'32-64':125,'65-84':150,'85+':200},
   mount:{fullmotion:65,flat:50,tilt:50,own:0},
@@ -1041,6 +924,7 @@ function tvPrice(tv,isFirstInwall,isFirstRaceway){
   if(tv.outlet)p+=PRICE.outlet;
   return p;
 }
+
 function calcTotal(){
   var total=0,disc=0,inwc=0,rwc=0;
   state.tvs.forEach(function(tv,i){
@@ -1056,7 +940,7 @@ function calcTotal(){
   if(state.transport){state.tvs.forEach(function(tv){total+=(['65-84','85+'].indexOf(tv.size)>=0)?PRICE.transport.large:PRICE.transport.small;});}
   return {total:Math.max(0,total-disc),disc:disc};
 }
-function tvSizeLabel(s){return s==='<32'?'Under 32"':s==='32-64'?'32–64"':s==='65-84'?'65–84"':'85"+';}
+
 function buildQuoteHTML(){
   var numTVs=state.tvs.length;
   if(numTVs===0)return '';
@@ -1064,7 +948,6 @@ function buildQuoteHTML(){
   var sizeLabel=function(s){return s==='<32'?'Under 32"':s==='32-64'?'32–64"':s==='65-84'?'65–84"':'85"+';};
   var mountLabel=function(m){return m==='fullmotion'?'Full-Motion Bracket':m==='tilt'?'Tilt Bracket':m==='flat'?'Flat Bracket':'Customer-Supplied Mount';};
   var cordLabel=function(c){return c==='inwall'?'In-Wall Wire Concealment':c==='raceway'?'Surface Raceway':'No Cord Management';};
-
   state.tvs.forEach(function(tv,i){
     var isFirstIn=inwc===0&&tv.cords==='inwall';
     var isFirstRw=rwc===0&&tv.cords==='raceway';
@@ -1082,30 +965,24 @@ function buildQuoteHTML(){
     if(disc>0)totalDisc+=disc;
     lines.push({title:'TV '+(i+1),rows:rows,subtotal:subtotal,disc:disc});
   });
-
   if(state.soundbars>0){
     var rows=[];
     rows.push({label:'First Soundbar',amt:PRICE.soundbar.first});
     if(state.soundbars>1)rows.push({label:'Additional Soundbars ×'+(state.soundbars-1),amt:(state.soundbars-1)*PRICE.soundbar.add});
     var disc=(state.soundbars-1)*PRICE.multi;
     totalDisc+=disc;
-    lines.push({title:'Soundbar'+( state.soundbars>1?' ×'+state.soundbars:''),rows:rows,subtotal:rows.reduce(function(s,r){return s+r.amt;},0),disc:disc});
+    lines.push({title:'Soundbar'+(state.soundbars>1?' ×'+state.soundbars:''),rows:rows,subtotal:rows.reduce(function(s,r){return s+r.amt;},0),disc:disc});
   }
-
   if(state.dismounts>0){
-    var rows=[{label:'TV Removal ×'+state.dismounts,amt:state.dismounts*PRICE.dismount}];
-    lines.push({title:'TV Removal',rows:rows,subtotal:state.dismounts*PRICE.dismount,disc:0});
+    lines.push({title:'TV Removal',rows:[{label:'TV Removal ×'+state.dismounts,amt:state.dismounts*PRICE.dismount}],subtotal:state.dismounts*PRICE.dismount,disc:0});
   }
-
   if(state.transport){
     var tt=0;
     state.tvs.forEach(function(tv){tt+=(['65-84','85+'].indexOf(tv.size)>=0)?PRICE.transport.large:PRICE.transport.small;});
     lines.push({title:'TV Delivery',rows:[{label:'Delivery fee',amt:tt}],subtotal:tt,disc:0});
   }
-
   var res=calcTotal();
   var html='<div style="font-size:.72rem;color:var(--m);letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;font-weight:500;">Your Estimate</div>';
-
   lines.forEach(function(line){
     html+='<div style="background:rgba(255,255,255,.04);border-radius:8px;margin-bottom:8px;overflow:hidden;">';
     html+='<div style="padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;align-items:center;">';
@@ -1122,38 +999,46 @@ function buildQuoteHTML(){
     html+='<div style="font-size:.82rem;font-weight:600;color:var(--w);">$'+(line.subtotal-line.disc)+'</div></div>';
     html+='</div>';
   });
-
   if(res.disc>0){
     html+='<div style="display:flex;justify-content:space-between;padding:8px 14px;background:rgba(79,172,255,.07);border-radius:6px;margin-bottom:10px;">';
     html+='<div style="font-size:.76rem;color:#4facff;font-weight:500;">Total multi-unit savings</div>';
     html+='<div style="font-size:.8rem;color:#4facff;font-weight:600;">−$'+res.disc+'</div></div>';
   }
-
   html+='<div style="display:flex;justify-content:space-between;padding:14px;border-top:1px solid rgba(255,255,255,.12);margin-top:4px;">';
   html+='<div style="font-size:.9rem;color:var(--w);font-weight:500;">Estimated Total</div>';
   html+='<div style="font-size:1.3rem;font-weight:700;color:#4facff;">$'+res.total+'</div></div>';
   html+='<div style="font-size:.65rem;color:var(--m);margin-top:10px;line-height:1.7;">Final price confirmed on-site. Most installs fall within this range. No payment until job is complete.</div>';
   return html;
 }
+
 function updateQuote(){
-  state.transport=document.getElementById('transport').checked;
+  state.transport=document.getElementById('transport')?document.getElementById('transport').checked:false;
+  // FIX: Update soundbar price label
+  var sbLabel=document.getElementById('soundbar-price-label');
+  if(sbLabel){
+    if(state.soundbars===0)sbLabel.textContent='$0';
+    else if(state.soundbars===1)sbLabel.textContent='$'+PRICE.soundbar.first;
+    else sbLabel.textContent='$'+(PRICE.soundbar.first+(state.soundbars-1)*PRICE.soundbar.add);
+  }
   var q=buildQuoteHTML();
   var el1=document.getElementById('final-quote');
   var el2=document.getElementById('final-quote-confirm');
   if(el1)el1.innerHTML=q;
   if(el2)el2.innerHTML=q;
 }
+
 function adj(key,delta){
   state[key]=Math.max(0,state[key]+delta);
   document.getElementById(key+'-val').textContent=state[key];
   updateQuote();
 }
-// SVG HELPERS
+
+// SVG helpers
 function svgFlat(){return '<svg width="100" height="70" viewBox="0 0 100 70" fill="none"><rect x="2" y="0" width="10" height="70" fill="#0c0c1a" stroke="#3d7fff" stroke-width="1.2"/><line x1="4" y1="17" x2="10" y2="17" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="4" y1="35" x2="10" y2="35" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="4" y1="53" x2="10" y2="53" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><rect x="12" y="31" width="10" height="6" rx="1" fill="#3d7fff"/><rect x="22" y="10" width="9" height="48" rx="2" fill="#060612" stroke="#3d7fff" stroke-width="1.5"/><rect x="23.5" y="12" width="6" height="44" rx="1" fill="rgba(61,127,255,0.12)"/></svg>';}
-function svgTilt(){return '<svg width="100" height="70" viewBox="0 0 100 70" fill="none"><rect x="2" y="0" width="10" height="70" fill="#0c0c1a" stroke="#3d7fff" stroke-width="1.2"/><line x1="4" y1="17" x2="10" y2="17" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="4" y1="35" x2="10" y2="35" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="4" y1="53" x2="10" y2="53" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="12" y1="18" x2="22" y2="22" stroke="#3d7fff" stroke-width="1.5" stroke-linecap="round"/><circle cx="14" cy="19" r="2" fill="#3d7fff"/><polygon points="22,10 31,14 29,58 20,54" fill="#060612" stroke="#3d7fff" stroke-width="1.5"/><polygon points="23.5,13 29.5,16 27.5,55 21.5,52" fill="rgba(61,127,255,0.12)"/><path d="M50 18 L60 35" stroke="rgba(61,127,255,0.4)" stroke-width="0.8" stroke-dasharray="2 3"/></svg>';}
+function svgTilt(){return '<svg width="100" height="70" viewBox="0 0 100 70" fill="none"><rect x="2" y="0" width="10" height="70" fill="#0c0c1a" stroke="#3d7fff" stroke-width="1.2"/><line x1="4" y1="17" x2="10" y2="17" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="4" y1="35" x2="10" y2="35" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="4" y1="53" x2="10" y2="53" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="12" y1="18" x2="22" y2="22" stroke="#3d7fff" stroke-width="1.5" stroke-linecap="round"/><circle cx="14" cy="19" r="2" fill="#3d7fff"/><polygon points="22,10 31,14 29,58 20,54" fill="#060612" stroke="#3d7fff" stroke-width="1.5"/><polygon points="23.5,13 29.5,16 27.5,55 21.5,52" fill="rgba(61,127,255,0.12)"/></svg>';}
 function svgFM(){return '<svg width="100" height="70" viewBox="0 0 100 70" fill="none"><rect x="2" y="0" width="10" height="70" fill="#0c0c1a" stroke="#3d7fff" stroke-width="1.2"/><line x1="4" y1="17" x2="10" y2="17" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="4" y1="35" x2="10" y2="35" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="4" y1="53" x2="10" y2="53" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="12" y1="35" x2="32" y2="35" stroke="#3d7fff" stroke-width="1.5" stroke-linecap="round"/><circle cx="14" cy="35" r="2.5" fill="#3d7fff"/><circle cx="32" cy="35" r="2.5" fill="#3d7fff"/><line x1="32" y1="35" x2="52" y2="35" stroke="#3d7fff" stroke-width="1.5" stroke-linecap="round"/><circle cx="52" cy="35" r="2.5" fill="#3d7fff"/><rect x="53" y="13" width="9" height="44" rx="2" fill="#060612" stroke="#3d7fff" stroke-width="1.5"/><rect x="54.5" y="15" width="6" height="40" rx="1" fill="rgba(61,127,255,0.12)"/></svg>';}
 function svgNone(){return '<svg width="100" height="72" viewBox="0 0 100 72" fill="none"><rect x="10" y="0" width="80" height="72" fill="#0a0a16"/><rect x="18" y="6" width="64" height="38" rx="2" fill="#060612" stroke="#3d7fff" stroke-width="1.5"/><rect x="21" y="9" width="58" height="32" rx="1" fill="rgba(61,127,255,0.08)"/><path d="M40 44 C40 50 36 53 36 58 C36 62 40 63 40 66" stroke="#888" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M60 44 C60 48 62 52 60 56 C58 60 62 63 60 66" stroke="#888" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>';}
-function svgRaceway(){return '<svg width="100" height="72" viewBox="0 0 100 72" fill="none"><rect x="10" y="0" width="80" height="72" fill="#0a0a16"/><rect x="18" y="6" width="64" height="38" rx="2" fill="#060612" stroke="#3d7fff" stroke-width="1.5"/><rect x="21" y="9" width="58" height="32" rx="1" fill="rgba(61,127,255,0.08)"/><rect x="44" y="44" width="12" height="24" rx="3" fill="#0c0c1e" stroke="#3d7fff" stroke-width="1.2"/><line x1="50" y1="44" x2="50" y2="68" stroke="#3d7fff" stroke-width="0.8" opacity="0.6"/><line x1="46" y1="51" x2="54" y2="51" stroke="#3d7fff" stroke-width="0.4" opacity="0.4"/><line x1="46" y1="57" x2="54" y2="57" stroke="#3d7fff" stroke-width="0.4" opacity="0.4"/><line x1="46" y1="63" x2="54" y2="63" stroke="#3d7fff" stroke-width="0.4" opacity="0.4"/></svg>';}
+function svgRaceway(){return '<svg width="100" height="72" viewBox="0 0 100 72" fill="none"><rect x="10" y="0" width="80" height="72" fill="#0a0a16"/><rect x="18" y="6" width="64" height="38" rx="2" fill="#060612" stroke="#3d7fff" stroke-width="1.5"/><rect x="21" y="9" width="58" height="32" rx="1" fill="rgba(61,127,255,0.08)"/><rect x="44" y="44" width="12" height="24" rx="3" fill="#0c0c1e" stroke="#3d7fff" stroke-width="1.2"/><line x1="50" y1="44" x2="50" y2="68" stroke="#3d7fff" stroke-width="0.8" opacity="0.6"/></svg>';}
 function svgInwall(){return '<svg width="100" height="72" viewBox="0 0 100 72" fill="none"><rect x="10" y="0" width="80" height="72" fill="#0a0a16"/><rect x="18" y="6" width="64" height="38" rx="2" fill="#060612" stroke="#3d7fff" stroke-width="1.5"/><rect x="21" y="9" width="58" height="32" rx="1" fill="rgba(61,127,255,0.08)"/><path d="M50 44 L50 56" stroke="#3d7fff" stroke-width="1" stroke-dasharray="2 2" opacity="0.6"/><rect x="42" y="56" width="16" height="12" rx="2" fill="#0c0c1e" stroke="#3d7fff" stroke-width="1.2"/><circle cx="47" cy="62" r="2" fill="none" stroke="#3d7fff" stroke-width="1"/><circle cx="53" cy="62" r="2" fill="none" stroke="#3d7fff" stroke-width="1"/></svg>';}
 
 function handleOpt(el){
@@ -1162,7 +1047,6 @@ function handleOpt(el){
   setTV(id,key,val,el);
 }
 
-// TV CARD BUILDER
 var tvCount=0;
 function addTV(){
   if(tvCount>=6)return;
@@ -1252,17 +1136,18 @@ function setTV(id,key,val,btn){
     document.getElementById('mount-type-'+id).style.display=val?'none':'';
   }
 }
+
 function setTVOutlet(id,checked){
   var idx=state.tvs.findIndex(function(t){return t.id===id;});
   if(idx>=0)state.tvs[idx].outlet=checked;
 }
+
 function removeTV(id){
   state.tvs=state.tvs.filter(function(t){return t.id!==id;});
   document.getElementById('tv-card-'+id).remove();
   if(tvCount<6)document.getElementById('add-tv-btn').style.display='';
 }
 
-// FORM STEPS
 function goStep(n){
   if(n===1&&state.tvs.length===0)addTV();
   document.querySelectorAll('.form-step').forEach(function(s){s.classList.remove('active');});
@@ -1271,23 +1156,21 @@ function goStep(n){
     document.getElementById('p'+i).classList.toggle('active',i<=n);
     document.getElementById('pl'+i).classList.toggle('active',i===n);
   }
-  if(n===3){renderFinalQuote();initDatePicker();}if(n===4){renderConfirmQuote();}
+  if(n===3){updateQuote();initDatePicker();}
+  if(n===4){updateQuote();}
   document.getElementById('booking').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-function renderFinalQuote(){
-  state.transport=document.getElementById('transport')?document.getElementById('transport').checked:false;
-  updateQuote();
-}
-
-function renderConfirmQuote(){
-  updateQuote();
-}
-
-function selectSlot(el,idx){
+// FIX: selectSlot now properly updates selectedSlot variable
+function selectSlot(el){
   document.querySelectorAll('#slots-wrap .option-btn').forEach(function(b){b.classList.remove('selected');});
   el.classList.add('selected');
-  selectedSlot=window._slots[idx];
+  selectedSlot={
+    start:el.getAttribute('data-start'),
+    end:el.getAttribute('data-end'),
+    label:el.getAttribute('data-label'),
+    time:el.getAttribute('data-time')
+  };
   var btn=document.getElementById('time-next-btn');
   if(btn){btn.style.opacity='1';btn.style.pointerEvents='auto';}
 }
@@ -1302,10 +1185,12 @@ function initDatePicker(){
   var mm=String(today.getMonth()+1).padStart(2,'0');
   var dd=String(today.getDate()).padStart(2,'0');
   input.min=yyyy+'-'+mm+'-'+dd;
-  input.value='';
-  document.getElementById('slots-wrap').innerHTML='<p style="font-size:.8rem;color:var(--m);">Select a date to see available times.</p>';
-  document.getElementById('time-next-btn').style.opacity='.4';
-  document.getElementById('time-next-btn').style.pointerEvents='none';
+  if(!input.value){
+    document.getElementById('slots-wrap').innerHTML='<p style="font-size:.8rem;color:var(--m);">Select a date to see available times.</p>';
+    document.getElementById('time-next-btn').style.opacity='.4';
+    document.getElementById('time-next-btn').style.pointerEvents='none';
+    selectedSlot=null;
+  }
 }
 
 function loadSlots(){
@@ -1316,6 +1201,7 @@ function loadSlots(){
   wrap.innerHTML='<p style="font-size:.8rem;color:var(--m);">Loading available times...</p>';
   document.getElementById('time-next-btn').style.opacity='.4';
   document.getElementById('time-next-btn').style.pointerEvents='none';
+  selectedSlot=null;
   fetch(WORKER+'/availability?date='+date+'&duration=120')
     .then(function(r){return r.json();})
     .then(function(data){
@@ -1330,9 +1216,9 @@ function loadSlots(){
         btn.className='option-btn slot-btn';
         btn.setAttribute('data-start',slot.start);
         btn.setAttribute('data-end',slot.end);
-        btn.setAttribute('data-label',slot.label);
-        btn.setAttribute('data-time',slot.time);
-        btn.innerHTML='<span class="slot-time">'+slot.time+'</span><span class="slot-label">'+slot.label+'</span>';
+        btn.setAttribute('data-label',slot.label||'');
+        btn.setAttribute('data-time',slot.time||slot.label||'');
+        btn.innerHTML='<span class="opt-title">'+slot.time+'</span><span class="opt-desc">'+slot.label+'</span>';
         btn.onclick=function(){selectSlot(this);};
         wrap.appendChild(btn);
       });
@@ -1343,9 +1229,12 @@ function loadSlots(){
 }
 
 async function submitForm(){
-  if(!selectedSlot)return;
+  if(!selectedSlot){alert('Please select a time slot first.');return;}
+  var fname=document.getElementById('fname').value.trim();
+  var phone=document.getElementById('phone').value.trim();
+  if(!fname||!phone){alert('Please fill in your name and phone number.');return;}
   var btn=document.getElementById('submit-btn');
-  btn.textContent='Booking...';btn.style.opacity='.7';
+  btn.textContent='Booking...';btn.style.opacity='.7';btn.disabled=true;
   var sl={'<32':'Under 32"','32-64':'32-64"','65-84':'65-84"','85+':'85"+'};
   var lines=state.tvs.map(function(tv,i){
     return 'TV '+(i+1)+': '+(sl[tv.size]||tv.size)+', '+(tv.hasMount?'own mount':tv.mountType)+', '+({'none':'no conceal','raceway':'raceway','inwall':'in-wall'}[tv.cords])+(tv.outlet?' + outlet':'');
@@ -1359,8 +1248,8 @@ async function submitForm(){
     var res=await fetch(WORKER+'/book',{
       method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
-        name:(document.getElementById('fname').value+' '+document.getElementById('lname').value).trim(),
-        phone:document.getElementById('phone').value,
+        name:(fname+' '+(document.getElementById('lname').value||'')).trim(),
+        phone:phone,
         email:document.getElementById('email').value,
         address:document.getElementById('address').value,
         slotStart:selectedSlot.start,slotEnd:selectedSlot.end,
@@ -1368,51 +1257,23 @@ async function submitForm(){
       })
     });
     var data=await res.json();
-    if(data.success && data.eventId){
+    if(data.success&&data.eventId){
       document.getElementById('form-wrap').style.display='none';
       document.getElementById('success').classList.add('show');
       document.getElementById('booking-header').style.display='none';
-    }else{btn.textContent='Confirm Booking';btn.style.opacity='1';alert('Booking failed — the appointment was not added to our calendar. Please call (480) 903-4769.');}
-  }catch(e){btn.textContent='Confirm Booking';btn.style.opacity='1';alert('Connection error. Please call (480) 903-4769.');}
+    }else{
+      btn.textContent='Confirm Booking';btn.style.opacity='1';btn.disabled=false;
+      alert('Booking failed — the appointment was not added to our calendar. Please call (480) 903-4769.');
+    }
+  }catch(e){
+    btn.textContent='Confirm Booking';btn.style.opacity='1';btn.disabled=false;
+    alert('Connection error. Please call (480) 903-4769.');
+  }
 }
 
-// INIT
+// Init
 addTV();
 </script>
 
-<!-- BOOKING MODAL -->
-<div id="booking-modal" style="display:none;position:fixed;inset:0;z-index:9000;align-items:center;justify-content:center;padding:20px;">
-  <div id="booking-modal-bg" onclick="closeBookingModal()" style="position:absolute;inset:0;background:rgba(0,0,0,.85);backdrop-filter:blur(8px);"></div>
-  <div style="position:relative;z-index:1;background:#0b0d18;border:1px solid rgba(79,172,255,.15);border-radius:16px;width:100%;max-width:900px;max-height:90vh;overflow-y:auto;padding:40px;">
-    <button onclick="closeBookingModal()" style="position:absolute;top:16px;right:20px;background:none;border:none;color:rgba(255,255,255,.4);font-size:1.4rem;cursor:pointer;line-height:1;">&#x2715;</button>
-    <div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:8px;">Book Online</div>
-    <div style="font-size:1.8rem;font-weight:700;color:#fff;margin-bottom:4px;font-family:'Bebas Neue',sans-serif;letter-spacing:.04em;">Join 800+ Happy Customers</div>
-    <div style="display:flex;gap:20px;margin-bottom:24px;flex-wrap:wrap;">
-      <span style="font-size:.72rem;color:#4facff;display:flex;align-items:center;gap:5px;">⚡ Takes 60 seconds</span>
-      <span style="font-size:.72rem;color:#4facff;display:flex;align-items:center;gap:5px;">⚡ Instant pricing</span>
-      <span style="font-size:.72rem;color:#4facff;display:flex;align-items:center;gap:5px;">⚡ Real-time availability</span>
-      <span style="font-size:.72rem;color:rgba(255,140,0,.85);display:flex;align-items:center;gap:5px;">⚠️ Same-day spots fill quickly</span>
-    </div>
-    <div id="modal-booking-content"></div>
-  </div>
-</div>
-<script>
-function openBookingModal(){
-  var modal=document.getElementById('booking-modal');
-  // Clone the booking form content into modal
-  var src=document.getElementById('booking-form-inner');
-  var dest=document.getElementById('modal-booking-content');
-  if(src&&dest&&dest.children.length===0){
-    dest.innerHTML=src.innerHTML;
-  }
-  modal.style.display='flex';
-  document.body.style.overflow='hidden';
-}
-function closeBookingModal(){
-  document.getElementById('booking-modal').style.display='none';
-  document.body.style.overflow='';
-}
-document.addEventListener('keydown',function(e){if(e.key==='Escape')closeBookingModal();});
-</script>
 </body>
 </html>
