@@ -678,7 +678,6 @@ function closeLightbox(){
         <span style="font-size:.75rem;color:var(--bl);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">⚡</span> Real-time availability</span>
         <span style="font-size:.75rem;color:rgba(255,120,0,.85);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">⚠️</span> Same-day spots fill quickly</span>
       </div>
-      <!-- FIX: Progress bar labels now match actual step order -->
       <div class="progress-bar">
         <div class="prog-step active" id="p1"></div>
         <div class="prog-step" id="p2"></div>
@@ -697,43 +696,47 @@ function closeLightbox(){
 
       <!-- Step 1: TV Details -->
       <div class="form-step active" id="step1">
-        <div class="tv-cards" id="tv-cards"></div>
-        <button class="add-tv-btn" onclick="addTV()" id="add-tv-btn">+ Add Another TV</button>
+        <div style="background:rgba(45,127,232,.1);border:1px solid rgba(79,172,255,.25);padding:14px 16px;margin-bottom:20px;">
+          <span style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#4facff;margin-bottom:10px;display:block;">📺 How many TVs?</span>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;" id="tv-count-opts">
+            <button class="option-btn selected" onclick="setMainTVCount(1,this)">1 TV<span style="display:block;font-size:.65rem;color:var(--bl);margin-top:2px;">Standard</span></button>
+            <button class="option-btn" onclick="setMainTVCount(2,this)">2 TVs<span style="display:block;font-size:.65rem;color:var(--bl);margin-top:2px;">$25 off 2nd</span></button>
+            <button class="option-btn" onclick="setMainTVCount(3,this)">3 TVs<span style="display:block;font-size:.65rem;color:var(--bl);margin-top:2px;">$25 off each</span></button>
+            <button class="option-btn" onclick="setMainTVCount(4,this)">4+ TVs<span style="display:block;font-size:.65rem;color:var(--bl);margin-top:2px;">Call for quote</span></button>
+          </div>
+        </div>
+        <div id="main-tv-cards"></div>
         <div class="form-nav"><div></div><button class="btn-next" onclick="goStep(2)">Next: Add-ons &rarr;</button></div>
       </div>
 
       <!-- Step 2: Add-ons -->
       <div class="form-step" id="step2">
-        <div class="qty-row">
-          <div class="toggle-label"><span>Soundbar Installation</span><small>Wall-mounted below your TV, cables managed</small></div>
-          <div style="display:flex;align-items:center;gap:16px;">
-            <span class="toggle-price" id="soundbar-price-label">$0</span>
-            <div class="qty-control">
-              <button class="qty-btn" onclick="adj('soundbars',-1)">-</button>
-              <span class="qty-val" id="soundbars-val">0</span>
-              <button class="qty-btn" onclick="adj('soundbars',1)">+</button>
+        <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;">
+          <div class="qty-row">
+            <div class="toggle-label"><span>Soundbar Installation</span><small>Wall-mounted below your TV · $100 first, $75 each after</small></div>
+            <div style="display:flex;align-items:center;">
+              <button class="qty-btn" onclick="adjMain('soundbars',-1)">-</button>
+              <span class="qty-val" id="main-soundbars-val">0</span>
+              <button class="qty-btn" onclick="adjMain('soundbars',1)">+</button>
+            </div>
+          </div>
+          <div class="qty-row">
+            <div class="toggle-label"><span>Remove Existing Mount</span><small>Safe removal of currently mounted TV · $25 each</small></div>
+            <div style="display:flex;align-items:center;">
+              <button class="qty-btn" onclick="adjMain('dismounts',-1)">-</button>
+              <span class="qty-val" id="main-dismounts-val">0</span>
+              <button class="qty-btn" onclick="adjMain('dismounts',1)">+</button>
+            </div>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-label"><span>TV Delivery / Transport</span><small>Under 75" = $25, 75"+ = $70 per TV</small></div>
+            <div style="display:flex;align-items:center;gap:16px;">
+              <span class="toggle-price">from $25/TV</span>
+              <label class="toggle-switch"><input type="checkbox" id="main-transport" onchange="calcMainEst()"/><span class="slider"></span></label>
             </div>
           </div>
         </div>
-        <div class="qty-row">
-          <div class="toggle-label"><span>TV Dismount</span><small>Safe removal of an existing mounted TV - $25 each</small></div>
-          <div style="display:flex;align-items:center;gap:16px;">
-            <span class="toggle-price">$25 each</span>
-            <div class="qty-control">
-              <button class="qty-btn" onclick="adj('dismounts',-1)">-</button>
-              <span class="qty-val" id="dismounts-val">0</span>
-              <button class="qty-btn" onclick="adj('dismounts',1)">+</button>
-            </div>
-          </div>
-        </div>
-        <div class="toggle-row">
-          <div class="toggle-label"><span>TV Delivery / Transport</span><small>We deliver your TV to your location. Under 75" = $25, 75"+ = $70 per TV</small></div>
-          <div style="display:flex;align-items:center;gap:16px;">
-            <span class="toggle-price">from $25/TV</span>
-            <label class="toggle-switch"><input type="checkbox" id="transport" onchange="updateQuote()"/><span class="slider"></span></label>
-          </div>
-        </div>
-        <div class="form-row single" style="margin-top:24px;">
+        <div class="form-row single">
           <div class="form-group"><label>Anything else we should know?</label><textarea id="notes" placeholder="Special wall type, condo restrictions, specific mount preference, etc."></textarea></div>
         </div>
         <div class="form-nav">
@@ -744,20 +747,25 @@ function closeLightbox(){
 
       <!-- Step 3: Date & Time -->
       <div class="form-step" id="step3">
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;" class="step4-grid">
-          <div>
-            <div class="quote-box" id="final-quote"></div>
+        <!-- Itemized breakdown -->
+        <div style="background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);margin-bottom:24px;overflow:hidden;">
+          <div style="background:rgba(45,127,232,.12);padding:10px 16px;border-bottom:1px solid rgba(79,172,255,.15);">
+            <span style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);">Your Order Summary</span>
           </div>
-          <div>
-            <div class="booking-eyebrow" style="margin-bottom:16px;">Pick a Date and Time</div>
-            <div class="form-group" style="margin-bottom:16px;">
-              <label>Preferred Date</label>
-              <input type="date" id="cal-date" onchange="loadSlots()" oninput="loadSlots()" style="width:100%;color-scheme:dark;cursor:pointer;"/>
-            </div>
-            <div class="slots-wrap" id="slots-wrap">
-              <p style="font-size:.8rem;color:var(--m);">Select a date to see available times.</p>
-            </div>
+          <div id="main-breakdown-lines" style="padding:12px 16px;display:flex;flex-direction:column;gap:8px;"></div>
+          <div style="border-top:1px solid rgba(79,172,255,.15);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--m);">Estimated Total</span>
+            <span id="main-breakdown-total" style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--bl);">$0</span>
           </div>
+          <div style="padding:0 16px 12px;font-size:.6rem;color:rgba(232,237,245,.25);">Final price confirmed on-site · No payment until job is complete</div>
+        </div>
+        <div class="booking-eyebrow" style="margin-bottom:16px;">Pick a Date and Time</div>
+        <div class="form-group" style="margin-bottom:16px;">
+          <label>Preferred Date</label>
+          <input type="date" id="cal-date" onchange="loadSlots()" style="width:100%;color-scheme:dark;cursor:pointer;"/>
+        </div>
+        <div class="slots-wrap" id="slots-wrap">
+          <p style="font-size:.8rem;color:var(--m);">Select a date to see available times.</p>
         </div>
         <div class="form-nav">
           <button class="btn-back" onclick="goStep(2)">&larr; Back</button>
@@ -765,7 +773,7 @@ function closeLightbox(){
         </div>
       </div>
 
-      <!-- Step 4: Info + Address + Submit -->
+      <!-- Step 4: Info -->
       <div class="form-step" id="step4">
         <div class="form-row">
           <div class="form-group"><label>First Name</label><input type="text" id="fname" placeholder="John"/></div>
@@ -778,7 +786,6 @@ function closeLightbox(){
         <div class="form-row single">
           <div class="form-group"><label>Service Address</label><input type="text" id="address" placeholder="123 Main St, Phoenix, AZ 85001"/></div>
         </div>
-        <div class="quote-box" id="final-quote-confirm" style="margin-top:8px;"></div>
         <div class="form-nav">
           <button class="btn-back" onclick="goStep(3)">&larr; Back</button>
           <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
@@ -938,367 +945,234 @@ var co=new IntersectionObserver(function(es){
 document.querySelectorAll('.count').forEach(function(el){co.observe(el);});
 
 // ==================== BOOKING FORM ====================
+var mainState={tvs:[{size:'32-64',mount:'fullmotion',cords:'none',wall:'drywall'}],soundbars:0,dismounts:0,tvcount:1};
+var selectedSlot=null;
+var WORKER='https://vistamount-worker.billowing-recipe-0ae7.workers.dev';
+var MAIN_PRICES={'<32':100,'32-64':125,'65-84':150,'85+':200};
+var MAIN_WALL_PRICES={drywall:0,stucco:75,brick:100,tile:150,fireplace:75};
+var MAIN_MOUNT_LABELS={fullmotion:'Full-Motion Mount',tilt:'Tilt Mount',flat:'Flat/Fixed Mount',own:'Customer Mount'};
+var MAIN_CORDS_LABELS={none:'No Cord Management',raceway:'On-Wall Raceway',inwall:'In-Wall Concealment',outlet:'In-Wall + Outlet'};
+var MAIN_WALL_LABELS={drywall:'Drywall',stucco:'Stucco',brick:'Brick/Concrete',tile:'Tile/Stone',fireplace:'Fireplace'};
+var MAIN_SIZE_LABELS={'<32':'Under 32\"','32-64':'32\"–64\"','65-84':'65\"–84\"','85+':'85\"+'};
 
-// FIX: Declare selectedSlot at top scope so all functions can access it
-var selectedSlot = null;
-
-var PRICE={
-  size:{'<32':100,'32-64':125,'65-84':150,'85+':200},
-  mount:{fullmotion:65,flat:50,tilt:50,own:0},
-  inwall:{first:75,add:50},raceway:{first:40,add:20},outlet:150,
-  soundbar:{first:100,add:75},dismount:25,
-  transport:{small:25,large:70},multi:25
-};
-var state={tvs:[],soundbars:0,dismounts:0,transport:false};
-
-function tvPrice(tv,isFirstInwall,isFirstRaceway){
-  var p=PRICE.size[tv.size]||125;
-  if(!tv.hasMount)p+=PRICE.mount[tv.mountType]||50;
-  if(tv.cords==='inwall')p+=isFirstInwall?PRICE.inwall.first:PRICE.inwall.add;
-  if(tv.cords==='raceway')p+=isFirstRaceway?PRICE.raceway.first:PRICE.raceway.add;
-  if(tv.outlet)p+=PRICE.outlet;
-  return p;
+function setMainTVCount(n,btn){
+  btn.closest('[id="tv-count-opts"]').querySelectorAll('.option-btn').forEach(function(b){b.classList.remove('selected');});
+  btn.classList.add('selected');
+  mainState.tvcount=n;
+  if(n>=4){buildMainTVCards();return;}
+  while(mainState.tvs.length<n)mainState.tvs.push({size:'32-64',mount:'fullmotion',cords:'none',wall:'drywall'});
+  mainState.tvs=mainState.tvs.slice(0,n);
+  buildMainTVCards();
+  calcMainEst();
 }
 
-function calcTotal(){
-  var total=0,disc=0,inwc=0,rwc=0;
-  state.tvs.forEach(function(tv,i){
-    var isFirstIn=inwc===0&&tv.cords==='inwall';
-    var isFirstRw=rwc===0&&tv.cords==='raceway';
-    if(tv.cords==='inwall')inwc++;
-    if(tv.cords==='raceway')rwc++;
-    total+=tvPrice(tv,isFirstIn,isFirstRw);
-    if(i>0)disc+=PRICE.multi;
+function buildMainTVCards(){
+  var wrap=document.getElementById('main-tv-cards');
+  wrap.innerHTML='';
+  if(mainState.tvcount>=4){
+    wrap.innerHTML='<div class="tv-card"><p style="color:var(--m);font-size:.85rem;">For 4+ TVs please call us at <a href="tel:+14809034769" style="color:var(--bl);">(480) 903-4769</a> for a custom quote.</p></div>';
+    return;
+  }
+  var colors=[
+    {border:'rgba(79,172,255,.4)',label:'#4facff',header:'rgba(45,127,232,.2)'},
+    {border:'rgba(255,140,80,.4)',label:'#ff8c50',header:'rgba(232,100,45,.2)'},
+    {border:'rgba(80,220,150,.35)',label:'#50dc96',header:'rgba(45,200,130,.15)'},
+  ];
+  while(mainState.tvs.length<mainState.tvcount)mainState.tvs.push({size:'32-64',mount:'fullmotion',cords:'none',wall:'drywall'});
+  mainState.tvs=mainState.tvs.slice(0,mainState.tvcount);
+
+  mainState.tvs.forEach(function(tv,idx){
+    var c=colors[idx]||colors[0];
+    var card=document.createElement('div');
+    card.style.cssText='border:1px solid '+c.border+';margin-bottom:16px;overflow:hidden;';
+
+    var hdr=document.createElement('div');
+    hdr.style.cssText='background:'+c.header+';padding:10px 16px;border-bottom:1px solid '+c.border+';display:flex;align-items:center;justify-content:space-between;';
+    hdr.innerHTML='<span style="font-family:Bebas Neue,sans-serif;font-size:1.1rem;letter-spacing:.08em;color:'+c.label+';">TV '+(idx+1)+'</span><span id="main-tv-summary-'+idx+'" style="font-size:.62rem;color:rgba(232,237,245,.35);"></span>';
+    card.appendChild(hdr);
+
+    var body=document.createElement('div');
+    body.style.cssText='padding:14px;background:rgba(0,0,0,.1);display:grid;grid-template-columns:1fr 1fr;gap:10px;';
+
+    var selStyle='width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--w);padding:10px 12px;font-family:var(--font);font-size:.82rem;outline:none;cursor:pointer;-webkit-appearance:none;appearance:none;';
+
+    function makeMainSelect(key,options,currentVal,labelText){
+      var w=document.createElement('div');
+      var lbl=document.createElement('label');
+      lbl.style.cssText='font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:'+c.label+';opacity:.8;margin-bottom:6px;display:block;';
+      lbl.textContent=labelText;
+      w.appendChild(lbl);
+      var sel=document.createElement('select');
+      sel.style.cssText=selStyle;
+      sel.addEventListener('focus',function(){this.style.borderColor=c.label;});
+      sel.addEventListener('blur',function(){this.style.borderColor='rgba(79,172,255,.1)';});
+      options.forEach(function(o){
+        var opt=document.createElement('option');
+        opt.value=o[0];
+        opt.textContent=o[1]+' ('+o[2]+')';
+        if(o[0]===currentVal)opt.selected=true;
+        sel.appendChild(opt);
+      });
+      sel.onchange=function(){
+        mainState.tvs[idx][key]=this.value;
+        updateMainTVSummary(idx,c);
+        calcMainEst();
+      };
+      w.appendChild(sel);
+      return w;
+    }
+
+    body.appendChild(makeMainSelect('size',[['<32','Under 32\"','$100'],['32-64','32\"–64\"','$125'],['65-84','65\"–84\"','$150'],['85+','85\"+','$200']],tv.size,'Size'));
+    body.appendChild(makeMainSelect('mount',[['fullmotion','Full-Motion','+$65'],['tilt','Tilt','+$50'],['flat','Flat/Fixed','+$50'],['own','I have one','Incl.']],tv.mount,'Mount'));
+    body.appendChild(makeMainSelect('cords',[['none','None','Incl.'],['raceway','Raceway','+$40'],['inwall','In-Wall','+$75'],['outlet','+Outlet','+$150']],tv.cords,'Wiring'));
+    body.appendChild(makeMainSelect('wall',[['drywall','Drywall','Std.'],['stucco','Stucco','+$75'],['brick','Brick/Concrete','+$100'],['tile','Tile/Stone','+$150'],['fireplace','Fireplace','+$75']],tv.wall,'Wall Type'));
+
+    card.appendChild(body);
+    wrap.appendChild(card);
+    updateMainTVSummary(idx,c);
   });
-  if(state.soundbars>0){total+=PRICE.soundbar.first+(state.soundbars-1)*PRICE.soundbar.add;disc+=(state.soundbars-1)*PRICE.multi;}
-  if(state.dismounts>0){total+=state.dismounts*PRICE.dismount;}
-  if(state.transport){state.tvs.forEach(function(tv){total+=(['65-84','85+'].indexOf(tv.size)>=0)?PRICE.transport.large:PRICE.transport.small;});}
-  return {total:Math.max(0,total-disc),disc:disc};
 }
 
-function buildQuoteHTML(){
-  var numTVs=state.tvs.length;
-  if(numTVs===0)return '';
-  var inwc=0,rwc=0,lines=[],totalDisc=0;
-  var sizeLabel=function(s){return s==='<32'?'Under 32"':s==='32-64'?'32–64"':s==='65-84'?'65–84"':'85"+';};
-  var mountLabel=function(m){return m==='fullmotion'?'Full-Motion Bracket':m==='tilt'?'Tilt Bracket':m==='flat'?'Flat Bracket':'Customer-Supplied Mount';};
-  var cordLabel=function(c){return c==='inwall'?'In-Wall Wire Concealment':c==='raceway'?'Surface Raceway':'No Cord Management';};
-  state.tvs.forEach(function(tv,i){
-    var isFirstIn=inwc===0&&tv.cords==='inwall';
-    var isFirstRw=rwc===0&&tv.cords==='raceway';
-    if(tv.cords==='inwall')inwc++;
-    if(tv.cords==='raceway')rwc++;
-    var rows=[];
-    var base=PRICE.size[tv.size]||125;
-    rows.push({label:'TV Mounting ('+sizeLabel(tv.size)+')',amt:base});
-    if(!tv.hasMount&&tv.mountType!=='own'){var mp=PRICE.mount[tv.mountType]||50;rows.push({label:mountLabel(tv.mountType),amt:mp});}
-    if(tv.cords==='inwall'){var cp=isFirstIn?PRICE.inwall.first:PRICE.inwall.add;rows.push({label:cordLabel(tv.cords),amt:cp});}
-    if(tv.cords==='raceway'){var cp=isFirstRw?PRICE.raceway.first:PRICE.raceway.add;rows.push({label:cordLabel(tv.cords),amt:cp});}
-    if(tv.outlet)rows.push({label:'Outlet Relocation',amt:PRICE.outlet});
-    var subtotal=rows.reduce(function(s,r){return s+r.amt;},0);
-    var disc=i>0?PRICE.multi:0;
-    if(disc>0)totalDisc+=disc;
-    lines.push({title:'TV '+(i+1),rows:rows,subtotal:subtotal,disc:disc});
+function updateMainTVSummary(idx,c){
+  var tv=mainState.tvs[idx];
+  var el=document.getElementById('main-tv-summary-'+idx);
+  if(!el)return;
+  el.textContent=(MAIN_SIZE_LABELS[tv.size]||tv.size)+' · '+(MAIN_WALL_LABELS[tv.wall]||tv.wall);
+}
+
+function adjMain(key,delta){
+  mainState[key]=Math.max(0,Math.min(10,mainState[key]+delta));
+  var el=document.getElementById('main-'+key+'-val');
+  if(el)el.textContent=mainState[key];
+  calcMainEst();
+}
+
+function calcMainEst(){
+  if(mainState.tvcount>=4)return;
+  var total=0;
+  mainState.tvs.forEach(function(tv,i){
+    var p=MAIN_PRICES[tv.size]||125;
+    if(tv.mount!=='own')p+=({fullmotion:65,tilt:50,flat:50}[tv.mount]||0);
+    if(tv.cords==='inwall')p+=75;
+    else if(tv.cords==='raceway')p+=40;
+    else if(tv.cords==='outlet')p+=150;
+    p+=(MAIN_WALL_PRICES[tv.wall]||0);
+    if(i>0)p-=25;
+    total+=p;
   });
-  if(state.soundbars>0){
-    var rows=[];
-    rows.push({label:'First Soundbar',amt:PRICE.soundbar.first});
-    if(state.soundbars>1)rows.push({label:'Additional Soundbars ×'+(state.soundbars-1),amt:(state.soundbars-1)*PRICE.soundbar.add});
-    var disc=(state.soundbars-1)*PRICE.multi;
-    totalDisc+=disc;
-    lines.push({title:'Soundbar'+(state.soundbars>1?' ×'+state.soundbars:''),rows:rows,subtotal:rows.reduce(function(s,r){return s+r.amt;},0),disc:disc});
+  if(mainState.soundbars>0)total+=100+(mainState.soundbars-1)*75;
+  if(mainState.dismounts>0)total+=mainState.dismounts*25;
+  if(document.getElementById('main-transport')&&document.getElementById('main-transport').checked){
+    mainState.tvs.forEach(function(tv){total+=(['65-84','85+'].indexOf(tv.size)>=0)?70:25;});
   }
-  if(state.dismounts>0){
-    lines.push({title:'TV Removal',rows:[{label:'TV Removal ×'+state.dismounts,amt:state.dismounts*PRICE.dismount}],subtotal:state.dismounts*PRICE.dismount,disc:0});
-  }
-  if(state.transport){
-    var tt=0;
-    state.tvs.forEach(function(tv){tt+=(['65-84','85+'].indexOf(tv.size)>=0)?PRICE.transport.large:PRICE.transport.small;});
-    lines.push({title:'TV Delivery',rows:[{label:'Delivery fee',amt:tt}],subtotal:tt,disc:0});
-  }
-  var res=calcTotal();
-  var html='<div style="font-size:.72rem;color:var(--m);letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;font-weight:500;">Your Estimate</div>';
-  lines.forEach(function(line){
-    html+='<div style="background:rgba(255,255,255,.04);border-radius:8px;margin-bottom:8px;overflow:hidden;">';
-    html+='<div style="padding:10px 14px;border-bottom:1px solid rgba(255,255,255,.06);display:flex;justify-content:space-between;align-items:center;">';
-    html+='<div style="font-size:.82rem;font-weight:600;color:var(--w);">'+line.title+'</div>';
-    if(line.disc>0)html+='<div style="font-size:.65rem;color:#4facff;background:rgba(45,127,232,.12);padding:2px 8px;border-radius:20px;">−$'+line.disc+' multi-unit</div>';
-    html+='</div>';
-    line.rows.forEach(function(row){
-      html+='<div style="display:flex;justify-content:space-between;padding:7px 14px;">';
-      html+='<div style="font-size:.75rem;color:rgba(255,255,255,.45);">'+row.label+'</div>';
-      html+='<div style="font-size:.75rem;color:rgba(255,255,255,.6);">$'+row.amt+'</div></div>';
-    });
-    html+='<div style="display:flex;justify-content:space-between;padding:8px 14px;border-top:1px solid rgba(255,255,255,.06);background:rgba(255,255,255,.03)">';
-    html+='<div style="font-size:.75rem;color:rgba(255,255,255,.4);">Subtotal</div>';
-    html+='<div style="font-size:.82rem;font-weight:600;color:var(--w);">$'+(line.subtotal-line.disc)+'</div></div>';
-    html+='</div>';
+  return total;
+}
+
+function buildMainBreakdown(){
+  var lines=[];
+  mainState.tvs.forEach(function(tv,i){
+    var p=MAIN_PRICES[tv.size]||125;
+    lines.push({label:'TV '+(i+1)+' — '+MAIN_SIZE_LABELS[tv.size],amt:'$'+p});
+    if(tv.mount!=='own'){var mp=({fullmotion:65,tilt:50,flat:50}[tv.mount]||0);lines.push({label:MAIN_MOUNT_LABELS[tv.mount],amt:mp?'+$'+mp:'Incl.'});}
+    else lines.push({label:'Customer-supplied mount',amt:'Incl.'});
+    if(tv.cords!=='none'){var cp=({raceway:40,inwall:75,outlet:150}[tv.cords]||0);lines.push({label:MAIN_CORDS_LABELS[tv.cords],amt:'+$'+cp});}
+    if(tv.wall!=='drywall'){var wp=MAIN_WALL_PRICES[tv.wall]||0;lines.push({label:MAIN_WALL_LABELS[tv.wall]+' wall upcharge',amt:'+$'+wp});}
+    if(i>0)lines.push({label:'Multi-unit discount',amt:'−$25',disc:true});
   });
-  if(res.disc>0){
-    html+='<div style="display:flex;justify-content:space-between;padding:8px 14px;background:rgba(79,172,255,.07);border-radius:6px;margin-bottom:10px;">';
-    html+='<div style="font-size:.76rem;color:#4facff;font-weight:500;">Total multi-unit savings</div>';
-    html+='<div style="font-size:.8rem;color:#4facff;font-weight:600;">−$'+res.disc+'</div></div>';
-  }
-  html+='<div style="display:flex;justify-content:space-between;padding:14px;border-top:1px solid rgba(255,255,255,.12);margin-top:4px;">';
-  html+='<div style="font-size:.9rem;color:var(--w);font-weight:500;">Estimated Total</div>';
-  html+='<div style="font-size:1.3rem;font-weight:700;color:#4facff;">$'+res.total+'</div></div>';
-  html+='<div style="font-size:.65rem;color:var(--m);margin-top:10px;line-height:1.7;">Final price confirmed on-site. Most installs fall within this range. No payment until job is complete.</div>';
-  return html;
-}
+  if(mainState.soundbars>0)lines.push({label:'Soundbar install ×'+mainState.soundbars,amt:'+$'+(100+(mainState.soundbars-1)*75)});
+  if(mainState.dismounts>0)lines.push({label:'Mount removal ×'+mainState.dismounts,amt:'+$'+(mainState.dismounts*25)});
 
-function updateQuote(){
-  state.transport=document.getElementById('transport')?document.getElementById('transport').checked:false;
-  // FIX: Update soundbar price label
-  var sbLabel=document.getElementById('soundbar-price-label');
-  if(sbLabel){
-    if(state.soundbars===0)sbLabel.textContent='$0';
-    else if(state.soundbars===1)sbLabel.textContent='$'+PRICE.soundbar.first;
-    else sbLabel.textContent='$'+(PRICE.soundbar.first+(state.soundbars-1)*PRICE.soundbar.add);
-  }
-  var q=buildQuoteHTML();
-  var el1=document.getElementById('final-quote');
-  var el2=document.getElementById('final-quote-confirm');
-  if(el1)el1.innerHTML=q;
-  if(el2)el2.innerHTML=q;
-}
-
-function adj(key,delta){
-  state[key]=Math.max(0,state[key]+delta);
-  document.getElementById(key+'-val').textContent=state[key];
-  updateQuote();
-}
-
-// SVG helpers
-function svgFlat(){return '<svg width="100" height="70" viewBox="0 0 100 70" fill="none"><rect x="2" y="0" width="10" height="70" fill="#0c0c1a" stroke="#3d7fff" stroke-width="1.2"/><line x1="4" y1="17" x2="10" y2="17" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="4" y1="35" x2="10" y2="35" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="4" y1="53" x2="10" y2="53" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><rect x="12" y="31" width="10" height="6" rx="1" fill="#3d7fff"/><rect x="22" y="10" width="9" height="48" rx="2" fill="#060612" stroke="#3d7fff" stroke-width="1.5"/><rect x="23.5" y="12" width="6" height="44" rx="1" fill="rgba(61,127,255,0.12)"/></svg>';}
-function svgTilt(){return '<svg width="100" height="70" viewBox="0 0 100 70" fill="none"><rect x="2" y="0" width="10" height="70" fill="#0c0c1a" stroke="#3d7fff" stroke-width="1.2"/><line x1="4" y1="17" x2="10" y2="17" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="4" y1="35" x2="10" y2="35" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="4" y1="53" x2="10" y2="53" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="12" y1="18" x2="22" y2="22" stroke="#3d7fff" stroke-width="1.5" stroke-linecap="round"/><circle cx="14" cy="19" r="2" fill="#3d7fff"/><polygon points="22,10 31,14 29,58 20,54" fill="#060612" stroke="#3d7fff" stroke-width="1.5"/><polygon points="23.5,13 29.5,16 27.5,55 21.5,52" fill="rgba(61,127,255,0.12)"/></svg>';}
-function svgFM(){return '<svg width="100" height="70" viewBox="0 0 100 70" fill="none"><rect x="2" y="0" width="10" height="70" fill="#0c0c1a" stroke="#3d7fff" stroke-width="1.2"/><line x1="4" y1="17" x2="10" y2="17" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="4" y1="35" x2="10" y2="35" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="4" y1="53" x2="10" y2="53" stroke="#3d7fff" stroke-width="0.5" opacity="0.4"/><line x1="12" y1="35" x2="32" y2="35" stroke="#3d7fff" stroke-width="1.5" stroke-linecap="round"/><circle cx="14" cy="35" r="2.5" fill="#3d7fff"/><circle cx="32" cy="35" r="2.5" fill="#3d7fff"/><line x1="32" y1="35" x2="52" y2="35" stroke="#3d7fff" stroke-width="1.5" stroke-linecap="round"/><circle cx="52" cy="35" r="2.5" fill="#3d7fff"/><rect x="53" y="13" width="9" height="44" rx="2" fill="#060612" stroke="#3d7fff" stroke-width="1.5"/><rect x="54.5" y="15" width="6" height="40" rx="1" fill="rgba(61,127,255,0.12)"/></svg>';}
-function svgNone(){return '<svg width="100" height="72" viewBox="0 0 100 72" fill="none"><rect x="10" y="0" width="80" height="72" fill="#0a0a16"/><rect x="18" y="6" width="64" height="38" rx="2" fill="#060612" stroke="#3d7fff" stroke-width="1.5"/><rect x="21" y="9" width="58" height="32" rx="1" fill="rgba(61,127,255,0.08)"/><path d="M40 44 C40 50 36 53 36 58 C36 62 40 63 40 66" stroke="#888" stroke-width="1.5" fill="none" stroke-linecap="round"/><path d="M60 44 C60 48 62 52 60 56 C58 60 62 63 60 66" stroke="#888" stroke-width="1.5" fill="none" stroke-linecap="round"/></svg>';}
-function svgRaceway(){return '<svg width="100" height="72" viewBox="0 0 100 72" fill="none"><rect x="10" y="0" width="80" height="72" fill="#0a0a16"/><rect x="18" y="6" width="64" height="38" rx="2" fill="#060612" stroke="#3d7fff" stroke-width="1.5"/><rect x="21" y="9" width="58" height="32" rx="1" fill="rgba(61,127,255,0.08)"/><rect x="44" y="44" width="12" height="24" rx="3" fill="#0c0c1e" stroke="#3d7fff" stroke-width="1.2"/><line x1="50" y1="44" x2="50" y2="68" stroke="#3d7fff" stroke-width="0.8" opacity="0.6"/></svg>';}
-function svgInwall(){return '<svg width="100" height="72" viewBox="0 0 100 72" fill="none"><rect x="10" y="0" width="80" height="72" fill="#0a0a16"/><rect x="18" y="6" width="64" height="38" rx="2" fill="#060612" stroke="#3d7fff" stroke-width="1.5"/><rect x="21" y="9" width="58" height="32" rx="1" fill="rgba(61,127,255,0.08)"/><path d="M50 44 L50 56" stroke="#3d7fff" stroke-width="1" stroke-dasharray="2 2" opacity="0.6"/><rect x="42" y="56" width="16" height="12" rx="2" fill="#0c0c1e" stroke="#3d7fff" stroke-width="1.2"/><circle cx="47" cy="62" r="2" fill="none" stroke="#3d7fff" stroke-width="1"/><circle cx="53" cy="62" r="2" fill="none" stroke="#3d7fff" stroke-width="1"/></svg>';}
-
-function handleOpt(el){
-  var id=parseInt(el.dataset.id),key=el.dataset.key,val=el.dataset.val;
-  if(val==='true')val=true;else if(val==='false')val=false;
-  setTV(id,key,val,el);
-}
-
-var tvCount=0;
-function addTV(){
-  if(tvCount>=6)return;
-  tvCount++;
-  var id=tvCount;
-  state.tvs.push({id:id,size:'32-64',hasMount:false,mountType:'fullmotion',cords:'none',outlet:false});
-  buildTVCard(id);
-  if(tvCount>=6)document.getElementById('add-tv-btn').style.display='none';
-}
-
-function buildTVCard(id){
-  var idx=state.tvs.findIndex(function(t){return t.id===id;});
-  var existing=document.getElementById('tv-card-'+id);
-  if(existing)existing.remove();
-  var tv=state.tvs[idx];
-  var card=document.createElement('div');
-  card.className='tv-card';card.id='tv-card-'+id;
-
-  function ob(key,val,label,desc,price,svg,sel){
-    var b=document.createElement('button');
-    b.className='option-btn'+(sel?' selected':'');
-    b.dataset.id=id;b.dataset.key=key;b.dataset.val=val;
-    b.setAttribute('onclick','handleOpt(this)');
-    var h='';
-    if(svg)h+='<div class="opt-illustration">'+svg+'</div>';
-    h+='<span class="opt-title">'+label+'</span>';
-    if(desc)h+='<span class="opt-desc">'+desc+'</span>';
-    if(price)h+='<span class="opt-price">'+price+'</span>';
-    b.innerHTML=h;return b;
-  }
-  function grid(c){var g=document.createElement('div');g.className='option-grid cols'+c;return g;}
-  function lbl(t){var s=document.createElement('span');s.className='option-label';s.textContent=t;return s;}
-
-  var hdr=document.createElement('div');hdr.className='tv-card-header';
-  hdr.innerHTML='<span class="tv-card-title">TV '+id+'</span>';
-  if(id>1){var rb=document.createElement('button');rb.className='remove-tv';rb.textContent='Remove';rb.setAttribute('onclick','removeTV('+id+')');hdr.appendChild(rb);}
-  card.appendChild(hdr);
-
-  card.appendChild(lbl('TV Size'));
-  var sg=grid(2);
-  [['<32','Under 32"','$100'],['32-64','32" - 64"','$125'],['65-84','65" - 84"','$150'],['85+','85" and up','$200']].forEach(function(s){
-    sg.appendChild(ob('size',s[0],s[0],null,s[2]+' base',null,tv.size===s[0]));
+  var linesEl=document.getElementById('main-breakdown-lines');
+  if(!linesEl)return;
+  linesEl.innerHTML='';
+  lines.forEach(function(l){
+    var row=document.createElement('div');
+    row.style.cssText='display:flex;justify-content:space-between;align-items:center;font-size:.8rem;'+(l.disc?'opacity:.6;':'');
+    row.innerHTML='<span style="color:rgba(232,237,245,'+(l.disc?.4:.6)+');">'+l.label+'</span><span style="color:'+(l.disc?'rgba(255,100,100,.8)':l.amt.startsWith('+')?'var(--bl)':'var(--w)')+';">'+l.amt+'</span>';
+    linesEl.appendChild(row);
   });
-  card.appendChild(sg);
-
-  card.appendChild(lbl('Do you have a mount?'));
-  var mg=grid(2);
-  mg.appendChild(ob('hasMount','false','No - I need one','We supply and install a premium mount',null,null,!tv.hasMount));
-  mg.appendChild(ob('hasMount','true','Yes - I have my own','We install your existing mount',null,null,tv.hasMount));
-  card.appendChild(mg);
-
-  var mtd=document.createElement('div');mtd.id='mount-type-'+id;if(tv.hasMount)mtd.style.display='none';
-  mtd.appendChild(lbl('Mount Type'));
-  var mtg=grid(3);
-  mtg.appendChild(ob('mountType','flat','Flat / Fixed','Flush against wall.','+$50',svgFlat(),tv.mountType==='flat'));
-  mtg.appendChild(ob('mountType','tilt','Tilt','Angles down 5-15 degrees.','+$50',svgTilt(),tv.mountType==='tilt'));
-  mtg.appendChild(ob('mountType','fullmotion','Full-Motion','Swivels and extends.','+$65',svgFM(),tv.mountType==='fullmotion'));
-  mtd.appendChild(mtg);card.appendChild(mtd);
-
-  card.appendChild(lbl('Cord Management'));
-  var cg=grid(3);
-  cg.appendChild(ob('cords','none','None','Cords hang behind TV.','Included',svgNone(),tv.cords==='none'));
-  cg.appendChild(ob('cords','raceway','On-Wall Raceway','Clean channel on wall.','$40 first / $20 addl',svgRaceway(),tv.cords==='raceway'));
-  cg.appendChild(ob('cords','inwall','In-Wall','Completely hidden inside wall.','+$75 first / +$50 addl',svgInwall(),tv.cords==='inwall'));
-  card.appendChild(cg);
-
-  var outRow=document.createElement('div');
-  outRow.style.cssText='margin-top:20px;padding:16px 20px;background:rgba(255,255,255,.02);border:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;';
-  outRow.innerHTML='<div class="toggle-label"><span>Add In-Wall Power Outlet</span><small>Outlet installed behind TV - completely clean look</small></div>'
-    +'<div style="display:flex;align-items:center;gap:16px;"><span class="toggle-price">~$150</span>'
-    +'<label class="toggle-switch"><input type="checkbox" '+(tv.outlet?'checked':'')+' onchange="setTVOutlet('+id+',this.checked)"/><span class="slider"></span></label></div>';
-  card.appendChild(outRow);
-  document.getElementById('tv-cards').appendChild(card);
-}
-
-function setTV(id,key,val,btn){
-  var idx=state.tvs.findIndex(function(t){return t.id===id;});
-  if(idx<0)return;
-  state.tvs[idx][key]=val;
-  if(key==='size'||key==='mountType'||key==='cords'){
-    btn.closest('.option-grid').querySelectorAll('.option-btn').forEach(function(b){b.classList.remove('selected');});
-    btn.classList.add('selected');
-  }
-  if(key==='hasMount'){
-    btn.closest('.option-grid').querySelectorAll('.option-btn').forEach(function(b){b.classList.remove('selected');});
-    btn.classList.add('selected');
-    document.getElementById('mount-type-'+id).style.display=val?'none':'';
-  }
-}
-
-function setTVOutlet(id,checked){
-  var idx=state.tvs.findIndex(function(t){return t.id===id;});
-  if(idx>=0)state.tvs[idx].outlet=checked;
-}
-
-function removeTV(id){
-  state.tvs=state.tvs.filter(function(t){return t.id!==id;});
-  document.getElementById('tv-card-'+id).remove();
-  if(tvCount<6)document.getElementById('add-tv-btn').style.display='';
+  var total=calcMainEst()||0;
+  var totalEl=document.getElementById('main-breakdown-total');
+  if(totalEl)totalEl.textContent='$'+total;
 }
 
 function goStep(n){
-  if(n===1&&state.tvs.length===0)addTV();
   document.querySelectorAll('.form-step').forEach(function(s){s.classList.remove('active');});
   document.getElementById('step'+n).classList.add('active');
   for(var i=1;i<=4;i++){
     document.getElementById('p'+i).classList.toggle('active',i<=n);
     document.getElementById('pl'+i).classList.toggle('active',i===n);
   }
-  if(n===3){updateQuote();initDatePicker();}
-  if(n===4){updateQuote();}
+  if(n===3){buildMainBreakdown();initMainDatePicker();}
   document.getElementById('booking').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
-// FIX: selectSlot now properly updates selectedSlot variable
-function selectSlot(el){
-  document.querySelectorAll('#slots-wrap .option-btn').forEach(function(b){b.classList.remove('selected');});
-  el.classList.add('selected');
-  selectedSlot={
-    start:el.getAttribute('data-start'),
-    end:el.getAttribute('data-end'),
-    label:el.getAttribute('data-label'),
-    time:el.getAttribute('data-time')
-  };
-  var btn=document.getElementById('time-next-btn');
-  if(btn){btn.style.opacity='1';btn.style.pointerEvents='auto';}
-}
-
-var WORKER='https://vistamount-worker.billowing-recipe-0ae7.workers.dev';
-
-function initDatePicker(){
+function initMainDatePicker(){
   var input=document.getElementById('cal-date');
-  if(!input)return;
-  var today=new Date();
-  var yyyy=today.getFullYear();
-  var mm=String(today.getMonth()+1).padStart(2,'0');
-  var dd=String(today.getDate()).padStart(2,'0');
-  input.min=yyyy+'-'+mm+'-'+dd;
-  if(!input.value){
-    document.getElementById('slots-wrap').innerHTML='<p style="font-size:.8rem;color:var(--m);">Select a date to see available times.</p>';
-    document.getElementById('time-next-btn').style.opacity='.4';
-    document.getElementById('time-next-btn').style.pointerEvents='none';
-    selectedSlot=null;
-  }
+  if(!input||input.value)return;
+  var t=new Date();
+  input.min=t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0');
 }
 
 function loadSlots(){
-  var input=document.getElementById('cal-date');
-  var date=input?input.value:'';
+  var date=document.getElementById('cal-date').value;
   if(!date)return;
   var wrap=document.getElementById('slots-wrap');
-  wrap.innerHTML='<p style="font-size:.8rem;color:var(--m);">Loading available times...</p>';
+  wrap.innerHTML='<p style="font-size:.8rem;color:var(--m);">Loading...</p>';
+  selectedSlot=null;
   document.getElementById('time-next-btn').style.opacity='.4';
   document.getElementById('time-next-btn').style.pointerEvents='none';
-  selectedSlot=null;
   fetch(WORKER+'/availability?date='+date+'&duration=120')
     .then(function(r){return r.json();})
     .then(function(data){
       var slots=data.slots||[];
-      if(slots.length===0){
-        wrap.innerHTML='<p style="font-size:.8rem;color:var(--m);">No availability on this date. Please try another day.</p>';
-        return;
-      }
+      if(!slots.length){wrap.innerHTML='<p style="font-size:.8rem;color:var(--m);">No availability. Try another day.</p>';return;}
       wrap.innerHTML='';
       slots.forEach(function(slot){
         var btn=document.createElement('button');
         btn.className='option-btn slot-btn';
-        btn.setAttribute('data-start',slot.start);
-        btn.setAttribute('data-end',slot.end);
-        btn.setAttribute('data-label',slot.label||'');
-        btn.setAttribute('data-time',slot.time||slot.label||'');
-        btn.innerHTML='<span class="opt-title">'+slot.time+'</span><span class="opt-desc">'+slot.label+'</span>';
-        btn.onclick=function(){selectSlot(this);};
+        btn.style.cssText='width:100%;text-align:left;display:flex;justify-content:space-between;margin-bottom:8px;';
+        btn.innerHTML='<span>'+slot.time+'</span><span style="font-size:.7rem;color:var(--m);">'+slot.label+'</span>';
+        btn.onclick=function(){
+          wrap.querySelectorAll('.option-btn').forEach(function(b){b.classList.remove('selected');});
+          btn.classList.add('selected');
+          selectedSlot={start:slot.start,end:slot.end,time:slot.time,label:slot.label};
+          document.getElementById('time-next-btn').style.opacity='1';
+          document.getElementById('time-next-btn').style.pointerEvents='auto';
+        };
         wrap.appendChild(btn);
       });
     })
-    .catch(function(){
-      wrap.innerHTML='<p style="font-size:.8rem;color:var(--m);">Could not load availability. Please call us at (480) 903-4769.</p>';
-    });
+    .catch(function(){wrap.innerHTML='<p style="font-size:.8rem;color:var(--m);">Error. Call (480) 903-4769.</p>';});
 }
 
 async function submitForm(){
-  if(!selectedSlot){alert('Please select a time slot first.');return;}
+  if(!selectedSlot){alert('Please select a time slot.');return;}
   var fname=document.getElementById('fname').value.trim();
   var phone=document.getElementById('phone').value.trim();
-  if(!fname||!phone){alert('Please fill in your name and phone number.');return;}
+  if(!fname||!phone){alert('Please enter your name and phone number.');return;}
   var btn=document.getElementById('submit-btn');
   btn.textContent='Booking...';btn.style.opacity='.7';btn.disabled=true;
-  var sl={'<32':'Under 32"','32-64':'32-64"','65-84':'65-84"','85+':'85"+'};
-  var lines=state.tvs.map(function(tv,i){
-    return 'TV '+(i+1)+': '+(sl[tv.size]||tv.size)+', '+(tv.hasMount?'own mount':tv.mountType)+', '+({'none':'no conceal','raceway':'raceway','inwall':'in-wall'}[tv.cords])+(tv.outlet?' + outlet':'');
-  });
-  var addons=[];
-  if(state.soundbars>0)addons.push(state.soundbars+' soundbar(s)');
-  if(state.dismounts>0)addons.push(state.dismounts+' dismount(s)');
-  if(state.transport)addons.push('TV delivery');
-  var summary=lines.join(' | ')+(addons.length?' | Add-ons: '+addons.join(', '):'') +' | Est: $'+calcTotal().total;
+  var summary='TVs:'+mainState.tvcount+' '+mainState.tvs.map(function(tv,i){return 'TV'+(i+1)+':'+tv.size+'/'+tv.mount+'/'+tv.cords+'/'+tv.wall;}).join(' ')+(mainState.soundbars?' soundbars:'+mainState.soundbars:'')+(mainState.dismounts?' dismounts:'+mainState.dismounts:'');
   try{
     var res=await fetch(WORKER+'/book',{
       method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         name:(fname+' '+(document.getElementById('lname').value||'')).trim(),
-        phone:phone,
-        email:document.getElementById('email').value,
+        phone:phone,email:document.getElementById('email').value,
         address:document.getElementById('address').value,
         slotStart:selectedSlot.start,slotEnd:selectedSlot.end,
-        summary:summary,notes:document.getElementById('notes').value
+        summary:summary,notes:document.getElementById('notes')?document.getElementById('notes').value:''
       })
     });
     var data=await res.json();
-    if(data.success&&data.eventId){
+    if(data.success){
       document.getElementById('form-wrap').style.display='none';
       document.getElementById('success').classList.add('show');
       document.getElementById('booking-header').style.display='none';
     }else{
       btn.textContent='Confirm Booking';btn.style.opacity='1';btn.disabled=false;
-      alert('Booking failed — the appointment was not added to our calendar. Please call (480) 903-4769.');
+      alert('Booking failed. Please call (480) 903-4769.');
     }
   }catch(e){
     btn.textContent='Confirm Booking';btn.style.opacity='1';btn.disabled=false;
@@ -1307,7 +1181,8 @@ async function submitForm(){
 }
 
 // Init
-addTV();
+buildMainTVCards();
+calcMainEst();
 </script>
 
 <!-- BOOKING MODAL -->
