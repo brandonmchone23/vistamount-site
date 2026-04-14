@@ -315,9 +315,15 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
 @media(max-width:500px){.gallery-grid{grid-template-columns:1fr!important;}.tools-grid{grid-template-columns:1fr!important;}}
 @media(max-width:768px){.stats-main-grid{grid-template-columns:1fr!important;}.who-grid{grid-template-columns:1fr 1fr!important;}.warranty-wrap{flex-direction:column!important;text-align:center;gap:28px!important;}.warranty-wrap > div:nth-child(2){display:none!important;}}
 </style>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-KL3RS6P8');</script>
+<!-- End Google Tag Manager -->
 <script src="https://elfsightcdn.com/platform.js" async></script>
 </head>
 <body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KL3RS6P8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
 
 <nav id="nav">
   <a href="/" class="nav-logo" style="font-family:DM Sans,sans-serif;font-size:1.5rem;font-weight:500;letter-spacing:.02em;color:#fff;text-decoration:none;">Vista<span style="color:#2d7fe8;font-weight:700;">Mount</span></a>
@@ -1285,6 +1291,8 @@ async function submitForm(){
       document.getElementById('form-wrap').style.display='none';
       document.getElementById('success').classList.add('show');
       document.getElementById('booking-header').style.display='none';
+      window.dataLayer=window.dataLayer||[];
+      window.dataLayer.push({event:'booking_complete',page:'main'});
     }else{
       btn.textContent='Confirm Booking';btn.style.opacity='1';btn.disabled=false;
       alert('Booking failed. Please call (480) 903-4769.');
