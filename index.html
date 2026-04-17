@@ -802,14 +802,14 @@ function closeLightbox(){
         <div class="prog-step" id="p2"></div>
         <div class="prog-step" id="p3"></div>
         <div class="prog-step" id="p4"></div>
-        <div class="prog-step" id="p5"></div>
+        <div class="prog-step" id="p5" style="display:none;"></div>
       </div>
       <div class="prog-labels">
         <span class="prog-label active" id="pl1">TVs</span>
         <span class="prog-label" id="pl2">Add-ons</span>
         <span class="prog-label" id="pl3">Time</span>
         <span class="prog-label" id="pl4">Info</span>
-        <span class="prog-label" id="pl5">Payment</span>
+        <span class="prog-label" id="pl5" style="display:none;">Payment</span>
       </div>
     </div>
 
@@ -1297,6 +1297,9 @@ function goStep(n){
     document.getElementById('pl'+i).classList.toggle('active',i===n);
   }
   if(n===3){buildMainBreakdown();initMainDatePicker();}
+  if(n===4){
+    updateStep4Button();
+  }
   if(n===5){
     buildMainBreakdown();
     showPaymentStep();
@@ -1715,6 +1718,28 @@ async function processPayment(sourceId) {
       '<div style="color:#ff5555;font-size:.75rem;">Payment failed: '+e.message+'. Please try again or call (480) 903-4769.</div>';
     submitBtn.textContent = 'Complete Payment & Book';
     submitBtn.disabled = false;
+  }
+}
+
+
+function updateStep4Button() {
+  if (!selectedSlot || !selectedSlot.start) return;
+  
+  const apptDate = new Date(selectedSlot.start);
+  const today = new Date();
+  const isSameDay = apptDate.toDateString() === today.toDateString();
+  
+  const step4NextBtn = document.querySelector('#step4 .btn-next');
+  const step4NextText = document.getElementById('step4-next-text');
+  
+  if (isSameDay) {
+    // Same-day: Skip payment, go straight to confirm
+    step4NextBtn.onclick = function() { submitForm(); };
+    if (step4NextText) step4NextText.textContent = 'Confirm Booking ✓';
+  } else {
+    // Future: Go to payment step
+    step4NextBtn.onclick = function() { goStep(5); };
+    if (step4NextText) step4NextText.textContent = 'Continue to Deposit →';
   }
 }
 
