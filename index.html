@@ -881,8 +881,11 @@ function initBookingStep1() {
     </div>
   `;
   
-  renderTVCards();
-  updatePriceDisplay();
+  // Small delay to ensure DOM is ready
+  setTimeout(() => {
+    renderTVCards();
+    updatePriceDisplay();
+  }, 0);
 }
 
 function setTVCount(count) {
