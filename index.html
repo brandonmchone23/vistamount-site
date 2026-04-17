@@ -1804,52 +1804,48 @@ async function initSquarePayment() {
   try {
     const payments = window.Square.payments(SQUARE_APP_ID, SQUARE_LOCATION_ID);
     
-    // Initialize Apple Pay
-    const applePayButton = document.getElementById('apple-pay-button');
-    const applePay = await payments.applePay({
-      name: 'VistaMount LLC',
-      countryCode: 'US',
-      currencyCode: 'USD',
-      total: {
-        amount: '50.00',
-        label: 'VistaMount Deposit'
-      }
-    });
-    
-    if (applePay) {
-      await applePay.attach('#apple-pay-button');
-      applePayButton.style.display = 'block';
-      applePayButton.addEventListener('click', async () => {
-        const result = await applePay.tokenize();
-        if (result.status === 'OK') {
-          processPayment(result.token);
-        }
+    // Try Apple Pay (optional)
+    try {
+      const applePayButton = document.getElementById('apple-pay-button');
+      const applePay = await payments.applePay({
+        name: 'VistaMount LLC',
+        countryCode: 'US',
+        currencyCode: 'USD',
+        total: { amount: '50.00', label: 'VistaMount Deposit' }
       });
+      if (applePay) {
+        await applePay.attach('#apple-pay-button');
+        applePayButton.style.display = 'block';
+        applePayButton.addEventListener('click', async () => {
+          const result = await applePay.tokenize();
+          if (result.status === 'OK') processPayment(result.token);
+        });
+      }
+    } catch (e) {
+      console.log('Apple Pay unavailable:', e.message);
     }
     
-    // Initialize Google Pay
-    const googlePayButton = document.getElementById('google-pay-button');
-    const googlePay = await payments.googlePay({
-      countryCode: 'US',
-      currencyCode: 'USD',
-      total: {
-        amount: '50.00',
-        label: 'VistaMount Deposit'
-      }
-    });
-    
-    if (googlePay) {
-      await googlePay.attach('#google-pay-button');
-      googlePayButton.style.display = 'block';
-      googlePayButton.addEventListener('click', async () => {
-        const result = await googlePay.tokenize();
-        if (result.status === 'OK') {
-          processPayment(result.token);
-        }
+    // Try Google Pay (optional)
+    try {
+      const googlePayButton = document.getElementById('google-pay-button');
+      const googlePay = await payments.googlePay({
+        countryCode: 'US',
+        currencyCode: 'USD',
+        total: { amount: '50.00', label: 'VistaMount Deposit' }
       });
+      if (googlePay) {
+        await googlePay.attach('#google-pay-button');
+        googlePayButton.style.display = 'block';
+        googlePayButton.addEventListener('click', async () => {
+          const result = await googlePay.tokenize();
+          if (result.status === 'OK') processPayment(result.token);
+        });
+      }
+    } catch (e) {
+      console.log('Google Pay unavailable:', e.message);
     }
     
-    // Initialize Card
+    // Initialize Card (required)
     card = await payments.card();
     await card.attach('#card-container');
     
