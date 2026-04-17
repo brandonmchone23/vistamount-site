@@ -951,7 +951,36 @@ function closeLightbox(){
     
       <div class="success-state" id="success">
       <div class="success-icon">&#10003;</div>
-      <div class="success-title">You're Booked!</div>
+      <div class="success-title">Booking Confirmed!</div>
+      
+      <div style="background:rgba(79,172,255,.1);border:2px solid #4facff;border-radius:12px;padding:24px;margin:32px 0;max-width:500px;">
+        <div style="font-size:1.1rem;font-weight:600;color:#4facff;margin-bottom:20px;">Payment Receipt</div>
+        
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.1);">
+          <span style="color:var(--m);">Deposit charged</span>
+          <span id="receipt-amount" style="font-weight:600;">$1.00</span>
+        </div>
+        
+        <div style="display:flex;justify-content:space-between;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.1);">
+          <span style="color:var(--m);">Payment ID</span>
+          <span id="receipt-payment-id" style="font-family:monospace;font-size:.85rem;">---</span>
+        </div>
+        
+        <div style="margin-top:16px;padding-top:16px;border-top:2px solid rgba(79,172,255,.3);">
+          <div style="font-size:.9rem;font-weight:600;margin-bottom:12px;">Appointment Details</div>
+          <div style="color:var(--m);font-size:.85rem;line-height:1.8;">
+            <div><strong>Date & Time:</strong> <span id="receipt-datetime">---</span></div>
+            <div><strong>Service:</strong> <span id="receipt-service">---</span></div>
+            <div><strong>Customer:</strong> <span id="receipt-customer">---</span></div>
+          </div>
+        </div>
+      </div>
+      
+      <div style="font-size:.85rem;color:var(--m);line-height:1.8;margin-bottom:24px;">
+        ✓ Confirmation email sent<br/>
+        ✓ Calendar invite sent to your email<br/>
+        ✓ We'll call within 2 hours to confirm details
+      </div>
       <p class="success-sub">A member of the VistaMount team will call within 2 hours to confirm your appointment. We look forward to getting your space right.</p>
       <a href="tel:+14809034769" class="success-phone">(480) 903-4769</a>
     </div>
@@ -1722,6 +1751,24 @@ async function processPayment(sourceId) {
     
     const data = await res.json();
     if (data.success) {
+      // Populate receipt details
+      document.getElementById('receipt-amount').textContent = '$' + (TEST_DEPOSIT_AMOUNT || 1).toFixed(2);
+      document.getElementById('receipt-payment-id').textContent = data.paymentId || 'N/A';
+      
+      const apptDate = new Date(selectedSlot.start);
+      const dateStr = apptDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+      const timeStr = apptDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+      document.getElementById('receipt-datetime').textContent = dateStr + ' at ' + timeStr;
+      
+      const tvCount = mainState.tvcount || 1;
+      const serviceStr = tvCount + ' TV' + (tvCount > 1 ? 's' : '') + ' mounted' + 
+                         (mainState.soundbars ? ', ' + mainState.soundbars + ' soundbar(s)' : '') +
+                         (mainState.dismounts ? ', ' + mainState.dismounts + ' dismount(s)' : '');
+      document.getElementById('receipt-service').textContent = serviceStr;
+      
+      document.getElementById('receipt-customer').textContent = fname + ' ' + (document.getElementById('lname').value || '');
+      
+      // Show success screen
       document.getElementById('form-wrap').style.display = 'none';
       document.getElementById('success').classList.add('show');
       document.getElementById('booking-header').style.display = 'none';
