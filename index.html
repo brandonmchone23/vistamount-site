@@ -715,6 +715,60 @@ function renderModalNav(backStep, nextStep, nextLabel, nextAction, disabled) {
   footer.innerHTML = html;
 }
 
+
+function calculatePrice() {
+  let total = 0;
+  
+  // Base TV pricing
+  bookingState.tvs.forEach((tv, i) => {
+    // TV size pricing
+    if (tv.size === '<32') total += 100;
+    else if (tv.size === '32-64') total += 125;
+    else if (tv.size === '65-84') total += 150;
+    else if (tv.size === '85+') total += 200;
+    
+    // Mount type upcharge
+    if (tv.mountType === 'tilting') total += 25;
+    else if (tv.mountType === 'fullmotion') total += 50;
+    
+    // Cord concealment
+    if (tv.cords === 'concealed') {
+      if (tv.wall === 'drywall') total += 50;
+      else if (tv.wall === 'stucco') total += 75;
+      else if (tv.wall === 'brick' || tv.wall === 'tile') total += 100;
+    }
+    
+    // Wall type upcharge for mounting
+    if (tv.wall === 'stucco') total += 75;
+    else if (tv.wall === 'brick') total += 100;
+    else if (tv.wall === 'tile') total += 150;
+    
+    // Discount for multiple TVs
+    if (i > 0) total -= 25;
+  });
+  
+  // Soundbars
+  if (bookingState.soundbars > 0) {
+    total += 100; // First soundbar
+    if (bookingState.soundbars > 1) {
+      total += (bookingState.soundbars - 1) * 75; // Additional soundbars
+    }
+  }
+  
+  // Dismounts
+  total += bookingState.dismounts * 25;
+  
+  return total;
+}
+
+function updatePriceDisplay() {
+  const price = calculatePrice();
+  const priceElements = document.querySelectorAll('.price-display');
+  priceElements.forEach(el => {
+    el.textContent = '$' + price;
+  });
+}
+
 function openBookingModal() {
   const modal = document.getElementById('booking-modal');
   if (!modal) {
@@ -812,6 +866,18 @@ function initBookingStep1() {
     
     <div id="tv-cards-container"></div>
     
+    <div style="background:#e8f4ff;padding:20px;border-radius:8px;border:1px solid #b8daff;margin-top:24px;text-align:center;">
+      <div style="font-size:0.85rem;color:#666;margin-bottom:8px;">Estimated Total</div>
+      <div class="price-display" style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#2d7fe8;">$0</div>
+      <div style="font-size:0.75rem;color:#666;margin-top:4px;">Final price confirmed on-site</div>
+    </div>
+    
+    <div style="background:#e8f4ff;padding:20px;border-radius:8px;border:1px solid #b8daff;margin-top:24px;text-align:center;">
+      <div style="font-size:0.85rem;color:#666;margin-bottom:8px;">Estimated Total</div>
+      <div class="price-display" style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#2d7fe8;">$0</div>
+      <div style="font-size:0.75rem;color:#666;margin-top:4px;">Final price confirmed on-site</div>
+    </div>
+    
     <div class="modal-nav">
       <div></div>
       <button class="btn-next" onclick="goBookingStep(2)">Next: Add-ons →</button>
@@ -819,6 +885,7 @@ function initBookingStep1() {
   `;
   
   renderTVCards();
+  updatePriceDisplay();
 }
 
 function setTVCount(count) {
@@ -889,6 +956,8 @@ function renderTVCards() {
 function setTVProp(index, prop, value) {
   bookingState.tvs[index][prop] = value;
   renderTVCards();
+  updatePriceDisplay();
+  updatePriceDisplay();
 }
 
 function initBookingStep2() {
@@ -920,6 +989,12 @@ function initBookingStep2() {
       </div>
     </div>
     
+    <div style="background:#e8f4ff;padding:20px;border-radius:8px;border:1px solid #b8daff;margin-top:24px;text-align:center;">
+      <div style="font-size:0.85rem;color:#666;margin-bottom:8px;">Estimated Total</div>
+      <div class="price-display" style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#2d7fe8;">$0</div>
+      <div style="font-size:0.75rem;color:#666;margin-top:4px;">Final price confirmed on-site</div>
+    </div>
+    
     <div class="modal-nav">
       <button class="btn-back" onclick="goBookingStep(1)">← Back</button>
       <button class="btn-next" onclick="goBookingStep(3)">Next: Schedule →</button>
@@ -930,6 +1005,7 @@ function initBookingStep2() {
 function adjustQty(field, delta) {
   bookingState[field] = Math.max(0, bookingState[field] + delta);
   initBookingStep2();
+  updatePriceDisplay();
 }
 
 function initBookingStep3() {
@@ -1182,6 +1258,12 @@ function initBookingStep4() {
         <div style="font-size:0.85rem;color:#666;margin-bottom:12px;">Payment - $1 Deposit</div>
         <div id="card-container"></div>
       </div>
+    </div>
+    
+    <div style="background:#e8f4ff;padding:20px;border-radius:8px;border:1px solid #b8daff;margin-top:24px;text-align:center;">
+      <div style="font-size:0.85rem;color:#666;margin-bottom:8px;">Estimated Total</div>
+      <div class="price-display" style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#2d7fe8;">$0</div>
+      <div style="font-size:0.75rem;color:#666;margin-top:4px;">Final price confirmed on-site</div>
     </div>
     
     <div class="modal-nav">
