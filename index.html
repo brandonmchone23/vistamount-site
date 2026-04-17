@@ -859,6 +859,149 @@ function selectSlot(slot) {
   }
 }
 
+
+let modalCard = null;
+let modalSquareInitialized = false;
+
+async function initModalSquarePayment() {
+  if (!window.Square) {
+    console.error('Square.js not loaded');
+    return;
+  }
+  
+  if (modalSquareInitialized) {
+    console.log('Square already initialized for modal');
+    return;
+  }
+  
+  modalSquareInitialized = true;
+  
+  try {
+    const payments = window.Square.payments('sq0idp-B3c5ZI18_DbdYE7RbSIYqA', 'LRF9PX7GSDB5M');
+    modalCard = await payments.card();
+    await modalCard.attach('#card-container');
+    console.log('Square card attached to modal');
+  } catch (e) {
+    console.error('Square initialization failed:', e);
+    document.getElementById('payment-status').innerHTML = 
+      '<span style="color:#ff5555;">Payment system failed to load. Please refresh or call (480) 903-4769.</span>';
+  }
+}
+
+async function submitBooking() {
+  // Validate required fields
+  const fname = document.getElementById('fname').value.trim();
+  const lname = document.getElementById('lname').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const address = document.getElementById('address').value.trim();
+  
+  if (!fname || !lname || !phone || !email || !address) {
+    alert('Please fill in all required fields');
+    return;
+  }
+  
+  if (!bookingState.selectedSlot) {
+    alert('Please select a time slot');
+    return;
+  }
+  
+  // Check if payment is needed
+  const selectedDate = document.getElementById('booking-date').value;
+  const today = new Date().toISOString().split('T')[0];
+  const isSameDay = selectedDate === today;
+  
+  let sourceId = null;
+  
+  // Tokenize card if payment needed
+  if (!isSameDay) {
+    if (!modalCard) {
+      alert('Payment system not initialized');
+      return;
+    }
+    
+    try {
+      const statusEl = document.getElementById('payment-status');
+      statusEl.innerHTML = '<span style="color:var(--bl);">Processing payment...</span>';
+      
+      const result = await modalCard.tokenize();
+      if (result.status === 'OK') {
+        sourceId = result.token;
+      } else {
+        throw new Error(result.errors?.[0]?.message || 'Card validation failed');
+      }
+    } catch (e) {
+      document.getElementById('payment-status').innerHTML = 
+        '<span style="color:#ff5555;">Payment failed: ' + e.message + '</span>';
+      return;
+    }
+  }
+  
+  // Generate confirmation number
+  const confirmationNumber = 'VM-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+  
+  // Build summary
+  const summary = 'TVs:' + bookingState.tvs.length + ' ' + 
+    bookingState.tvs.map((tv, i) => 
+      'TV' + (i+1) + ':' + tv.size + '/' + tv.mountType + '/' + tv.cords + '/' + tv.wall
+    ).join(' ') +
+    (bookingState.soundbars ? ' soundbars:' + bookingState.soundbars : '') +
+    (bookingState.dismounts ? ' dismounts:' + bookingState.dismounts : '');
+  
+  // Submit to worker
+  try {
+    const response = await fetch('https://vistamount-booking.billowing-recipe-0ae7.workers.dev/book', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        name: fname + ' ' + lname,
+        phone: phone,
+        email: email,
+        address: address,
+        slotStart: bookingState.selectedSlot.start,
+        slotEnd: bookingState.selectedSlot.end,
+        summary: summary,
+        notes: '',
+        sourceId: sourceId,
+        confirmationNumber: confirmationNumber
+      })
+    });
+    
+    const data = await response.json();
+    
+    if (data.success) {
+      // Show success message
+      showSuccessScreen(confirmationNumber);
+    } else {
+      throw new Error(data.error || 'Booking failed');
+    }
+  } catch (e) {
+    alert('Booking failed: ' + e.message + '. Please try again or call (480) 903-4769.');
+  }
+}
+
+function showSuccessScreen(confirmationNumber) {
+  const container = document.getElementById('modal-form-container');
+  container.innerHTML = `
+    <div style="text-align:center;padding:60px 40px;">
+      <div style="font-size:4rem;margin-bottom:20px;">✓</div>
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--bl);margin-bottom:12px;">Booking Confirmed!</h2>
+      <div style="font-size:1rem;color:var(--m);margin-bottom:30px;">Confirmation #: <strong style="color:var(--w)">${confirmationNumber}</strong></div>
+      <div style="background:rgba(45,127,232,.08);padding:20px;border-radius:6px;margin-bottom:30px;">
+        <div style="font-size:0.85rem;color:var(--m);line-height:1.6;">
+          You'll receive a calendar invite at your email.<br/>
+          We'll call to confirm details before your appointment.
+        </div>
+      </div>
+      <button class="btn-next" style="width:auto;margin:0 auto;" onclick="closeBookingModal()">Done</button>
+    </div>
+  `;
+  
+  // Hide footer
+  const footer = document.querySelector('.modal-footer');
+  if (footer) footer.style.display = 'none';
+}
+
 function initBookingStep4() {
   const container = document.getElementById('step-4');
   container.innerHTML = `
