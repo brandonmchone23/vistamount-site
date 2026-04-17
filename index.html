@@ -680,6 +680,33 @@ let bookingState = {
   currentStep: 1
 };
 
+
+function renderModalNav(backStep, nextStep, nextLabel, nextAction) {
+  let footer = document.querySelector('.modal-footer');
+  if (!footer) {
+    // Create footer if it doesn't exist
+    footer = document.createElement('div');
+    footer.className = 'modal-footer';
+    document.querySelector('.modal-container').appendChild(footer);
+  }
+  
+  let html = '<div class="modal-nav">';
+  if (backStep) {
+    html += `<button class="btn-back" onclick="goBookingStep(${backStep})">Back</button>`;
+  } else {
+    html += '<div></div>';
+  }
+  
+  if (nextAction) {
+    html += `<button class="btn-next" onclick="${nextAction}">${nextLabel}</button>`;
+  } else if (nextStep) {
+    html += `<button class="btn-next" onclick="goBookingStep(${nextStep})">${nextLabel}</button>`;
+  }
+  html += '</div>';
+  
+  footer.innerHTML = html;
+}
+
 function openBookingModal() {
   const modal = document.getElementById('booking-modal');
   if (!modal) {
@@ -1783,16 +1810,7 @@ hc.style.cursor='pointer';
 hc.addEventListener('click',function(){document.getElementById('booking').scrollIntoView({behavior:'smooth'});});
 
 // ==================== NAV ====================
-function updateNav(){
-  var nav=document.getElementById('nav');
-  var scrollY=window.scrollY;
-  var heroH=document.getElementById('hero').offsetHeight;
-  var booking=document.getElementById('booking');
-  var bookingTop=booking.getBoundingClientRect().top+scrollY;
-  if(scrollY<heroH*0.8){nav.className='';return;}
-  if(scrollY>bookingTop-100){nav.className='scrolled-dark';return;}
-  nav.className='scrolled-dark';
-}
+
 window.addEventListener('scroll',updateNav);
 
 // ==================== SCROLL ANIMATIONS ====================
@@ -1833,79 +1851,14 @@ function setMainTVCount(n,btn){
   btn.closest('[id="tv-count-opts"]').querySelectorAll('.option-btn').forEach(function(b){b.classList.remove('selected');});
   btn.classList.add('selected');
   mainState.tvcount=n;
-  if(n>=4){buildMainTVCards();return;}
+  if(n>=4){return;}
   while(mainState.tvs.length<n)mainState.tvs.push({size:'32-64',mount:'own',cords:'none',wall:'drywall'});
   mainState.tvs=mainState.tvs.slice(0,n);
-  buildMainTVCards();
+  
   calcMainEst();
 }
 
-function buildMainTVCards(){
-  var wrap=document.getElementById('main-tv-cards');
-  wrap.innerHTML='';
-  if(mainState.tvcount>=4){
-    wrap.innerHTML='<div class="tv-card"><p style="color:#666;font-size:.85rem;">For 4+ TVs please call us at <a href="tel:+14809034769" style="color:var(--bl);">(480) 903-4769</a> for a custom quote.</p></div>';
-    return;
-  }
-  var colors=[
-    {border:'rgba(79,172,255,.4)',label:'#4facff',header:'rgba(45,127,232,.2)'},
-    {border:'rgba(255,140,80,.4)',label:'#ff8c50',header:'rgba(232,100,45,.2)'},
-    {border:'rgba(80,220,150,.35)',label:'#50dc96',header:'rgba(45,200,130,.15)'},
-  ];
-  while(mainState.tvs.length<mainState.tvcount)mainState.tvs.push({size:'32-64',mount:'own',cords:'none',wall:'drywall'});
-  mainState.tvs=mainState.tvs.slice(0,mainState.tvcount);
 
-  mainState.tvs.forEach(function(tv,idx){
-    var c=colors[idx]||colors[0];
-    var card=document.createElement('div');
-    card.style.cssText='border:1px solid '+c.border+';margin-bottom:16px;overflow:hidden;';
-
-    var hdr=document.createElement('div');
-    hdr.style.cssText='background:'+c.header+';padding:10px 16px;border-bottom:1px solid '+c.border+';display:flex;align-items:center;justify-content:space-between;';
-    hdr.innerHTML='<span style="font-family:Bebas Neue,sans-serif;font-size:1.1rem;letter-spacing:.08em;color:'+c.label+';">TV '+(idx+1)+'</span><span id="main-tv-summary-'+idx+'" style="font-size:.62rem;color:rgba(232,237,245,.35);"></span>';
-    card.appendChild(hdr);
-
-    var body=document.createElement('div');
-    body.style.cssText='padding:14px;background:rgba(0,0,0,.1);display:grid;grid-template-columns:1fr 1fr;gap:10px;';
-
-    var selStyle='width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--w);padding:10px 12px;font-family:var(--font);font-size:.82rem;outline:none;cursor:pointer;-webkit-appearance:none;appearance:none;';
-
-    function makeMainSelect(key,options,currentVal,labelText){
-      var w=document.createElement('div');
-      var lbl=document.createElement('label');
-      lbl.style.cssText='font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:'+c.label+';opacity:.8;margin-bottom:6px;display:block;';
-      lbl.textContent=labelText;
-      w.appendChild(lbl);
-      var sel=document.createElement('select');
-      sel.style.cssText=selStyle;
-      sel.addEventListener('focus',function(){this.style.borderColor=c.label;});
-      sel.addEventListener('blur',function(){this.style.borderColor='rgba(79,172,255,.1)';});
-      options.forEach(function(o){
-        var opt=document.createElement('option');
-        opt.value=o[0];
-        opt.textContent=o[1]+' ('+o[2]+')';
-        if(o[0]===currentVal)opt.selected=true;
-        sel.appendChild(opt);
-      });
-      sel.onchange=function(){
-        mainState.tvs[idx][key]=this.value;
-        updateMainTVSummary(idx,c);
-        calcMainEst();
-      };
-      w.appendChild(sel);
-      return w;
-    }
-
-    body.appendChild(makeMainSelect('size',[['<32','Under 32\"','$100'],['32-64','32\"–64\"','$125'],['65-84','65\"–84\"','$150'],['85+','85\"+','$200']],tv.size,'Size'));
-    body.appendChild(makeMainSelect('mount',[['fullmotion','Full-Motion','+$65'],['tilt','Tilt','+$50'],['flat','Flat/Fixed','+$50'],['own','I have one','Incl.']],tv.mount,'Mount'));
-    body.appendChild(makeMainSelect('cords',[['none','None','Incl.'],['raceway','Raceway','+$40'],['inwall','In-Wall','+$75'],['outlet','+Outlet','+$150']],tv.cords,'Wiring'));
-    body.appendChild(makeMainSelect('wall',[['drywall','Drywall','Std.'],['stucco','Stucco','+$75'],['brick','Brick/Concrete','+$100'],['tile','Tile/Stone','+$150'],['fireplace','Fireplace','+$75']],tv.wall,'Wall Type'));
-
-    card.appendChild(body);
-    wrap.appendChild(card);
-    updateMainTVSummary(idx,c);
-  });
-}
 
 function updateMainTVSummary(idx,c){
   var tv=mainState.tvs[idx];
@@ -2113,7 +2066,7 @@ async function submitForm(){
 }
 
 // Init
-buildMainTVCards();
+
 calcMainEst();
 </script>
 
