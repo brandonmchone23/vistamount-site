@@ -1,7 +1,8 @@
 {
-  "outputDirectory": ".",
-  "rewrites": [
-    { "source": "/landing", "destination": "/landing.html" },
-    { "source": "/(.*)", "destination": "/index.html" }
+  "routes": [
+    {
+      "src": "/.well-known/apple-developer-merchantid-domain-association",
+      "dest": "/public/.well-known/apple-developer-merchantid-domain-association"
+    }
   ]
 }
