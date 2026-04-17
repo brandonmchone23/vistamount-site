@@ -1,0 +1,322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Book Your TV Mount | VistaMount</title>
+    <script src="https://web.squarecdn.com/v1/square.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        
+        body {
+            font-family: 'Montserrat', sans-serif;
+            background: linear-gradient(135deg, #0066ff 0%, #001a4d 100%);
+            min-height: 100vh;
+            padding: 40px 20px;
+        }
+        
+        .booking-container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+        }
+        
+        h1 {
+            color: #0066ff;
+            margin-bottom: 10px;
+            font-size: 32px;
+        }
+        
+        .deposit-notice {
+            background: #f0f7ff;
+            border-left: 4px solid #0066ff;
+            padding: 15px;
+            margin-bottom: 30px;
+            border-radius: 4px;
+        }
+        
+        .deposit-notice p {
+            color: #333;
+            font-size: 14px;
+            line-height: 1.6;
+        }
+        
+        .deposit-notice strong {
+            color: #0066ff;
+        }
+        
+        .form-group {
+            margin-bottom: 20px;
+        }
+        
+        label {
+            display: block;
+            color: #333;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+        
+        input, select, textarea {
+            width: 100%;
+            padding: 12px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+            font-size: 16px;
+            font-family: 'Montserrat', sans-serif;
+            transition: border-color 0.3s;
+        }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: #0066ff;
+        }
+        
+        textarea {
+            resize: vertical;
+            min-height: 100px;
+        }
+        
+        #card-container {
+            margin: 20px 0;
+            padding: 15px;
+            border: 2px solid #e0e0e0;
+            border-radius: 6px;
+        }
+        
+        .payment-section {
+            background: #f9f9f9;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 30px 0;
+        }
+        
+        .payment-section h3 {
+            color: #333;
+            margin-bottom: 15px;
+        }
+        
+        button {
+            width: 100%;
+            background: #0066ff;
+            color: white;
+            border: none;
+            padding: 16px;
+            font-size: 18px;
+            font-weight: 600;
+            border-radius: 6px;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+        
+        button:hover {
+            background: #0052cc;
+        }
+        
+        button:disabled {
+            background: #ccc;
+            cursor: not-allowed;
+        }
+        
+        .error {
+            color: #d32f2f;
+            font-size: 14px;
+            margin-top: 10px;
+        }
+        
+        .success {
+            background: #4caf50;
+            color: white;
+            padding: 20px;
+            border-radius: 6px;
+            text-align: center;
+        }
+        
+        .loading {
+            display: inline-block;
+            width: 20px;
+            height: 20px;
+            border: 3px solid #f3f3f3;
+            border-top: 3px solid #0066ff;
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin-left: 10px;
+        }
+        
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <div class="booking-container">
+        <h1>Book Your TV Mount</h1>
+        
+        <div class="deposit-notice">
+            <p><strong>$50 deposit required</strong> to secure your appointment. Applied to final invoice. Non-refundable if cancelled within 24 hours.</p>
+        </div>
+        
+        <form id="booking-form">
+            <div class="form-group">
+                <label for="name">Full Name *</label>
+                <input type="text" id="name" name="name" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="email">Email *</label>
+                <input type="email" id="email" name="email" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="phone">Phone Number *</label>
+                <input type="tel" id="phone" name="phone" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="address">Service Address *</label>
+                <input type="text" id="address" name="address" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="date">Preferred Date *</label>
+                <input type="date" id="date" name="date" required>
+            </div>
+            
+            <div class="form-group">
+                <label for="time">Preferred Time *</label>
+                <select id="time" name="time" required>
+                    <option value="">Select a time</option>
+                    <option value="8:00 AM">8:00 AM</option>
+                    <option value="9:00 AM">9:00 AM</option>
+                    <option value="10:00 AM">10:00 AM</option>
+                    <option value="11:00 AM">11:00 AM</option>
+                    <option value="12:00 PM">12:00 PM</option>
+                    <option value="1:00 PM">1:00 PM</option>
+                    <option value="2:00 PM">2:00 PM</option>
+                    <option value="3:00 PM">3:00 PM</option>
+                    <option value="4:00 PM">4:00 PM</option>
+                    <option value="5:00 PM">5:00 PM</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="tvs">Number of TVs</label>
+                <select id="tvs" name="tvs">
+                    <option value="1">1 TV</option>
+                    <option value="2">2 TVs</option>
+                    <option value="3">3 TVs</option>
+                    <option value="4+">4+ TVs</option>
+                </select>
+            </div>
+            
+            <div class="form-group">
+                <label for="notes">Additional Notes</label>
+                <textarea id="notes" name="notes" placeholder="TV size, wall type, special requirements, etc."></textarea>
+            </div>
+            
+            <div class="payment-section">
+                <h3>Payment Information</h3>
+                <p style="color: #666; margin-bottom: 15px;">Secure $50 deposit to confirm your appointment</p>
+                <div id="card-container"></div>
+                <div id="payment-status"></div>
+            </div>
+            
+            <button type="submit" id="submit-button">
+                Pay $50 Deposit & Book Appointment
+            </button>
+        </form>
+    </div>
+
+    <script>
+        const appId = 'sq0idp-B3c5ZI18_DbdYE7RbSIYqA';
+        const locationId = 'LRF9PX7GSDB5M';
+        
+        let card;
+        
+        async function initializeSquare() {
+            if (!window.Square) {
+                throw new Error('Square.js failed to load');
+            }
+            
+            const payments = window.Square.payments(appId, locationId);
+            
+            try {
+                card = await payments.card();
+                await card.attach('#card-container');
+            } catch (e) {
+                console.error('Card initialization failed', e);
+                document.getElementById('payment-status').innerHTML = 
+                    '<p class="error">Payment system failed to load. Please refresh the page.</p>';
+            }
+        }
+        
+        document.getElementById('booking-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            
+            const submitButton = document.getElementById('submit-button');
+            const paymentStatus = document.getElementById('payment-status');
+            
+            submitButton.disabled = true;
+            submitButton.innerHTML = 'Processing Payment<span class="loading"></span>';
+            paymentStatus.innerHTML = '';
+            
+            try {
+                const result = await card.tokenize();
+                
+                if (result.status === 'OK') {
+                    const formData = {
+                        name: document.getElementById('name').value,
+                        email: document.getElementById('email').value,
+                        phone: document.getElementById('phone').value,
+                        address: document.getElementById('address').value,
+                        date: document.getElementById('date').value,
+                        time: document.getElementById('time').value,
+                        tvs: document.getElementById('tvs').value,
+                        notes: document.getElementById('notes').value,
+                        sourceId: result.token
+                    };
+                    
+                    const response = await fetch('https://vistamount-booking.billowing-recipe-0ae7.workers.dev/book', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(formData)
+                    });
+                    
+                    const data = await response.json();
+                    
+                    if (response.ok) {
+                        document.querySelector('.booking-container').innerHTML = `
+                            <div class="success">
+                                <h2>✓ Booking Confirmed!</h2>
+                                <p>Your $50 deposit has been processed.</p>
+                                <p>Confirmation sent to ${formData.email}</p>
+                                <p><strong>Appointment:</strong> ${formData.date} at ${formData.time}</p>
+                            </div>
+                        `;
+                    } else {
+                        throw new Error(data.error || 'Booking failed');
+                    }
+                } else {
+                    throw new Error('Card tokenization failed');
+                }
+            } catch (error) {
+                console.error('Payment error:', error);
+                paymentStatus.innerHTML = `<p class="error">Payment failed: ${error.message}. Please try again.</p>`;
+                submitButton.disabled = false;
+                submitButton.innerHTML = 'Pay $50 Deposit & Book Appointment';
+            }
+        });
+        
+        initializeSquare();
+    </script>
+</body>
+</html>
