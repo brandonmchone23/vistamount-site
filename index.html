@@ -716,7 +716,7 @@ function initBookingStep1() {
   }
   container.innerHTML = `
     <div style="margin-bottom:24px;">
-      <label style="display:block;font-size:0.85rem;color:#666;margin-bottom:12px;">How many TVs?</label>
+      <label style="display:block;font-size:0.85rem;color:#333;margin-bottom:12px;font-weight:500;">How many TVs?</label>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
         <button class="option-btn ${bookingState.tvs.length === 1 ? 'selected' : ''}" onclick="setTVCount(1)">1 TV</button>
         <button class="option-btn ${bookingState.tvs.length === 2 ? 'selected' : ''}" onclick="setTVCount(2)">2 TVs</button>
@@ -851,8 +851,8 @@ function initBookingStep3() {
   const container = document.getElementById('step-3');
   container.innerHTML = `
     <div style="margin-bottom:24px;">
-      <label style="display:block;font-size:0.85rem;color:#666;margin-bottom:12px;">Select Date</label>
-      <input type="date" id="booking-date" style="width:100%;padding:12px;background:#f8f9fa;border:1px solid #d0d7e0;border-radius:6px;color:#1a1a1a;font-size:16px;" onchange="loadBookingSlots()">
+      <label style="display:block;font-size:0.85rem;color:#333;margin-bottom:12px;font-weight:500;">Select Date</label>
+      <input type="date" id="booking-date" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;" onchange="loadBookingSlots()">
     </div>
     
     <div id="booking-slots" style="margin-bottom:24px;">
@@ -1075,28 +1075,28 @@ function initBookingStep4() {
     <div style="margin-bottom:24px;">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
         <div>
-          <label style="display:block;font-size:0.8rem;color:#666;margin-bottom:6px;">First Name *</label>
-          <input type="text" id="fname" placeholder="John" style="width:100%;padding:12px;background:#f8f9fa;border:1px solid #d0d7e0;border-radius:6px;color:#1a1a1a;font-size:16px;">
+          <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">First Name *</label>
+          <input type="text" id="fname" placeholder="John" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;">
         </div>
         <div>
-          <label style="display:block;font-size:0.8rem;color:#666;margin-bottom:6px;">Last Name *</label>
-          <input type="text" id="lname" placeholder="Smith" style="width:100%;padding:12px;background:#f8f9fa;border:1px solid #d0d7e0;border-radius:6px;color:#1a1a1a;font-size:16px;">
+          <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">Last Name *</label>
+          <input type="text" id="lname" placeholder="Smith" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;">
         </div>
       </div>
       
       <div style="margin-bottom:12px;">
-        <label style="display:block;font-size:0.8rem;color:#666;margin-bottom:6px;">Phone *</label>
-        <input type="tel" id="phone" placeholder="(480) 555-1234" style="width:100%;padding:12px;background:#f8f9fa;border:1px solid #d0d7e0;border-radius:6px;color:#1a1a1a;font-size:16px;">
+        <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">Phone *</label>
+        <input type="tel" id="phone" placeholder="(480) 555-1234" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;">
       </div>
       
       <div style="margin-bottom:12px;">
-        <label style="display:block;font-size:0.8rem;color:#666;margin-bottom:6px;">Email *</label>
-        <input type="email" id="email" placeholder="john@example.com" style="width:100%;padding:12px;background:#f8f9fa;border:1px solid #d0d7e0;border-radius:6px;color:#1a1a1a;font-size:16px;">
+        <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">Email *</label>
+        <input type="email" id="email" placeholder="john@example.com" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;">
       </div>
       
       <div style="margin-bottom:12px;">
-        <label style="display:block;font-size:0.8rem;color:#666;margin-bottom:6px;">Address *</label>
-        <input type="text" id="address" placeholder="123 Main St, Phoenix AZ 85001" style="width:100%;padding:12px;background:#f8f9fa;border:1px solid #d0d7e0;border-radius:6px;color:#1a1a1a;font-size:16px;">
+        <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">Address *</label>
+        <input type="text" id="address" placeholder="123 Main St, Phoenix AZ 85001" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;">
       </div>
     </div>
     
