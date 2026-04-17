@@ -1697,6 +1697,32 @@ async function initSquarePayment() {
 }
 
 // Initialize when Step 4 is reached - only if NOT same-day
+function checkIfDepositNeeded() {
+  if (!selectedSlot || !selectedSlot.start) return;
+  
+  const apptDate = new Date(selectedSlot.start);
+  const today = new Date();
+  const isSameDay = apptDate.toDateString() === today.toDateString();
+  
+  const depositMessage = document.getElementById('deposit-message');
+  const cardContainer = document.getElementById('card-container');
+  const paymentStatus = document.getElementById('payment-status');
+  
+  if (isSameDay) {
+    // Same-day: No deposit needed
+    depositMessage.innerHTML = '<strong style="color:#4facff;">✓ Same-day appointment - no deposit required!</strong><br>We\'ll call to confirm within 2 hours.';
+    cardContainer.style.display = 'none';
+    paymentStatus.innerHTML = '';
+  } else {
+    // Future: Show deposit requirement
+    depositMessage.innerHTML = '<strong style="color:#4facff;">$50 deposit required for future appointments</strong><br>Applied to your final invoice. Non-refundable if cancelled within 24 hours.';
+    cardContainer.style.display = 'block';
+    if (!card) {
+      initSquarePayment();
+    }
+  }
+}
+
 const originalGoStep = window.goStep;
 window.goStep = function(n) {
   originalGoStep(n);
