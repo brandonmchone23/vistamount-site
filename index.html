@@ -943,7 +943,7 @@ function closeLightbox(){
             <div id="payment-status" style="margin-top:12px;"></div>
             
             <!-- Submit Button -->
-            <button class="btn-submit" id="submit-btn" onclick="submitForm()" style="width:100%;margin-top:20px;">Confirm Booking &#10003;</button>
+            <button class="btn-submit" id="submit-btn" onclick="handlePaymentSubmit()" style="width:100%;margin-top:20px;">Confirm Booking &#10003;</button>
           </div>
         </div>
       </div>
@@ -1670,6 +1670,30 @@ let card;
 let squareInitialized = false;
 
 
+
+async function handlePaymentSubmit() {
+  if (!card) {
+    alert('Payment system not initialized. Please refresh the page.');
+    return;
+  }
+  
+  const submitBtn = document.getElementById('submit-btn');
+  submitBtn.textContent = 'Processing...';
+  submitBtn.disabled = true;
+  
+  try {
+    const result = await card.tokenize();
+    if (result.status === 'OK') {
+      await processPayment(result.token);
+    } else {
+      throw new Error(result.errors?.[0]?.message || 'Card validation failed');
+    }
+  } catch (e) {
+    alert('Payment failed: ' + e.message);
+    submitBtn.textContent = 'Confirm Booking ✓';
+    submitBtn.disabled = false;
+  }
+}
 
 async function processPayment(sourceId) {
   const submitBtn = document.getElementById('submit-btn');
