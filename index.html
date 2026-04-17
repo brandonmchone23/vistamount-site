@@ -560,9 +560,27 @@ let bookingState = {
 };
 
 function openBookingModal() {
-  document.getElementById('booking-modal').classList.add('open');
+  const modal = document.getElementById('booking-modal');
+  if (!modal) {
+    console.error('Modal not found!');
+    return;
+  }
+  modal.classList.add('open');
   document.body.style.overflow = 'hidden';
-  initBookingStep1();
+  
+  // Initialize the form container if it doesn't have steps yet
+  const formContainer = document.getElementById('modal-form-container');
+  if (!formContainer.querySelector('.modal-step')) {
+    formContainer.innerHTML = `
+      <div class="modal-step active" id="step-1"></div>
+      <div class="modal-step" id="step-2"></div>
+      <div class="modal-step" id="step-3"></div>
+      <div class="modal-step" id="step-4"></div>
+    `;
+  }
+  
+  // Initialize step 1
+  setTimeout(() => initBookingStep1(), 100);
 }
 
 function closeBookingModal() {
