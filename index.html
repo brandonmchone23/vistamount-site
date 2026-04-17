@@ -1225,6 +1225,21 @@ document.addEventListener('DOMContentLoaded', function() {
 <script src="https://elfsightcdn.com/platform.js" async></script>
 </head>
 <body>
+<!-- Fixed Header -->
+<header style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(6,8,15,0.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(79,172,255,0.1);padding:16px 0;">
+  <div style="max-width:1400px;margin:0 auto;padding:0 40px;display:flex;justify-content:space-between;align-items:center;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--w);">
+      Vista<span style="color:var(--bl);">Mount</span>
+    </div>
+    <button onclick="openBookingModal()" style="background:var(--bl);color:#ffffff;border:none;padding:12px 24px;border-radius:6px;font-weight:600;font-size:0.9rem;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;">
+      BOOK NOW
+    </button>
+  </div>
+</header>
+
+<div style="height:60px;"></div> <!-- Spacer for fixed header -->
+
+
 
 <!-- Fixed Header -->
 <header style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(6,8,15,0.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(79,172,255,0.1);padding:16px 0;">
