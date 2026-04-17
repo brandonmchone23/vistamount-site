@@ -780,7 +780,7 @@ function closeLightbox(){
         <span style="font-size:.75rem;color:var(--bl);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">⚡</span> Takes 60 seconds</span>
         <span style="font-size:.75rem;color:var(--bl);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">⚡</span> Instant pricing</span>
         <span style="font-size:.75rem;color:var(--bl);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">⚡</span> Real-time availability</span>
-        <span style="font-size:.75rem;color:rgba(255,120,0,.85);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">💳</span> $50 deposit for future appointments</span>
+        <span style="font-size:.75rem;color:rgba(255,120,0,.85);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">💳</span> $50 deposit for future appts ($25 non-refundable booking fee)</span>
         <span style="font-size:.75rem;color:#4facff;display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">✓</span> Same-day bookings = FREE, no deposit</span>
       </div>
       <div class="progress-bar">
@@ -1379,80 +1379,7 @@ calcMainEst();
       <div style="display:flex;gap:24px;margin-bottom:32px;flex-wrap:wrap;">
         <span style="font-size:.75rem;color:var(--bl);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">⚡</span> Takes 60 seconds</span>
         <span style="font-size:.75rem;color:var(--bl);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">⚡</span> Instant pricing</span>
-        <span style="font-size:.75rem;color:rgba(255,120,0,.85);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">⚠️</span> Same-day spots fill quickly</span>
-      </div>
-      <div class="progress-bar">
-        <div class="prog-step active" id="mp1"></div>
-        <div class="prog-step" id="mp2"></div>
-        <div class="prog-step" id="mp3"></div>
-        <div class="prog-step" id="mp4"></div>
-      </div>
-      <div class="prog-labels">
-        <span class="prog-label active" id="mpl1">Your TVs</span>
-        <span class="prog-label" id="mpl2">Add-ons</span>
-        <span class="prog-label" id="mpl3">Pick a Time</span>
-        <span class="prog-label" id="mpl4">Your Info</span>
-      </div>
-      <div id="modal-form-wrap">
-        <div class="form-step active" id="mstep1">
-          <div class="tv-cards" id="modal-tv-cards"></div>
-          <button class="add-tv-btn" onclick="addModalTV()">+ Add Another TV</button>
-          <div class="form-nav"><div></div><button class="btn-next" onclick="goModalStep(2)">Next: Add-ons &rarr;</button></div>
-        </div>
-        <div class="form-step" id="mstep2">
-          <div class="qty-row"><div class="toggle-label"><span>Soundbar Installation</span><small>Wall-mounted below your TV, cables managed</small></div><div style="display:flex;align-items:center;gap:16px;"><span class="toggle-price" id="modal-soundbar-price">$0</span><div class="qty-control"><button class="qty-btn" onclick="adjModal('soundbars',-1)">-</button><span class="qty-val" id="modal-soundbars-val">0</span><button class="qty-btn" onclick="adjModal('soundbars',1)">+</button></div></div></div>
-          <div class="qty-row"><div class="toggle-label"><span>TV Dismount</span><small>Safe removal of existing mounted TV - $25 each</small></div><div style="display:flex;align-items:center;gap:16px;"><span class="toggle-price">$25 each</span><div class="qty-control"><button class="qty-btn" onclick="adjModal('dismounts',-1)">-</button><span class="qty-val" id="modal-dismounts-val">0</span><button class="qty-btn" onclick="adjModal('dismounts',1)">+</button></div></div></div>
-          <div class="toggle-row"><div class="toggle-label"><span>TV Delivery / Transport</span><small>Under 75" = $25, 75"+ = $70 per TV</small></div><div style="display:flex;align-items:center;gap:16px;"><span class="toggle-price">from $25/TV</span><label class="toggle-switch"><input type="checkbox" id="modal-transport" onchange="updateModalQuote()"/><span class="slider"></span></label></div></div>
-          <div class="form-row single" style="margin-top:24px;"><div class="form-group"><label>Anything else we should know?</label><textarea id="modal-notes" placeholder="Special wall type, condo restrictions, etc."></textarea></div></div>
-          <div class="form-nav"><button class="btn-back" onclick="goModalStep(1)">&larr; Back</button><button class="btn-next" onclick="goModalStep(3)">Next: Pick a Time &rarr;</button></div>
-        </div>
-        <div class="form-step" id="mstep3">
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:32px;align-items:start;" class="step4-grid">
-            <div><div class="quote-box" id="modal-final-quote"></div></div>
-            <div>
-              <div class="booking-eyebrow" style="margin-bottom:16px;">Pick a Date and Time</div>
-              <div class="form-group" style="margin-bottom:16px;"><label>Preferred Date</label><input type="date" id="modal-cal-date" onchange="loadModalSlots()" style="width:100%;color-scheme:dark;cursor:pointer;"/></div>
-              <div class="slots-wrap" id="modal-slots-wrap"><p style="font-size:.8rem;color:var(--m);">Select a date to see available times.</p></div>
-            </div>
-          </div>
-          <div class="form-nav"><button class="btn-back" onclick="goModalStep(2)">&larr; Back</button><button class="btn-next" id="modal-time-next-btn" onclick="goModalStep(4)" style="opacity:.4;pointer-events:none;">Next: Your Info &rarr;</button></div>
-        </div>
-        <div class="form-step" id="mstep4">
-          <div class="form-row"><div class="form-group"><label>First Name</label><input type="text" id="modal-fname" placeholder="John"/></div><div class="form-group"><label>Last Name</label><input type="text" id="modal-lname" placeholder="Smith"/></div></div>
-          <div class="form-row"><div class="form-group"><label>Phone</label><input type="tel" id="modal-phone" placeholder="(480) 555-0100"/></div><div class="form-group"><label>Email</label><input type="email" id="modal-email" placeholder="you@example.com"/></div></div>
-          <div class="form-row single"><div class="form-group"><label>Service Address</label><input type="text" id="modal-address" placeholder="123 Main St, Phoenix, AZ 85001"/></div>
-        <div id="deposit-notice" style="background:rgba(45,127,232,.08);border-left:3px solid var(--bl);padding:16px 20px;margin:20px 0;">
-          <div style="font-size:.82rem;font-weight:500;color:#4facff;margin-bottom:8px;">💳 Deposit Policy</div>
-          <div id="deposit-message" style="font-size:.78rem;color:var(--m);line-height:1.6;">
-            <strong>Same-day appointments:</strong> No deposit required! Just show up and pay when done.<br>
-            <strong>Future appointments:</strong> $50 deposit required (applied to final invoice, non-refundable if cancelled within 24 hours).
-          </div>
-        </div>
-        <div id="card-container" style="display:none;margin:20px 0;"></div>
-        <div id="payment-status" style="margin-top:12px;"></div></div>
-          <div class="quote-box" id="modal-final-quote-confirm" style="margin-top:8px;"></div>
-          <div class="form-nav"><button class="btn-back" onclick="goModalStep(3)">&larr; Back</button><button class="btn-submit" id="modal-submit-btn" onclick="submitModalForm()">Confirm Booking &#10003;</button></div>
-        </div>
-      </div>
-      <div class="success-state" id="modal-success">
-        <div class="success-icon">&#10003;</div>
-        <div class="success-title">You're Booked!</div>
-        <p class="success-sub">We'll call within 2 hours to confirm. We look forward to getting your space right.</p>
-        <a href="tel:+14809034769" class="success-phone">(480) 903-4769</a>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- EXIT POPUP -->
-<div id="exit-popup">
-  <div id="exit-popup-inner">
-    <button id="exit-popup-close" onclick="closeExitPopup()">&#x2715;</button>
-    <div class="exit-popup-eyebrow">Don't leave yet</div>
-    <div class="exit-popup-title">Same-Day Spots<br><em>Fill Fast.</em></div>
-    <p class="exit-popup-sub">Phoenix's #1 rated TV mounting service. 800+ installs. 4.9★ rating. Book in 60 seconds — no payment until the job is done.</p>
-    <button class="exit-popup-cta" onclick="closeExitPopup();openBookingModal();">Book Your Install &rarr;</button>
-    <span class="exit-popup-dismiss" onclick="closeExitPopup()">No thanks, I'll figure it out myself</span>
+        <span style="font-size:.75rem;color:rgba(255,120,0,.85);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">💳</span> $50 deposit for future appts ($25 non-refundable booking fee)</span>
   </div>
 </div>
 
@@ -1732,7 +1659,7 @@ function checkIfDepositNeeded() {
     // Future: Show deposit requirement and payment field
     depositNotice.style.background = 'rgba(255,165,0,.1)';
     depositNotice.style.borderColor = '#ffa500';
-    depositMessage.innerHTML = '<strong style="color:#ffa500;font-size:.9rem;">💳 $50 DEPOSIT REQUIRED</strong><br><span style="font-size:.75rem;">Future appointment selected. Deposit will be applied to your final invoice.</span>';
+    depositMessage.innerHTML = '<strong style="color:#ffa500;font-size:.9rem;">💳 $50 DEPOSIT REQUIRED</strong><br><span style="font-size:.75rem;">$50 applied to invoice. $25 non-refundable booking fee + $25 refundable if you cancel.</span>';
     cardContainer.style.display = 'block';
     submitBtn.textContent = 'Pay $50 Deposit & Confirm ✓';
     if (!card) {
