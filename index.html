@@ -1922,11 +1922,16 @@ async function initSquarePayment() {
     
     // Initialize Apple Pay
     try {
-      const applePay = await payments.applePay(await payments.paymentRequest({
+      const paymentRequest = payments.paymentRequest({
         countryCode: 'US',
         currencyCode: 'USD',
-        total: { label: 'VistaMount Deposit', amount: '1.00', pending: false }
-      }));
+        total: {
+          amount: '1.00',
+          label: 'VistaMount Deposit',
+        },
+      });
+      
+      const applePay = await payments.applePay(paymentRequest);
       await applePay.attach('#apple-pay-container');
       
       // Handle Apple Pay token
@@ -1946,11 +1951,16 @@ async function initSquarePayment() {
     
     // Initialize Google Pay
     try {
-      const googlePay = await payments.googlePay(await payments.paymentRequest({
+      const paymentRequest2 = payments.paymentRequest({
         countryCode: 'US',
         currencyCode: 'USD',
-        total: { label: 'VistaMount Deposit', amount: '1.00', pending: false }
-      }));
+        total: {
+          amount: '1.00',
+          label: 'VistaMount Deposit',
+        },
+      });
+      
+      const googlePay = await payments.googlePay(paymentRequest2);
       await googlePay.attach('#google-pay-container');
       
       // Handle Google Pay token
