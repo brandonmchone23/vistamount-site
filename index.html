@@ -1848,8 +1848,11 @@ async function initSquarePayment() {
     }
     
     // Initialize Card (required)
+    console.log('Attempting to initialize card...');
     card = await payments.card();
+    console.log('Card object created:', card);
     await card.attach('#card-container');
+    console.log('Card attached to container');
     
   } catch (e) {
     console.error('Square initialization failed:', e);
