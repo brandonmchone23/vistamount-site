@@ -1928,6 +1928,17 @@ async function initSquarePayment() {
         total: { label: 'VistaMount Deposit', amount: '1.00', pending: false }
       }));
       await applePay.attach('#apple-pay-container');
+      
+      // Handle Apple Pay token
+      applePay.addEventListener('ontokenization', async (event) => {
+        const { tokenResult, error } = event.detail;
+        if (error) {
+          alert('Apple Pay failed: ' + error.message);
+        } else if (tokenResult.status === 'OK') {
+          await processPayment(tokenResult.token);
+        }
+      });
+      
       console.log('Apple Pay initialized');
     } catch (e) {
       console.log('Apple Pay not available:', e.message);
@@ -1941,6 +1952,17 @@ async function initSquarePayment() {
         total: { label: 'VistaMount Deposit', amount: '1.00', pending: false }
       }));
       await googlePay.attach('#google-pay-container');
+      
+      // Handle Google Pay token
+      googlePay.addEventListener('ontokenization', async (event) => {
+        const { tokenResult, error } = event.detail;
+        if (error) {
+          alert('Google Pay failed: ' + error.message);
+        } else if (tokenResult.status === 'OK') {
+          await processPayment(tokenResult.token);
+        }
+      });
+      
       console.log('Google Pay initialized');
     } catch (e) {
       console.log('Google Pay not available:', e.message);
