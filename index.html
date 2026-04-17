@@ -1291,7 +1291,7 @@ function goStep(n){
     buildMainBreakdown();
     setTimeout(checkIfDepositNeeded, 100);
   }
-  document.getElementById('booking').scrollIntoView({behavior:'smooth',block:'start'});
+  document.getElementById('step'+n).scrollIntoView({behavior:'smooth',block:'center'});
 }
 
 function initMainDatePicker(){
