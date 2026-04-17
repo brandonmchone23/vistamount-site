@@ -785,7 +785,7 @@ function closeLightbox(){
             <div style="font-size:1rem;font-weight:600;color:#ffa500;margin-bottom:4px;">Deposit Policy</div>
             <div style="font-size:.82rem;color:var(--w);line-height:1.5;">
               <strong style="color:#4facff;">Booking for TODAY:</strong> FREE, no deposit required<br>
-              <strong style="color:#ffa500;">Booking for TOMORROW or later:</strong> $50 deposit required ($25 non-refundable booking fee)
+              <strong style="color:#ffa500;">Booking for TOMORROW or later:</strong> $1 deposit required ($25 non-refundable booking fee)
             </div>
           </div>
         </div>
@@ -863,7 +863,7 @@ function closeLightbox(){
           <div style="font-size:.82rem;font-weight:500;color:#4facff;margin-bottom:8px;">💳 Deposit Policy</div>
           <div id="deposit-message" style="font-size:.78rem;color:var(--m);line-height:1.6;">
             <strong>Same-day appointments:</strong> No deposit required! Just show up and pay when done.<br>
-            <strong>Future appointments:</strong> $50 deposit required (applied to final invoice, non-refundable if cancelled within 24 hours).
+            <strong>Future appointments:</strong> $1 deposit required (applied to final invoice, non-refundable if cancelled within 24 hours).
           </div>
         </div>
         
@@ -929,7 +929,7 @@ function closeLightbox(){
         <!-- Conditional Payment Section -->
         <div id="payment-section" style="display:none;margin-top:24px;">
           <div style="background:rgba(255,165,0,.12);border:2px solid #ffa500;border-radius:8px;padding:24px;margin-bottom:24px;">
-            <div style="font-size:1.1rem;font-weight:600;color:#ffa500;margin-bottom:12px;">💳 $50 Deposit Required</div>
+            <div style="font-size:1.1rem;font-weight:600;color:#ffa500;margin-bottom:12px;">💳 $1 Test Deposit</div>
             <div style="font-size:.82rem;color:var(--m);margin-bottom:20px;">Secures your appointment. Applied to final invoice. $25 non-refundable booking fee.</div>
             
             <!-- Apple Pay / Google Pay -->
@@ -1427,7 +1427,7 @@ calcMainEst();
       <div style="display:flex;gap:24px;margin-bottom:32px;flex-wrap:wrap;">
         <span style="font-size:.75rem;color:var(--bl);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">⚡</span> Takes 60 seconds</span>
         <span style="font-size:.75rem;color:var(--bl);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">⚡</span> Instant pricing</span>
-        <span style="font-size:.75rem;color:rgba(255,120,0,.85);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">💳</span> $50 deposit for future appts ($25 non-refundable booking fee)</span>
+        <span style="font-size:.75rem;color:rgba(255,120,0,.85);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">💳</span> $1 deposit for future appts ($25 non-refundable booking fee)</span>
   </div>
 </div>
 
@@ -1783,7 +1783,7 @@ async function initSquarePayment() {
         name: 'VistaMount LLC',
         countryCode: 'US',
         currencyCode: 'USD',
-        total: { amount: '50.00', label: 'VistaMount Deposit' }
+        total: { amount: '1.00', label: 'VistaMount Deposit' }
       });
       if (applePay) {
         await applePay.attach('#apple-pay-button');
@@ -1803,7 +1803,7 @@ async function initSquarePayment() {
       const googlePay = await payments.googlePay({
         countryCode: 'US',
         currencyCode: 'USD',
-        total: { amount: '50.00', label: 'VistaMount Deposit' }
+        total: { amount: '1.00', label: 'VistaMount Deposit' }
       });
       if (googlePay) {
         await googlePay.attach('#google-pay-button');
@@ -1859,7 +1859,7 @@ function checkIfDepositNeeded() {
     depositNotice.style.borderColor = '#ffa500';
     depositMessage.innerHTML = '<strong style="color:#ffa500;font-size:.9rem;">💳 $50 DEPOSIT REQUIRED</strong><br><span style="font-size:.75rem;">$50 applied to invoice. $25 non-refundable booking fee + $25 refundable if you cancel.</span>';
     cardContainer.style.display = 'block';
-    submitBtn.textContent = 'Pay $50 Deposit & Confirm ✓';
+    submitBtn.textContent = 'Pay $1 Test Deposit & Confirm ✓';
     if (!card) {
       initSquarePayment();
     }
