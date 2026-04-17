@@ -799,17 +799,23 @@ function initBookingStep3() {
     <div id="booking-slots" style="margin-bottom:24px;">
       <p style="font-size:0.85rem;color:var(--m);">Select a date to see available times</p>
     </div>
-    
-    <div class="modal-nav">
-      <button class="btn-back" onclick="goBookingStep(2)">← Back</button>
-      <button class="btn-next" id="step3-next" style="opacity:0.5;pointer-events:none;" onclick="goBookingStep(4)">Next: Contact →</button>
-    </div>
   `;
   
   // Set min date to today
   const dateInput = document.getElementById('booking-date');
   const today = new Date().toISOString().split('T')[0];
   dateInput.min = today;
+  
+  // Render nav with disabled next button
+  renderModalNav(2, null, 'Next', 'goBookingStep(4)');
+  
+  // Disable the next button initially
+  const nextBtn = document.querySelector('.modal-footer .btn-next');
+  if (nextBtn) {
+    nextBtn.disabled = true;
+    nextBtn.style.opacity = '0.5';
+    nextBtn.style.cursor = 'not-allowed';
+  }
 }
 
 async function loadBookingSlots() {
@@ -854,8 +860,10 @@ function selectSlot(slot) {
   // Enable next button
   const nextBtn = document.querySelector('.modal-footer .btn-next');
   if (nextBtn) {
+    nextBtn.disabled = false;
     nextBtn.style.opacity = '1';
     nextBtn.style.pointerEvents = 'auto';
+    nextBtn.style.cursor = 'pointer';
   }
 }
 
