@@ -1139,7 +1139,7 @@ document.querySelectorAll('.count').forEach(function(el){co.observe(el);});
 // ==================== BOOKING FORM ====================
 var mainState={tvs:[{size:'32-64',mount:'own',cords:'none',wall:'drywall'}],soundbars:0,dismounts:0,tvcount:1};
 var selectedSlot=null;
-var WORKER='https://vistamount-worker.billowing-recipe-0ae7.workers.dev';
+var WORKER='https://vistamount-booking.billowing-recipe-0ae7.workers.dev';
 var MAIN_PRICES={'<32':100,'32-64':125,'65-84':150,'85+':200};
 var MAIN_WALL_PRICES={drywall:0,stucco:75,brick:100,tile:150,fireplace:75};
 var MAIN_MOUNT_LABELS={fullmotion:'Full-Motion Mount',tilt:'Tilt Mount',flat:'Flat/Fixed Mount',own:'Customer Mount'};
@@ -1598,7 +1598,7 @@ function loadModalSlots(){
   document.getElementById('modal-time-next-btn').style.opacity='.4';
   document.getElementById('modal-time-next-btn').style.pointerEvents='none';
   modalSelectedSlot=null;
-  fetch('https://vistamount-worker.billowing-recipe-0ae7.workers.dev/availability?date='+date+'&duration=120')
+  fetch('https://vistamount-booking.billowing-recipe-0ae7.workers.dev/availability?date='+date+'&duration=120')
     .then(function(r){return r.json();})
     .then(function(data){
       var slots=data.slots||[];
@@ -1629,7 +1629,7 @@ async function submitModalForm(){
   var btn=document.getElementById('modal-submit-btn');
   btn.textContent='Booking...';btn.style.opacity='.7';btn.disabled=true;
   try{
-    var res=await fetch('https://vistamount-worker.billowing-recipe-0ae7.workers.dev/book',{
+    var res=await fetch('https://vistamount-booking.billowing-recipe-0ae7.workers.dev/book',{
       method:'POST',headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         name:(fname+' '+(document.getElementById('modal-lname').value||'')).trim(),
