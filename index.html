@@ -793,7 +793,7 @@ function initBookingStep3() {
   container.innerHTML = `
     <div style="margin-bottom:24px;">
       <label style="display:block;font-size:0.85rem;color:var(--m);margin-bottom:12px;">Select Date</label>
-      <input type="date" id="booking-date" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);font-size:0.9rem;" onchange="loadBookingSlots()">
+      <input type="date" id="booking-date" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);font-size:16px;" onchange="loadBookingSlots()">
     </div>
     
     <div id="booking-slots" style="margin-bottom:24px;">
@@ -812,31 +812,51 @@ function initBookingStep3() {
   dateInput.min = today;
 }
 
-function loadBookingSlots() {
-  // This will integrate with your existing slot loading logic
+async function loadBookingSlots() {
+  const dateInput = document.getElementById('booking-date');
+  const selectedDate = dateInput.value;
+  
+  if (!selectedDate) return;
+  
   const slotsContainer = document.getElementById('booking-slots');
   slotsContainer.innerHTML = '<p style="font-size:0.85rem;color:var(--m);">Loading available times...</p>';
   
-  // Placeholder - integrate with actual availability API
-  setTimeout(() => {
-    slotsContainer.innerHTML = `
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;">
-        <button class="option-btn" onclick="selectSlot('9:00 AM')">9:00 AM</button>
-        <button class="option-btn" onclick="selectSlot('11:00 AM')">11:00 AM</button>
-        <button class="option-btn" onclick="selectSlot('1:00 PM')">1:00 PM</button>
-        <button class="option-btn" onclick="selectSlot('3:00 PM')">3:00 PM</button>
-      </div>
-    `;
-  }, 500);
+  try {
+    // Call your existing availability API
+    const response = await fetch(`https://vistamount-booking.billowing-recipe-0ae7.workers.dev/availability?date=${selectedDate}`);
+    const data = await response.json();
+    
+    if (data.slots && data.slots.length > 0) {
+      let html = '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;">';
+      data.slots.forEach(slot => {
+        const time = new Date(slot.start).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+        html += `<button class="option-btn" onclick='selectSlot(${JSON.stringify(slot)})'>${time}</button>`;
+      });
+      html += '</div>';
+      slotsContainer.innerHTML = html;
+    } else {
+      slotsContainer.innerHTML = '<p style="font-size:0.85rem;color:#ff5555;">No slots available for this date</p>';
+    }
+  } catch (error) {
+    console.error('Error loading slots:', error);
+    slotsContainer.innerHTML = '<p style="font-size:0.85rem;color:#ff5555;">Error loading times. Please try again.</p>';
+  }
 }
 
-function selectSlot(time) {
-  bookingState.selectedSlot = time;
+function selectSlot(slot) {
+  bookingState.selectedSlot = slot;
+  const time = new Date(slot.start).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
   document.querySelectorAll('#booking-slots .option-btn').forEach(btn => {
-    btn.classList.toggle('selected', btn.textContent === time);
+    btn.classList.remove('selected');
   });
-  document.getElementById('step3-next').style.opacity = '1';
-  document.getElementById('step3-next').style.pointerEvents = 'auto';
+  event.target.classList.add('selected');
+  
+  // Enable next button
+  const nextBtn = document.querySelector('.modal-footer .btn-next');
+  if (nextBtn) {
+    nextBtn.style.opacity = '1';
+    nextBtn.style.pointerEvents = 'auto';
+  }
 }
 
 function initBookingStep4() {
@@ -846,27 +866,27 @@ function initBookingStep4() {
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
         <div>
           <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:6px;">First Name *</label>
-          <input type="text" id="fname" placeholder="John" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);">
+          <input type="text" id="fname" placeholder="John" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);font-size:16px;">
         </div>
         <div>
           <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:6px;">Last Name *</label>
-          <input type="text" id="lname" placeholder="Smith" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);">
+          <input type="text" id="lname" placeholder="Smith" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);font-size:16px;">
         </div>
       </div>
       
       <div style="margin-bottom:12px;">
         <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:6px;">Phone *</label>
-        <input type="tel" id="phone" placeholder="(480) 555-1234" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);">
+        <input type="tel" id="phone" placeholder="(480) 555-1234" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);font-size:16px;">
       </div>
       
       <div style="margin-bottom:12px;">
         <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:6px;">Email *</label>
-        <input type="email" id="email" placeholder="john@example.com" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);">
+        <input type="email" id="email" placeholder="john@example.com" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);font-size:16px;">
       </div>
       
       <div style="margin-bottom:12px;">
         <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:6px;">Address *</label>
-        <input type="text" id="address" placeholder="123 Main St, Phoenix AZ 85001" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);">
+        <input type="text" id="address" placeholder="123 Main St, Phoenix AZ 85001" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);font-size:16px;">
       </div>
     </div>
     
