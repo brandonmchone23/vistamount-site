@@ -909,6 +909,11 @@ function setTVCount(count) {
 
 function renderTVCards() {
   const container = document.getElementById('tv-cards-container');
+  console.log('renderTVCards called, container:', container);
+  if (!container) {
+    console.error('tv-cards-container not found!');
+    return;
+  }
   container.innerHTML = bookingState.tvs.map((tv, i) => `
     <div class="tv-card" style="background:#f8f9fa;border:1px solid #e0e4ea;padding:20px;margin-bottom:16px;border-radius:8px;">
       <div style="font-weight:600;margin-bottom:16px;color:var(--bl);">TV ${i + 1}</div>
