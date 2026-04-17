@@ -1675,13 +1675,15 @@ async function submitModalForm(){
 
 // ==================== EXIT POPUP ====================
 var exitPopupShown=false;
-  // function showExitPopup(){
+function showExitPopup(){
   if(exitPopupShown)return;
   exitPopupShown=true;
-  document.getElementById('exit-popup').classList.add('show');
+  const popup = document.getElementById('exit-popup');
+  if (popup) popup.classList.add('show');
 }
 function closeExitPopup(){
-  document.getElementById('exit-popup').classList.remove('show');
+  const popup = document.getElementById('exit-popup');
+  if (popup) popup.classList.remove('show');
 }
 
 // Desktop: mouse leaving top of page
