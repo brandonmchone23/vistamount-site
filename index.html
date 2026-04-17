@@ -1366,6 +1366,12 @@ async function submitForm(){
   const today = new Date();
   const isSameDay = apptDate.toDateString() === today.toDateString();
   
+  // CRITICAL: Block future appointments from submitting without payment
+  if (!isSameDay) {
+    alert('Future appointments require deposit payment. Please complete Step 5.');
+    return;
+  }
+  
   if (isSameDay) {
     // Same-day: no payment needed
     const btn = document.getElementById('submit-btn');
@@ -1733,11 +1739,11 @@ function updateStep4Button() {
   const step4NextText = document.getElementById('step4-next-text');
   
   if (isSameDay) {
-    // Same-day: Skip payment, go straight to confirm
+    // Same-day ONLY: Skip to submit
     step4NextBtn.onclick = function() { submitForm(); };
     if (step4NextText) step4NextText.textContent = 'Confirm Booking ✓';
   } else {
-    // Future: Go to payment step
+    // Future: MUST go to payment (Step 5)
     step4NextBtn.onclick = function() { goStep(5); };
     if (step4NextText) step4NextText.textContent = 'Continue to Deposit →';
   }
