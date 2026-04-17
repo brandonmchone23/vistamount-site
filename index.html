@@ -962,7 +962,7 @@ function closeLightbox(){
         </div>
         
         <div style="display:flex;justify-content:space-between;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.1);">
-          <span style="color:var(--m);">Payment ID</span>
+          <span style="color:var(--m);">Confirmation Number</span>
           <span id="receipt-payment-id" style="font-family:monospace;font-size:.85rem;">---</span>
         </div>
         
@@ -1751,9 +1751,12 @@ async function processPayment(sourceId) {
     
     const data = await res.json();
     if (data.success) {
+      // Generate confirmation number
+      const confirmationNumber = 'VM-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+      
       // Populate receipt details
       document.getElementById('receipt-amount').textContent = '$' + (TEST_DEPOSIT_AMOUNT || 1).toFixed(2);
-      document.getElementById('receipt-payment-id').textContent = data.paymentId || 'N/A';
+      document.getElementById('receipt-payment-id').textContent = confirmationNumber;
       
       const apptDate = new Date(selectedSlot.start);
       const dateStr = apptDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
