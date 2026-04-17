@@ -1879,64 +1879,6 @@ async function initSquarePayment() {
   try {
     const payments = window.Square.payments(SQUARE_APP_ID, SQUARE_LOCATION_ID);
     
-    // Initialize Apple Pay
-    try {
-      const applePayRequest = payments.paymentRequest({
-        countryCode: 'US',
-        currencyCode: 'USD',
-        total: {
-          amount: '1.00',
-          label: 'VistaMount Deposit',
-        },
-      });
-      
-      const applePay = await payments.applePay(applePayRequest);
-      await applePay.attach('#apple-pay-container');
-      
-      // Handle Apple Pay token
-      applePay.addEventListener('tokenization', async (event) => {
-        const { tokenResult, error } = event.detail;
-        if (error) {
-          alert('Apple Pay failed: ' + error.message);
-        } else if (tokenResult.status === 'OK') {
-          await processPayment(tokenResult.token);
-        }
-      });
-      
-      console.log('Apple Pay initialized');
-    } catch (e) {
-      console.log('Apple Pay not available:', e.message);
-    }
-    
-    // Initialize Google Pay
-    try {
-      const googlePayRequest = payments.paymentRequest({
-        countryCode: 'US',
-        currencyCode: 'USD',
-        total: {
-          amount: '1.00',
-          label: 'VistaMount Deposit',
-        },
-      });
-      
-      const googlePay = await payments.googlePay(googlePayRequest);
-      await googlePay.attach('#google-pay-container');
-      
-      // Handle Google Pay token
-      googlePay.addEventListener('tokenization', async (event) => {
-        const { tokenResult, error } = event.detail;
-        if (error) {
-          alert('Google Pay failed: ' + error.message);
-        } else if (tokenResult.status === 'OK') {
-          await processPayment(tokenResult.token);
-        }
-      });
-      
-      console.log('Google Pay initialized');
-    } catch (e) {
-      console.log('Google Pay not available:', e.message);
-    }
-    
     // Initialize Card (required)
     console.log('Attempting to initialize card...');
     card = await payments.card();
