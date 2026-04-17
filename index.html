@@ -1736,17 +1736,17 @@ function updateStep4Button() {
   const today = new Date();
   const isSameDay = apptDate.toDateString() === today.toDateString();
   
-  const step4NextBtn = document.querySelector('#step4 .btn-next');
-  const step4NextText = document.getElementById('step4-next-text');
+  const step4Btn = document.querySelector('#step4 .btn-submit');
+  if (!step4Btn) return;
   
   if (isSameDay) {
     // Same-day ONLY: Skip to submit
-    step4NextBtn.onclick = function() { submitForm(); };
-    if (step4NextText) step4NextText.textContent = 'Confirm Booking ✓';
+    step4Btn.onclick = function() { submitForm(); };
+    step4Btn.textContent = 'Confirm Booking ✓';
   } else {
     // Future: MUST go to payment (Step 5)
-    step4NextBtn.onclick = function() { goStep(5); };
-    if (step4NextText) step4NextText.textContent = 'Continue to Deposit →';
+    step4Btn.onclick = function() { goStep(5); };
+    step4Btn.textContent = 'Continue to Deposit →';
   }
 }
 
