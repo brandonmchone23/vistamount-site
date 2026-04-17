@@ -341,14 +341,16 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
 .modal-container {
   background: #0a0f1a;
   width: 90%;
-  max-width: 700px;
-  max-height: 90vh;
+  max-width: 800px;
+  max-height: 95vh;
   border-radius: 12px;
   border: 1px solid rgba(79, 172, 255, 0.2);
   overflow: hidden;
   position: relative;
   transform: scale(0.9);
   transition: transform 0.3s ease;
+  display: flex;
+  flex-direction: column;
 }
 
 .modal-overlay.open .modal-container {
@@ -380,8 +382,9 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
 }
 
 .modal-header {
-  padding: 40px 40px 30px;
+  padding: 30px 40px 20px;
   border-bottom: 1px solid rgba(79, 172, 255, 0.15);
+  flex-shrink: 0;
 }
 
 .modal-eyebrow {
@@ -475,7 +478,10 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
 }
 
 .modal-step.active {
-  display: block;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  flex: 1;
   animation: fadeIn 0.3s ease;
 }
 
@@ -488,7 +494,6 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
   display: flex;
   gap: 12px;
   justify-content: space-between;
-  margin-top: 30px;
 }
 
 .modal-nav button {
@@ -545,6 +550,13 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
   }
 }
 
+
+.modal-footer {
+  padding: 20px 40px;
+  border-top: 1px solid rgba(79, 172, 255, 0.15);
+  background: #0a0f1a;
+  flex-shrink: 0;
+}
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18018755852"></script>
@@ -639,6 +651,10 @@ function initBookingStep1() {
   }
   
   const container = document.getElementById('step-1');
+  if (!container) {
+    console.error('Step 1 container not found!');
+    return;
+  }
   container.innerHTML = `
     <div style="margin-bottom:24px;">
       <label style="display:block;font-size:0.85rem;color:var(--m);margin-bottom:12px;">How many TVs?</label>
