@@ -1665,6 +1665,7 @@ var mobileTimer=setTimeout(function(){
 const SQUARE_APP_ID = 'sq0idp-B3c5ZI18_DbdYE7RbSIYqA';
 const SQUARE_LOCATION_ID = 'LRF9PX7GSDB5M';
 let card;
+let squareInitialized = false;
 
 
 
@@ -1766,10 +1767,11 @@ async function initSquarePayment() {
     return;
   }
   
-  if (card) {
-    console.log('Card already initialized');
+  if (squareInitialized) {
+    console.log('Square already initialized');
     return;
   }
+  squareInitialized = true;
   
   try {
     const payments = window.Square.payments(SQUARE_APP_ID, SQUARE_LOCATION_ID);
