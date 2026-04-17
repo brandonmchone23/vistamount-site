@@ -919,8 +919,7 @@ function closeLightbox(){
         <div class="form-nav">
           <button class="btn-back" onclick="goStep(3)">&larr; Back</button>
           <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
-            <button class="btn-submit" id="submit-btn" onclick="submitForm()">Confirm Booking &#10003;</button>
-            <div style="font-size:.68rem;color:var(--m);text-align:right;line-height:1.6;">
+            <div id="payment-notice" style="font-size:.68rem;color:var(--m);text-align:right;line-height:1.6;">
               ✓ Confirmation call within 2 hours<br/>✓ No payment required until job is complete
             </div>
           </div>
@@ -942,6 +941,9 @@ function closeLightbox(){
             <!-- Card -->
             <div id="card-container"></div>
             <div id="payment-status" style="margin-top:12px;"></div>
+            
+            <!-- Submit Button -->
+            <button class="btn-submit" id="submit-btn" onclick="submitForm()" style="width:100%;margin-top:20px;">Confirm Booking &#10003;</button>
           </div>
         </div>
       </div>
