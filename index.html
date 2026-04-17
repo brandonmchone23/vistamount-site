@@ -916,37 +916,37 @@ function renderTVCards() {
       <div style="margin-bottom:16px;">
         <label style="display:block;font-size:0.8rem;color:#666;margin-bottom:8px;">TV Size</label>
         <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;">
-          <button class="option-btn ${tv.size === '<32' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '<32')">Under 32"</button>
-          <button class="option-btn ${tv.size === '32-64' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '32-64')">32"–64"</button>
-          <button class="option-btn ${tv.size === '65-84' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '65-84')">65"–84"</button>
-          <button class="option-btn ${tv.size === '85+' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '85+')">85"+</button>
+          <button class="option-btn ${tv.size === '<32' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '<32')">Under 32"<br><small style="font-size:0.75rem;opacity:0.8;">$100</small></button>
+          <button class="option-btn ${tv.size === '32-64' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '32-64')">32"–64"<br><small style="font-size:0.75rem;opacity:0.8;">$125</small></button>
+          <button class="option-btn ${tv.size === '65-84' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '65-84')">65"–84"<br><small style="font-size:0.75rem;opacity:0.8;">$150</small></button>
+          <button class="option-btn ${tv.size === '85+' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '85+')">85"+<br><small style="font-size:0.75rem;opacity:0.8;">$200</small></button>
         </div>
       </div>
       
       <div style="margin-bottom:16px;">
         <label style="display:block;font-size:0.8rem;color:#666;margin-bottom:8px;">Mount Type</label>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
-          <button class="option-btn ${tv.mountType === 'fixed' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'fixed')">Fixed</button>
-          <button class="option-btn ${tv.mountType === 'tilting' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'tilting')">Tilting</button>
-          <button class="option-btn ${tv.mountType === 'fullmotion' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'fullmotion')">Full Motion</button>
+          <button class="option-btn ${tv.mountType === 'fixed' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'fixed')">Fixed<br><small style="font-size:0.75rem;opacity:0.8;">Included</small></button>
+          <button class="option-btn ${tv.mountType === 'tilting' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'tilting')">Tilting<br><small style="font-size:0.75rem;opacity:0.8;">+$25</small></button>
+          <button class="option-btn ${tv.mountType === 'fullmotion' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'fullmotion')">Full Motion<br><small style="font-size:0.75rem;opacity:0.8;">+$50</small></button>
         </div>
       </div>
       
       <div style="margin-bottom:16px;">
         <label style="display:block;font-size:0.8rem;color:#666;margin-bottom:8px;">Cord Management</label>
         <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;">
-          <button class="option-btn ${tv.cords === 'visible' ? 'selected' : ''}" onclick="setTVProp(${i}, 'cords', 'visible')">Visible</button>
-          <button class="option-btn ${tv.cords === 'concealed' ? 'selected' : ''}" onclick="setTVProp(${i}, 'cords', 'concealed')">Concealed</button>
+          <button class="option-btn ${tv.cords === 'visible' ? 'selected' : ''}" onclick="setTVProp(${i}, 'cords', 'visible')">Visible<br><small style="font-size:0.75rem;opacity:0.8;">Included</small></button>
+          <button class="option-btn ${tv.cords === 'concealed' ? 'selected' : ''}" onclick="setTVProp(${i}, 'cords', 'concealed')">Concealed<br><small style="font-size:0.75rem;opacity:0.8;">+$50–$100</small></button>
         </div>
       </div>
       
       <div>
         <label style="display:block;font-size:0.8rem;color:#666;margin-bottom:8px;">Wall Type</label>
         <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;">
-          <button class="option-btn ${tv.wall === 'drywall' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'drywall')">Drywall</button>
-          <button class="option-btn ${tv.wall === 'stucco' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'stucco')">Stucco</button>
-          <button class="option-btn ${tv.wall === 'brick' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'brick')">Brick</button>
-          <button class="option-btn ${tv.wall === 'tile' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'tile')">Tile/Stone</button>
+          <button class="option-btn ${tv.wall === 'drywall' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'drywall')">Drywall<br><small style="font-size:0.75rem;opacity:0.8;">Included</small></button>
+          <button class="option-btn ${tv.wall === 'stucco' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'stucco')">Stucco<br><small style="font-size:0.75rem;opacity:0.8;">+$75</small></button>
+          <button class="option-btn ${tv.wall === 'brick' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'brick')">Brick<br><small style="font-size:0.75rem;opacity:0.8;">+$100</small></button>
+          <button class="option-btn ${tv.wall === 'tile' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'tile')">Tile/Stone<br><small style="font-size:0.75rem;opacity:0.8;">+$150</small></button>
         </div>
       </div>
     </div>
