@@ -1675,7 +1675,7 @@ async function submitModalForm(){
 
 // ==================== EXIT POPUP ====================
 var exitPopupShown=false;
-function showExitPopup(){
+  // function showExitPopup(){
   if(exitPopupShown)return;
   exitPopupShown=true;
   document.getElementById('exit-popup').classList.add('show');
@@ -1686,12 +1686,12 @@ function closeExitPopup(){
 
 // Desktop: mouse leaving top of page
 document.addEventListener('mouseleave',function(e){
-  if(e.clientY<=0)showExitPopup();
+  // if(e.clientY<=0)showExitPopup();
 });
 
 // Mobile: back button / page hide after 30s of engagement
 var mobileTimer=setTimeout(function(){
-  if(window.innerWidth<=768)showExitPopup();
+  // if(window.innerWidth<=768)showExitPopup();
 },30000);
 </script>
 
