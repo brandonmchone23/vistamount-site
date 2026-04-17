@@ -1755,17 +1755,18 @@ function updateStep4Button() {
   const today = new Date();
   const isSameDay = apptDate.toDateString() === today.toDateString();
   
-  const step4Btn = document.querySelector('#step4 .btn-submit');
-  if (!step4Btn) return;
+  const paymentSection = document.getElementById('payment-section');
+  const paymentNotice = document.getElementById('payment-notice');
   
   if (isSameDay) {
-    // Same-day ONLY: Skip to submit
-    step4Btn.onclick = function() { submitForm(); };
-    step4Btn.textContent = 'Confirm Booking ✓';
+    // Same-day: Hide payment, show confirmation notice
+    if (paymentSection) paymentSection.style.display = 'none';
+    if (paymentNotice) paymentNotice.innerHTML = '✓ Confirmation call within 2 hours<br/>✓ No payment required until job is complete';
   } else {
-    // Future: MUST go to payment (Step 5)
-    step4Btn.onclick = function() { goStep(5); };
-    step4Btn.textContent = 'Continue to Deposit →';
+    // Future: Show payment section, initialize Square
+    if (paymentSection) paymentSection.style.display = 'block';
+    if (paymentNotice) paymentNotice.innerHTML = 'Complete payment to confirm your booking';
+    initSquarePayment();
   }
 }
 
