@@ -1348,66 +1348,75 @@ function loadSlots(){
 }
 
 async function submitForm(){
-  var fname=document.getElementById('fname').value.trim();
-  var phone=document.getElementById('phone').value.trim();
-  if(!fname||!phone){alert('Please fill all required fields');return;}
-  if(!selectedSlot){alert('Please select a time slot');return;}
+  const fname = document.getElementById('fname').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  if (!fname || !phone) {
+    alert('Please fill all required fields');
+    return;
+  }
+  if (!selectedSlot) {
+    alert('Please select a time slot');
+    return;
+  }
   
   const apptDate = new Date(selectedSlot.start);
   const today = new Date();
   const isSameDay = apptDate.toDateString() === today.toDateString();
   
-  var btn=document.getElementById('submit-btn');
-  btn.textContent= isSameDay ? 'Confirming...' : 'Processing Payment...';
-  btn.style.opacity='.7';
-  btn.disabled=true;
-  
-  try {
-    var sourceId = null;
+  if (isSameDay) {
+    // Same-day: no payment needed
+    const btn = document.getElementById('submit-btn');
+    btn.textContent = 'Confirming...';
+    btn.disabled = true;
     
-    if (!isSameDay && card) {
-      const result = await card.tokenize();
-      if (result.status !== 'OK') {
-        throw new Error('Card validation failed');
+    try {
+      const summary = 'TVs:'+mainState.tvcount+' '+mainState.tvs.map(function(tv,i){return 'TV'+(i+1)+':'+tv.size+'/'+tv.mount+'/'+tv.cords+'/'+tv.wall;}).join(' ')+(mainState.soundbars?' soundbars:'+mainState.soundbars:'')+(mainState.dismounts?' dismounts:'+mainState.dismounts:'');
+      
+      const res = await fetch('https://vistamount-booking.billowing-recipe-0ae7.workers.dev/book', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          name: (fname+' '+(document.getElementById('lname').value||'')).trim(),
+          phone: phone,
+          email: document.getElementById('email').value,
+          address: document.getElementById('address').value,
+          slotStart: selectedSlot.start,
+          slotEnd: selectedSlot.end,
+          summary: summary,
+          notes: '',
+          sourceId: null
+        })
+      });
+      
+      const data = await res.json();
+      if (data.success) {
+        document.getElementById('form-wrap').style.display = 'none';
+        document.getElementById('success').classList.add('show');
+        document.getElementById('booking-header').style.display = 'none';
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({event: 'booking_complete', page: 'main'});
+      } else {
+        throw new Error(data.error || 'Booking failed');
       }
-      sourceId = result.token;
+    } catch (e) {
+      console.error('Error:', e);
+      alert('Booking failed. Please call (480) 903-4769.');
+      btn.textContent = 'Confirm Booking ✓';
+      btn.disabled = false;
+    }
+  } else {
+    // Future: tokenize card and process
+    if (!card) {
+      alert('Payment system not ready. Please refresh the page.');
+      return;
     }
     
-    var summary='TVs:'+mainState.tvcount+' '+mainState.tvs.map(function(tv,i){return 'TV'+(i+1)+':'+tv.size+'/'+tv.mount+'/'+tv.cords+'/'+tv.wall;}).join(' ')+(mainState.soundbars?' soundbars:'+mainState.soundbars:'')+(mainState.dismounts?' dismounts:'+mainState.dismounts:'');
-    
-    var res=await fetch('https://vistamount-booking.billowing-recipe-0ae7.workers.dev/book',{
-      method:'POST',
-      headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        name:(fname+' '+(document.getElementById('lname').value||'')).trim(),
-        phone:phone,
-        email:document.getElementById('email').value,
-        address:document.getElementById('address').value,
-        slotStart:selectedSlot.start,
-        slotEnd:selectedSlot.end,
-        summary:summary,
-        notes:document.getElementById('notes')?document.getElementById('notes').value:'',
-        sourceId: sourceId
-      })
-    });
-    
-    var data=await res.json();
-    if(data.success){
-      document.getElementById('form-wrap').style.display='none';
-      document.getElementById('success').classList.add('show');
-      document.getElementById('booking-header').style.display='none';
-      window.dataLayer=window.dataLayer||[];
-      window.dataLayer.push({event:'booking_complete',page:'main'});
-    }else{
-      throw new Error(data.error || 'Booking failed');
+    const result = await card.tokenize();
+    if (result.status === 'OK') {
+      processPayment(result.token);
+    } else {
+      alert('Card validation failed. Please check your card details.');
     }
-  }catch(e){
-    console.error('Error:', e);
-    document.getElementById('payment-status').innerHTML = 
-      '<div style="color:#ff5555;font-size:.75rem;">Error: '+e.message+'. Please try again or call (480) 903-4769.</div>';
-    btn.textContent='Confirm Booking ✓';
-    btn.style.opacity='1';
-    btn.disabled=false;
   }
 }
 
@@ -1664,6 +1673,51 @@ const SQUARE_LOCATION_ID = 'LRF9PX7GSDB5M';
 let card;
 
 
+
+async function processPayment(sourceId) {
+  const submitBtn = document.getElementById('submit-btn');
+  submitBtn.textContent = 'Processing...';
+  submitBtn.disabled = true;
+  
+  try {
+    const fname = document.getElementById('fname').value.trim();
+    const summary = 'TVs:'+mainState.tvcount+' '+mainState.tvs.map(function(tv,i){return 'TV'+(i+1)+':'+tv.size+'/'+tv.mount+'/'+tv.cords+'/'+tv.wall;}).join(' ')+(mainState.soundbars?' soundbars:'+mainState.soundbars:'')+(mainState.dismounts?' dismounts:'+mainState.dismounts:'');
+    
+    const res = await fetch('https://vistamount-booking.billowing-recipe-0ae7.workers.dev/book', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        name: (fname+' '+(document.getElementById('lname').value||'')).trim(),
+        phone: document.getElementById('phone').value,
+        email: document.getElementById('email').value,
+        address: document.getElementById('address').value,
+        slotStart: selectedSlot.start,
+        slotEnd: selectedSlot.end,
+        summary: summary,
+        notes: '',
+        sourceId: sourceId
+      })
+    });
+    
+    const data = await res.json();
+    if (data.success) {
+      document.getElementById('form-wrap').style.display = 'none';
+      document.getElementById('success').classList.add('show');
+      document.getElementById('booking-header').style.display = 'none';
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({event: 'booking_complete', page: 'main'});
+    } else {
+      throw new Error(data.error || 'Booking failed');
+    }
+  } catch (e) {
+    console.error('Error:', e);
+    document.getElementById('payment-status').innerHTML = 
+      '<div style="color:#ff5555;font-size:.75rem;">Payment failed: '+e.message+'. Please try again or call (480) 903-4769.</div>';
+    submitBtn.textContent = 'Complete Payment & Book';
+    submitBtn.disabled = false;
+  }
+}
+
 function showPaymentStep() {
   if (!selectedSlot || !selectedSlot.start) return;
   
@@ -1697,8 +1751,56 @@ async function initSquarePayment() {
   
   try {
     const payments = window.Square.payments(SQUARE_APP_ID, SQUARE_LOCATION_ID);
+    
+    // Initialize Apple Pay
+    const applePayButton = document.getElementById('apple-pay-button');
+    const applePay = await payments.applePay({
+      name: 'VistaMount LLC',
+      countryCode: 'US',
+      currencyCode: 'USD',
+      total: {
+        amount: '50.00',
+        label: 'VistaMount Deposit'
+      }
+    });
+    
+    if (applePay) {
+      await applePay.attach('#apple-pay-button');
+      applePayButton.style.display = 'block';
+      applePayButton.addEventListener('click', async () => {
+        const result = await applePay.tokenize();
+        if (result.status === 'OK') {
+          processPayment(result.token);
+        }
+      });
+    }
+    
+    // Initialize Google Pay
+    const googlePayButton = document.getElementById('google-pay-button');
+    const googlePay = await payments.googlePay({
+      countryCode: 'US',
+      currencyCode: 'USD',
+      total: {
+        amount: '50.00',
+        label: 'VistaMount Deposit'
+      }
+    });
+    
+    if (googlePay) {
+      await googlePay.attach('#google-pay-button');
+      googlePayButton.style.display = 'block';
+      googlePayButton.addEventListener('click', async () => {
+        const result = await googlePay.tokenize();
+        if (result.status === 'OK') {
+          processPayment(result.token);
+        }
+      });
+    }
+    
+    // Initialize Card
     card = await payments.card();
     await card.attach('#card-container');
+    
   } catch (e) {
     console.error('Square initialization failed:', e);
     document.getElementById('payment-status').innerHTML = 
