@@ -1,0 +1,1890 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<script src="https://web.squarecdn.com/v1/square.js"></script>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>VistaMount - Premium TV Mounting & Smart Home | Phoenix, AZ</title>
+<meta name="description" content="Phoenix premier TV mounting and smart home installation. Same-day available. Book online and get an instant quote."/>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
+<noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/></noscript>
+<style>
+:root{
+  --bl:#2d7fe8;--blb:#4facff;--blg:rgba(45,127,232,0.15);
+  --glow:rgba(79,172,255,0.25);
+  --bg:#06080f;--card:#0b0d18;--border:rgba(79,172,255,0.1);
+  --w:#e8edf5;--m:rgba(232,237,245,0.75);
+  --light:#ffffff;--light2:#f4f6f9;--light3:#f8f9fc;
+  --dark-text:#0f1218;--mid-text:#6b7280;
+  --font:"DM Sans",sans-serif;
+  --ease:cubic-bezier(0.16,1,0.3,1);
+}
+*,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+html{scroll-behavior:smooth;overflow-x:hidden;}
+body{background:var(--bg);color:var(--w);font-family:var(--font);overflow-x:hidden;}
+
+/* NAV */
+nav{position:fixed;top:0;left:0;right:0;z-index:200;display:flex;align-items:center;justify-content:space-between;padding:22px 52px;background:rgba(6,8,15,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(79,172,255,0.12);}
+nav.scrolled-dark{background:rgba(6,8,15,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(79,172,255,0.12);box-shadow:0 1px 40px rgba(45,127,232,0.08);}
+nav.scrolled-light{background:rgba(255,255,255,.92);backdrop-filter:blur(20px);border-bottom:1px solid rgba(0,0,0,.08);}
+.nav-logo{text-decoration:none;display:flex;align-items:center;transition:opacity .3s;}
+nav.scrolled-light .nav-logo{color:var(--dark-text)!important;}.nav-logo:visited,.nav-logo:active{color:var(--w)!important;}nav.scrolled-light .nav-logo:visited,nav.scrolled-light .nav-logo:active{color:var(--dark-text)!important;}
+.nav-logo-text em{color:var(--bl);font-style:normal;}
+.nav-logo-text{line-height:1;}
+.nav-logo-dark{display:block;transition:opacity .3s;}
+.nav-logo-light{display:none;transition:opacity .3s;}
+nav.scrolled-light .nav-logo-dark{display:none;}
+nav.scrolled-light .nav-logo-light{display:block;}
+.nav-logo:hover img{opacity:.8;}
+.nav-links{display:flex;align-items:center;gap:36px;}
+.nav-links a{font-size:.72rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;color:var(--m);text-decoration:none;transition:color .3s;}
+nav.scrolled-light .nav-links a{color:var(--mid-text);}
+nav.scrolled-light .nav-links a:hover{color:var(--dark-text);}
+.nav-links a:hover{color:var(--w);}
+.nav-book{color:#fff!important;background:var(--bl)!important;padding:10px 22px;transition:background .3s!important;}
+.nav-book:hover{background:var(--blb)!important;}
+nav.scrolled-light .nav-book{color:#fff!important;}
+
+/* HERO */
+#hero{position:relative;height:100vh;display:flex;align-items:stretch;overflow:hidden;background:#000;}#hero-left{position:relative;width:55%;flex-shrink:0;}#hero-right{flex:1;position:relative;overflow:hidden;}#hero-right img{width:100%;height:100%;object-fit:cover;object-position:20% center;display:block;}#hero-right::before{content:"";position:absolute;inset:0;background:linear-gradient(to right,rgba(6,8,15,1) 0%,rgba(6,8,15,.5) 25%,rgba(6,8,15,.05) 55%,transparent 100%);z-index:1;}#hero-right::after{content:"";position:absolute;inset:0;border-left:1px solid rgba(79,172,255,0.25);z-index:2;}@media(max-width:768px){#hero{flex-direction:column;height:100vh;}#hero-left{width:100%;height:70vh;}#hero-right{width:100%;flex:1;}}
+#hero-canvas{position:absolute;inset:0;width:100%;height:100%;cursor:pointer;}#hero-left{display:flex;align-items:center;justify-content:center;}
+.hero-scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeHint 1s ease 3.5s forwards;}
+@keyframes fadeHint{to{opacity:.5;}}
+.scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,var(--bl),transparent);animation:scrollPulse 1.5s ease-in-out 3.5s infinite;}
+@keyframes scrollPulse{0%{transform:scaleY(0);transform-origin:top;}50%{transform:scaleY(1);transform-origin:top;}51%{transform:scaleY(1);transform-origin:bottom;}100%{transform:scaleY(0);transform-origin:bottom;}}
+.scroll-hint-text{font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:rgba(255,255,255,.5);}
+
+/* SECTION TRANSITIONS */
+.section-dark{background:var(--bg);color:var(--w);}
+.section-light{background:var(--light);color:var(--dark-text);}
+.section-light2{background:var(--light2);color:var(--dark-text);}
+.section-light3{background:var(--light3);color:var(--dark-text);}
+
+/* STATS - WHITE */
+.stats-section{background:var(--light);padding:80px 52px;border-bottom:1px solid rgba(0,0,0,.06);}
+.stats-grid{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:repeat(4,1fr);gap:0;}
+.stat{padding:48px 40px;text-align:center;border-right:1px solid rgba(0,0,0,.08);position:relative;overflow:hidden;}
+.stat:last-child{border-right:none;}
+.stat-n{font-family:"Bebas Neue",sans-serif;font-size:clamp(2.5rem,5vw,4rem);color:var(--dark-text);line-height:1;margin-bottom:4px;}
+.stat-n .num{color:var(--bl);}
+.stat-l{font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--mid-text);}
+
+/* MARQUEE */
+.marquee-wrap{overflow:hidden;background:#1a3a6b;padding:18px 0;}
+.marquee-track{display:flex;gap:48px;animation:mq 18s linear infinite;white-space:nowrap;}
+.marquee-item{font-family:"Bebas Neue",sans-serif;font-size:.95rem;letter-spacing:.2em;color:rgba(5,5,7,.7);flex-shrink:0;display:flex;align-items:center;gap:48px;}
+.marquee-item::after{content:"\2726";color:rgba(5,5,7,.4);}
+@keyframes mq{from{transform:translateX(0);}to{transform:translateX(-50%);}}
+
+/* SERVICES - WHITE */
+.services-section{background:var(--light3);padding:120px 52px;}
+.services-inner{max-width:1200px;margin:0 auto;}
+.section-eyebrow{font-size:.62rem;font-weight:500;letter-spacing:.35em;text-transform:uppercase;color:var(--bl);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.section-eyebrow::before{content:"";width:20px;height:1px;background:var(--bl);}
+.section-title-light{font-family:"Bebas Neue",sans-serif;font-size:clamp(3rem,6vw,6rem);line-height:.95;letter-spacing:.02em;color:var(--dark-text);margin-bottom:64px;}
+.section-title-light em{color:var(--bl);font-style:normal;}
+.svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px;}
+.svc{background:var(--light);padding:44px 36px;border:1px solid rgba(0,0,0,.06);position:relative;overflow:hidden;transition:all .4s var(--ease);cursor:default;}
+.svc::after{content:"";position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--bl),var(--blb));transform:scaleX(0);transform-origin:left;transition:transform .4s var(--ease);}
+.svc:hover{box-shadow:0 8px 40px rgba(0,0,0,.08),0 0 0 1px rgba(79,172,255,.15),0 0 30px rgba(45,127,232,.06);transform:translateY(-4px);}
+.svc:hover::after{transform:scaleX(1);}
+.svc-num{font-family:"Bebas Neue",sans-serif;font-size:4rem;color:rgba(61,127,255,.12);line-height:1;margin-bottom:16px;transition:color .3s;}
+.svc:hover .svc-num{color:rgba(61,127,255,.2);}
+.svc-name{font-size:1.05rem;font-weight:500;color:var(--dark-text);margin-bottom:8px;}
+.svc-desc{font-size:.8rem;color:var(--mid-text);line-height:1.8;}
+.svc-price{font-size:.72rem;color:var(--bl);margin-top:14px;font-weight:500;letter-spacing:.05em;}
+
+/* PROCESS - LIGHT GRAY */
+.process-section{background:var(--light2);padding:120px 52px;}
+.process-inner{max-width:1200px;margin:0 auto;}
+.process-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:0;margin-top:80px;position:relative;}
+.process-line{position:absolute;top:28px;left:12%;right:12%;height:1px;background:rgba(0,0,0,.1);overflow:hidden;}
+.process-line-fill{height:100%;background:var(--bl);width:0;transition:width 1.2s var(--ease);}
+.process-line-fill.visible{width:100%;}
+.step{padding:0 28px;}
+.step-dot{width:56px;height:56px;border:1.5px solid rgba(0,0,0,.12);display:flex;align-items:center;justify-content:center;margin-bottom:28px;background:var(--light2);transition:border-color .4s,box-shadow .4s;}
+.step:hover .step-dot{border-color:var(--bl);box-shadow:0 0 0 4px rgba(61,127,255,.1);}
+.step-num{font-family:"Bebas Neue",sans-serif;font-size:1.1rem;color:var(--bl);}
+.step-title{font-size:.95rem;font-weight:500;color:var(--dark-text);margin-bottom:8px;}
+.step-desc{font-size:.78rem;color:var(--mid-text);line-height:1.8;}
+
+/* WHY - WHITE */
+.why-section{background:var(--light);padding:120px 52px;}
+.why-inner{max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:100px;align-items:center;}
+.why-left{}
+.why-big-stat{font-family:"Bebas Neue",sans-serif;font-size:clamp(5rem,12vw,10rem);line-height:.85;color:var(--dark-text);margin-bottom:12px;}
+.why-big-stat span{color:var(--bl);}
+.why-big-label{font-size:.65rem;letter-spacing:.25em;text-transform:uppercase;color:var(--mid-text);}
+.why-right h2{font-family:"Bebas Neue",sans-serif;font-size:clamp(2.5rem,4vw,4rem);line-height:.95;color:var(--dark-text);margin-bottom:24px;}
+.why-right h2 em{color:var(--bl);font-style:normal;}
+.why-right p{font-size:.9rem;color:var(--mid-text);line-height:1.9;margin-bottom:40px;}
+.why-points{display:flex;flex-direction:column;gap:0;}
+.why-point{display:flex;align-items:center;gap:16px;font-size:.82rem;color:var(--mid-text);padding:16px 0;border-bottom:1px solid rgba(0,0,0,.06);transition:color .3s;}
+.why-point:hover{color:var(--dark-text);}
+.why-point::before{content:"";width:6px;height:6px;background:var(--bl);border-radius:50%;flex-shrink:0;}
+.why-cta{display:inline-flex;align-items:center;gap:12px;margin-top:40px;background:var(--bl);color:#fff;padding:16px 32px;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;transition:all .3s;font-family:var(--font);font-weight:500;cursor:pointer;border:none;box-shadow:0 0 30px rgba(79,172,255,.25);}
+.why-cta:hover{background:var(--blb);}
+
+/* BOOKING - DARK */
+#booking{background:var(--bg);position:relative;}
+#booking::before{content:"";position:absolute;top:-60px;left:0;right:0;height:60px;background:linear-gradient(to bottom,transparent,var(--bg));}
+.booking-wrap{max-width:900px;margin:0 auto;padding:100px 52px;}
+.booking-eyebrow{font-size:.62rem;font-weight:500;letter-spacing:.35em;text-transform:uppercase;color:var(--bl);margin-bottom:16px;display:flex;align-items:center;gap:10px;}
+.booking-eyebrow::before{content:"";width:20px;height:1px;background:var(--bl);}
+.booking-title{font-family:"Bebas Neue",sans-serif;font-size:clamp(2.5rem,5vw,5rem);line-height:.95;color:var(--w);margin-bottom:48px;}
+.booking-title em{color:var(--bl);font-style:normal;}
+
+/* PROGRESS */
+.progress-bar{display:flex;gap:0;margin-bottom:12px;}
+.prog-step{flex:1;height:2px;background:rgba(255,255,255,.1);transition:background .4s;}
+.prog-step.active{background:var(--bl);}
+.prog-labels{display:flex;justify-content:space-between;margin-bottom:48px;}
+.prog-label{font-size:.62rem;letter-spacing:.15em;text-transform:uppercase;color:rgba(255,255,255,.3);transition:color .3s;}
+.prog-label.active{color:var(--bl);}
+
+/* FORM */
+.form-step{display:none;}
+.form-step.active{display:block;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:20px;}
+.form-row.single{grid-template-columns:1fr;}
+.form-group{display:flex;flex-direction:column;gap:8px;}
+.form-group label{font-size:.65rem;letter-spacing:.18em;text-transform:uppercase;color:var(--m);}
+.form-group input,.form-group select,.form-group textarea{background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--w);padding:14px 16px;font-family:var(--font);font-size:.88rem;outline:none;transition:border-color .3s;-webkit-appearance:none;appearance:none;}
+.form-group input:focus,.form-group select:focus,.form-group textarea:focus{border-color:var(--bl);}
+.form-group select option{background:#0d0d12;color:var(--w);}
+.form-group textarea{resize:vertical;min-height:100px;}
+
+/* TV CARDS */
+.tv-cards{display:flex;flex-direction:column;gap:20px;margin-bottom:24px;}
+.tv-card{background:rgba(255,255,255,.02);border:1px solid rgba(79,172,255,.1);padding:32px;box-shadow:inset 0 1px 0 rgba(79,172,255,.06);}
+.tv-card-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;}
+.tv-card-title{font-size:.85rem;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:var(--bl);}
+.remove-tv{background:none;border:1px solid var(--border);color:var(--m);cursor:pointer;font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;padding:6px 14px;transition:all .3s;font-family:var(--font);}
+.remove-tv:hover{color:#ff5555;border-color:#ff5555;}
+.option-grid{display:grid;gap:10px;margin-top:8px;}
+.option-grid.cols2{grid-template-columns:1fr 1fr;}
+.option-grid.cols3{grid-template-columns:1fr 1fr 1fr;}
+.option-btn{background:rgba(255,255,255,.02);border:1px solid var(--border);padding:20px 16px;cursor:pointer;transition:all .3s;text-align:left;display:flex;flex-direction:column;gap:6px;color:var(--w);}
+.option-btn:hover{border-color:rgba(61,127,255,.4);}
+.option-btn.selected{border-color:var(--blb);background:rgba(45,127,232,.08);box-shadow:0 0 20px rgba(79,172,255,.1);}
+.opt-illustration{width:100%;height:60px;display:flex;align-items:center;justify-content:center;margin-bottom:4px;}
+.opt-title{font-size:.82rem;font-weight:500;color:var(--w);}
+.opt-desc{font-size:.72rem;color:var(--m);line-height:1.6;}
+.opt-price{font-size:.68rem;color:var(--bl);font-weight:500;}
+.option-label{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--m);margin-top:20px;margin-bottom:6px;display:block;}
+.add-tv-btn{display:flex;align-items:center;gap:10px;background:none;border:1px solid var(--border);color:var(--m);padding:14px 20px;cursor:pointer;font-family:var(--font);font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;transition:all .3s;width:100%;}
+.add-tv-btn:hover{border-color:var(--bl);color:var(--bl);}
+.toggle-row{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:rgba(255,255,255,.02);border:1px solid var(--border);margin-bottom:10px;}
+.toggle-label{display:flex;flex-direction:column;gap:4px;}
+.toggle-label span{font-size:.85rem;font-weight:400;color:var(--w);}
+.toggle-label small{font-size:.72rem;color:var(--m);}
+.toggle-price{font-size:.78rem;color:var(--bl);font-weight:500;white-space:nowrap;}
+.toggle-switch{position:relative;width:44px;height:24px;flex-shrink:0;}
+.toggle-switch input{opacity:0;width:0;height:0;}
+.slider{position:absolute;inset:0;background:rgba(255,255,255,.1);border:1px solid var(--border);cursor:pointer;transition:.3s;}
+.slider::before{content:"";position:absolute;height:16px;width:16px;left:3px;bottom:3px;background:var(--m);transition:.3s;}
+.toggle-switch input:checked+.slider{background:var(--bl);border-color:var(--bl);}
+.toggle-switch input:checked+.slider::before{transform:translateX(20px);background:#fff;}
+.qty-row{display:flex;align-items:center;justify-content:space-between;padding:16px 20px;background:rgba(255,255,255,.02);border:1px solid var(--border);margin-bottom:10px;}
+.qty-control{display:flex;align-items:center;}
+.qty-btn{width:36px;height:36px;background:none;border:1px solid var(--border);color:var(--w);cursor:pointer;font-size:1.1rem;display:flex;align-items:center;justify-content:center;transition:all .3s;font-family:var(--font);}
+.qty-btn:hover{border-color:var(--bl);color:var(--bl);}
+.qty-val{width:48px;text-align:center;font-size:.95rem;font-weight:500;color:var(--w);}
+
+/* QUOTE */
+.quote-box{background:rgba(45,127,232,.06);border:1px solid rgba(79,172,255,.2);padding:28px;margin:24px 0;box-shadow:0 0 40px rgba(45,127,232,.05),inset 0 1px 0 rgba(79,172,255,.1);}
+.quote-title{font-size:.62rem;letter-spacing:.25em;text-transform:uppercase;color:var(--bl);margin-bottom:16px;}
+.quote-items{display:flex;flex-direction:column;gap:10px;margin-bottom:16px;}
+.quote-item{display:flex;justify-content:space-between;font-size:.82rem;color:var(--m);}
+.quote-item span:last-child{color:var(--w);font-weight:500;}
+.quote-divider{height:1px;background:rgba(61,127,255,.2);margin:12px 0;}
+.quote-total{display:flex;justify-content:space-between;font-size:1rem;font-weight:500;color:var(--w);}
+.quote-total-price{color:var(--bl);font-family:"Bebas Neue",sans-serif;font-size:1.6rem;letter-spacing:.05em;}
+.quote-note{font-size:.7rem;color:var(--m);margin-top:10px;font-style:italic;}
+
+/* CALENDAR SLOTS */
+.slots-wrap{display:flex;flex-direction:column;gap:8px;min-height:120px;}
+.slot-pick-label{font-size:.62rem;letter-spacing:.2em;text-transform:uppercase;color:var(--m);margin-bottom:8px;margin-top:20px;display:block;}
+
+/* FORM NAV */
+.form-nav{display:flex;justify-content:space-between;align-items:center;margin-top:40px;padding-top:32px;border-top:1px solid var(--border);}
+.btn-back{background:none;border:1px solid var(--border);color:var(--m);padding:14px 28px;cursor:pointer;font-family:var(--font);font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;transition:all .3s;}
+.btn-back:hover{border-color:var(--w);color:var(--w);}
+.btn-next{background:var(--bl);border:none;color:#fff;padding:14px 36px;cursor:pointer;font-family:var(--font);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;transition:all .3s;box-shadow:0 0 30px rgba(79,172,255,.3),0 0 60px rgba(45,127,232,.15);}
+.btn-next:hover{background:var(--blb);}
+.btn-submit{background:var(--bl);border:none;color:#fff;padding:16px 48px;cursor:pointer;font-family:var(--font);font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;transition:all .3s;box-shadow:0 0 30px rgba(79,172,255,.3),0 0 60px rgba(45,127,232,.15);}
+.btn-submit:hover{background:var(--blb);}
+
+/* SUCCESS */
+.success-state{display:none;text-align:center;padding:80px 40px;}
+.success-state.show{display:block;}
+.success-icon{width:64px;height:72px;border:1px solid var(--bl);display:flex;align-items:center;justify-content:center;margin:0 auto 28px;font-size:1.5rem;color:var(--bl);}
+.success-title{font-family:"Bebas Neue",sans-serif;font-size:3rem;letter-spacing:.05em;color:var(--w);margin-bottom:12px;}
+.success-sub{color:var(--m);font-size:.9rem;line-height:1.8;max-width:440px;margin:0 auto 32px;}
+.success-phone{display:inline-block;background:var(--bl);color:#fff;padding:14px 32px;text-decoration:none;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;}
+
+/* FOOTER */
+footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px;display:grid;grid-template-columns:1fr auto 1fr;align-items:center;}
+.footer-logo{font-family:"Bebas Neue",sans-serif;font-size:1.3rem;letter-spacing:.12em;color:var(--m);text-decoration:none;}
+.footer-logo span{color:var(--bl);}
+.footer-center{font-size:.65rem;color:rgba(240,237,232,.2);letter-spacing:.1em;text-align:center;}
+.footer-phone{text-align:right;font-family:"Bebas Neue",sans-serif;font-size:1.1rem;letter-spacing:.08em;}
+.footer-phone a{color:var(--m);text-decoration:none;transition:color .3s;}
+.footer-phone a:hover{color:var(--bl);}
+
+/* ANIMATIONS */
+.fade-up{opacity:0;transform:translateY(40px);transition:opacity .8s var(--ease),transform .8s var(--ease);}
+.fade-up.visible{opacity:1;transform:translateY(0);}
+.fade-in{opacity:0;transition:opacity .8s ease;}
+.fade-in.visible{opacity:1;}
+.clip-text{overflow:hidden;}
+.clip-text .inner{transform:translateY(110%);transition:transform .9s var(--ease);}
+.clip-text.visible .inner{transform:translateY(0);}
+.scale-in{opacity:0;transform:scale(.95) translateY(20px);transition:opacity .6s var(--ease),transform .6s var(--ease);}
+.scale-in.visible{opacity:1;transform:scale(1) translateY(0);}
+.d1{transition-delay:.05s!important;}.d2{transition-delay:.12s!important;}.d3{transition-delay:.19s!important;}
+.d4{transition-delay:.08s!important;}.d5{transition-delay:.16s!important;}.d6{transition-delay:.24s!important;}
+
+/* GALLERY */
+.gallery-item{height:280px;max-height:280px;overflow:hidden;display:block;position:relative;}
+.gallery-item img{height:280px;width:100%;object-fit:cover;display:block;transition:transform .5s ease;}
+.gallery-item:hover img{transform:scale(1.04);}
+.gallery-item:hover .gallery-overlay{opacity:1!important;}
+.gallery-overlay{position:absolute;inset:0;background:linear-gradient(to top,rgba(0,0,0,.75) 0%,transparent 50%);opacity:0;transition:opacity .3s;display:flex;flex-direction:column;justify-content:flex-end;padding:20px;}
+
+/* MOBILE NAV BOOK BUTTON */
+.nav-book-mobile{display:none;color:#fff!important;background:var(--bl)!important;padding:8px 16px;font-size:.7rem;font-weight:500;letter-spacing:.12em;text-transform:uppercase;text-decoration:none;transition:background .3s;}
+.nav-book-mobile:hover{background:var(--blb)!important;}
+/* ACCORDION */
+.accordion-wrap{border-bottom:1px solid rgba(0,0,0,.08);background:#fff;}
+.accordion-wrap-dark{border-bottom:1px solid rgba(0,0,0,.08);background:#fff;}
+.acc-header{display:flex;align-items:center;justify-content:space-between;padding:22px 52px;cursor:pointer;user-select:none;transition:background .2s;}
+.accordion-wrap .acc-header:hover,.accordion-wrap-dark .acc-header:hover{background:rgba(0,0,0,.02);}
+.acc-left{display:flex;flex-direction:column;gap:3px;}
+.acc-title{font-family:"Bebas Neue",sans-serif;font-size:1.4rem;letter-spacing:.06em;color:#0f1218;}
+.accordion-wrap-dark .acc-title{color:#0f1218;}
+.acc-sub{font-size:.7rem;color:#6b7280;letter-spacing:.03em;}
+.accordion-wrap-dark .acc-sub{color:#6b7280;}
+.acc-icon{width:32px;height:32px;border:1px solid rgba(0,0,0,.15);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:all .3s;background:#fff;}
+.accordion-wrap-dark .acc-icon{border-color:rgba(0,0,0,.15);background:#fff;}
+.acc-chevron{font-size:.65rem;color:#6b7280;display:block;transition:transform .3s;line-height:1;}
+.accordion-wrap-dark .acc-chevron{color:#6b7280;}
+.acc-body{overflow:hidden;max-height:0;transition:max-height .5s cubic-bezier(0.16,1,0.3,1);}
+.acc-body.open{max-height:5000px;}
+@media(max-width:768px){.acc-header{padding:18px 24px;}.acc-title{font-size:1.15rem;}}
+
+@media(max-width:768px){.nav-book-mobile{display:block;}}
+
+/* BOOKING MODAL */
+#booking-modal{display:none;position:fixed;inset:0;z-index:1000;background:rgba(0,0,0,.85);backdrop-filter:blur(6px);overflow-y:auto;}
+#booking-modal.open{display:flex;align-items:flex-start;justify-content:center;padding:20px;}
+#booking-modal-inner{background:var(--bg);border:1px solid var(--border);width:100%;max-width:900px;position:relative;margin:auto;}
+#booking-modal-close{position:absolute;top:16px;right:20px;background:none;border:none;color:var(--m);font-size:1.4rem;cursor:pointer;z-index:10;line-height:1;}
+#booking-modal-close:hover{color:#fff;}
+
+/* EXIT POPUP */
+#exit-popup{display:none;position:fixed;inset:0;z-index:2000;background:rgba(0,0,0,.7);backdrop-filter:blur(4px);align-items:center;justify-content:center;}
+#exit-popup.show{display:flex;}
+#exit-popup-inner{background:var(--bg);border:1px solid rgba(79,172,255,.25);max-width:480px;width:90%;padding:48px 40px;position:relative;text-align:center;box-shadow:0 0 60px rgba(45,127,232,.15);}
+#exit-popup-close{position:absolute;top:14px;right:18px;background:none;border:none;color:var(--m);font-size:1.2rem;cursor:pointer;}
+#exit-popup-close:hover{color:#fff;}
+.exit-popup-eyebrow{font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--bl);margin-bottom:12px;}
+.exit-popup-title{font-family:"Bebas Neue",sans-serif;font-size:2.8rem;color:#fff;line-height:1;margin-bottom:12px;}
+.exit-popup-title em{color:var(--bl);font-style:normal;}
+.exit-popup-sub{font-size:.85rem;color:var(--m);line-height:1.7;margin-bottom:28px;}
+.exit-popup-cta{display:inline-block;background:var(--bl);color:#fff;padding:14px 36px;font-size:.72rem;letter-spacing:.18em;text-transform:uppercase;text-decoration:none;cursor:pointer;border:none;font-family:var(--font);transition:background .3s;box-shadow:0 0 30px rgba(79,172,255,.25);}
+.exit-popup-cta:hover{background:var(--blb);}
+.exit-popup-dismiss{display:block;margin-top:14px;font-size:.68rem;color:var(--m);cursor:pointer;text-decoration:underline;}
+.exit-popup-dismiss:hover{color:#fff;}
+
+@media(max-width:768px){#booking-modal-inner{margin:0;}#exit-popup-inner{padding:36px 24px;}}
+@media(max-width:768px){#hero-stats{bottom:20px!important;gap:8px!important;padding:0 12px;}#hero-stats span{font-size:10px!important;}}
+  nav{padding:18px 24px;}.nav-links{display:none;}
+  .stats-grid{grid-template-columns:1fr 1fr;}.stat:nth-child(2){border-right:none;}
+  .services-section,.process-section,.why-section{padding:80px 24px;}
+  .svc-grid{grid-template-columns:1fr;}
+  .process-grid{grid-template-columns:1fr 1fr;gap:40px;}.process-line{display:none;}
+  .why-inner{grid-template-columns:1fr;gap:48px;}
+  .booking-wrap{padding:60px 24px;}
+  .form-row{grid-template-columns:1fr;}
+  .option-grid.cols3{grid-template-columns:1fr 1fr;}
+  footer{grid-template-columns:1fr;gap:12px;padding:32px 24px;}.footer-phone{text-align:left;}
+}
+@media(max-width:900px){.gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;}.tools-grid{grid-template-columns:repeat(2,1fr)!important;}}
+@media(max-width:500px){.gallery-grid{grid-template-columns:1fr!important;}.tools-grid{grid-template-columns:1fr!important;}}
+@media(max-width:768px){.stats-main-grid{grid-template-columns:1fr!important;}.who-grid{grid-template-columns:1fr 1fr!important;}.warranty-wrap{flex-direction:column!important;text-align:center;gap:28px!important;}.warranty-wrap > div:nth-child(2){display:none!important;}}
+</style>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18018755852"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
+  gtag('config', 'AW-18018755852');
+</script>
+<!-- Google Tag Manager -->
+<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-KL3RS6P8');</script>
+<!-- End Google Tag Manager -->
+<script defer src="/_vercel/insights/script.js"></script>
+<script src="https://elfsightcdn.com/platform.js" async></script>
+</head>
+<body>
+<!-- Google Tag Manager (noscript) -->
+<noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KL3RS6P8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+<!-- End Google Tag Manager (noscript) -->
+
+<nav id="nav">
+  <a href="/" class="nav-logo" style="font-family:DM Sans,sans-serif;font-size:1.5rem;font-weight:500;letter-spacing:.02em;color:#fff;text-decoration:none;">Vista<span style="color:#2d7fe8;font-weight:700;">Mount</span></a>
+  <div class="nav-links">
+    <a href="#services-section">Services</a>
+    <a href="#process-section">Process</a>
+    <a href="#booking" class="nav-book" onclick="openBookingModal();return false;">Book Now</a>
+  </div>
+  <a href="#booking" class="nav-book-mobile" onclick="openBookingModal();return false;">Book Now</a>
+</nav>
+
+<!-- HERO -->
+<section id="hero">
+  <div id="hero-left"><div id="hero-stats" style="position:absolute;bottom:100px;left:0;right:0;z-index:10;display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;pointer-events:none;"><span style="color:#FFD700;font-size:13px;">★★★★★</span><span style="color:rgba(255,255,255,.75);font-size:12px;">4.9/5 · 200+ Reviews</span><span style="color:rgba(79,172,255,.3);">|</span><span style="color:rgba(255,255,255,.75);font-size:12px;">800+ Installs</span><span style="color:rgba(79,172,255,.3);">|</span><span style="color:rgba(255,255,255,.75);font-size:12px;">Insured &amp; Guaranteed</span></div><canvas id="hero-canvas"></canvas></div><div id="hero-right"><img src="/images/IMG_1626.jpg" alt="Premium TV mounting installation by VistaMount"/></div>
+  <div style="position:absolute;top:0;right:0;width:45%;height:100%;background:radial-gradient(ellipse at 80% 50%,rgba(79,172,255,0.07) 0%,transparent 70%);pointer-events:none;"></div>
+  <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:60%;height:40%;background:radial-gradient(ellipse at 50% 100%,rgba(45,127,232,0.06) 0%,transparent 70%);pointer-events:none;"></div>
+</section>
+
+<!-- STATS - WHITE -->
+<div style="background:var(--light);padding:60px 52px 48px;border-bottom:1px solid rgba(0,0,0,.06);">
+  <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1.2fr 1fr;gap:48px;align-items:center;" class="stats-main-grid">
+    <div class="fade-up" style="text-align:center;">
+      <div style="position:relative;width:280px;height:155px;margin:0 auto;">
+        <canvas id="vm-gauge" width="280" height="155"></canvas>
+        <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);text-align:center;white-space:nowrap;">
+          <div id="vm-gauge-num" style="font-size:60px;font-weight:900;color:var(--dark-text);line-height:1;letter-spacing:-.03em;">0</div>
+          <div style="font-size:.48rem;letter-spacing:.28em;text-transform:uppercase;color:var(--mid-text);margin-top:4px;">TVs Installed</div>
+        </div>
+      </div>
+      <div id="vm-gauge-label" style="font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;margin-top:18px;min-height:18px;font-weight:700;transition:color .6s;"></div>
+      <div id="vm-gauge-sub" style="font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;margin-top:6px;min-height:16px;color:var(--mid-text);transition:opacity .5s;opacity:0;"></div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:20px;">
+      <div class="fade-up d1" style="padding:22px 28px;border:1px solid rgba(0,0,0,.08);">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--dark-text);line-height:1;margin-bottom:4px;">4.9 ★</div>
+        <div style="font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mid-text);">Rating · 200+ Reviews</div>
+      </div>
+      <div class="fade-up d2" style="padding:22px 28px;border:1px solid rgba(0,0,0,.08);">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--dark-text);line-height:1;margin-bottom:4px;">Same-Day Available</div>
+        <div style="font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mid-text);">Book Online · Instant Quote</div>
+      </div>
+      <div class="fade-up d3" style="padding:22px 28px;border:1px solid rgba(0,0,0,.08);">
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--dark-text);line-height:1;margin-bottom:4px;">Fireplace & Tile</div>
+        <div style="font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mid-text);">Specialists · All Wall Types</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+(function(){
+  var c=document.getElementById('vm-gauge');
+  if(!c)return;
+  var ctx=c.getContext('2d'),W=280,H=155,cx=W/2,cy=H+12,R=132,MAX=800,cur=0,going=false;
+  var S=Math.PI,E=2*Math.PI;
+  var stops=[{p:0,r:210,g:30,b:60},{p:.5,r:255,g:105,b:0},{p:1,r:30,g:120,b:255}];
+  function getCol(p){for(var i=0;i<stops.length-1;i++){var a=stops[i],b=stops[i+1];if(p>=a.p&&p<=b.p){var t=(p-a.p)/(b.p-a.p);return{r:Math.round(a.r+(b.r-a.r)*t),g:Math.round(a.g+(b.g-a.g)*t),b:Math.round(a.b+(b.b-a.b)*t)};}}return stops[stops.length-1];}
+  function rgba(c,a){return'rgba('+c.r+','+c.g+','+c.b+','+(a==null?1:a)+')';}
+  function draw(val){
+    ctx.clearRect(0,0,W,H);var p=val/MAX;
+    ctx.beginPath();ctx.arc(cx,cy,R,S,E);ctx.strokeStyle='rgba(0,0,0,.07)';ctx.lineWidth=18;ctx.lineCap='round';ctx.stroke();
+    if(p<=0)return;
+    var segs=160;
+    for(var s=0;s<segs;s++){
+      var p0=(s/segs)*p,p1=Math.min(((s+1)/segs)*p,p);if(p0>=p)break;
+      var a0=S+p0*Math.PI,a1=S+p1*Math.PI;
+      var c0=getCol(p0),c1=getCol(p1);
+      var cm={r:Math.round((c0.r+c1.r)/2),g:Math.round((c0.g+c1.g)/2),b:Math.round((c0.b+c1.b)/2)};
+      ctx.beginPath();ctx.arc(cx,cy,R,a0,a1);ctx.strokeStyle=rgba(cm,.13);ctx.lineWidth=28;ctx.lineCap='butt';ctx.stroke();
+      ctx.beginPath();ctx.arc(cx,cy,R,a0,a1);ctx.strokeStyle=rgba(cm,1);ctx.lineWidth=18;ctx.stroke();
+      ctx.beginPath();ctx.arc(cx,cy,R-5,a0,a1);ctx.strokeStyle='rgba(255,255,255,.48)';ctx.lineWidth=5;ctx.stroke();
+      ctx.beginPath();ctx.arc(cx,cy,R+5,a0,a1);ctx.strokeStyle='rgba(0,0,0,.1)';ctx.lineWidth=4;ctx.stroke();
+    }
+    var tipA=S+p*Math.PI,tx=cx+Math.cos(tipA)*R,ty=cy+Math.sin(tipA)*R,tc=getCol(p);
+    var gr=ctx.createRadialGradient(tx,ty,0,tx,ty,16);gr.addColorStop(0,rgba(tc,.45));gr.addColorStop(1,rgba(tc,0));
+    ctx.beginPath();ctx.arc(tx,ty,16,0,2*Math.PI);ctx.fillStyle=gr;ctx.fill();
+    ctx.beginPath();ctx.arc(tx,ty,9,0,2*Math.PI);ctx.fillStyle=rgba(tc,1);ctx.fill();
+    ctx.beginPath();ctx.arc(tx-2,ty-2,4,0,2*Math.PI);ctx.fillStyle='rgba(255,255,255,.6)';ctx.fill();
+    var sx=cx+Math.cos(S)*R,sy=cy+Math.sin(S)*R,sc=getCol(0);
+    ctx.beginPath();ctx.arc(sx,sy,9,0,2*Math.PI);ctx.fillStyle=rgba(sc,1);ctx.fill();
+    ctx.beginPath();ctx.arc(sx-2,sy-2,4,0,2*Math.PI);ctx.fillStyle='rgba(255,255,255,.5)';ctx.fill();
+  }
+  var lbls=[{v:0,t:''},{v:120,t:'Getting started'},{v:280,t:'Building momentum'},{v:450,t:'Well established'},{v:620,t:'Phoenix trusted'},{v:750,t:'Phoenix leader'},{v:800,t:"Phoenix's #1 choice"}];
+  function getLbl(v){var t='';for(var l of lbls){if(v>=l.v)t=l.t;}return t;}
+  var ne=document.getElementById('vm-gauge-num'),le=document.getElementById('vm-gauge-label'),ls=document.getElementById('vm-gauge-sub');
+  function step(){
+    if(cur>=MAX)return;
+    cur=Math.min(MAX,cur+(cur<450?7:cur<680?4:cur<790?2:1));
+    draw(cur);ne.textContent=cur>=MAX?'800+':cur;
+    var lbl=getLbl(cur);
+    if(lbl){var cc=getCol(cur/MAX);le.textContent=lbl;le.style.color=rgba(cc,1);}
+    if(cur>=MAX&&ls){ls.textContent='800+ installs · 4.9★ · Same-day available';ls.style.opacity='1';}
+    requestAnimationFrame(step);
+  }
+  draw(0);
+  new IntersectionObserver(function(e){if(e[0].isIntersecting&&!going){going=true;setTimeout(step,400);}},{threshold:.3}).observe(c);
+})();
+</script>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item">TV Mounting</div><div class="marquee-item">Cable Concealment</div><div class="marquee-item">Smart Home</div><div class="marquee-item">AV Systems</div><div class="marquee-item">Projector Install</div><div class="marquee-item">Same-Day Service</div><div class="marquee-item">Phoenix Metro</div>
+    <div class="marquee-item">TV Mounting</div><div class="marquee-item">Cable Concealment</div><div class="marquee-item">Smart Home</div><div class="marquee-item">AV Systems</div><div class="marquee-item">Projector Install</div><div class="marquee-item">Same-Day Service</div><div class="marquee-item">Phoenix Metro</div>
+  </div>
+</div>
+
+<!-- ACCORDION INTRO -->
+<div style="background:#fff;padding:40px 52px 28px;border-top:1px solid rgba(0,0,0,.06);">
+  <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:space-between;flex-wrap:wrap;gap:16px;">
+    <div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:1.6rem;letter-spacing:.05em;color:#0f1218;margin-bottom:4px;">Learn More About Us</div>
+      <div style="font-size:.78rem;color:#6b7280;line-height:1.7;">Tap any section below to expand it — or skip straight to booking if you're ready.</div>
+    </div>
+    <button onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})" style="background:#2d7fe8;color:#fff;border:none;padding:12px 28px;font-family:'DM Sans',sans-serif;font-size:.72rem;font-weight:600;letter-spacing:.15em;text-transform:uppercase;cursor:pointer;white-space:nowrap;box-shadow:0 0 20px rgba(45,127,232,.3);transition:background .2s;" onmouseover="this.style.background='#4facff'" onmouseout="this.style.background='#2d7fe8'">Skip to Booking &darr;</button>
+  </div>
+</div>
+
+<!-- SERVICES -->
+<div style="border-top:1px solid rgba(0,0,0,.08);">
+<div class="accordion-wrap">
+<div class="acc-header" onclick="toggleAcc(this)" id="acc-services">
+  <div class="acc-left"><div class="acc-title">Our Services</div><div class="acc-sub">TV mounting, wiring, soundbars, smart home & more</div></div>
+  <div class="acc-icon"><span class="acc-chevron">▼</span></div>
+</div>
+<div class="acc-body">
+<section class="services-section" id="services-section">
+  <div class="services-inner">
+    <div class="section-eyebrow fade-up">What We Do</div>
+    <h2 class="section-title-light clip-text"><span class="inner">Every Install,<br><em>Flawlessly Done.</em></span></h2>
+    <div class="svc-grid">
+      <div class="svc scale-in d1"><div class="svc-num">01</div><div class="svc-name">Precision TV Mounting</div><p class="svc-desc">Flat, tilt, and full-motion mounts on any wall type. Drywall, concrete, brick, tile handled with precision.</p><div class="svc-price">From $100</div></div>
+      <div class="svc scale-in d2"><div class="svc-num">02</div><div class="svc-name">Clean, Hidden Wiring</div><p class="svc-desc">In-wall routing or surface raceways. Zero visible wiring. Your TV looks like it grew out of the wall.</p><div class="svc-price">From $40 — no visible wires</div></div>
+      <div class="svc scale-in d3"><div class="svc-num">03</div><div class="svc-name">Outlet Installation</div><p class="svc-desc">In-wall power outlet added behind your TV for a completely clean look. No extension cords, no clutter.</p><div class="svc-price">~$150/hr + parts</div></div>
+      <div class="svc scale-in d4"><div class="svc-num">04</div><div class="svc-name">Soundbar Install</div><p class="svc-desc">Wall-mounted soundbars aligned perfectly below your TV. Cables managed, brackets secured, audio calibrated.</p><div class="svc-price">From $100</div></div>
+      <div class="svc scale-in d5"><div class="svc-num">05</div><div class="svc-name">Smart Home & AV</div><p class="svc-desc">Full AV rack builds, surround sound, PoE systems. High-end Airbnbs, commercial spaces, luxury residences.</p><div class="svc-price">Contact for quote</div></div>
+      <div class="svc scale-in d6"><div class="svc-num">06</div><div class="svc-name">TV Delivery & Dismount</div><p class="svc-desc">We deliver TVs to your location and safely remove existing mounted TVs. Under 75" is $25, 75"+ is $70.</p><div class="svc-price">From $25/TV</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- PROCESS -->
+</div></div><!-- end services accordion -->
+<div class="accordion-wrap">
+<div class="acc-header" onclick="toggleAcc(this)" id="acc-process">
+  <div class="acc-left"><div class="acc-title">How It Works</div><div class="acc-sub">Book online, we confirm, install, done — 4 simple steps</div></div>
+  <div class="acc-icon"><span class="acc-chevron">▼</span></div>
+</div>
+<div class="acc-body">
+<section class="process-section" id="process-section">
+  <div class="process-inner">
+    <div class="section-eyebrow fade-up">How It Works</div>
+    <h2 class="section-title-light clip-text" style="margin-bottom:0;"><span class="inner">Simple.<br><em>Fast. Done.</em></span></h2>
+    <div class="process-grid">
+      <div class="process-line"><div class="process-line-fill fade-line"></div></div>
+      <div class="step fade-up d1"><div class="step-dot"><span class="step-num">01</span></div><div class="step-title">Book Online</div><p class="step-desc">Join 800+ Phoenix homeowners who've trusted VistaMount. Get an instant quote and pick a real available slot.</p></div>
+      <div class="step fade-up d2"><div class="step-dot"><span class="step-num">02</span></div><div class="step-title">We Confirm</div><p class="step-desc">A member of the VistaMount team will call within 2 hours to confirm details and answer any questions.</p></div>
+      <div class="step fade-up d3"><div class="step-dot"><span class="step-num">03</span></div><div class="step-title">Precision Install</div><p class="step-desc">Arrive on time, install clean, test everything, leave zero mess.</p></div>
+      <div class="step fade-up d4" style="transition-delay:.19s;"><div class="step-dot"><span class="step-num">04</span></div><div class="step-title">Enjoy It</div><p class="step-desc">Your setup looks exactly how it should. Pay when done.</p></div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY -->
+</div></div><!-- end process accordion -->
+<div class="accordion-wrap">
+<div class="acc-header" onclick="toggleAcc(this)" id="acc-why">
+  <div class="acc-left"><div class="acc-title">Why VistaMount</div><div class="acc-sub">800+ installs · no subcontractors · 1-year warranty</div></div>
+  <div class="acc-icon"><span class="acc-chevron">▼</span></div>
+</div>
+<div class="acc-body">
+<section class="why-section">
+  <div class="why-inner">
+    <div class="why-left fade-up">
+      <div class="why-big-stat"><span class="count" data-t="800" style="display:inline;">0</span><span>+</span></div>
+      <div class="why-big-label">Jobs completed in Phoenix metro</div>
+    </div>
+    <div class="why-right">
+      <div class="section-eyebrow fade-up">Why VistaMount</div>
+      <h2 class="clip-text fade-up d1"><span class="inner">The install you <em>actually</em> wanted.</span></h2>
+      <p class="fade-up d2">No subcontractors, no surprises. Every job is handled personally — consistent quality, zero handoffs, and an installer who actually cares how it looks when we leave. Specializing in fireplace, tile, and high-end installs.</p>
+      <div class="why-points fade-up d3">
+        <div class="why-point">800+ installs. Consistent 5-star results. Zero handoffs.</div>
+        <div class="why-point">All wall types including concrete and brick</div>
+        <div class="why-point">In-wall cable concealment on every install</div>
+        <div class="why-point">Sanus and ONN mounts - no cheap hardware</div>
+        <div class="why-point">Not the cheapest — just done right the first time</div>
+      </div>
+      <button class="why-cta" onclick="document.getElementById('booking').scrollIntoView({behavior:'smooth'})">Book Your Install &rarr;</button>
+    </div>
+  </div>
+</section>
+
+<!-- WHO THIS IS FOR -->
+</div></div><!-- end why accordion -->
+<div class="accordion-wrap">
+<div class="acc-header" onclick="toggleAcc(this)" id="acc-who">
+  <div class="acc-left"><div class="acc-title">Who It's For</div><div class="acc-sub">New homes, fireplaces, Airbnbs, living room upgrades</div></div>
+  <div class="acc-icon"><span class="acc-chevron">▼</span></div>
+</div>
+<div class="acc-body">
+<section style="background:var(--light2);padding:80px 52px;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-eyebrow fade-up">Who It's For</div>
+    <h2 class="section-title-light clip-text" style="margin-bottom:48px;"><span class="inner">Perfect for your<br><em>situation.</em></span></h2>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;" class="who-grid">
+      <div class="fade-up d1" style="background:var(--light);padding:32px 24px;border:1px solid rgba(0,0,0,.06);">
+        <div style="font-size:2rem;margin-bottom:12px;">🏠</div>
+        <div style="font-weight:500;color:var(--dark-text);margin-bottom:8px;font-size:.95rem;">New Home Setup</div>
+        <div style="font-size:.78rem;color:var(--mid-text);line-height:1.7;">Moving in and want everything mounted clean from day one.</div>
+      </div>
+      <div class="fade-up d2" style="background:var(--light);padding:32px 24px;border:1px solid rgba(0,0,0,.06);">
+        <div style="font-size:2rem;margin-bottom:12px;">🔥</div>
+        <div style="font-weight:500;color:var(--dark-text);margin-bottom:8px;font-size:.95rem;">Fireplace Mounts</div>
+        <div style="font-size:.78rem;color:var(--mid-text);line-height:1.7;">Tile, stone, or brick — we handle installs others won't touch.</div>
+      </div>
+      <div class="fade-up d3" style="background:var(--light);padding:32px 24px;border:1px solid rgba(0,0,0,.06);">
+        <div style="font-size:2rem;margin-bottom:12px;">🏨</div>
+        <div style="font-weight:500;color:var(--dark-text);margin-bottom:8px;font-size:.95rem;">Airbnb &amp; Rentals</div>
+        <div style="font-size:.78rem;color:var(--mid-text);line-height:1.7;">Premium setups that impress guests and hold up long-term.</div>
+      </div>
+      <div class="fade-up d4" style="background:var(--light);padding:32px 24px;border:1px solid rgba(0,0,0,.06);">
+        <div style="font-size:2rem;margin-bottom:12px;">✨</div>
+        <div style="font-weight:500;color:var(--dark-text);margin-bottom:8px;font-size:.95rem;">Living Room Upgrade</div>
+        <div style="font-size:.78rem;color:var(--mid-text);line-height:1.7;">No wires, no mess. Just a clean, finished look you'll love.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TOOLS -->
+</div></div><!-- end who accordion -->
+<div class="accordion-wrap accordion-wrap-dark">
+<div class="acc-header" onclick="toggleAcc(this)" id="acc-tools">
+  <div class="acc-left"><div class="acc-title">Professional Equipment</div><div class="acc-sub">Milwaukee tools, laser levels, thermal cameras & more</div></div>
+  <div class="acc-icon"><span class="acc-chevron">▼</span></div>
+</div>
+<div class="acc-body">
+<section style="background:#0a0a0a;padding:80px 52px;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-eyebrow fade-up" style="color:#4facff;">Professional Grade</div>
+    <h2 class="fade-up" style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);color:#fff;letter-spacing:.03em;margin:0 0 12px;line-height:1;">We Show Up Equipped.</h2>
+    <p class="fade-up" style="font-size:.9rem;color:rgba(255,255,255,.4);max-width:560px;line-height:1.8;margin:0 0 52px;">Not every installer brings the right tools. We do. Every job gets the full kit — no guessing, no damage, no callbacks.</p>
+    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.06);" class="tools-grid">
+      <div class="fade-up d1" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Drilling & Driving</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee M18 FUEL</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Drill & impact driver. Maximum torque for any wall type — drywall, tile, concrete, brick.</div></div>
+      <div class="fade-up d2" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Leveling</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee + Bosch Laser</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Laser levels for perfect alignment every time. No eyeballing — your TV is always straight.</div></div>
+      <div class="fade-up d3" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Wall Scanning</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Walabot Advanced Stud Finder</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Sees studs, pipes, and live wires behind the wall before we drill. Zero surprises.</div></div>
+      <div class="fade-up d4" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Inspection</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Borescope + Thermal Camera</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">See inside walls before cutting. Thermal camera detects heat signatures and hidden wiring.</div></div>
+      <div class="fade-up d1" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Electrical Safety</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Voltmeter + Safety Kit</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Full electrical safety equipment and voltmeter on every job involving outlet work.</div></div>
+      <div class="fade-up d2" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Cutting & Finishing</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee Multi-Tool</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Precise cuts for outlet boxes, cable access, and in-wall work. Clean edges, no mess left behind.</div></div>
+      <div class="fade-up d3" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Cleanup</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee Vacuum</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">We clean up after ourselves. Drywall dust, debris — gone before we leave.</div></div>
+      <div class="fade-up d4" style="background:#0a0a0a;padding:28px 24px;display:flex;flex-direction:column;justify-content:center;border:1px solid rgba(45,127,232,.25);"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">The result</div><div style="font-size:1.1rem;font-weight:500;color:#fff;margin-bottom:6px;line-height:1.4;">Done right.<br>The first time.</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Professional tools mean fewer holes, cleaner installs, and zero damage to your home.</div></div>
+    </div>
+  </div>
+</section>
+
+<!-- GALLERY -->
+</div></div><!-- end tools accordion -->
+<div class="accordion-wrap">
+<div class="acc-header" onclick="toggleAcc(this)" id="acc-gallery">
+  <div class="acc-left"><div class="acc-title">Real Work</div><div class="acc-sub">Photos from actual Phoenix installs</div></div>
+  <div class="acc-icon"><span class="acc-chevron">▼</span></div>
+</div>
+<div class="acc-body">
+<section style="background:var(--light3);padding:100px 52px;overflow:hidden;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-eyebrow fade-up">Real Work</div>
+    <h2 class="section-title-light clip-text" style="margin-bottom:48px;"><span class="inner">Real Results.<br><em>Every time.</em></span></h2>
+    <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px;overflow:hidden;" class="gallery-grid">
+
+      <div class="gallery-item fade-up" style="cursor:pointer;" onclick="openLightbox('Frame TV · Fireplace','Samsung Frame TV mounted above fireplace. Clean cord-free finish.','Phoenix Metro, AZ',this.querySelector('img').src)">
+        <img src="/images/IMG_1358.jpg" alt="Frame TV above fireplace"/>
+        <div class="gallery-overlay">
+          <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);margin-bottom:4px;">Phoenix Metro, AZ</div>
+          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Frame TV · Fireplace</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7);">Samsung Frame TV mounted above fireplace. Clean cord-free finish.</div>
+        </div>
+      </div>
+
+      <div class="gallery-item fade-up" style="cursor:pointer;" onclick="openLightbox('Frame TV · Christmas','Samsung Frame TV mounted next to Christmas tree. Zero visible wires.','Phoenix Metro, AZ',this.querySelector('img').src)">
+        <img src="/images/IMG_1020.jpg" alt="Frame TV next to Christmas tree"/>
+        <div class="gallery-overlay">
+          <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);margin-bottom:4px;">Phoenix Metro, AZ</div>
+          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Frame TV · Christmas</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7);">Samsung Frame TV mounted next to Christmas tree. Zero visible wires.</div>
+        </div>
+      </div>
+
+      <div class="gallery-item fade-up" style="cursor:pointer;" onclick="openLightbox('Frame TV · Designer Setup','Frame TV with tall plant and custom TV stand. Immaculate finish.','Phoenix Metro, AZ',this.querySelector('img').src)">
+        <img src="/images/IMG_1626.jpg" alt="Frame TV with tall plant and orange TV stand"/>
+        <div class="gallery-overlay">
+          <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);margin-bottom:4px;">Phoenix Metro, AZ</div>
+          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Frame TV · Designer Setup</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7);">Frame TV with tall plant and custom TV stand. Immaculate finish.</div>
+        </div>
+      </div>
+
+      <div class="gallery-item fade-up" style="cursor:pointer;" onclick="openLightbox('Clean Mount · Chevron Stand','TV mounted above chevron console. Wires completely hidden.','Phoenix Metro, AZ',this.querySelector('img').src)">
+        <img src="/images/IMG_1352.jpg" alt="TV above chevron stand"/>
+        <div class="gallery-overlay">
+          <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);margin-bottom:4px;">Phoenix Metro, AZ</div>
+          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Clean Mount · Chevron Stand</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7);">TV mounted above chevron console. Wires completely hidden.</div>
+        </div>
+      </div>
+
+      <div class="gallery-item fade-up" style="cursor:pointer;" onclick="openLightbox('Living Room Mount','TV above white console with shelf and plant styling. Zero clutter.','Phoenix Metro, AZ',this.querySelector('img').src)">
+        <img src="/images/IMG_1356.jpg" alt="TV above white TV stand with plant"/>
+        <div class="gallery-overlay">
+          <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);margin-bottom:4px;">Phoenix Metro, AZ</div>
+          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Living Room Mount</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7);">TV above white console with shelf and plant styling. Zero clutter.</div>
+        </div>
+      </div>
+
+      <div class="gallery-item fade-up" style="cursor:pointer;" onclick="openLightbox('Frame TV · Built-In Look','Frame TV between custom shelving with ceiling fan. Perfectly level.','Phoenix Metro, AZ',this.querySelector('img').src)">
+        <img src="/images/IMG_1435.jpg" alt="Frame TV between shelves with ceiling fan"/>
+        <div class="gallery-overlay">
+          <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);margin-bottom:4px;">Phoenix Metro, AZ</div>
+          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Frame TV · Built-In Look</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7);">Frame TV between custom shelving with ceiling fan. Perfectly level.</div>
+        </div>
+      </div>
+
+      <div class="gallery-item fade-up" style="cursor:pointer;" onclick="openLightbox('Fall Setup · Frame TV','Seasonal styling meets a flawless mount. Every detail on point.','Phoenix Metro, AZ',this.querySelector('img').src)">
+        <img src="/images/IMG_1167.jpg" alt="Frame TV with fall pumpkin decor"/>
+        <div class="gallery-overlay">
+          <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);margin-bottom:4px;">Phoenix Metro, AZ</div>
+          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Fall Setup · Frame TV</div>
+          <div style="font-size:.75rem;color:rgba(255,255,255,.7);">Seasonal styling meets a flawless mount. Every detail on point.</div>
+        </div>
+      </div>
+
+    </div>
+    <p class="fade-up" style="margin-top:24px;font-size:.75rem;color:var(--mid-text);text-align:center;letter-spacing:.08em;">800+ installs across Phoenix, Scottsdale, Chandler, Gilbert &amp; surrounding areas</p>
+  </div>
+</section>
+
+<script>
+(function(){
+  var card=document.getElementById('gal-slider');
+  if(!card)return;
+  var during=document.getElementById('gal-during');
+  var div=document.getElementById('gal-sdivider');
+  var dragging=false;
+  function setPos(x){
+    var rect=card.getBoundingClientRect();
+    var pct=Math.max(2,Math.min(98,((x-rect.left)/rect.width)*100));
+    during.style.clipPath='inset(0 '+(100-pct)+'% 0 0)';
+    div.style.left=pct+'%';
+  }
+  card.addEventListener('mousedown',function(e){dragging=true;setPos(e.clientX);});
+  document.addEventListener('mouseup',function(){dragging=false;});
+  document.addEventListener('mousemove',function(e){if(dragging)setPos(e.clientX);});
+  card.addEventListener('touchstart',function(e){dragging=true;setPos(e.touches[0].clientX);},{passive:true});
+  document.addEventListener('touchend',function(){dragging=false;});
+  card.addEventListener('touchmove',function(e){if(dragging)setPos(e.touches[0].clientX);},{passive:true});
+})();
+</script>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;align-items:center;justify-content:center;flex-direction:column;padding:40px;" onclick="closeLightbox()">
+  <img id="lb-img" src="" style="max-width:90vw;max-height:75vh;object-fit:contain;margin-bottom:20px;"/>
+  <div id="lb-tag" style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--bl);margin-bottom:6px;"></div>
+  <div id="lb-title" style="font-size:1.2rem;font-weight:500;color:#fff;margin-bottom:4px;font-family:'Bebas Neue',sans-serif;letter-spacing:.05em;"></div>
+  <div id="lb-desc" style="font-size:.8rem;color:rgba(255,255,255,.6);"></div>
+  <div style="position:absolute;top:20px;right:28px;color:rgba(255,255,255,.5);font-size:1.5rem;cursor:pointer;" onclick="closeLightbox()">&#x2715;</div>
+</div>
+<script>
+function openLightbox(title,desc,tag,src){
+  document.getElementById('lb-img').src=src;
+  document.getElementById('lb-title').textContent=title;
+  document.getElementById('lb-desc').textContent=desc;
+  document.getElementById('lb-tag').textContent=tag;
+  document.getElementById('lightbox').style.display='flex';
+  document.body.style.overflow='hidden';
+}
+function closeLightbox(){
+  document.getElementById('lightbox').style.display='none';
+  document.body.style.overflow='';
+}
+</script>
+
+<!-- REVIEWS -->
+</div></div><!-- end gallery accordion -->
+<div class="accordion-wrap">
+<div class="acc-header" onclick="toggleAcc(this)" id="acc-reviews">
+  <div class="acc-left"><div class="acc-title">Customer Reviews</div><div class="acc-sub">4.9★ across Google, Facebook & Thumbtack</div></div>
+  <div class="acc-icon"><span class="acc-chevron">▼</span></div>
+</div>
+<div class="acc-body">
+<section style="background:var(--light);padding:100px 52px;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div class="section-eyebrow fade-up">Real Reviews</div>
+    <h2 class="section-title-light clip-text" style="margin-bottom:16px;"><span class="inner">4.9★ across<br><em>every platform.</em></span></h2>
+    <p class="fade-up" style="color:var(--mid-text);font-size:.9rem;margin-bottom:40px;">Google. Facebook. Thumbtack. Customers rate us the same everywhere — because the quality never changes.</p>
+    <div class="fade-up d1">
+      <div class="elfsight-app-9fe1bb53-e8e9-45d0-a43a-0d8a17a63a0f" data-elfsight-app-lazy></div>
+    </div>
+  </div>
+</section>
+
+<!-- WARRANTY -->
+</div></div><!-- end reviews accordion -->
+<div class="accordion-wrap accordion-wrap-dark">
+<div class="acc-header" onclick="toggleAcc(this)" id="acc-warranty">
+  <div class="acc-left"><div class="acc-title">Our Guarantee</div><div class="acc-sub">1-year workmanship warranty · insured · no payment until done</div></div>
+  <div class="acc-icon"><span class="acc-chevron">▼</span></div>
+</div>
+<div class="acc-body">
+<section style="background:#050810;padding:70px 52px;">
+  <div style="max-width:1200px;margin:0 auto;display:flex;align-items:center;justify-content:center;">
+    <div class="fade-up warranty-wrap" style="border:1px solid rgba(45,127,232,.25);border-radius:20px;padding:48px 56px;display:flex;align-items:center;gap:52px;max-width:900px;width:100%;position:relative;overflow:hidden;">
+      <div style="position:absolute;top:-60px;left:-60px;width:200px;height:200px;background:radial-gradient(circle,rgba(45,127,232,.12) 0%,transparent 70%);pointer-events:none;"></div>
+      <div style="flex-shrink:0;text-align:center;">
+        <img src="/images/warranty-seal.png" alt="VistaMount Warranty Seal" style="width:180px;height:180px;object-fit:contain;"/>
+      </div>
+      <div style="width:1px;height:90px;background:linear-gradient(to bottom,transparent,rgba(45,127,232,.3),transparent);flex-shrink:0;"></div>
+      <div style="flex:1;">
+        <div style="font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">VistaMount Workmanship Guarantee</div>
+        <div style="font-size:1.6rem;font-weight:700;color:#fff;margin-bottom:20px;font-family:'Bebas Neue',sans-serif;letter-spacing:.04em;line-height:1.1;">We Stand Behind<br>Every Install.</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 32px;">
+          <div style="display:flex;align-items:flex-start;gap:8px;"><span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">✓</span><span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">1-year workmanship warranty on all installs</span></div>
+          <div style="display:flex;align-items:flex-start;gap:8px;"><span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">✓</span><span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">Free callback if anything shifts or loosens</span></div>
+          <div style="display:flex;align-items:flex-start;gap:8px;"><span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">✓</span><span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">Fully insured — your home is protected</span></div>
+          <div style="display:flex;align-items:flex-start;gap:8px;"><span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">✓</span><span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">No payment until the job is complete</span></div>
+          <div style="display:flex;align-items:flex-start;gap:8px;"><span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">✓</span><span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">800+ installs — consistent 5-star results</span></div>
+          <div style="display:flex;align-items:flex-start;gap:8px;"><span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">✓</span><span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">Satisfaction guaranteed or we make it right</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- BOOKING - DARK -->
+</div></div><!-- end warranty accordion -->
+</div><!-- end accordion wrapper -->
+<section id="booking">
+  <div class="booking-wrap">
+    <div id="booking-header">
+      <div class="booking-eyebrow fade-up">Book Your Install</div>
+      <h2 class="booking-title fade-up d1">Join <em>800+ Happy Customers</em></h2>
+      
+      <!-- DEPOSIT POLICY - PROMINENT -->
+      <div style="background:rgba(255,165,0,.12);border:2px solid #ffa500;border-radius:8px;padding:20px;margin-bottom:24px;max-width:100%;box-sizing:border-box;">
+        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
+          <span style="font-size:1.8rem;">💳</span>
+          <div>
+            <div style="font-size:1rem;font-weight:600;color:#ffa500;margin-bottom:4px;">Deposit Policy</div>
+            <div style="font-size:.82rem;color:var(--w);line-height:1.5;">
+              <strong style="color:#4facff;">Booking for TODAY:</strong> FREE, no deposit required<br>
+              <strong style="color:#ffa500;">Booking for TOMORROW or later:</strong> $50 deposit required ($25 non-refundable booking fee)
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+      
+      <div style="display:flex;gap:24px;margin-bottom:32px;flex-wrap:wrap;">
+        <span style="font-size:.75rem;color:var(--bl);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">⚡</span> Takes 60 seconds</span>
+        <span style="font-size:.75rem;color:var(--bl);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">⚡</span> Instant pricing</span>
+        <span style="font-size:.75rem;color:var(--bl);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">⚡</span> Real-time availability</span>
+      </div>
+      <div class="progress-bar">
+        <div class="prog-step active" id="p1"></div>
+        <div class="prog-step" id="p2"></div>
+        <div class="prog-step" id="p3"></div>
+        <div class="prog-step" id="p4"></div>
+        <div class="prog-step" id="p5" style="display:none;"></div>
+      </div>
+      <div class="prog-labels">
+        <span class="prog-label active" id="pl1">TVs</span>
+        <span class="prog-label" id="pl2">Add-ons</span>
+        <span class="prog-label" id="pl3">Time</span>
+        <span class="prog-label" id="pl4">Info</span>
+        <span class="prog-label" id="pl5" style="display:none;">Payment</span>
+      </div>
+    </div>
+
+    <div id="form-wrap">
+
+      <!-- Step 1: TV Details -->
+      <div class="form-step active" id="step1">
+        <div style="background:rgba(45,127,232,.1);border:1px solid rgba(79,172,255,.25);padding:14px 16px;margin-bottom:20px;">
+          <span style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#4facff;margin-bottom:10px;display:block;">📺 How many TVs?</span>
+          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;" id="tv-count-opts">
+            <button class="option-btn selected" onclick="setMainTVCount(1,this)">1 TV<span style="display:block;font-size:.65rem;color:var(--bl);margin-top:2px;">Standard</span></button>
+            <button class="option-btn" onclick="setMainTVCount(2,this)">2 TVs<span style="display:block;font-size:.65rem;color:var(--bl);margin-top:2px;">$25 off 2nd</span></button>
+            <button class="option-btn" onclick="setMainTVCount(3,this)">3 TVs<span style="display:block;font-size:.65rem;color:var(--bl);margin-top:2px;">$25 off each</span></button>
+            <button class="option-btn" onclick="setMainTVCount(4,this)">4+ TVs<span style="display:block;font-size:.65rem;color:var(--bl);margin-top:2px;">Call for quote</span></button>
+          </div>
+        </div>
+        <div id="main-tv-cards"></div>
+        <div class="form-nav"><div></div><button class="btn-next" onclick="goStep(2)">Next: Add-ons &rarr;</button></div>
+      </div>
+
+      <!-- Step 2: Add-ons -->
+      <div class="form-step" id="step2">
+        <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;">
+          <div class="qty-row">
+            <div class="toggle-label"><span>Soundbar Installation</span><small>Wall-mounted below your TV · $100 first, $75 each after</small></div>
+            <div style="display:flex;align-items:center;">
+              <button class="qty-btn" onclick="adjMain('soundbars',-1)">-</button>
+              <span class="qty-val" id="main-soundbars-val">0</span>
+              <button class="qty-btn" onclick="adjMain('soundbars',1)">+</button>
+            </div>
+          </div>
+          <div class="qty-row">
+            <div class="toggle-label"><span>Remove Existing Mount</span><small>Safe removal of currently mounted TV · $25 each</small></div>
+            <div style="display:flex;align-items:center;">
+              <button class="qty-btn" onclick="adjMain('dismounts',-1)">-</button>
+              <span class="qty-val" id="main-dismounts-val">0</span>
+              <button class="qty-btn" onclick="adjMain('dismounts',1)">+</button>
+            </div>
+          </div>
+          <div class="toggle-row">
+            <div class="toggle-label"><span>TV Delivery / Transport</span><small>Under 75" = $25, 75"+ = $70 per TV</small></div>
+            <div style="display:flex;align-items:center;gap:16px;">
+              <span class="toggle-price">from $25/TV</span>
+              <label class="toggle-switch"><input type="checkbox" id="main-transport" onchange="calcMainEst()"/><span class="slider"></span></label>
+            </div>
+          </div>
+        </div>
+        <div class="form-row single">
+          <div class="form-group"><label>Anything else we should know?</label><textarea id="notes" placeholder="Special wall type, condo restrictions, specific mount preference, etc."></textarea></div>
+        <div id="deposit-notice" style="background:rgba(45,127,232,.08);border-left:3px solid var(--bl);padding:16px 20px;margin:20px 0;">
+          <div style="font-size:.82rem;font-weight:500;color:#4facff;margin-bottom:8px;">💳 Deposit Policy</div>
+          <div id="deposit-message" style="font-size:.78rem;color:var(--m);line-height:1.6;">
+            <strong>Same-day appointments:</strong> No deposit required! Just show up and pay when done.<br>
+            <strong>Future appointments:</strong> $50 deposit required (applied to final invoice, non-refundable if cancelled within 24 hours).
+          </div>
+        </div>
+        <div id="card-container" style="display:none;margin:20px 0;"></div>
+        <div id="payment-status" style="margin-top:12px;"></div>
+        </div>
+        <div class="form-nav">
+          <button class="btn-back" onclick="goStep(1)">&larr; Back</button>
+          <button class="btn-next" onclick="goStep(3)">Next: Pick a Time &rarr;</button>
+        </div>
+      </div>
+
+      <!-- Step 3: Date & Time -->
+      <div class="form-step" id="step3">
+        <!-- Itemized breakdown -->
+        <div style="background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);margin-bottom:24px;overflow:hidden;">
+          <div style="background:rgba(45,127,232,.12);padding:10px 16px;border-bottom:1px solid rgba(79,172,255,.15);">
+            <span style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);">Your Order Summary</span>
+          </div>
+          <div id="main-breakdown-lines" style="padding:12px 16px;display:flex;flex-direction:column;gap:8px;"></div>
+          <div style="border-top:1px solid rgba(79,172,255,.15);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;">
+            <span style="font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--m);">Estimated Total</span>
+            <span id="main-breakdown-total" style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--bl);">$0</span>
+          </div>
+          <div style="padding:0 16px 12px;font-size:.6rem;color:rgba(232,237,245,.25);">Final price confirmed on-site · No payment until job is complete</div>
+        </div>
+        <div class="booking-eyebrow" style="margin-bottom:16px;">Pick a Date and Time</div>
+        <div class="form-group" style="margin-bottom:16px;">
+          <label>Preferred Date</label>
+          <input type="date" id="cal-date" onchange="loadSlots()" style="width:100%;color-scheme:dark;cursor:pointer;"/>
+        </div>
+        <div class="slots-wrap" id="slots-wrap">
+          <p style="font-size:.8rem;color:var(--m);">Select a date to see available times.</p>
+        </div>
+        <div class="form-nav">
+          <button class="btn-back" onclick="goStep(2)">&larr; Back</button>
+          <button class="btn-next" id="time-next-btn" onclick="goStep(4)" style="opacity:.4;pointer-events:none;">Next: Your Info &rarr;</button>
+        </div>
+      </div>
+
+      <!-- Step 4: Info -->
+      <div class="form-step" id="step4">
+        <div class="form-row">
+          <div class="form-group"><label>First Name</label><input type="text" id="fname" placeholder="John"/></div>
+          <div class="form-group"><label>Last Name</label><input type="text" id="lname" placeholder="Smith"/></div>
+        </div>
+        <div class="form-row">
+          <div class="form-group"><label>Phone</label><input type="tel" id="phone" placeholder="(480) 555-0100"/></div>
+          <div class="form-group"><label>Email</label><input type="email" id="email" placeholder="you@example.com"/></div>
+        </div>
+        <div class="form-row single">
+          <div class="form-group"><label>Service Address</label><input type="text" id="address" placeholder="123 Main St, Phoenix, AZ 85001"/></div>
+        </div>
+        <div class="form-nav">
+          <button class="btn-back" onclick="goStep(3)">&larr; Back</button>
+          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
+            <button class="btn-submit" id="submit-btn" onclick="submitForm()">Confirm Booking &#10003;</button>
+            <div style="font-size:.68rem;color:var(--m);text-align:right;line-height:1.6;">
+              ✓ Confirmation call within 2 hours<br/>✓ No payment required until job is complete
+            </div>
+          </div>
+        </div>
+      </div>
+
+    
+      <!-- Step 5: Payment (conditional) -->
+      <div class="form-step" id="step5">
+        <!-- Same-day message -->
+        <div id="same-day-skip" style="display:none;">
+          <div style="background:rgba(79,172,255,.15);border:2px solid #4facff;border-radius:8px;padding:32px;text-align:center;margin-bottom:24px;">
+            <div style="font-size:2.5rem;margin-bottom:16px;">✓</div>
+            <div style="font-size:1.2rem;font-weight:600;color:#4facff;margin-bottom:12px;">No Deposit Required</div>
+            <div style="font-size:.85rem;color:var(--m);line-height:1.6;">You selected TODAY. Just confirm below and we'll call within 2 hours to confirm your appointment.</div>
+          </div>
+        </div>
+        
+        <!-- Future appointment payment -->
+        <div id="future-payment" style="display:none;">
+          <div style="background:rgba(255,165,0,.12);border:2px solid #ffa500;border-radius:8px;padding:24px;margin-bottom:24px;">
+            <div style="font-size:1.1rem;font-weight:600;color:#ffa500;margin-bottom:12px;">💳 $50 Deposit Required</div>
+            <div style="font-size:.82rem;color:var(--m);margin-bottom:20px;">Secures your appointment. Applied to final invoice. $25 non-refundable booking fee.</div>
+            
+            <!-- Apple Pay / Google Pay -->
+            <div id="payment-methods" style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;">
+              <div id="apple-pay-button" style="display:none;"></div>
+              <div id="google-pay-button" style="display:none;"></div>
+              <div style="text-align:center;color:var(--m);font-size:.75rem;margin:8px 0;">OR PAY WITH CARD</div>
+            </div>
+            
+            <!-- Card -->
+            <div id="card-container"></div>
+            <div id="payment-status" style="margin-top:12px;"></div>
+          </div>
+        </div>
+        
+        <div class="form-nav">
+          <button class="btn-back" onclick="goStep(4)">&larr; Back</button>
+          <button class="btn-submit" id="submit-btn" onclick="submitForm()">Confirm Booking ✓</button>
+        </div>
+      </div>
+</div>
+
+    <div class="success-state" id="success">
+      <div class="success-icon">&#10003;</div>
+      <div class="success-title">You're Booked!</div>
+      <p class="success-sub">A member of the VistaMount team will call within 2 hours to confirm your appointment. We look forward to getting your space right.</p>
+      <a href="tel:+14809034769" class="success-phone">(480) 903-4769</a>
+    </div>
+  </div>
+</section>
+
+<footer>
+  <a href="/" class="footer-logo"><img src="/images/logo-final.png" alt="VistaMount" style="height:28px;width:auto;display:block;opacity:.5;"/></a>
+  <p class="footer-center">&copy; 2026 VistaMount LLC &middot; Phoenix, AZ</p>
+  <div class="footer-phone"><a href="tel:+14809034769">(480) 903-4769</a></div>
+</footer>
+
+<script>
+// ==================== ACCORDION ====================
+function toggleAcc(header){
+  var body=header.nextElementSibling;
+  var icon=header.querySelector('.acc-chevron');
+  var isOpen=body.classList.contains('open');
+  body.classList.toggle('open',!isOpen);
+  if(icon)icon.style.transform=isOpen?'rotate(0deg)':'rotate(180deg)';
+}
+
+// ==================== HERO CANVAS ====================
+var hc=document.getElementById('hero-canvas');
+var hctx=hc.getContext('2d');
+function resizeHero(){hc.width=hc.offsetWidth;hc.height=hc.offsetHeight;}
+resizeHero();
+window.addEventListener('resize',resizeHero);
+var HBL='#3d7fff',HBG='#000000',HWH='#ffffff';
+function eO(t){return 1-(1-t)*(1-t);}
+function eOC(t){return 1-Math.pow(1-t,3);}
+function hclamp(v,a,b){return Math.max(a,Math.min(b,v));}
+function hpg(t,s,e){return hclamp((t-s)/(e-s),0,1);}
+function hLine(y,p,alpha){
+  if(p<=0)return;
+  var W=hc.width;
+  hctx.save();hctx.globalAlpha=alpha;hctx.strokeStyle=HBL;hctx.lineWidth=1;
+  hctx.beginPath();hctx.moveTo(0,y);hctx.lineTo(W*Math.min(p,1),y);hctx.stroke();
+  if(p>0&&p<1){hctx.beginPath();hctx.arc(W*p,y,2.5,0,Math.PI*2);hctx.fillStyle=HBL;hctx.fill();}
+  hctx.restore();
+}
+function hCorners(alpha){
+  var W=hc.width,H=hc.height,len=22;
+  hctx.save();hctx.strokeStyle=HBL;hctx.lineWidth=1;hctx.lineCap='square';
+  [[0,0,1,1],[W,0,-1,1],[0,H,1,-1],[W,H,-1,-1]].forEach(function(c){
+    hctx.globalAlpha=alpha;
+    hctx.beginPath();hctx.moveTo(c[0]+c[2]*len,c[1]);hctx.lineTo(c[0],c[1]);hctx.lineTo(c[0],c[1]+c[3]*len);hctx.stroke();
+  });
+  hctx.restore();
+}
+function hText(alpha,oy){
+  var W=hc.width,H=hc.height;
+  hctx.save();hctx.globalAlpha=alpha;hctx.textAlign='center';
+
+  // Eyebrow
+  var eyebrowSize=Math.min(12,W*0.022);
+  hctx.font='600 '+eyebrowSize+'px sans-serif';
+  hctx.letterSpacing='3px';hctx.fillStyle='#4facff';
+  hctx.fillText('SAME-DAY INSTALLATION · PHOENIX, AZ',W/2,H*0.30+oy);
+
+  // Main wordmark
+  var fs=Math.min(W*0.145,H*0.22);
+  hctx.font='900 '+fs+'px sans-serif';
+  hctx.letterSpacing='0px';
+  hctx.shadowColor='#2d7fe8';hctx.shadowBlur=50;hctx.fillStyle='#ffffff';
+  hctx.fillText('VISTAMOUNT',W/2,H*0.52+oy);
+  hctx.shadowBlur=0;
+
+  // Tagline
+  var tagSize=Math.min(15,W*0.028);
+  hctx.font='300 '+tagSize+'px sans-serif';
+  hctx.fillStyle='rgba(255,255,255,.8)';
+  hctx.letterSpacing='0.5px';
+  if(W<420){
+    hctx.fillText('Clean installs. No visible wires.',W/2,H*0.61+oy);
+    hctx.fillText('Done right the first time.',W/2,H*0.61+oy+tagSize+5);
+  } else {
+    hctx.fillText('Clean installs. No visible wires. Done right the first time.',W/2,H*0.61+oy);
+  }
+  hctx.textAlign='left';hctx.restore();
+}
+function hCTA(alpha){
+  var W=hc.width,H=hc.height;
+  hctx.save();hctx.globalAlpha=alpha;
+
+  // Button — solid fill, clean
+  var bw=Math.min(260,W*0.65),bh=50,bx=W/2-bw/2,by=H*0.69;
+  hctx.fillStyle='#2d7fe8';
+  hctx.fillRect(bx,by,bw,bh);
+  hctx.font='700 12px sans-serif';
+  hctx.letterSpacing='2px';
+  hctx.fillStyle='#ffffff';
+  hctx.textAlign='center';
+  hctx.fillText('BOOK YOUR INSTALL',W/2,by+bh/2+4);
+
+  // SCROLL
+  var scrollY=by+bh+20;
+  hctx.globalAlpha=alpha*0.45;
+  hctx.font='500 9px sans-serif';
+  hctx.letterSpacing='3px';
+  hctx.fillStyle='#4facff';
+  hctx.fillText('SCROLL',W/2,scrollY+10);
+  hctx.globalAlpha=alpha*0.35;
+  hctx.strokeStyle='#4facff';hctx.lineWidth=1;
+  hctx.beginPath();hctx.moveTo(W/2,scrollY+16);hctx.lineTo(W/2,scrollY+52);hctx.stroke();
+  hctx.textAlign='left';hctx.restore();
+}
+function hPulse(t){return .7+Math.sin(t*1.2)*.3;}
+var ht0=null;
+function heroFrame(ts){
+  if(!ht0)ht0=ts;
+  var t=(ts-ht0)/1000;
+  var W=hc.width,H=hc.height;
+  hctx.fillStyle=HBG;hctx.fillRect(0,0,W,H);
+  var TY=H*.15,BY=H*.87;
+  hLine(TY,eOC(hpg(t,.1,.9)),t>.9?hPulse(t):1);
+  hLine(BY,eOC(hpg(t,1.5,2.1)),t>2.1?hPulse(t+.8):1);
+  if(t>.9){
+    hctx.save();hctx.globalAlpha=eO(hpg(t,.9,1.4))*.18;
+    hctx.strokeStyle=HBL;hctx.lineWidth=.5;hctx.setLineDash([2,8]);
+    hctx.beginPath();hctx.moveTo(W/2,TY);hctx.lineTo(W/2,BY);hctx.stroke();
+    hctx.setLineDash([]);hctx.restore();
+  }
+  if(t>2.1)hCorners(eO(hpg(t,2.1,2.6))*(t>2.6?hPulse(t*.5+1):1));
+  if(t>.6){var a=eO(hpg(t,.6,1.3));hText(a,(1-a)*18);}
+  if(t>2.3)hCTA(eO(hpg(t,2.3,2.9)));
+  requestAnimationFrame(heroFrame);
+}
+requestAnimationFrame(heroFrame);
+hc.style.cursor='pointer';
+hc.addEventListener('click',function(){document.getElementById('booking').scrollIntoView({behavior:'smooth'});});
+
+// ==================== NAV ====================
+function updateNav(){
+  var nav=document.getElementById('nav');
+  var scrollY=window.scrollY;
+  var heroH=document.getElementById('hero').offsetHeight;
+  var booking=document.getElementById('booking');
+  var bookingTop=booking.getBoundingClientRect().top+scrollY;
+  if(scrollY<heroH*0.8){nav.className='';return;}
+  if(scrollY>bookingTop-100){nav.className='scrolled-dark';return;}
+  nav.className='scrolled-dark';
+}
+window.addEventListener('scroll',updateNav);
+
+// ==================== SCROLL ANIMATIONS ====================
+var observed=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting){e.target.classList.add('visible');}});
+},{threshold:.1});
+document.querySelectorAll('.fade-up,.fade-in,.clip-text,.scale-in').forEach(function(el){observed.observe(el);});
+
+var lineObs=new IntersectionObserver(function(entries){
+  entries.forEach(function(e){if(e.isIntersecting)e.target.classList.add('visible');});
+},{threshold:.3});
+document.querySelectorAll('.fade-line').forEach(function(el){lineObs.observe(el);});
+
+var co=new IntersectionObserver(function(es){
+  es.forEach(function(e){
+    if(e.isIntersecting){
+      var el=e.target,tgt=parseInt(el.dataset.t);
+      var s=null;
+      var step=function(ts){if(!s)s=ts;var p=Math.min((ts-s)/1400,1);el.textContent=Math.floor(p*tgt);if(p<1)requestAnimationFrame(step);else el.textContent=tgt;};
+      requestAnimationFrame(step);co.unobserve(el);
+    }
+  });
+},{threshold:.5});
+document.querySelectorAll('.count').forEach(function(el){co.observe(el);});
+
+// ==================== BOOKING FORM ====================
+var mainState={tvs:[{size:'32-64',mount:'own',cords:'none',wall:'drywall'}],soundbars:0,dismounts:0,tvcount:1};
+var selectedSlot=null;
+var WORKER='https://vistamount-booking.billowing-recipe-0ae7.workers.dev';
+var MAIN_PRICES={'<32':100,'32-64':125,'65-84':150,'85+':200};
+var MAIN_WALL_PRICES={drywall:0,stucco:75,brick:100,tile:150,fireplace:75};
+var MAIN_MOUNT_LABELS={fullmotion:'Full-Motion Mount',tilt:'Tilt Mount',flat:'Flat/Fixed Mount',own:'Customer Mount'};
+var MAIN_CORDS_LABELS={none:'No Cord Management',raceway:'On-Wall Raceway',inwall:'In-Wall Concealment',outlet:'In-Wall + Outlet'};
+var MAIN_WALL_LABELS={drywall:'Drywall',stucco:'Stucco',brick:'Brick/Concrete',tile:'Tile/Stone',fireplace:'Fireplace'};
+var MAIN_SIZE_LABELS={'<32':'Under 32\"','32-64':'32\"–64\"','65-84':'65\"–84\"','85+':'85\"+'};
+
+function setMainTVCount(n,btn){
+  btn.closest('[id="tv-count-opts"]').querySelectorAll('.option-btn').forEach(function(b){b.classList.remove('selected');});
+  btn.classList.add('selected');
+  mainState.tvcount=n;
+  if(n>=4){buildMainTVCards();return;}
+  while(mainState.tvs.length<n)mainState.tvs.push({size:'32-64',mount:'own',cords:'none',wall:'drywall'});
+  mainState.tvs=mainState.tvs.slice(0,n);
+  buildMainTVCards();
+  calcMainEst();
+}
+
+function buildMainTVCards(){
+  var wrap=document.getElementById('main-tv-cards');
+  wrap.innerHTML='';
+  if(mainState.tvcount>=4){
+    wrap.innerHTML='<div class="tv-card"><p style="color:var(--m);font-size:.85rem;">For 4+ TVs please call us at <a href="tel:+14809034769" style="color:var(--bl);">(480) 903-4769</a> for a custom quote.</p></div>';
+    return;
+  }
+  var colors=[
+    {border:'rgba(79,172,255,.4)',label:'#4facff',header:'rgba(45,127,232,.2)'},
+    {border:'rgba(255,140,80,.4)',label:'#ff8c50',header:'rgba(232,100,45,.2)'},
+    {border:'rgba(80,220,150,.35)',label:'#50dc96',header:'rgba(45,200,130,.15)'},
+  ];
+  while(mainState.tvs.length<mainState.tvcount)mainState.tvs.push({size:'32-64',mount:'own',cords:'none',wall:'drywall'});
+  mainState.tvs=mainState.tvs.slice(0,mainState.tvcount);
+
+  mainState.tvs.forEach(function(tv,idx){
+    var c=colors[idx]||colors[0];
+    var card=document.createElement('div');
+    card.style.cssText='border:1px solid '+c.border+';margin-bottom:16px;overflow:hidden;';
+
+    var hdr=document.createElement('div');
+    hdr.style.cssText='background:'+c.header+';padding:10px 16px;border-bottom:1px solid '+c.border+';display:flex;align-items:center;justify-content:space-between;';
+    hdr.innerHTML='<span style="font-family:Bebas Neue,sans-serif;font-size:1.1rem;letter-spacing:.08em;color:'+c.label+';">TV '+(idx+1)+'</span><span id="main-tv-summary-'+idx+'" style="font-size:.62rem;color:rgba(232,237,245,.35);"></span>';
+    card.appendChild(hdr);
+
+    var body=document.createElement('div');
+    body.style.cssText='padding:14px;background:rgba(0,0,0,.1);display:grid;grid-template-columns:1fr 1fr;gap:10px;';
+
+    var selStyle='width:100%;background:rgba(255,255,255,.04);border:1px solid var(--border);color:var(--w);padding:10px 12px;font-family:var(--font);font-size:.82rem;outline:none;cursor:pointer;-webkit-appearance:none;appearance:none;';
+
+    function makeMainSelect(key,options,currentVal,labelText){
+      var w=document.createElement('div');
+      var lbl=document.createElement('label');
+      lbl.style.cssText='font-size:.55rem;letter-spacing:.16em;text-transform:uppercase;color:'+c.label+';opacity:.8;margin-bottom:6px;display:block;';
+      lbl.textContent=labelText;
+      w.appendChild(lbl);
+      var sel=document.createElement('select');
+      sel.style.cssText=selStyle;
+      sel.addEventListener('focus',function(){this.style.borderColor=c.label;});
+      sel.addEventListener('blur',function(){this.style.borderColor='rgba(79,172,255,.1)';});
+      options.forEach(function(o){
+        var opt=document.createElement('option');
+        opt.value=o[0];
+        opt.textContent=o[1]+' ('+o[2]+')';
+        if(o[0]===currentVal)opt.selected=true;
+        sel.appendChild(opt);
+      });
+      sel.onchange=function(){
+        mainState.tvs[idx][key]=this.value;
+        updateMainTVSummary(idx,c);
+        calcMainEst();
+      };
+      w.appendChild(sel);
+      return w;
+    }
+
+    body.appendChild(makeMainSelect('size',[['<32','Under 32\"','$100'],['32-64','32\"–64\"','$125'],['65-84','65\"–84\"','$150'],['85+','85\"+','$200']],tv.size,'Size'));
+    body.appendChild(makeMainSelect('mount',[['fullmotion','Full-Motion','+$65'],['tilt','Tilt','+$50'],['flat','Flat/Fixed','+$50'],['own','I have one','Incl.']],tv.mount,'Mount'));
+    body.appendChild(makeMainSelect('cords',[['none','None','Incl.'],['raceway','Raceway','+$40'],['inwall','In-Wall','+$75'],['outlet','+Outlet','+$150']],tv.cords,'Wiring'));
+    body.appendChild(makeMainSelect('wall',[['drywall','Drywall','Std.'],['stucco','Stucco','+$75'],['brick','Brick/Concrete','+$100'],['tile','Tile/Stone','+$150'],['fireplace','Fireplace','+$75']],tv.wall,'Wall Type'));
+
+    card.appendChild(body);
+    wrap.appendChild(card);
+    updateMainTVSummary(idx,c);
+  });
+}
+
+function updateMainTVSummary(idx,c){
+  var tv=mainState.tvs[idx];
+  var el=document.getElementById('main-tv-summary-'+idx);
+  if(!el)return;
+  el.textContent=(MAIN_SIZE_LABELS[tv.size]||tv.size)+' · '+(MAIN_WALL_LABELS[tv.wall]||tv.wall);
+}
+
+function adjMain(key,delta){
+  mainState[key]=Math.max(0,Math.min(10,mainState[key]+delta));
+  var el=document.getElementById('main-'+key+'-val');
+  if(el)el.textContent=mainState[key];
+  calcMainEst();
+}
+
+function calcMainEst(){
+  if(mainState.tvcount>=4)return;
+  var total=0;
+  mainState.tvs.forEach(function(tv,i){
+    var p=MAIN_PRICES[tv.size]||125;
+    if(tv.mount!=='own')p+=({fullmotion:65,tilt:50,flat:50}[tv.mount]||0);
+    if(tv.cords==='inwall')p+=75;
+    else if(tv.cords==='raceway')p+=40;
+    else if(tv.cords==='outlet')p+=150;
+    p+=(MAIN_WALL_PRICES[tv.wall]||0);
+    if(i>0)p-=25;
+    total+=p;
+  });
+  if(mainState.soundbars>0)total+=100+(mainState.soundbars-1)*75;
+  if(mainState.dismounts>0)total+=mainState.dismounts*25;
+  if(document.getElementById('main-transport')&&document.getElementById('main-transport').checked){
+    mainState.tvs.forEach(function(tv){total+=(['65-84','85+'].indexOf(tv.size)>=0)?70:25;});
+  }
+  return total;
+}
+
+function buildMainBreakdown(){
+  var lines=[];
+  mainState.tvs.forEach(function(tv,i){
+    var p=MAIN_PRICES[tv.size]||125;
+    var disc=i>0?25:0;
+    lines.push({label:'TV '+(i+1)+' — '+MAIN_SIZE_LABELS[tv.size]+(disc?' (multi-unit discount applied)':''),amt:'$'+(p-disc),highlight:disc>0});
+    if(tv.mount!=='own'){var mp=({fullmotion:65,tilt:50,flat:50}[tv.mount]||0);lines.push({label:MAIN_MOUNT_LABELS[tv.mount],amt:mp?'+$'+mp:'Incl.'});}
+    else lines.push({label:'Customer-supplied mount',amt:'Incl.'});
+    if(tv.cords!=='none'){var cp=({raceway:40,inwall:75,outlet:150}[tv.cords]||0);lines.push({label:MAIN_CORDS_LABELS[tv.cords],amt:'+$'+cp});}
+    if(tv.wall!=='drywall'){var wp=MAIN_WALL_PRICES[tv.wall]||0;lines.push({label:MAIN_WALL_LABELS[tv.wall]+' wall upcharge',amt:'+$'+wp});}
+  });
+  if(mainState.soundbars>0)lines.push({label:'Soundbar install ×'+mainState.soundbars,amt:'+$'+(100+(mainState.soundbars-1)*75)});
+  if(mainState.dismounts>0)lines.push({label:'Mount removal ×'+mainState.dismounts,amt:'+$'+(mainState.dismounts*25)});
+
+  var linesEl=document.getElementById('main-breakdown-lines');
+  if(!linesEl)return;
+  linesEl.innerHTML='';
+  lines.forEach(function(l){
+    var row=document.createElement('div');
+    row.style.cssText='display:flex;justify-content:space-between;align-items:center;font-size:.8rem;';
+    var amtColor=l.highlight?'#50dc96':l.amt.startsWith('+')?'var(--bl)':'var(--w)';
+    row.innerHTML='<span style="color:rgba(232,237,245,.6);">'+l.label+'</span><span style="color:'+amtColor+';">'+l.amt+'</span>';
+    linesEl.appendChild(row);
+  });
+  var total=calcMainEst()||0;
+  var totalEl=document.getElementById('main-breakdown-total');
+  if(totalEl)totalEl.textContent='$'+total;
+}
+
+function goStep(n){
+  document.querySelectorAll('.form-step').forEach(function(s){s.classList.remove('active');});
+  document.getElementById('step'+n).classList.add('active');
+  for(var i=1;i<=5;i++){
+    document.getElementById('p'+i).classList.toggle('active',i<=n);
+    document.getElementById('pl'+i).classList.toggle('active',i===n);
+  }
+  if(n===3){buildMainBreakdown();initMainDatePicker();}
+  if(n===4){
+    buildMainBreakdown();
+    updateStep4Button();
+  }
+  if(n===5){
+    buildMainBreakdown();
+    showPaymentStep();
+  }
+  if(n===4){
+    buildMainBreakdown();
+    setTimeout(checkIfDepositNeeded, 100);
+  }
+  document.getElementById('booking').scrollIntoView({behavior:'smooth',block:'start'});
+}
+
+function initMainDatePicker(){
+  var input=document.getElementById('cal-date');
+  if(!input||input.value)return;
+  var t=new Date();
+  input.min=t.getFullYear()+'-'+String(t.getMonth()+1).padStart(2,'0')+'-'+String(t.getDate()).padStart(2,'0');
+}
+
+function loadSlots(){
+  var date=document.getElementById('cal-date').value;
+  if(!date)return;
+  var wrap=document.getElementById('slots-wrap');
+  wrap.innerHTML='<p style="font-size:.8rem;color:var(--m);">Loading...</p>';
+  selectedSlot=null;
+  document.getElementById('time-next-btn').style.opacity='.4';
+  document.getElementById('time-next-btn').style.pointerEvents='none';
+  fetch(WORKER+'/availability?date='+date+'&duration=120')
+    .then(function(r){return r.json();})
+    .then(function(data){
+      var slots=data.slots||[];
+      if(!slots.length){wrap.innerHTML='<p style="font-size:.8rem;color:var(--m);">No availability. Try another day.</p>';return;}
+      wrap.innerHTML='';
+      slots.forEach(function(slot){
+        var btn=document.createElement('button');
+        btn.className='option-btn slot-btn';
+        btn.style.cssText='width:100%;text-align:left;display:flex;justify-content:space-between;margin-bottom:8px;';
+        btn.innerHTML='<span>'+slot.time+'</span><span style="font-size:.7rem;color:var(--m);">'+slot.label+'</span>';
+        btn.onclick=function(){
+          wrap.querySelectorAll('.option-btn').forEach(function(b){b.classList.remove('selected');});
+          btn.classList.add('selected');
+          selectedSlot={start:slot.start,end:slot.end,time:slot.time,label:slot.label};
+          document.getElementById('time-next-btn').style.opacity='1';
+          document.getElementById('time-next-btn').style.pointerEvents='auto';
+        };
+        wrap.appendChild(btn);
+      });
+    })
+    .catch(function(){wrap.innerHTML='<p style="font-size:.8rem;color:var(--m);">Error. Call (480) 903-4769.</p>';});
+}
+
+async function submitForm(){
+  const fname = document.getElementById('fname').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  if (!fname || !phone) {
+    alert('Please fill all required fields');
+    return;
+  }
+  if (!selectedSlot) {
+    alert('Please select a time slot');
+    return;
+  }
+  
+  const apptDate = new Date(selectedSlot.start);
+  const today = new Date();
+  const isSameDay = apptDate.toDateString() === today.toDateString();
+  
+  // CRITICAL: Block future appointments from submitting without payment
+  if (!isSameDay) {
+    alert('Future appointments require deposit payment. Please complete Step 5.');
+    return;
+  }
+  
+  if (isSameDay) {
+    // Same-day: no payment needed
+    const btn = document.getElementById('submit-btn');
+    btn.textContent = 'Confirming...';
+    btn.disabled = true;
+    
+    try {
+      const summary = 'TVs:'+mainState.tvcount+' '+mainState.tvs.map(function(tv,i){return 'TV'+(i+1)+':'+tv.size+'/'+tv.mount+'/'+tv.cords+'/'+tv.wall;}).join(' ')+(mainState.soundbars?' soundbars:'+mainState.soundbars:'')+(mainState.dismounts?' dismounts:'+mainState.dismounts:'');
+      
+      const res = await fetch('https://vistamount-booking.billowing-recipe-0ae7.workers.dev/book', {
+        method: 'POST',
+        headers: {'Content-Type': 'application/json'},
+        body: JSON.stringify({
+          name: (fname+' '+(document.getElementById('lname').value||'')).trim(),
+          phone: phone,
+          email: document.getElementById('email').value,
+          address: document.getElementById('address').value,
+          slotStart: selectedSlot.start,
+          slotEnd: selectedSlot.end,
+          summary: summary,
+          notes: '',
+          sourceId: null
+        })
+      });
+      
+      const data = await res.json();
+      if (data.success) {
+        document.getElementById('form-wrap').style.display = 'none';
+        document.getElementById('success').classList.add('show');
+        document.getElementById('booking-header').style.display = 'none';
+        window.dataLayer = window.dataLayer || [];
+        window.dataLayer.push({event: 'booking_complete', page: 'main'});
+      } else {
+        throw new Error(data.error || 'Booking failed');
+      }
+    } catch (e) {
+      console.error('Error:', e);
+      alert('Booking failed. Please call (480) 903-4769.');
+      btn.textContent = 'Confirm Booking ✓';
+      btn.disabled = false;
+    }
+  } else {
+    // Future: tokenize card and process
+    if (!card) {
+      alert('Payment system not ready. Please refresh the page.');
+      return;
+    }
+    
+    const result = await card.tokenize();
+    if (result.status === 'OK') {
+      processPayment(result.token);
+    } else {
+      alert('Card validation failed. Please check your card details.');
+    }
+  }
+}
+
+// Init
+buildMainTVCards();
+calcMainEst();
+</script>
+
+<!-- BOOKING MODAL -->
+<div id="booking-modal">
+  <div id="booking-modal-inner">
+    <button id="booking-modal-close" onclick="closeBookingModal()">&#x2715;</button>
+    <div class="booking-wrap" style="padding:60px 52px;">
+      <div class="booking-eyebrow">Book Your Install</div>
+      <h2 class="booking-title">Join <em>800+ Happy Customers</em></h2>
+      <div style="display:flex;gap:24px;margin-bottom:32px;flex-wrap:wrap;">
+        <span style="font-size:.75rem;color:var(--bl);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">⚡</span> Takes 60 seconds</span>
+        <span style="font-size:.75rem;color:var(--bl);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">⚡</span> Instant pricing</span>
+        <span style="font-size:.75rem;color:rgba(255,120,0,.85);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">💳</span> $50 deposit for future appts ($25 non-refundable booking fee)</span>
+  </div>
+</div>
+
+<script>
+// ==================== MODAL ====================
+var modalState={tvs:[],soundbars:0,dismounts:0,transport:false};
+var modalTVCount=0;
+var modalSelectedSlot=null;
+
+function openBookingModal(){
+  document.getElementById('booking-modal').classList.add('open');
+  document.body.style.overflow='hidden';
+  if(modalTVCount===0)addModalTV();
+}
+function closeBookingModal(){
+  document.getElementById('booking-modal').classList.remove('open');
+  document.body.style.overflow='';
+}
+document.getElementById('booking-modal').addEventListener('click',function(e){
+  if(e.target===this)closeBookingModal();
+});
+
+function goModalStep(n){
+  document.querySelectorAll('#modal-form-wrap .form-step').forEach(function(s){s.classList.remove('active');});
+  document.getElementById('mstep'+n).classList.add('active');
+  for(var i=1;i<=4;i++){
+    document.getElementById('mp'+i).classList.toggle('active',i<=n);
+    document.getElementById('mpl'+i).classList.toggle('active',i===n);
+  }
+  if(n===3){updateModalQuote();initModalDatePicker();}
+  if(n===4){updateModalQuote();}
+}
+
+function addModalTV(){
+  if(modalTVCount>=6)return;
+  modalTVCount++;
+  var id='m'+modalTVCount;
+  modalState.tvs.push({id:id,size:'32-64',hasMount:false,mountType:'fullmotion',cords:'none',outlet:false});
+  buildModalTVCard(id);
+}
+
+function buildModalTVCard(id){
+  var idx=modalState.tvs.findIndex(function(t){return t.id===id;});
+  var tv=modalState.tvs[idx];
+  var card=document.createElement('div');
+  card.className='tv-card';card.id='tv-card-'+id;
+  var num=modalTVCount;
+  var hdr=document.createElement('div');hdr.className='tv-card-header';
+  hdr.innerHTML='<span class="tv-card-title">TV '+num+'</span>';
+  if(num>1){var rb=document.createElement('button');rb.className='remove-tv';rb.textContent='Remove';rb.setAttribute('onclick','removeModalTV("'+id+'")');hdr.appendChild(rb);}
+  card.appendChild(hdr);
+
+  function lbl(t){var s=document.createElement('span');s.className='option-label';s.textContent=t;return s;}
+  function grid(c){var g=document.createElement('div');g.className='option-grid cols'+c;return g;}
+  function ob(key,val,label,desc,price,sel){
+    var b=document.createElement('button');
+    b.className='option-btn'+(sel?' selected':'');
+    b.setAttribute('onclick','setModalTV("'+id+'","'+key+'","'+val+'",this)');
+    b.innerHTML='<span class="opt-title">'+label+'</span>'+(desc?'<span class="opt-desc">'+desc+'</span>':'')+(price?'<span class="opt-price">'+price+'</span>':'');
+    return b;
+  }
+
+  card.appendChild(lbl('TV Size'));
+  var sg=grid(2);
+  [['<32','Under 32"','$100'],['32-64','32"–64"','$125'],['65-84','65"–84"','$150'],['85+','85"+','$200']].forEach(function(s){sg.appendChild(ob('size',s[0],s[0],null,s[2]+' base',tv.size===s[0]));});
+  card.appendChild(sg);
+
+  card.appendChild(lbl('Do you have a mount?'));
+  var mg=grid(2);
+  mg.appendChild(ob('hasMount','false','No - I need one','We supply and install',null,!tv.hasMount));
+  mg.appendChild(ob('hasMount','true','Yes - I have my own','We install your mount',null,tv.hasMount));
+  card.appendChild(mg);
+
+  var mtd=document.createElement('div');mtd.id='mmt-'+id;if(tv.hasMount)mtd.style.display='none';
+  mtd.appendChild(lbl('Mount Type'));
+  var mtg=grid(3);
+  [['flat','Flat / Fixed','+$50'],['tilt','Tilt','+$50'],['fullmotion','Full-Motion','+$65']].forEach(function(m){mtg.appendChild(ob('mountType',m[0],m[0],null,m[2],tv.mountType===m[0]));});
+  mtd.appendChild(mtg);card.appendChild(mtd);
+
+  card.appendChild(lbl('Cord Management'));
+  var cg=grid(3);
+  [['none','None','Included'],['raceway','Raceway','$40 first'],['inwall','In-Wall','+$75 first']].forEach(function(c){cg.appendChild(ob('cords',c[0],c[0],null,c[2],tv.cords===c[0]));});
+  card.appendChild(cg);
+
+  document.getElementById('modal-tv-cards').appendChild(card);
+}
+
+function setModalTV(id,key,val,btn){
+  var idx=modalState.tvs.findIndex(function(t){return t.id===id;});
+  if(idx<0)return;
+  if(val==='true')val=true;else if(val==='false')val=false;
+  modalState.tvs[idx][key]=val;
+  btn.closest('.option-grid').querySelectorAll('.option-btn').forEach(function(b){b.classList.remove('selected');});
+  btn.classList.add('selected');
+  if(key==='hasMount'){document.getElementById('mmt-'+id).style.display=val?'none':'';}
+}
+
+function removeModalTV(id){
+  modalState.tvs=modalState.tvs.filter(function(t){return t.id!==id;});
+  var el=document.getElementById('tv-card-'+id);if(el)el.remove();
+}
+
+function adjModal(key,delta){
+  modalState[key]=Math.max(0,modalState[key]+delta);
+  document.getElementById('modal-'+key+'-val').textContent=modalState[key];
+  updateModalQuote();
+}
+
+function updateModalQuote(){
+  modalState.transport=document.getElementById('modal-transport')?document.getElementById('modal-transport').checked:false;
+  var q=buildModalQuoteHTML();
+  var e1=document.getElementById('modal-final-quote');
+  var e2=document.getElementById('modal-final-quote-confirm');
+  if(e1)e1.innerHTML=q;
+  if(e2)e2.innerHTML=q;
+}
+
+function buildModalQuoteHTML(){
+  if(modalState.tvs.length===0)return '';
+  var total=0;
+  modalState.tvs.forEach(function(tv){
+    var p=({'<32':100,'32-64':125,'65-84':150,'85+':200}[tv.size]||125);
+    if(!tv.hasMount)p+=({'fullmotion':65,'flat':50,'tilt':50}[tv.mountType]||50);
+    if(tv.cords==='inwall')p+=75;
+    if(tv.cords==='raceway')p+=40;
+    total+=p;
+  });
+  if(modalState.soundbars>0)total+=100+(modalState.soundbars-1)*75;
+  if(modalState.dismounts>0)total+=modalState.dismounts*25;
+  var html='<div style="font-size:.72rem;color:var(--m);letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;">Your Estimate</div>';
+  html+='<div style="display:flex;justify-content:space-between;padding:14px;border-top:1px solid rgba(255,255,255,.12);margin-top:4px;">';
+  html+='<div style="font-size:.9rem;color:var(--w);font-weight:500;">Estimated Total</div>';
+  html+='<div style="font-size:1.3rem;font-weight:700;color:#4facff;">$'+total+'</div></div>';
+  html+='<div style="font-size:.65rem;color:var(--m);margin-top:10px;line-height:1.7;">Final price confirmed on-site. No payment until job is complete.</div>';
+  return html;
+}
+
+function initModalDatePicker(){
+  var input=document.getElementById('modal-cal-date');
+  if(!input||input.value)return;
+  var today=new Date();
+  input.min=today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
+}
+
+function loadModalSlots(){
+  var input=document.getElementById('modal-cal-date');
+  var date=input?input.value:'';
+  if(!date)return;
+  var wrap=document.getElementById('modal-slots-wrap');
+  wrap.innerHTML='<p style="font-size:.8rem;color:var(--m);">Loading...</p>';
+  document.getElementById('modal-time-next-btn').style.opacity='.4';
+  document.getElementById('modal-time-next-btn').style.pointerEvents='none';
+  modalSelectedSlot=null;
+  fetch('https://vistamount-booking.billowing-recipe-0ae7.workers.dev/availability?date='+date+'&duration=120')
+    .then(function(r){return r.json();})
+    .then(function(data){
+      var slots=data.slots||[];
+      if(!slots.length){wrap.innerHTML='<p style="font-size:.8rem;color:var(--m);">No availability. Try another day.</p>';return;}
+      wrap.innerHTML='';
+      slots.forEach(function(slot){
+        var btn=document.createElement('button');
+        btn.className='option-btn';
+        btn.innerHTML='<span class="opt-title">'+slot.time+'</span><span class="opt-desc">'+slot.label+'</span>';
+        btn.onclick=function(){
+          document.querySelectorAll('#modal-slots-wrap .option-btn').forEach(function(b){b.classList.remove('selected');});
+          this.classList.add('selected');
+          modalSelectedSlot={start:slot.start,end:slot.end,label:slot.label,time:slot.time};
+          var nb=document.getElementById('modal-time-next-btn');
+          nb.style.opacity='1';nb.style.pointerEvents='auto';
+        };
+        wrap.appendChild(btn);
+      });
+    })
+    .catch(function(){wrap.innerHTML='<p style="font-size:.8rem;color:var(--m);">Could not load. Call (480) 903-4769.</p>';});
+}
+
+async function submitModalForm(){
+  if(!modalSelectedSlot){alert('Please select a time slot.');return;}
+  var fname=document.getElementById('modal-fname').value.trim();
+  var phone=document.getElementById('modal-phone').value.trim();
+  if(!fname||!phone){alert('Please fill in your name and phone number.');return;}
+  var btn=document.getElementById('modal-submit-btn');
+  btn.textContent='Booking...';btn.style.opacity='.7';btn.disabled=true;
+  try{
+    var res=await fetch('https://vistamount-booking.billowing-recipe-0ae7.workers.dev/book',{
+      method:'POST',headers:{'Content-Type':'application/json'},
+      body:JSON.stringify({
+        name:(fname+' '+(document.getElementById('modal-lname').value||'')).trim(),
+        phone:phone,email:document.getElementById('modal-email').value,
+        address:document.getElementById('modal-address').value,
+        slotStart:modalSelectedSlot.start,slotEnd:modalSelectedSlot.end,
+        summary:'Modal booking',notes:document.getElementById('modal-notes').value
+      })
+    });
+    var data=await res.json();
+    if(data.success){
+      document.getElementById('modal-form-wrap').style.display='none';
+      document.getElementById('modal-success').classList.add('show');
+    } else {
+      btn.textContent='Confirm Booking';btn.style.opacity='1';btn.disabled=false;
+      alert('Booking failed. Please call (480) 903-4769.');
+    }
+  }catch(e){
+    btn.textContent='Confirm Booking';btn.style.opacity='1';btn.disabled=false;
+    alert('Connection error. Please call (480) 903-4769.');
+  }
+}
+
+// ==================== EXIT POPUP ====================
+var exitPopupShown=false;
+function showExitPopup(){
+  if(exitPopupShown)return;
+  exitPopupShown=true;
+  document.getElementById('exit-popup').classList.add('show');
+}
+function closeExitPopup(){
+  document.getElementById('exit-popup').classList.remove('show');
+}
+
+// Desktop: mouse leaving top of page
+document.addEventListener('mouseleave',function(e){
+  if(e.clientY<=0)showExitPopup();
+});
+
+// Mobile: back button / page hide after 30s of engagement
+var mobileTimer=setTimeout(function(){
+  if(window.innerWidth<=768)showExitPopup();
+},30000);
+</script>
+
+<script>
+// Square Payment Integration
+const SQUARE_APP_ID = 'sq0idp-B3c5ZI18_DbdYE7RbSIYqA';
+const SQUARE_LOCATION_ID = 'LRF9PX7GSDB5M';
+let card;
+
+
+
+async function processPayment(sourceId) {
+  const submitBtn = document.getElementById('submit-btn');
+  submitBtn.textContent = 'Processing...';
+  submitBtn.disabled = true;
+  
+  try {
+    const fname = document.getElementById('fname').value.trim();
+    const summary = 'TVs:'+mainState.tvcount+' '+mainState.tvs.map(function(tv,i){return 'TV'+(i+1)+':'+tv.size+'/'+tv.mount+'/'+tv.cords+'/'+tv.wall;}).join(' ')+(mainState.soundbars?' soundbars:'+mainState.soundbars:'')+(mainState.dismounts?' dismounts:'+mainState.dismounts:'');
+    
+    const res = await fetch('https://vistamount-booking.billowing-recipe-0ae7.workers.dev/book', {
+      method: 'POST',
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({
+        name: (fname+' '+(document.getElementById('lname').value||'')).trim(),
+        phone: document.getElementById('phone').value,
+        email: document.getElementById('email').value,
+        address: document.getElementById('address').value,
+        slotStart: selectedSlot.start,
+        slotEnd: selectedSlot.end,
+        summary: summary,
+        notes: '',
+        sourceId: sourceId
+      })
+    });
+    
+    const data = await res.json();
+    if (data.success) {
+      document.getElementById('form-wrap').style.display = 'none';
+      document.getElementById('success').classList.add('show');
+      document.getElementById('booking-header').style.display = 'none';
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({event: 'booking_complete', page: 'main'});
+    } else {
+      throw new Error(data.error || 'Booking failed');
+    }
+  } catch (e) {
+    console.error('Error:', e);
+    document.getElementById('payment-status').innerHTML = 
+      '<div style="color:#ff5555;font-size:.75rem;">Payment failed: '+e.message+'. Please try again or call (480) 903-4769.</div>';
+    submitBtn.textContent = 'Complete Payment & Book';
+    submitBtn.disabled = false;
+  }
+}
+
+
+function updateStep4Button() {
+  if (!selectedSlot || !selectedSlot.start) return;
+  
+  const apptDate = new Date(selectedSlot.start);
+  const today = new Date();
+  const isSameDay = apptDate.toDateString() === today.toDateString();
+  
+  const step4Btn = document.querySelector('#step4 .btn-submit');
+  if (!step4Btn) return;
+  
+  if (isSameDay) {
+    // Same-day ONLY: Skip to submit
+    step4Btn.onclick = function() { submitForm(); };
+    step4Btn.textContent = 'Confirm Booking ✓';
+  } else {
+    // Future: MUST go to payment (Step 5)
+    step4Btn.onclick = function() { goStep(5); };
+    step4Btn.textContent = 'Continue to Deposit →';
+  }
+}
+
+function showPaymentStep() {
+  if (!selectedSlot || !selectedSlot.start) return;
+  
+  const apptDate = new Date(selectedSlot.start);
+  const today = new Date();
+  const isSameDay = apptDate.toDateString() === today.toDateString();
+  
+  const sameDaySkip = document.getElementById('same-day-skip');
+  const futurePayment = document.getElementById('future-payment');
+  const submitBtn = document.getElementById('submit-btn');
+  
+  if (isSameDay) {
+    // Show same-day skip message
+    sameDaySkip.style.display = 'block';
+    futurePayment.style.display = 'none';
+    submitBtn.textContent = 'Confirm Booking ✓';
+  } else {
+    // Show payment options
+    sameDaySkip.style.display = 'none';
+    futurePayment.style.display = 'block';
+    submitBtn.textContent = 'Complete Payment & Book';
+    initSquarePayment();
+  }
+}
+
+async function initSquarePayment() {
+  if (!window.Square) {
+    console.error('Square.js failed to load');
+    return;
+  }
+  
+  try {
+    const payments = window.Square.payments(SQUARE_APP_ID, SQUARE_LOCATION_ID);
+    
+    // Initialize Apple Pay
+    const applePayButton = document.getElementById('apple-pay-button');
+    const applePay = await payments.applePay({
+      name: 'VistaMount LLC',
+      countryCode: 'US',
+      currencyCode: 'USD',
+      total: {
+        amount: '50.00',
+        label: 'VistaMount Deposit'
+      }
+    });
+    
+    if (applePay) {
+      await applePay.attach('#apple-pay-button');
+      applePayButton.style.display = 'block';
+      applePayButton.addEventListener('click', async () => {
+        const result = await applePay.tokenize();
+        if (result.status === 'OK') {
+          processPayment(result.token);
+        }
+      });
+    }
+    
+    // Initialize Google Pay
+    const googlePayButton = document.getElementById('google-pay-button');
+    const googlePay = await payments.googlePay({
+      countryCode: 'US',
+      currencyCode: 'USD',
+      total: {
+        amount: '50.00',
+        label: 'VistaMount Deposit'
+      }
+    });
+    
+    if (googlePay) {
+      await googlePay.attach('#google-pay-button');
+      googlePayButton.style.display = 'block';
+      googlePayButton.addEventListener('click', async () => {
+        const result = await googlePay.tokenize();
+        if (result.status === 'OK') {
+          processPayment(result.token);
+        }
+      });
+    }
+    
+    // Initialize Card
+    card = await payments.card();
+    await card.attach('#card-container');
+    
+  } catch (e) {
+    console.error('Square initialization failed:', e);
+    document.getElementById('payment-status').innerHTML = 
+      '<div style="color:#ff5555;font-size:.75rem;">Payment system failed to load. Please call (480) 903-4769.</div>';
+  }
+}
+
+// Initialize when Step 4 is reached - only if NOT same-day
+function checkIfDepositNeeded() {
+  if (!selectedSlot || !selectedSlot.start) return;
+  
+  const apptDate = new Date(selectedSlot.start);
+  const today = new Date();
+  const isSameDay = apptDate.toDateString() === today.toDateString();
+  
+  const depositNotice = document.getElementById('deposit-notice');
+  const depositMessage = document.getElementById('deposit-message');
+  const cardContainer = document.getElementById('card-container');
+  const paymentStatus = document.getElementById('payment-status');
+  const submitBtn = document.getElementById('submit-btn');
+  
+  if (isSameDay) {
+    // Same-day: Highlight it, hide payment field
+    depositNotice.style.background = 'rgba(79,172,255,.15)';
+    depositNotice.style.borderColor = '#4facff';
+    depositMessage.innerHTML = '<strong style="color:#4facff;font-size:.9rem;">✓ BOOKING FOR TODAY - NO DEPOSIT REQUIRED</strong><br><span style="font-size:.75rem;">You selected today. Just confirm below and we\'ll call within 2 hours. Pay when job is complete.</span>';
+    cardContainer.style.display = 'none';
+    paymentStatus.innerHTML = '';
+    submitBtn.textContent = 'Confirm Booking ✓';
+  } else {
+    // Future: Show deposit requirement and payment field
+    depositNotice.style.background = 'rgba(255,165,0,.1)';
+    depositNotice.style.borderColor = '#ffa500';
+    depositMessage.innerHTML = '<strong style="color:#ffa500;font-size:.9rem;">💳 $50 DEPOSIT REQUIRED</strong><br><span style="font-size:.75rem;">$50 applied to invoice. $25 non-refundable booking fee + $25 refundable if you cancel.</span>';
+    cardContainer.style.display = 'block';
+    submitBtn.textContent = 'Pay $50 Deposit & Confirm ✓';
+    if (!card) {
+      initSquarePayment();
+    }
+  }
+}
+
+const originalGoStep = window.goStep;
+window.goStep = function(n) {
+  originalGoStep(n);
+  if (n === 4 && !card) {
+    checkIfDepositNeeded();
+  }
+};
+
+;
+</script>
+
+</body>
+</html>
