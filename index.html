@@ -681,7 +681,7 @@ let bookingState = {
 };
 
 
-function renderModalNav(backStep, nextStep, nextLabel, nextAction) {
+function renderModalNav(backStep, nextStep, nextLabel, nextAction, disabled) {
   let footer = document.querySelector('.modal-footer');
   if (!footer) {
     // Create footer if it doesn't exist
@@ -697,10 +697,12 @@ function renderModalNav(backStep, nextStep, nextLabel, nextAction) {
     html += '<div></div>';
   }
   
+  let disabledStyle = disabled ? ' disabled style="opacity:0.5;cursor:not-allowed;pointer-events:none;"' : '';
+  
   if (nextAction) {
-    html += `<button class="btn-next" onclick="${nextAction}">${nextLabel}</button>`;
+    html += `<button class="btn-next" onclick="${nextAction}"${disabledStyle}>${nextLabel}</button>`;
   } else if (nextStep) {
-    html += `<button class="btn-next" onclick="goBookingStep(${nextStep})">${nextLabel}</button>`;
+    html += `<button class="btn-next" onclick="goBookingStep(${nextStep})"${disabledStyle}>${nextLabel}</button>`;
   }
   html += '</div>';
   
@@ -943,15 +945,7 @@ function initBookingStep3() {
   dateInput.min = today;
   
   // Render nav with disabled next button
-  renderModalNav(2, null, 'Next', 'goBookingStep(4)');
-  
-  // Disable the next button initially
-  const nextBtn = document.querySelector('.modal-footer .btn-next');
-  if (nextBtn) {
-    nextBtn.disabled = true;
-    nextBtn.style.opacity = '0.5';
-    nextBtn.style.cursor = 'not-allowed';
-  }
+  renderModalNav(2, null, 'Next', 'goBookingStep(4)', true); // true = disabled
 }
 
 async function loadBookingSlots() {
