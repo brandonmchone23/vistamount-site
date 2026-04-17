@@ -802,12 +802,14 @@ function closeLightbox(){
         <div class="prog-step" id="p2"></div>
         <div class="prog-step" id="p3"></div>
         <div class="prog-step" id="p4"></div>
+        <div class="prog-step" id="p5"></div>
       </div>
       <div class="prog-labels">
-        <span class="prog-label active" id="pl1">Your TVs</span>
+        <span class="prog-label active" id="pl1">TVs</span>
         <span class="prog-label" id="pl2">Add-ons</span>
-        <span class="prog-label" id="pl3">Pick a Time</span>
-        <span class="prog-label" id="pl4">Your Info</span>
+        <span class="prog-label" id="pl3">Time</span>
+        <span class="prog-label" id="pl4">Info</span>
+        <span class="prog-label" id="pl5">Payment</span>
       </div>
     </div>
 
@@ -913,15 +915,6 @@ function closeLightbox(){
         </div>
         <div class="form-row single">
           <div class="form-group"><label>Service Address</label><input type="text" id="address" placeholder="123 Main St, Phoenix, AZ 85001"/></div>
-        <div id="deposit-notice" style="background:rgba(45,127,232,.08);border-left:3px solid var(--bl);padding:16px 20px;margin:20px 0;">
-          <div style="font-size:.82rem;font-weight:500;color:#4facff;margin-bottom:8px;">💳 Deposit Policy</div>
-          <div id="deposit-message" style="font-size:.78rem;color:var(--m);line-height:1.6;">
-            <strong>Same-day appointments:</strong> No deposit required! Just show up and pay when done.<br>
-            <strong>Future appointments:</strong> $50 deposit required (applied to final invoice, non-refundable if cancelled within 24 hours).
-          </div>
-        </div>
-        <div id="card-container" style="display:none;margin:20px 0;"></div>
-        <div id="payment-status" style="margin-top:12px;"></div>
         </div>
         <div class="form-nav">
           <button class="btn-back" onclick="goStep(3)">&larr; Back</button>
@@ -934,7 +927,43 @@ function closeLightbox(){
         </div>
       </div>
 
-    </div>
+    
+      <!-- Step 5: Payment (conditional) -->
+      <div class="form-step" id="step5">
+        <!-- Same-day message -->
+        <div id="same-day-skip" style="display:none;">
+          <div style="background:rgba(79,172,255,.15);border:2px solid #4facff;border-radius:8px;padding:32px;text-align:center;margin-bottom:24px;">
+            <div style="font-size:2.5rem;margin-bottom:16px;">✓</div>
+            <div style="font-size:1.2rem;font-weight:600;color:#4facff;margin-bottom:12px;">No Deposit Required</div>
+            <div style="font-size:.85rem;color:var(--m);line-height:1.6;">You selected TODAY. Just confirm below and we'll call within 2 hours to confirm your appointment.</div>
+          </div>
+        </div>
+        
+        <!-- Future appointment payment -->
+        <div id="future-payment" style="display:none;">
+          <div style="background:rgba(255,165,0,.12);border:2px solid #ffa500;border-radius:8px;padding:24px;margin-bottom:24px;">
+            <div style="font-size:1.1rem;font-weight:600;color:#ffa500;margin-bottom:12px;">💳 $50 Deposit Required</div>
+            <div style="font-size:.82rem;color:var(--m);margin-bottom:20px;">Secures your appointment. Applied to final invoice. $25 non-refundable booking fee.</div>
+            
+            <!-- Apple Pay / Google Pay -->
+            <div id="payment-methods" style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;">
+              <div id="apple-pay-button" style="display:none;"></div>
+              <div id="google-pay-button" style="display:none;"></div>
+              <div style="text-align:center;color:var(--m);font-size:.75rem;margin:8px 0;">OR PAY WITH CARD</div>
+            </div>
+            
+            <!-- Card -->
+            <div id="card-container"></div>
+            <div id="payment-status" style="margin-top:12px;"></div>
+          </div>
+        </div>
+        
+        <div class="form-nav">
+          <button class="btn-back" onclick="goStep(4)">&larr; Back</button>
+          <button class="btn-submit" id="submit-btn" onclick="submitForm()">Confirm Booking ✓</button>
+        </div>
+      </div>
+</div>
 
     <div class="success-state" id="success">
       <div class="success-icon">&#10003;</div>
@@ -1263,11 +1292,15 @@ function buildMainBreakdown(){
 function goStep(n){
   document.querySelectorAll('.form-step').forEach(function(s){s.classList.remove('active');});
   document.getElementById('step'+n).classList.add('active');
-  for(var i=1;i<=4;i++){
+  for(var i=1;i<=5;i++){
     document.getElementById('p'+i).classList.toggle('active',i<=n);
     document.getElementById('pl'+i).classList.toggle('active',i===n);
   }
   if(n===3){buildMainBreakdown();initMainDatePicker();}
+  if(n===5){
+    buildMainBreakdown();
+    showPaymentStep();
+  }
   if(n===4){
     buildMainBreakdown();
     setTimeout(checkIfDepositNeeded, 100);
@@ -1629,6 +1662,32 @@ var mobileTimer=setTimeout(function(){
 const SQUARE_APP_ID = 'sq0idp-B3c5ZI18_DbdYE7RbSIYqA';
 const SQUARE_LOCATION_ID = 'LRF9PX7GSDB5M';
 let card;
+
+
+function showPaymentStep() {
+  if (!selectedSlot || !selectedSlot.start) return;
+  
+  const apptDate = new Date(selectedSlot.start);
+  const today = new Date();
+  const isSameDay = apptDate.toDateString() === today.toDateString();
+  
+  const sameDaySkip = document.getElementById('same-day-skip');
+  const futurePayment = document.getElementById('future-payment');
+  const submitBtn = document.getElementById('submit-btn');
+  
+  if (isSameDay) {
+    // Show same-day skip message
+    sameDaySkip.style.display = 'block';
+    futurePayment.style.display = 'none';
+    submitBtn.textContent = 'Confirm Booking ✓';
+  } else {
+    // Show payment options
+    sameDaySkip.style.display = 'none';
+    futurePayment.style.display = 'block';
+    submitBtn.textContent = 'Complete Payment & Book';
+    initSquarePayment();
+  }
+}
 
 async function initSquarePayment() {
   if (!window.Square) {
