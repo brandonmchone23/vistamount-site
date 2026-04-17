@@ -1007,6 +1007,8 @@ function adjustQty(field, delta) {
 
 function initBookingStep3() {
   const container = document.getElementById('step-3');
+  const total = calculatePrice();
+  
   container.innerHTML = `
     <div style="margin-bottom:24px;">
       <label style="display:block;font-size:0.85rem;color:#333;margin-bottom:12px;font-weight:500;">Select Date</label>
@@ -1015,6 +1017,12 @@ function initBookingStep3() {
     
     <div id="booking-slots" style="margin-bottom:24px;">
       <p style="font-size:0.85rem;color:#666;">Select a date to see available times</p>
+    </div>
+    
+    <div style="background:#e8f4ff;padding:20px;border-radius:8px;border:1px solid #b8daff;margin-top:24px;text-align:center;">
+      <div style="font-size:0.85rem;color:#666;margin-bottom:8px;">Estimated Total</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#2d7fe8;">$${total}</div>
+      <div style="font-size:0.75rem;color:#666;margin-top:4px;">Final price confirmed on-site</div>
     </div>
   `;
   
