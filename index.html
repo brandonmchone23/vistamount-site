@@ -1295,17 +1295,24 @@ async function submitForm(){
   if(!fname||!phone){alert('Please fill all required fields');return;}
   if(!selectedSlot){alert('Please select a time slot');return;}
   
+  const apptDate = new Date(selectedSlot.start);
+  const today = new Date();
+  const isSameDay = apptDate.toDateString() === today.toDateString();
+  
   var btn=document.getElementById('submit-btn');
-  btn.textContent='Processing Payment...';
+  btn.textContent= isSameDay ? 'Confirming...' : 'Processing Payment...';
   btn.style.opacity='.7';
   btn.disabled=true;
   
   try {
-    // Tokenize card with Square
-    const result = await card.tokenize();
+    var sourceId = null;
     
-    if (result.status !== 'OK') {
-      throw new Error('Card validation failed');
+    if (!isSameDay && card) {
+      const result = await card.tokenize();
+      if (result.status !== 'OK') {
+        throw new Error('Card validation failed');
+      }
+      sourceId = result.token;
     }
     
     var summary='TVs:'+mainState.tvcount+' '+mainState.tvs.map(function(tv,i){return 'TV'+(i+1)+':'+tv.size+'/'+tv.mount+'/'+tv.cords+'/'+tv.wall;}).join(' ')+(mainState.soundbars?' soundbars:'+mainState.soundbars:'')+(mainState.dismounts?' dismounts:'+mainState.dismounts:'');
@@ -1322,7 +1329,7 @@ async function submitForm(){
         slotEnd:selectedSlot.end,
         summary:summary,
         notes:document.getElementById('notes')?document.getElementById('notes').value:'',
-        sourceId: result.token
+        sourceId: sourceId
       })
     });
     
@@ -1339,7 +1346,7 @@ async function submitForm(){
   }catch(e){
     console.error('Error:', e);
     document.getElementById('payment-status').innerHTML = 
-      '<div style="color:#ff5555;font-size:.75rem;">Payment failed: '+e.message+'. Please try again or call (480) 903-4769.</div>';
+      '<div style="color:#ff5555;font-size:.75rem;">Error: '+e.message+'. Please try again or call (480) 903-4769.</div>';
     btn.textContent='Confirm Booking ✓';
     btn.style.opacity='1';
     btn.disabled=false;
@@ -1685,11 +1692,30 @@ async function initSquarePayment() {
   }
 }
 
-// Initialize when Step 4 is reached
+// Initialize when Step 4 is reached - only if NOT same-day
 const originalGoStep = window.goStep;
 window.goStep = function(n) {
   originalGoStep(n);
   if (n === 4 && !card) {
+    checkIfDepositNeeded();
+  }
+};
+
+function checkIfDepositNeeded() {
+  if (!selectedSlot || !selectedSlot.start) return;
+  
+  const apptDate = new Date(selectedSlot.start);
+  const today = new Date();
+  const isSameDay = apptDate.toDateString() === today.toDateString();
+  
+  const depositSection = document.querySelector('[style*="$50 Deposit Required"]').parentElement;
+  
+  if (isSameDay) {
+    depositSection.style.display = 'none';
+    document.getElementById('payment-status').innerHTML = 
+      '<div style="background:rgba(79,172,255,.15);padding:12px;border-radius:4px;font-size:.75rem;color:#4facff;">✓ Same-day appointment - no deposit required!</div>';
+  } else {
+    depositSection.style.display = 'block';
     initSquarePayment();
   }
 };
