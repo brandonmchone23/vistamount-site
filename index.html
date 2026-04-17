@@ -1,6 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+<script src="https://web.squarecdn.com/v1/square.js"></script>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>VistaMount - Premium TV Mounting & Smart Home | Phoenix, AZ</title>
@@ -841,6 +842,12 @@ function closeLightbox(){
         </div>
         <div class="form-row single">
           <div class="form-group"><label>Anything else we should know?</label><textarea id="notes" placeholder="Special wall type, condo restrictions, specific mount preference, etc."></textarea></div>
+        <div style="background:rgba(45,127,232,.1);border:1px solid rgba(79,172,255,.25);padding:20px;margin:20px 0;">
+          <div style="font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:#4facff;margin-bottom:12px;">💳 $50 Deposit Required</div>
+          <div style="font-size:.78rem;color:var(--m);margin-bottom:16px;">Secure your appointment. Applied to final invoice.</div>
+          <div id="card-container"></div>
+          <div id="payment-status" style="margin-top:12px;"></div>
+        </div>
         </div>
         <div class="form-nav">
           <button class="btn-back" onclick="goStep(1)">&larr; Back</button>
@@ -888,6 +895,12 @@ function closeLightbox(){
         </div>
         <div class="form-row single">
           <div class="form-group"><label>Service Address</label><input type="text" id="address" placeholder="123 Main St, Phoenix, AZ 85001"/></div>
+        <div style="background:rgba(45,127,232,.1);border:1px solid rgba(79,172,255,.25);padding:20px;margin:20px 0;">
+          <div style="font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:#4facff;margin-bottom:12px;">💳 $50 Deposit Required</div>
+          <div style="font-size:.78rem;color:var(--m);margin-bottom:16px;">Secure your appointment. Applied to final invoice.</div>
+          <div id="card-container"></div>
+          <div id="payment-status" style="margin-top:12px;"></div>
+        </div>
         </div>
         <div class="form-nav">
           <button class="btn-back" onclick="goStep(3)">&larr; Back</button>
@@ -1277,24 +1290,42 @@ function loadSlots(){
 }
 
 async function submitForm(){
-  if(!selectedSlot){alert('Please select a time slot.');return;}
   var fname=document.getElementById('fname').value.trim();
   var phone=document.getElementById('phone').value.trim();
-  if(!fname||!phone){alert('Please enter your name and phone number.');return;}
+  if(!fname||!phone){alert('Please fill all required fields');return;}
+  if(!selectedSlot){alert('Please select a time slot');return;}
+  
   var btn=document.getElementById('submit-btn');
-  btn.textContent='Booking...';btn.style.opacity='.7';btn.disabled=true;
-  var summary='TVs:'+mainState.tvcount+' '+mainState.tvs.map(function(tv,i){return 'TV'+(i+1)+':'+tv.size+'/'+tv.mount+'/'+tv.cords+'/'+tv.wall;}).join(' ')+(mainState.soundbars?' soundbars:'+mainState.soundbars:'')+(mainState.dismounts?' dismounts:'+mainState.dismounts:'');
-  try{
-    var res=await fetch(WORKER+'/book',{
-      method:'POST',headers:{'Content-Type':'application/json'},
+  btn.textContent='Processing Payment...';
+  btn.style.opacity='.7';
+  btn.disabled=true;
+  
+  try {
+    // Tokenize card with Square
+    const result = await card.tokenize();
+    
+    if (result.status !== 'OK') {
+      throw new Error('Card validation failed');
+    }
+    
+    var summary='TVs:'+mainState.tvcount+' '+mainState.tvs.map(function(tv,i){return 'TV'+(i+1)+':'+tv.size+'/'+tv.mount+'/'+tv.cords+'/'+tv.wall;}).join(' ')+(mainState.soundbars?' soundbars:'+mainState.soundbars:'')+(mainState.dismounts?' dismounts:'+mainState.dismounts:'');
+    
+    var res=await fetch('https://vistamount-booking.billowing-recipe-0ae7.workers.dev/book',{
+      method:'POST',
+      headers:{'Content-Type':'application/json'},
       body:JSON.stringify({
         name:(fname+' '+(document.getElementById('lname').value||'')).trim(),
-        phone:phone,email:document.getElementById('email').value,
+        phone:phone,
+        email:document.getElementById('email').value,
         address:document.getElementById('address').value,
-        slotStart:selectedSlot.start,slotEnd:selectedSlot.end,
-        summary:summary,notes:document.getElementById('notes')?document.getElementById('notes').value:''
+        slotStart:selectedSlot.start,
+        slotEnd:selectedSlot.end,
+        summary:summary,
+        notes:document.getElementById('notes')?document.getElementById('notes').value:'',
+        sourceId: result.token
       })
     });
+    
     var data=await res.json();
     if(data.success){
       document.getElementById('form-wrap').style.display='none';
@@ -1303,12 +1334,15 @@ async function submitForm(){
       window.dataLayer=window.dataLayer||[];
       window.dataLayer.push({event:'booking_complete',page:'main'});
     }else{
-      btn.textContent='Confirm Booking';btn.style.opacity='1';btn.disabled=false;
-      alert('Booking failed. Please call (480) 903-4769.');
+      throw new Error(data.error || 'Booking failed');
     }
   }catch(e){
-    btn.textContent='Confirm Booking';btn.style.opacity='1';btn.disabled=false;
-    alert('Connection error. Please call (480) 903-4769.');
+    console.error('Error:', e);
+    document.getElementById('payment-status').innerHTML = 
+      '<div style="color:#ff5555;font-size:.75rem;">Payment failed: '+e.message+'. Please try again or call (480) 903-4769.</div>';
+    btn.textContent='Confirm Booking ✓';
+    btn.style.opacity='1';
+    btn.disabled=false;
   }
 }
 
@@ -1368,7 +1402,13 @@ calcMainEst();
         <div class="form-step" id="mstep4">
           <div class="form-row"><div class="form-group"><label>First Name</label><input type="text" id="modal-fname" placeholder="John"/></div><div class="form-group"><label>Last Name</label><input type="text" id="modal-lname" placeholder="Smith"/></div></div>
           <div class="form-row"><div class="form-group"><label>Phone</label><input type="tel" id="modal-phone" placeholder="(480) 555-0100"/></div><div class="form-group"><label>Email</label><input type="email" id="modal-email" placeholder="you@example.com"/></div></div>
-          <div class="form-row single"><div class="form-group"><label>Service Address</label><input type="text" id="modal-address" placeholder="123 Main St, Phoenix, AZ 85001"/></div></div>
+          <div class="form-row single"><div class="form-group"><label>Service Address</label><input type="text" id="modal-address" placeholder="123 Main St, Phoenix, AZ 85001"/></div>
+        <div style="background:rgba(45,127,232,.1);border:1px solid rgba(79,172,255,.25);padding:20px;margin:20px 0;">
+          <div style="font-size:.75rem;letter-spacing:.2em;text-transform:uppercase;color:#4facff;margin-bottom:12px;">💳 $50 Deposit Required</div>
+          <div style="font-size:.78rem;color:var(--m);margin-bottom:16px;">Secure your appointment. Applied to final invoice.</div>
+          <div id="card-container"></div>
+          <div id="payment-status" style="margin-top:12px;"></div>
+        </div></div>
           <div class="quote-box" id="modal-final-quote-confirm" style="margin-top:8px;"></div>
           <div class="form-nav"><button class="btn-back" onclick="goModalStep(3)">&larr; Back</button><button class="btn-submit" id="modal-submit-btn" onclick="submitModalForm()">Confirm Booking &#10003;</button></div>
         </div>
@@ -1621,5 +1661,39 @@ var mobileTimer=setTimeout(function(){
   if(window.innerWidth<=768)showExitPopup();
 },30000);
 </script>
+
+<script>
+// Square Payment Integration
+const SQUARE_APP_ID = 'sq0idp-B3c5ZI18_DbdYE7RbSIYqA';
+const SQUARE_LOCATION_ID = 'LRF9PX7GSDB5M';
+let card;
+
+async function initSquarePayment() {
+  if (!window.Square) {
+    console.error('Square.js failed to load');
+    return;
+  }
+  
+  try {
+    const payments = window.Square.payments(SQUARE_APP_ID, SQUARE_LOCATION_ID);
+    card = await payments.card();
+    await card.attach('#card-container');
+  } catch (e) {
+    console.error('Square initialization failed:', e);
+    document.getElementById('payment-status').innerHTML = 
+      '<div style="color:#ff5555;font-size:.75rem;">Payment system failed to load. Please call (480) 903-4769.</div>';
+  }
+}
+
+// Initialize when Step 4 is reached
+const originalGoStep = window.goStep;
+window.goStep = function(n) {
+  originalGoStep(n);
+  if (n === 4 && !card) {
+    initSquarePayment();
+  }
+};
+</script>
+
 </body>
 </html>
