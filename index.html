@@ -925,6 +925,25 @@ function closeLightbox(){
             </div>
           </div>
         </div>
+        
+        <!-- Conditional Payment Section -->
+        <div id="payment-section" style="display:none;margin-top:24px;">
+          <div style="background:rgba(255,165,0,.12);border:2px solid #ffa500;border-radius:8px;padding:24px;margin-bottom:24px;">
+            <div style="font-size:1.1rem;font-weight:600;color:#ffa500;margin-bottom:12px;">💳 $50 Deposit Required</div>
+            <div style="font-size:.82rem;color:var(--m);margin-bottom:20px;">Secures your appointment. Applied to final invoice. $25 non-refundable booking fee.</div>
+            
+            <!-- Apple Pay / Google Pay -->
+            <div id="payment-methods" style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;">
+              <div id="apple-pay-button" style="display:none;"></div>
+              <div id="google-pay-button" style="display:none;"></div>
+              <div style="text-align:center;color:var(--m);font-size:.75rem;margin:8px 0;">OR PAY WITH CARD</div>
+            </div>
+            
+            <!-- Card -->
+            <div id="card-container"></div>
+            <div id="payment-status" style="margin-top:12px;"></div>
+          </div>
+        </div>
       </div>
 
     
