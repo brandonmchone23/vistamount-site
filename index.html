@@ -549,6 +549,329 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18018755852"></script>
 <script>
+// ==================== BOOKING MODAL ====================
+let bookingState = {
+  tvs: [],
+  soundbars: 0,
+  dismounts: 0,
+  transport: false,
+  selectedSlot: null,
+  currentStep: 1
+};
+
+function openBookingModal() {
+  document.getElementById('booking-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  initBookingStep1();
+}
+
+function closeBookingModal() {
+  document.getElementById('booking-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Close on background click
+document.addEventListener('DOMContentLoaded', function() {
+  const modal = document.getElementById('booking-modal');
+  if (modal) {
+    modal.addEventListener('click', function(e) {
+      if (e.target === this) closeBookingModal();
+    });
+  }
+});
+
+function goBookingStep(n) {
+  bookingState.currentStep = n;
+  
+  // Update progress bar
+  document.querySelectorAll('.progress-step').forEach((step, i) => {
+    step.classList.remove('active', 'completed');
+    if (i + 1 < n) step.classList.add('completed');
+    if (i + 1 === n) step.classList.add('active');
+  });
+  
+  document.querySelectorAll('.progress-labels span').forEach((label, i) => {
+    label.classList.toggle('active', i + 1 === n);
+  });
+  
+  // Show correct step
+  document.querySelectorAll('.modal-step').forEach(step => {
+    step.classList.remove('active');
+  });
+  document.getElementById('step-' + n).classList.add('active');
+  
+  // Initialize step-specific content
+  if (n === 1) initBookingStep1();
+  if (n === 2) initBookingStep2();
+  if (n === 3) initBookingStep3();
+  if (n === 4) initBookingStep4();
+}
+
+function initBookingStep1() {
+  // Initialize with 1 TV if empty
+  if (bookingState.tvs.length === 0) {
+    bookingState.tvs = [{
+      id: 'tv1',
+      size: '32-64',
+      hasMount: false,
+      mountType: 'tilting',
+      cords: 'visible',
+      wall: 'drywall'
+    }];
+  }
+  
+  const container = document.getElementById('step-1');
+  container.innerHTML = `
+    <div style="margin-bottom:24px;">
+      <label style="display:block;font-size:0.85rem;color:var(--m);margin-bottom:12px;">How many TVs?</label>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+        <button class="option-btn ${bookingState.tvs.length === 1 ? 'selected' : ''}" onclick="setTVCount(1)">1 TV</button>
+        <button class="option-btn ${bookingState.tvs.length === 2 ? 'selected' : ''}" onclick="setTVCount(2)">2 TVs</button>
+        <button class="option-btn ${bookingState.tvs.length === 3 ? 'selected' : ''}" onclick="setTVCount(3)">3 TVs</button>
+        <button class="option-btn ${bookingState.tvs.length >= 4 ? 'selected' : ''}" onclick="setTVCount(4)">4+ TVs</button>
+      </div>
+    </div>
+    
+    <div id="tv-cards-container"></div>
+    
+    <div class="modal-nav">
+      <div></div>
+      <button class="btn-next" onclick="goBookingStep(2)">Next: Add-ons →</button>
+    </div>
+  `;
+  
+  renderTVCards();
+}
+
+function setTVCount(count) {
+  const current = bookingState.tvs.length;
+  if (count > current) {
+    for (let i = current; i < count; i++) {
+      bookingState.tvs.push({
+        id: 'tv' + (i + 1),
+        size: '32-64',
+        hasMount: false,
+        mountType: 'tilting',
+        cords: 'visible',
+        wall: 'drywall'
+      });
+    }
+  } else if (count < current) {
+    bookingState.tvs = bookingState.tvs.slice(0, count);
+  }
+  initBookingStep1();
+}
+
+function renderTVCards() {
+  const container = document.getElementById('tv-cards-container');
+  container.innerHTML = bookingState.tvs.map((tv, i) => `
+    <div class="tv-card" style="background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);padding:20px;margin-bottom:16px;border-radius:8px;">
+      <div style="font-weight:600;margin-bottom:16px;color:var(--bl);">TV ${i + 1}</div>
+      
+      <div style="margin-bottom:16px;">
+        <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:8px;">TV Size</label>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;">
+          <button class="option-btn ${tv.size === '<32' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '<32')">Under 32"</button>
+          <button class="option-btn ${tv.size === '32-64' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '32-64')">32"–64"</button>
+          <button class="option-btn ${tv.size === '65-84' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '65-84')">65"–84"</button>
+          <button class="option-btn ${tv.size === '85+' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '85+')">85"+</button>
+        </div>
+      </div>
+      
+      <div style="margin-bottom:16px;">
+        <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:8px;">Mount Type</label>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
+          <button class="option-btn ${tv.mountType === 'fixed' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'fixed')">Fixed</button>
+          <button class="option-btn ${tv.mountType === 'tilting' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'tilting')">Tilting</button>
+          <button class="option-btn ${tv.mountType === 'fullmotion' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'fullmotion')">Full Motion</button>
+        </div>
+      </div>
+      
+      <div style="margin-bottom:16px;">
+        <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:8px;">Cord Management</label>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;">
+          <button class="option-btn ${tv.cords === 'visible' ? 'selected' : ''}" onclick="setTVProp(${i}, 'cords', 'visible')">Visible</button>
+          <button class="option-btn ${tv.cords === 'concealed' ? 'selected' : ''}" onclick="setTVProp(${i}, 'cords', 'concealed')">Concealed</button>
+        </div>
+      </div>
+      
+      <div>
+        <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:8px;">Wall Type</label>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;">
+          <button class="option-btn ${tv.wall === 'drywall' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'drywall')">Drywall</button>
+          <button class="option-btn ${tv.wall === 'stucco' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'stucco')">Stucco</button>
+          <button class="option-btn ${tv.wall === 'brick' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'brick')">Brick</button>
+          <button class="option-btn ${tv.wall === 'tile' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'tile')">Tile/Stone</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function setTVProp(index, prop, value) {
+  bookingState.tvs[index][prop] = value;
+  renderTVCards();
+}
+
+function initBookingStep2() {
+  const container = document.getElementById('step-2');
+  container.innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:16px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;">
+        <div>
+          <div style="font-weight:600;margin-bottom:4px;">Soundbar Installation</div>
+          <div style="font-size:0.75rem;color:var(--m);">$100 first, $75 each after</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <button class="qty-btn" onclick="adjustQty('soundbars', -1)">−</button>
+          <span style="font-weight:600;min-width:20px;text-align:center;">${bookingState.soundbars}</span>
+          <button class="qty-btn" onclick="adjustQty('soundbars', 1)">+</button>
+        </div>
+      </div>
+      
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:16px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;">
+        <div>
+          <div style="font-weight:600;margin-bottom:4px;">Remove Existing Mount</div>
+          <div style="font-size:0.75rem;color:var(--m);">$25 each</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <button class="qty-btn" onclick="adjustQty('dismounts', -1)">−</button>
+          <span style="font-weight:600;min-width:20px;text-align:center;">${bookingState.dismounts}</span>
+          <button class="qty-btn" onclick="adjustQty('dismounts', 1)">+</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="modal-nav">
+      <button class="btn-back" onclick="goBookingStep(1)">← Back</button>
+      <button class="btn-next" onclick="goBookingStep(3)">Next: Schedule →</button>
+    </div>
+  `;
+}
+
+function adjustQty(field, delta) {
+  bookingState[field] = Math.max(0, bookingState[field] + delta);
+  initBookingStep2();
+}
+
+function initBookingStep3() {
+  const container = document.getElementById('step-3');
+  container.innerHTML = `
+    <div style="margin-bottom:24px;">
+      <label style="display:block;font-size:0.85rem;color:var(--m);margin-bottom:12px;">Select Date</label>
+      <input type="date" id="booking-date" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);font-size:0.9rem;" onchange="loadBookingSlots()">
+    </div>
+    
+    <div id="booking-slots" style="margin-bottom:24px;">
+      <p style="font-size:0.85rem;color:var(--m);">Select a date to see available times</p>
+    </div>
+    
+    <div class="modal-nav">
+      <button class="btn-back" onclick="goBookingStep(2)">← Back</button>
+      <button class="btn-next" id="step3-next" style="opacity:0.5;pointer-events:none;" onclick="goBookingStep(4)">Next: Contact →</button>
+    </div>
+  `;
+  
+  // Set min date to today
+  const dateInput = document.getElementById('booking-date');
+  const today = new Date().toISOString().split('T')[0];
+  dateInput.min = today;
+}
+
+function loadBookingSlots() {
+  // This will integrate with your existing slot loading logic
+  const slotsContainer = document.getElementById('booking-slots');
+  slotsContainer.innerHTML = '<p style="font-size:0.85rem;color:var(--m);">Loading available times...</p>';
+  
+  // Placeholder - integrate with actual availability API
+  setTimeout(() => {
+    slotsContainer.innerHTML = `
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;">
+        <button class="option-btn" onclick="selectSlot('9:00 AM')">9:00 AM</button>
+        <button class="option-btn" onclick="selectSlot('11:00 AM')">11:00 AM</button>
+        <button class="option-btn" onclick="selectSlot('1:00 PM')">1:00 PM</button>
+        <button class="option-btn" onclick="selectSlot('3:00 PM')">3:00 PM</button>
+      </div>
+    `;
+  }, 500);
+}
+
+function selectSlot(time) {
+  bookingState.selectedSlot = time;
+  document.querySelectorAll('#booking-slots .option-btn').forEach(btn => {
+    btn.classList.toggle('selected', btn.textContent === time);
+  });
+  document.getElementById('step3-next').style.opacity = '1';
+  document.getElementById('step3-next').style.pointerEvents = 'auto';
+}
+
+function initBookingStep4() {
+  const container = document.getElementById('step-4');
+  container.innerHTML = `
+    <div style="margin-bottom:24px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+        <div>
+          <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:6px;">First Name *</label>
+          <input type="text" id="fname" placeholder="John" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);">
+        </div>
+        <div>
+          <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:6px;">Last Name *</label>
+          <input type="text" id="lname" placeholder="Smith" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);">
+        </div>
+      </div>
+      
+      <div style="margin-bottom:12px;">
+        <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:6px;">Phone *</label>
+        <input type="tel" id="phone" placeholder="(480) 555-1234" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);">
+      </div>
+      
+      <div style="margin-bottom:12px;">
+        <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:6px;">Email *</label>
+        <input type="email" id="email" placeholder="john@example.com" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);">
+      </div>
+      
+      <div style="margin-bottom:12px;">
+        <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:6px;">Address *</label>
+        <input type="text" id="address" placeholder="123 Main St, Phoenix AZ 85001" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);">
+      </div>
+    </div>
+    
+    <div id="payment-section" style="margin-bottom:24px;">
+      <div style="background:rgba(45,127,232,.08);padding:16px;border-radius:6px;margin-bottom:16px;">
+        <div style="font-size:0.85rem;color:var(--m);margin-bottom:12px;">Payment - $1 Deposit</div>
+        <div id="card-container"></div>
+      </div>
+    </div>
+    
+    <div class="modal-nav">
+      <button class="btn-back" onclick="goBookingStep(3)">← Back</button>
+      <button class="btn-next" onclick="submitBooking()">Complete Booking →</button>
+    </div>
+  `;
+  
+  // Initialize Square payment
+  initSquarePayment();
+}
+
+function submitBooking() {
+  alert('Booking system ready! Integration with Square payment next.');
+}
+
+// Initialize modal structure
+document.addEventListener('DOMContentLoaded', function() {
+  const formContainer = document.getElementById('modal-form-container');
+  if (formContainer) {
+    formContainer.innerHTML = `
+      <div class="modal-step active" id="step-1"></div>
+      <div class="modal-step" id="step-2"></div>
+      <div class="modal-step" id="step-3"></div>
+      <div class="modal-step" id="step-4"></div>
+    `;
+  }
+});
+
+
+
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
@@ -1798,327 +2121,6 @@ window.goStep = function(n) {
   </div>
 </div>
 
-
-// ==================== BOOKING MODAL ====================
-let bookingState = {
-  tvs: [],
-  soundbars: 0,
-  dismounts: 0,
-  transport: false,
-  selectedSlot: null,
-  currentStep: 1
-};
-
-function openBookingModal() {
-  document.getElementById('booking-modal').classList.add('open');
-  document.body.style.overflow = 'hidden';
-  initBookingStep1();
-}
-
-function closeBookingModal() {
-  document.getElementById('booking-modal').classList.remove('open');
-  document.body.style.overflow = '';
-}
-
-// Close on background click
-document.addEventListener('DOMContentLoaded', function() {
-  const modal = document.getElementById('booking-modal');
-  if (modal) {
-    modal.addEventListener('click', function(e) {
-      if (e.target === this) closeBookingModal();
-    });
-  }
-});
-
-function goBookingStep(n) {
-  bookingState.currentStep = n;
-  
-  // Update progress bar
-  document.querySelectorAll('.progress-step').forEach((step, i) => {
-    step.classList.remove('active', 'completed');
-    if (i + 1 < n) step.classList.add('completed');
-    if (i + 1 === n) step.classList.add('active');
-  });
-  
-  document.querySelectorAll('.progress-labels span').forEach((label, i) => {
-    label.classList.toggle('active', i + 1 === n);
-  });
-  
-  // Show correct step
-  document.querySelectorAll('.modal-step').forEach(step => {
-    step.classList.remove('active');
-  });
-  document.getElementById('step-' + n).classList.add('active');
-  
-  // Initialize step-specific content
-  if (n === 1) initBookingStep1();
-  if (n === 2) initBookingStep2();
-  if (n === 3) initBookingStep3();
-  if (n === 4) initBookingStep4();
-}
-
-function initBookingStep1() {
-  // Initialize with 1 TV if empty
-  if (bookingState.tvs.length === 0) {
-    bookingState.tvs = [{
-      id: 'tv1',
-      size: '32-64',
-      hasMount: false,
-      mountType: 'tilting',
-      cords: 'visible',
-      wall: 'drywall'
-    }];
-  }
-  
-  const container = document.getElementById('step-1');
-  container.innerHTML = `
-    <div style="margin-bottom:24px;">
-      <label style="display:block;font-size:0.85rem;color:var(--m);margin-bottom:12px;">How many TVs?</label>
-      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
-        <button class="option-btn ${bookingState.tvs.length === 1 ? 'selected' : ''}" onclick="setTVCount(1)">1 TV</button>
-        <button class="option-btn ${bookingState.tvs.length === 2 ? 'selected' : ''}" onclick="setTVCount(2)">2 TVs</button>
-        <button class="option-btn ${bookingState.tvs.length === 3 ? 'selected' : ''}" onclick="setTVCount(3)">3 TVs</button>
-        <button class="option-btn ${bookingState.tvs.length >= 4 ? 'selected' : ''}" onclick="setTVCount(4)">4+ TVs</button>
-      </div>
-    </div>
-    
-    <div id="tv-cards-container"></div>
-    
-    <div class="modal-nav">
-      <div></div>
-      <button class="btn-next" onclick="goBookingStep(2)">Next: Add-ons →</button>
-    </div>
-  `;
-  
-  renderTVCards();
-}
-
-function setTVCount(count) {
-  const current = bookingState.tvs.length;
-  if (count > current) {
-    for (let i = current; i < count; i++) {
-      bookingState.tvs.push({
-        id: 'tv' + (i + 1),
-        size: '32-64',
-        hasMount: false,
-        mountType: 'tilting',
-        cords: 'visible',
-        wall: 'drywall'
-      });
-    }
-  } else if (count < current) {
-    bookingState.tvs = bookingState.tvs.slice(0, count);
-  }
-  initBookingStep1();
-}
-
-function renderTVCards() {
-  const container = document.getElementById('tv-cards-container');
-  container.innerHTML = bookingState.tvs.map((tv, i) => `
-    <div class="tv-card" style="background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);padding:20px;margin-bottom:16px;border-radius:8px;">
-      <div style="font-weight:600;margin-bottom:16px;color:var(--bl);">TV ${i + 1}</div>
-      
-      <div style="margin-bottom:16px;">
-        <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:8px;">TV Size</label>
-        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;">
-          <button class="option-btn ${tv.size === '<32' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '<32')">Under 32"</button>
-          <button class="option-btn ${tv.size === '32-64' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '32-64')">32"–64"</button>
-          <button class="option-btn ${tv.size === '65-84' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '65-84')">65"–84"</button>
-          <button class="option-btn ${tv.size === '85+' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '85+')">85"+</button>
-        </div>
-      </div>
-      
-      <div style="margin-bottom:16px;">
-        <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:8px;">Mount Type</label>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
-          <button class="option-btn ${tv.mountType === 'fixed' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'fixed')">Fixed</button>
-          <button class="option-btn ${tv.mountType === 'tilting' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'tilting')">Tilting</button>
-          <button class="option-btn ${tv.mountType === 'fullmotion' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'fullmotion')">Full Motion</button>
-        </div>
-      </div>
-      
-      <div style="margin-bottom:16px;">
-        <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:8px;">Cord Management</label>
-        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;">
-          <button class="option-btn ${tv.cords === 'visible' ? 'selected' : ''}" onclick="setTVProp(${i}, 'cords', 'visible')">Visible</button>
-          <button class="option-btn ${tv.cords === 'concealed' ? 'selected' : ''}" onclick="setTVProp(${i}, 'cords', 'concealed')">Concealed</button>
-        </div>
-      </div>
-      
-      <div>
-        <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:8px;">Wall Type</label>
-        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;">
-          <button class="option-btn ${tv.wall === 'drywall' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'drywall')">Drywall</button>
-          <button class="option-btn ${tv.wall === 'stucco' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'stucco')">Stucco</button>
-          <button class="option-btn ${tv.wall === 'brick' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'brick')">Brick</button>
-          <button class="option-btn ${tv.wall === 'tile' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'tile')">Tile/Stone</button>
-        </div>
-      </div>
-    </div>
-  `).join('');
-}
-
-function setTVProp(index, prop, value) {
-  bookingState.tvs[index][prop] = value;
-  renderTVCards();
-}
-
-function initBookingStep2() {
-  const container = document.getElementById('step-2');
-  container.innerHTML = `
-    <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:16px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;">
-        <div>
-          <div style="font-weight:600;margin-bottom:4px;">Soundbar Installation</div>
-          <div style="font-size:0.75rem;color:var(--m);">$100 first, $75 each after</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px;">
-          <button class="qty-btn" onclick="adjustQty('soundbars', -1)">−</button>
-          <span style="font-weight:600;min-width:20px;text-align:center;">${bookingState.soundbars}</span>
-          <button class="qty-btn" onclick="adjustQty('soundbars', 1)">+</button>
-        </div>
-      </div>
-      
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:16px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;">
-        <div>
-          <div style="font-weight:600;margin-bottom:4px;">Remove Existing Mount</div>
-          <div style="font-size:0.75rem;color:var(--m);">$25 each</div>
-        </div>
-        <div style="display:flex;align-items:center;gap:12px;">
-          <button class="qty-btn" onclick="adjustQty('dismounts', -1)">−</button>
-          <span style="font-weight:600;min-width:20px;text-align:center;">${bookingState.dismounts}</span>
-          <button class="qty-btn" onclick="adjustQty('dismounts', 1)">+</button>
-        </div>
-      </div>
-    </div>
-    
-    <div class="modal-nav">
-      <button class="btn-back" onclick="goBookingStep(1)">← Back</button>
-      <button class="btn-next" onclick="goBookingStep(3)">Next: Schedule →</button>
-    </div>
-  `;
-}
-
-function adjustQty(field, delta) {
-  bookingState[field] = Math.max(0, bookingState[field] + delta);
-  initBookingStep2();
-}
-
-function initBookingStep3() {
-  const container = document.getElementById('step-3');
-  container.innerHTML = `
-    <div style="margin-bottom:24px;">
-      <label style="display:block;font-size:0.85rem;color:var(--m);margin-bottom:12px;">Select Date</label>
-      <input type="date" id="booking-date" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);font-size:0.9rem;" onchange="loadBookingSlots()">
-    </div>
-    
-    <div id="booking-slots" style="margin-bottom:24px;">
-      <p style="font-size:0.85rem;color:var(--m);">Select a date to see available times</p>
-    </div>
-    
-    <div class="modal-nav">
-      <button class="btn-back" onclick="goBookingStep(2)">← Back</button>
-      <button class="btn-next" id="step3-next" style="opacity:0.5;pointer-events:none;" onclick="goBookingStep(4)">Next: Contact →</button>
-    </div>
-  `;
-  
-  // Set min date to today
-  const dateInput = document.getElementById('booking-date');
-  const today = new Date().toISOString().split('T')[0];
-  dateInput.min = today;
-}
-
-function loadBookingSlots() {
-  // This will integrate with your existing slot loading logic
-  const slotsContainer = document.getElementById('booking-slots');
-  slotsContainer.innerHTML = '<p style="font-size:0.85rem;color:var(--m);">Loading available times...</p>';
-  
-  // Placeholder - integrate with actual availability API
-  setTimeout(() => {
-    slotsContainer.innerHTML = `
-      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;">
-        <button class="option-btn" onclick="selectSlot('9:00 AM')">9:00 AM</button>
-        <button class="option-btn" onclick="selectSlot('11:00 AM')">11:00 AM</button>
-        <button class="option-btn" onclick="selectSlot('1:00 PM')">1:00 PM</button>
-        <button class="option-btn" onclick="selectSlot('3:00 PM')">3:00 PM</button>
-      </div>
-    `;
-  }, 500);
-}
-
-function selectSlot(time) {
-  bookingState.selectedSlot = time;
-  document.querySelectorAll('#booking-slots .option-btn').forEach(btn => {
-    btn.classList.toggle('selected', btn.textContent === time);
-  });
-  document.getElementById('step3-next').style.opacity = '1';
-  document.getElementById('step3-next').style.pointerEvents = 'auto';
-}
-
-function initBookingStep4() {
-  const container = document.getElementById('step-4');
-  container.innerHTML = `
-    <div style="margin-bottom:24px;">
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
-        <div>
-          <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:6px;">First Name *</label>
-          <input type="text" id="fname" placeholder="John" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);">
-        </div>
-        <div>
-          <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:6px;">Last Name *</label>
-          <input type="text" id="lname" placeholder="Smith" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);">
-        </div>
-      </div>
-      
-      <div style="margin-bottom:12px;">
-        <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:6px;">Phone *</label>
-        <input type="tel" id="phone" placeholder="(480) 555-1234" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);">
-      </div>
-      
-      <div style="margin-bottom:12px;">
-        <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:6px;">Email *</label>
-        <input type="email" id="email" placeholder="john@example.com" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);">
-      </div>
-      
-      <div style="margin-bottom:12px;">
-        <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:6px;">Address *</label>
-        <input type="text" id="address" placeholder="123 Main St, Phoenix AZ 85001" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);">
-      </div>
-    </div>
-    
-    <div id="payment-section" style="margin-bottom:24px;">
-      <div style="background:rgba(45,127,232,.08);padding:16px;border-radius:6px;margin-bottom:16px;">
-        <div style="font-size:0.85rem;color:var(--m);margin-bottom:12px;">Payment - $1 Deposit</div>
-        <div id="card-container"></div>
-      </div>
-    </div>
-    
-    <div class="modal-nav">
-      <button class="btn-back" onclick="goBookingStep(3)">← Back</button>
-      <button class="btn-next" onclick="submitBooking()">Complete Booking →</button>
-    </div>
-  `;
-  
-  // Initialize Square payment
-  initSquarePayment();
-}
-
-function submitBooking() {
-  alert('Booking system ready! Integration with Square payment next.');
-}
-
-// Initialize modal structure
-document.addEventListener('DOMContentLoaded', function() {
-  const formContainer = document.getElementById('modal-form-container');
-  if (formContainer) {
-    formContainer.innerHTML = `
-      <div class="modal-step active" id="step-1"></div>
-      <div class="modal-step" id="step-2"></div>
-      <div class="modal-step" id="step-3"></div>
-      <div class="modal-step" id="step-4"></div>
-    `;
-  }
-});
 
 </script></body>
 </html>
