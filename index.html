@@ -537,16 +537,73 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
   }
   
   .modal-header {
-    padding: 30px 20px 20px;
+    padding: 20px 20px 16px;
+  }
+  
+  .modal-title {
+    font-size: 1.3rem;
+  }
+  
+  .modal-features {
+    font-size: 0.7rem;
+    gap: 12px;
+  }
+  
+  .modal-eyebrow {
+    font-size: 0.6rem;
+    margin-bottom: 8px;
+  }
+  
+  .progress-bar {
+    margin-bottom: 8px;
+  }
+  
+  .progress-step {
+    width: 28px;
+    height: 28px;
+    font-size: 0.75rem;
+  }
+  
+  .progress-labels {
+    font-size: 0.65rem;
   }
   
   .modal-body {
     padding: 20px;
-    max-height: calc(100vh - 220px);
+    max-height: calc(100vh - 280px);
   }
   
-  .modal-title {
-    font-size: 1.5rem;
+  .modal-footer {
+    padding: 16px 20px;
+  }
+  
+  .tv-card {
+    padding: 16px;
+  }
+  
+  .option-btn {
+    padding: 10px;
+    font-size: 0.85rem;
+  }
+  
+  .btn-back, .btn-next {
+    padding: 12px 20px;
+    font-size: 0.85rem;
+  }
+  
+  .modal-close {
+    top: 16px;
+    right: 16px;
+  }
+  
+  /* Make form inputs more mobile-friendly */
+  input, textarea {
+    font-size: 16px !important;
+  }
+  
+  /* Stack TV count buttons vertically on small screens */
+  #step-1 [style*="grid-template-columns: repeat(4"] {
+    grid-template-columns: repeat(2, 1fr) !important;
   }
 }
 
@@ -1089,6 +1146,22 @@ document.addEventListener('DOMContentLoaded', function() {
 <script src="https://elfsightcdn.com/platform.js" async></script>
 </head>
 <body>
+
+<!-- Fixed Header -->
+<header style="position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(6,8,15,0.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(79,172,255,0.1);padding:16px 0;">
+  <div style="max-width:1400px;margin:0 auto;padding:0 40px;display:flex;justify-content:space-between;align-items:center;">
+    <div style="font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:var(--w);">
+      Vista<span style="color:var(--bl);">Mount</span>
+    </div>
+    <button onclick="openBookingModal()" style="background:var(--bl);color:#0a0f1a;border:none;padding:12px 24px;border-radius:6px;font-weight:600;font-size:0.9rem;cursor:pointer;transition:all 0.2s;">
+      BOOK NOW
+    </button>
+  </div>
+</header>
+
+<div style="height:60px;"></div> <!-- Spacer for fixed header -->
+
+
 <!-- Google Tag Manager (noscript) -->
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KL3RS6P8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
