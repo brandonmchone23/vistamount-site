@@ -1247,6 +1247,10 @@ function goStep(n){
     document.getElementById('pl'+i).classList.toggle('active',i===n);
   }
   if(n===3){buildMainBreakdown();initMainDatePicker();}
+  if(n===4){
+    buildMainBreakdown();
+    setTimeout(checkIfDepositNeeded, 100);
+  }
   document.getElementById('booking').scrollIntoView({behavior:'smooth',block:'start'});
 }
 
