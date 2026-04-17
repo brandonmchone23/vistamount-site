@@ -315,6 +315,236 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
 @media(max-width:900px){.gallery-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important;}.tools-grid{grid-template-columns:repeat(2,1fr)!important;}}
 @media(max-width:500px){.gallery-grid{grid-template-columns:1fr!important;}.tools-grid{grid-template-columns:1fr!important;}}
 @media(max-width:768px){.stats-main-grid{grid-template-columns:1fr!important;}.who-grid{grid-template-columns:1fr 1fr!important;}.warranty-wrap{flex-direction:column!important;text-align:center;gap:28px!important;}.warranty-wrap > div:nth-child(2){display:none!important;}}
+
+/* ==================== BOOKING MODAL ==================== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.85);
+  backdrop-filter: blur(8px);
+  z-index: 10000;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.modal-overlay.open {
+  display: flex;
+  opacity: 1;
+}
+
+.modal-container {
+  background: #0a0f1a;
+  width: 90%;
+  max-width: 700px;
+  max-height: 90vh;
+  border-radius: 12px;
+  border: 1px solid rgba(79, 172, 255, 0.2);
+  overflow: hidden;
+  position: relative;
+  transform: scale(0.9);
+  transition: transform 0.3s ease;
+}
+
+.modal-overlay.open .modal-container {
+  transform: scale(1);
+}
+
+.modal-close {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: none;
+  border: none;
+  color: var(--m);
+  font-size: 1.5rem;
+  cursor: pointer;
+  z-index: 10;
+  width: 32px;
+  height: 32px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+  transition: all 0.2s;
+}
+
+.modal-close:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--w);
+}
+
+.modal-header {
+  padding: 40px 40px 30px;
+  border-bottom: 1px solid rgba(79, 172, 255, 0.15);
+}
+
+.modal-eyebrow {
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--bl);
+  margin-bottom: 12px;
+}
+
+.modal-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 2rem;
+  color: var(--w);
+  margin-bottom: 20px;
+  line-height: 1.2;
+}
+
+.modal-features {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-bottom: 30px;
+  font-size: 0.75rem;
+  color: var(--m);
+}
+
+.progress-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.progress-step {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: rgba(79, 172, 255, 0.1);
+  border: 2px solid rgba(79, 172, 255, 0.3);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.85rem;
+  color: var(--m);
+  font-weight: 600;
+  transition: all 0.3s;
+}
+
+.progress-step.active {
+  background: var(--bl);
+  border-color: var(--bl);
+  color: #0a0f1a;
+}
+
+.progress-step.completed {
+  background: rgba(79, 172, 255, 0.2);
+  border-color: var(--bl);
+  color: var(--bl);
+}
+
+.progress-line {
+  flex: 1;
+  height: 2px;
+  background: rgba(79, 172, 255, 0.2);
+  margin: 0 8px;
+}
+
+.progress-labels {
+  display: flex;
+  justify-content: space-between;
+  font-size: 0.7rem;
+  color: var(--m);
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.progress-labels span.active {
+  color: var(--bl);
+  font-weight: 600;
+}
+
+.modal-body {
+  padding: 40px;
+  max-height: calc(90vh - 250px);
+  overflow-y: auto;
+}
+
+.modal-step {
+  display: none;
+}
+
+.modal-step.active {
+  display: block;
+  animation: fadeIn 0.3s ease;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.modal-nav {
+  display: flex;
+  gap: 12px;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.modal-nav button {
+  flex: 1;
+  padding: 14px 24px;
+  border-radius: 6px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  border: none;
+}
+
+.btn-back {
+  background: rgba(255, 255, 255, 0.05);
+  color: var(--m);
+}
+
+.btn-back:hover {
+  background: rgba(255, 255, 255, 0.1);
+  color: var(--w);
+}
+
+.btn-next {
+  background: var(--bl);
+  color: #0a0f1a;
+}
+
+.btn-next:hover {
+  background: #5cb8ff;
+  transform: translateY(-1px);
+}
+
+@media (max-width: 768px) {
+  .modal-container {
+    width: 100%;
+    height: 100%;
+    max-height: 100vh;
+    border-radius: 0;
+    max-width: none;
+  }
+  
+  .modal-header {
+    padding: 30px 20px 20px;
+  }
+  
+  .modal-body {
+    padding: 20px;
+    max-height: calc(100vh - 220px);
+  }
+  
+  .modal-title {
+    font-size: 1.5rem;
+  }
+}
+
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18018755852"></script>
@@ -771,242 +1001,7 @@ function closeLightbox(){
 <!-- BOOKING - DARK -->
 </div></div><!-- end warranty accordion -->
 </div><!-- end accordion wrapper -->
-<section id="booking">
-  <div class="booking-wrap">
-    <div id="booking-header">
-      <div class="booking-eyebrow fade-up">Book Your Install</div>
-      <h2 class="booking-title fade-up d1">Join <em>800+ Happy Customers</em></h2>
-      
-      <!-- DEPOSIT POLICY - PROMINENT -->
-      <div style="background:rgba(255,165,0,.12);border:2px solid #ffa500;border-radius:8px;padding:20px;margin-bottom:24px;max-width:100%;box-sizing:border-box;">
-        <div style="display:flex;align-items:center;gap:12px;margin-bottom:12px;">
-          <span style="font-size:1.8rem;">💳</span>
-          <div>
-            <div style="font-size:1rem;font-weight:600;color:#ffa500;margin-bottom:4px;">Deposit Policy</div>
-            <div style="font-size:.82rem;color:var(--w);line-height:1.5;">
-              <strong style="color:#4facff;">Booking for TODAY:</strong> FREE, no deposit required<br>
-              <strong style="color:#ffa500;">Booking for TOMORROW or later:</strong> $1 deposit required ($25 non-refundable booking fee)
-            </div>
-          </div>
-        </div>
-      </div>
-      </div>
-      
-      <div style="display:flex;gap:24px;margin-bottom:32px;flex-wrap:wrap;">
-        <span style="font-size:.75rem;color:var(--bl);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">⚡</span> Takes 60 seconds</span>
-        <span style="font-size:.75rem;color:var(--bl);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">⚡</span> Instant pricing</span>
-        <span style="font-size:.75rem;color:var(--bl);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">⚡</span> Real-time availability</span>
-      </div>
-      <div class="progress-bar">
-        <div class="prog-step active" id="p1"></div>
-        <div class="prog-step" id="p2"></div>
-        <div class="prog-step" id="p3"></div>
-        <div class="prog-step" id="p4"></div>
-        <div class="prog-step" id="p5" style="display:none;"></div>
-      </div>
-      <div class="prog-labels">
-        <span class="prog-label active" id="pl1">TVs</span>
-        <span class="prog-label" id="pl2">Add-ons</span>
-        <span class="prog-label" id="pl3">Time</span>
-        <span class="prog-label" id="pl4">Info</span>
-        <span class="prog-label" id="pl5" style="display:none;">Payment</span>
-      </div>
-    </div>
 
-    <div id="form-wrap">
-
-      <!-- Step 1: TV Details -->
-      <div class="form-step active" id="step1">
-        <div style="background:rgba(45,127,232,.1);border:1px solid rgba(79,172,255,.25);padding:14px 16px;margin-bottom:20px;">
-          <span style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:#4facff;margin-bottom:10px;display:block;">📺 How many TVs?</span>
-          <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;" id="tv-count-opts">
-            <button class="option-btn selected" onclick="setMainTVCount(1,this)">1 TV<span style="display:block;font-size:.65rem;color:var(--bl);margin-top:2px;">Standard</span></button>
-            <button class="option-btn" onclick="setMainTVCount(2,this)">2 TVs<span style="display:block;font-size:.65rem;color:var(--bl);margin-top:2px;">$25 off 2nd</span></button>
-            <button class="option-btn" onclick="setMainTVCount(3,this)">3 TVs<span style="display:block;font-size:.65rem;color:var(--bl);margin-top:2px;">$25 off each</span></button>
-            <button class="option-btn" onclick="setMainTVCount(4,this)">4+ TVs<span style="display:block;font-size:.65rem;color:var(--bl);margin-top:2px;">Call for quote</span></button>
-          </div>
-        </div>
-        <div id="main-tv-cards"></div>
-        <div class="form-nav"><div></div><button class="btn-next" onclick="goStep(2)">Next: Add-ons &rarr;</button></div>
-      </div>
-
-      <!-- Step 2: Add-ons -->
-      <div class="form-step" id="step2">
-        <div style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;">
-          <div class="qty-row">
-            <div class="toggle-label"><span>Soundbar Installation</span><small>Wall-mounted below your TV · $100 first, $75 each after</small></div>
-            <div style="display:flex;align-items:center;">
-              <button class="qty-btn" onclick="adjMain('soundbars',-1)">-</button>
-              <span class="qty-val" id="main-soundbars-val">0</span>
-              <button class="qty-btn" onclick="adjMain('soundbars',1)">+</button>
-            </div>
-          </div>
-          <div class="qty-row">
-            <div class="toggle-label"><span>Remove Existing Mount</span><small>Safe removal of currently mounted TV · $25 each</small></div>
-            <div style="display:flex;align-items:center;">
-              <button class="qty-btn" onclick="adjMain('dismounts',-1)">-</button>
-              <span class="qty-val" id="main-dismounts-val">0</span>
-              <button class="qty-btn" onclick="adjMain('dismounts',1)">+</button>
-            </div>
-          </div>
-          <div class="toggle-row">
-            <div class="toggle-label"><span>TV Delivery / Transport</span><small>Under 75" = $25, 75"+ = $70 per TV</small></div>
-            <div style="display:flex;align-items:center;gap:16px;">
-              <span class="toggle-price">from $25/TV</span>
-              <label class="toggle-switch"><input type="checkbox" id="main-transport" onchange="calcMainEst()"/><span class="slider"></span></label>
-            </div>
-          </div>
-        </div>
-        <div class="form-row single">
-          <div class="form-group"><label>Anything else we should know?</label><textarea id="notes" placeholder="Special wall type, condo restrictions, specific mount preference, etc."></textarea></div>
-        <div id="deposit-notice" style="background:rgba(45,127,232,.08);border-left:3px solid var(--bl);padding:16px 20px;margin:20px 0;">
-          <div style="font-size:.82rem;font-weight:500;color:#4facff;margin-bottom:8px;">💳 Deposit Policy</div>
-          <div id="deposit-message" style="font-size:.78rem;color:var(--m);line-height:1.6;">
-            <strong>Same-day appointments:</strong> No deposit required! Just show up and pay when done.<br>
-            <strong>Future appointments:</strong> $1 deposit required (applied to final invoice, non-refundable if cancelled within 24 hours).
-          </div>
-        </div>
-        
-        <div id="payment-status" style="margin-top:12px;"></div>
-        </div>
-        <div class="form-nav">
-          <button class="btn-back" onclick="goStep(1)">&larr; Back</button>
-          <button class="btn-next" onclick="goStep(3)">Next: Pick a Time &rarr;</button>
-        </div>
-      </div>
-
-      <!-- Step 3: Date & Time -->
-      <div class="form-step" id="step3">
-        <!-- Itemized breakdown -->
-        <div style="background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);margin-bottom:24px;overflow:hidden;">
-          <div style="background:rgba(45,127,232,.12);padding:10px 16px;border-bottom:1px solid rgba(79,172,255,.15);">
-            <span style="font-size:.6rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);">Your Order Summary</span>
-          </div>
-          <div id="main-breakdown-lines" style="padding:12px 16px;display:flex;flex-direction:column;gap:8px;"></div>
-          <div style="border-top:1px solid rgba(79,172,255,.15);padding:12px 16px;display:flex;justify-content:space-between;align-items:center;">
-            <span style="font-size:.65rem;letter-spacing:.15em;text-transform:uppercase;color:var(--m);">Estimated Total</span>
-            <span id="main-breakdown-total" style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--bl);">$0</span>
-          </div>
-          <div style="padding:0 16px 12px;font-size:.6rem;color:rgba(232,237,245,.25);">Final price confirmed on-site · No payment until job is complete</div>
-        </div>
-        <div class="booking-eyebrow" style="margin-bottom:16px;">Pick a Date and Time</div>
-        <div class="form-group" style="margin-bottom:16px;">
-          <label>Preferred Date</label>
-          <input type="date" id="cal-date" onchange="loadSlots()" style="width:100%;color-scheme:dark;cursor:pointer;"/>
-        </div>
-        <div class="slots-wrap" id="slots-wrap">
-          <p style="font-size:.8rem;color:var(--m);">Select a date to see available times.</p>
-        </div>
-        <div class="form-nav">
-          <button class="btn-back" onclick="goStep(2)">&larr; Back</button>
-          <button class="btn-next" id="time-next-btn" onclick="goStep(4)" style="opacity:.4;pointer-events:none;">Next: Your Info &rarr;</button>
-        </div>
-      </div>
-
-      <!-- Step 4: Info -->
-      <div class="form-step" id="step4">
-        <div style="font-size:1.1rem;font-weight:600;margin-bottom:20px;color:var(--bl);">Contact & Billing Information</div>
-        <div class="form-row">
-          <div class="form-group"><label>First Name <span style="color:#ff5555;">*</span></label><input type="text" id="fname" placeholder="John" required/></div>
-          <div class="form-group"><label>Last Name</label><input type="text" id="lname" placeholder="Smith" required/></div>
-        </div>
-        <div class="form-row">
-          <div class="form-group"><label>Phone</label><input type="tel" id="phone" placeholder="(480) 555-0100" required/></div>
-          <div class="form-group"><label>Email <span style="color:#ff5555;">*</span></label><input type="email" id="email" placeholder="you@example.com" required/></div>
-        </div>
-        <div class="form-row single">
-          <div class="form-group"><label>Service Address</label><input type="text" id="address" placeholder="123 Main St, Phoenix, AZ 85001"/></div>
-        </div>
-        <div class="form-nav">
-          <button class="btn-back" onclick="goStep(3)">&larr; Back</button>
-          <div style="display:flex;flex-direction:column;align-items:flex-end;gap:10px;">
-            <div id="payment-notice" style="font-size:.68rem;color:var(--m);text-align:right;line-height:1.6;">
-              ✓ Confirmation call within 2 hours<br/>✓ No payment required until job is complete
-            </div>
-          </div>
-        </div>
-        
-        <!-- Conditional Payment Section -->
-        <div id="payment-section" style="display:none;margin-top:24px;">
-          <div style="background:rgba(255,165,0,.12);border:2px solid #ffa500;border-radius:8px;padding:24px;margin-bottom:24px;">
-            <div style="font-size:1.1rem;font-weight:600;color:#ffa500;margin-bottom:12px;">💳 $1 Test Deposit</div>
-            <div style="font-size:.82rem;color:var(--m);margin-bottom:20px;">Secures your appointment. Applied to final invoice. $25 non-refundable booking fee.</div>
-            
-            <!-- Apple Pay / Google Pay -->
-            <div id="payment-methods" style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;">
-              <div id="apple-pay-button" style="display:none;"></div>
-              <div id="google-pay-button" style="display:none;"></div>
-              <div style="text-align:center;color:var(--m);font-size:.75rem;margin:8px 0;">OR PAY WITH CARD</div>
-            </div>
-            
-            <!-- Digital Wallets -->
-            <div id="apple-pay-container" style="margin-bottom:16px;"></div>
-            <div id="google-pay-container" style="margin-bottom:16px;"></div>
-            
-            <div style="text-align:center;color:var(--m);font-size:.8rem;margin:16px 0;">— OR —</div>
-            
-            <!-- Card -->
-            <div id="card-container"></div>
-            <div id="payment-status" style="margin-top:12px;"></div>
-            
-            <!-- Submit Button -->
-            <button class="btn-submit" id="submit-btn" onclick="handlePaymentSubmit()" style="width:100%;margin-top:20px;">Confirm Booking &#10003;</button>
-          </div>
-        </div>
-      </div>
-
-    
-      <div class="success-state" id="success">
-      <div class="success-icon">&#10003;</div>
-      <div class="success-title">Booking Confirmed!</div>
-      
-      <div style="background:rgba(79,172,255,.1);border:2px solid #4facff;border-radius:12px;padding:24px;margin:32px 0;max-width:500px;">
-        <div style="font-size:1.1rem;font-weight:600;color:#4facff;margin-bottom:20px;">Payment Receipt</div>
-        
-        <div style="display:flex;justify-content:space-between;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.1);">
-          <span style="color:var(--m);">Deposit charged</span>
-          <span id="receipt-amount" style="font-weight:600;">$1.00</span>
-        </div>
-        
-        <div style="display:flex;justify-content:space-between;margin-bottom:8px;padding-bottom:8px;border-bottom:1px solid rgba(255,255,255,.1);">
-          <span style="color:var(--m);">Confirmation Number</span>
-          <span id="receipt-payment-id" style="font-family:monospace;font-size:.85rem;">---</span>
-        </div>
-        
-        <div style="margin-top:16px;padding-top:16px;border-top:2px solid rgba(79,172,255,.3);">
-          <div style="font-size:.9rem;font-weight:600;margin-bottom:12px;">Appointment Details</div>
-          <div style="color:var(--m);font-size:.85rem;line-height:1.8;">
-            <div><strong>Date & Time:</strong> <span id="receipt-datetime">---</span></div>
-            <div><strong>Service:</strong> <span id="receipt-service">---</span></div>
-            <div><strong>Customer:</strong> <span id="receipt-customer">---</span></div>
-          </div>
-        </div>
-      </div>
-      
-      <div style="font-size:.85rem;color:var(--m);line-height:1.8;margin-bottom:24px;">
-        ✓ Confirmation email sent<br/>
-        ✓ Calendar invite sent to your email<br/>
-        ✓ We'll call within 2 hours to confirm details
-      </div>
-      
-      <div style="background:rgba(0,0,0,.2);border-radius:8px;padding:20px;margin-bottom:24px;">
-        <div style="font-size:.9rem;font-weight:600;margin-bottom:12px;color:#4facff;">Your Satisfaction is Guaranteed</div>
-        <div style="font-size:.8rem;color:var(--m);line-height:1.7;">
-          🛡️ <strong>Fully Insured</strong> - Licensed & bonded professional installation<br/>
-          💯 <strong>Quality Guarantee</strong> - If you're not satisfied, we'll make it right<br/>
-          🔒 <strong>Secure Payment</strong> - Your payment info is encrypted & protected<br/>
-          ⭐ <strong>800+ Happy Customers</strong> - Join our 5-star rated service
-        </div>
-      </div>
-      
-      <div style="font-size:.75rem;color:var(--m);opacity:.7;text-align:center;">
-        Questions? Call us at <strong style="color:#4facff;">(480) 903-4769</strong>
-      </div>
-      <p class="success-sub">A member of the VistaMount team will call within 2 hours to confirm your appointment. We look forward to getting your space right.</p>
-      <a href="tel:+14809034769" class="success-phone">(480) 903-4769</a>
-    </div>
-  </div>
-</section>
 
 <footer>
   <a href="/" class="footer-logo"><img src="/images/logo-final.png" alt="VistaMount" style="height:28px;width:auto;display:block;opacity:.5;"/></a>
@@ -1470,246 +1465,7 @@ calcMainEst();
 </script>
 
 <!-- BOOKING MODAL -->
-<div id="booking-modal">
-  <div id="booking-modal-inner">
-    <button id="booking-modal-close" onclick="closeBookingModal()">&#x2715;</button>
-    <div class="booking-wrap" style="padding:60px 52px;">
-      <div class="booking-eyebrow">Book Your Install</div>
-      <h2 class="booking-title">Join <em>800+ Happy Customers</em></h2>
-      <div style="display:flex;gap:24px;margin-bottom:32px;flex-wrap:wrap;">
-        <span style="font-size:.75rem;color:var(--bl);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">⚡</span> Takes 60 seconds</span>
-        <span style="font-size:.75rem;color:var(--bl);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">⚡</span> Instant pricing</span>
-        <span style="font-size:.75rem;color:rgba(255,120,0,.85);display:flex;align-items:center;gap:6px;"><span style="font-size:1rem;">💳</span> $1 deposit for future appts ($25 non-refundable booking fee)</span>
-  </div>
-</div>
-
 <script>
-// ==================== MODAL ====================
-var modalState={tvs:[],soundbars:0,dismounts:0,transport:false};
-var modalTVCount=0;
-var modalSelectedSlot=null;
-
-function openBookingModal(){
-  document.getElementById('booking-modal').classList.add('open');
-  document.body.style.overflow='hidden';
-  if(modalTVCount===0)addModalTV();
-}
-function closeBookingModal(){
-  document.getElementById('booking-modal').classList.remove('open');
-  document.body.style.overflow='';
-}
-document.getElementById('booking-modal').addEventListener('click',function(e){
-  if(e.target===this)closeBookingModal();
-});
-
-function goModalStep(n){
-  document.querySelectorAll('#modal-form-wrap .form-step').forEach(function(s){s.classList.remove('active');});
-  document.getElementById('mstep'+n).classList.add('active');
-  for(var i=1;i<=4;i++){
-    document.getElementById('mp'+i).classList.toggle('active',i<=n);
-    document.getElementById('mpl'+i).classList.toggle('active',i===n);
-  }
-  if(n===3){updateModalQuote();initModalDatePicker();}
-  if(n===4){updateModalQuote();}
-}
-
-function addModalTV(){
-  if(modalTVCount>=6)return;
-  modalTVCount++;
-  var id='m'+modalTVCount;
-  modalState.tvs.push({id:id,size:'32-64',hasMount:false,mountType:'fullmotion',cords:'none',outlet:false});
-  buildModalTVCard(id);
-}
-
-function buildModalTVCard(id){
-  var idx=modalState.tvs.findIndex(function(t){return t.id===id;});
-  var tv=modalState.tvs[idx];
-  var card=document.createElement('div');
-  card.className='tv-card';card.id='tv-card-'+id;
-  var num=modalTVCount;
-  var hdr=document.createElement('div');hdr.className='tv-card-header';
-  hdr.innerHTML='<span class="tv-card-title">TV '+num+'</span>';
-  if(num>1){var rb=document.createElement('button');rb.className='remove-tv';rb.textContent='Remove';rb.setAttribute('onclick','removeModalTV("'+id+'")');hdr.appendChild(rb);}
-  card.appendChild(hdr);
-
-  function lbl(t){var s=document.createElement('span');s.className='option-label';s.textContent=t;return s;}
-  function grid(c){var g=document.createElement('div');g.className='option-grid cols'+c;return g;}
-  function ob(key,val,label,desc,price,sel){
-    var b=document.createElement('button');
-    b.className='option-btn'+(sel?' selected':'');
-    b.setAttribute('onclick','setModalTV("'+id+'","'+key+'","'+val+'",this)');
-    b.innerHTML='<span class="opt-title">'+label+'</span>'+(desc?'<span class="opt-desc">'+desc+'</span>':'')+(price?'<span class="opt-price">'+price+'</span>':'');
-    return b;
-  }
-
-  card.appendChild(lbl('TV Size'));
-  var sg=grid(2);
-  [['<32','Under 32"','$100'],['32-64','32"–64"','$125'],['65-84','65"–84"','$150'],['85+','85"+','$200']].forEach(function(s){sg.appendChild(ob('size',s[0],s[0],null,s[2]+' base',tv.size===s[0]));});
-  card.appendChild(sg);
-
-  card.appendChild(lbl('Do you have a mount?'));
-  var mg=grid(2);
-  mg.appendChild(ob('hasMount','false','No - I need one','We supply and install',null,!tv.hasMount));
-  mg.appendChild(ob('hasMount','true','Yes - I have my own','We install your mount',null,tv.hasMount));
-  card.appendChild(mg);
-
-  var mtd=document.createElement('div');mtd.id='mmt-'+id;if(tv.hasMount)mtd.style.display='none';
-  mtd.appendChild(lbl('Mount Type'));
-  var mtg=grid(3);
-  [['flat','Flat / Fixed','+$50'],['tilt','Tilt','+$50'],['fullmotion','Full-Motion','+$65']].forEach(function(m){mtg.appendChild(ob('mountType',m[0],m[0],null,m[2],tv.mountType===m[0]));});
-  mtd.appendChild(mtg);card.appendChild(mtd);
-
-  card.appendChild(lbl('Cord Management'));
-  var cg=grid(3);
-  [['none','None','Included'],['raceway','Raceway','$40 first'],['inwall','In-Wall','+$75 first']].forEach(function(c){cg.appendChild(ob('cords',c[0],c[0],null,c[2],tv.cords===c[0]));});
-  card.appendChild(cg);
-
-  document.getElementById('modal-tv-cards').appendChild(card);
-}
-
-function setModalTV(id,key,val,btn){
-  var idx=modalState.tvs.findIndex(function(t){return t.id===id;});
-  if(idx<0)return;
-  if(val==='true')val=true;else if(val==='false')val=false;
-  modalState.tvs[idx][key]=val;
-  btn.closest('.option-grid').querySelectorAll('.option-btn').forEach(function(b){b.classList.remove('selected');});
-  btn.classList.add('selected');
-  if(key==='hasMount'){document.getElementById('mmt-'+id).style.display=val?'none':'';}
-}
-
-function removeModalTV(id){
-  modalState.tvs=modalState.tvs.filter(function(t){return t.id!==id;});
-  var el=document.getElementById('tv-card-'+id);if(el)el.remove();
-}
-
-function adjModal(key,delta){
-  modalState[key]=Math.max(0,modalState[key]+delta);
-  document.getElementById('modal-'+key+'-val').textContent=modalState[key];
-  updateModalQuote();
-}
-
-function updateModalQuote(){
-  modalState.transport=document.getElementById('modal-transport')?document.getElementById('modal-transport').checked:false;
-  var q=buildModalQuoteHTML();
-  var e1=document.getElementById('modal-final-quote');
-  var e2=document.getElementById('modal-final-quote-confirm');
-  if(e1)e1.innerHTML=q;
-  if(e2)e2.innerHTML=q;
-}
-
-function buildModalQuoteHTML(){
-  if(modalState.tvs.length===0)return '';
-  var total=0;
-  modalState.tvs.forEach(function(tv){
-    var p=({'<32':100,'32-64':125,'65-84':150,'85+':200}[tv.size]||125);
-    if(!tv.hasMount)p+=({'fullmotion':65,'flat':50,'tilt':50}[tv.mountType]||50);
-    if(tv.cords==='inwall')p+=75;
-    if(tv.cords==='raceway')p+=40;
-    total+=p;
-  });
-  if(modalState.soundbars>0)total+=100+(modalState.soundbars-1)*75;
-  if(modalState.dismounts>0)total+=modalState.dismounts*25;
-  var html='<div style="font-size:.72rem;color:var(--m);letter-spacing:.1em;text-transform:uppercase;margin-bottom:14px;">Your Estimate</div>';
-  html+='<div style="display:flex;justify-content:space-between;padding:14px;border-top:1px solid rgba(255,255,255,.12);margin-top:4px;">';
-  html+='<div style="font-size:.9rem;color:var(--w);font-weight:500;">Estimated Total</div>';
-  html+='<div style="font-size:1.3rem;font-weight:700;color:#4facff;">$'+total+'</div></div>';
-  html+='<div style="font-size:.65rem;color:var(--m);margin-top:10px;line-height:1.7;">Final price confirmed on-site. No payment until job is complete.</div>';
-  return html;
-}
-
-function initModalDatePicker(){
-  var input=document.getElementById('modal-cal-date');
-  if(!input||input.value)return;
-  var today=new Date();
-  input.min=today.getFullYear()+'-'+String(today.getMonth()+1).padStart(2,'0')+'-'+String(today.getDate()).padStart(2,'0');
-}
-
-function loadModalSlots(){
-  var input=document.getElementById('modal-cal-date');
-  var date=input?input.value:'';
-  if(!date)return;
-  var wrap=document.getElementById('modal-slots-wrap');
-  wrap.innerHTML='<p style="font-size:.8rem;color:var(--m);">Loading...</p>';
-  document.getElementById('modal-time-next-btn').style.opacity='.4';
-  document.getElementById('modal-time-next-btn').style.pointerEvents='none';
-  modalSelectedSlot=null;
-  fetch('https://vistamount-booking.billowing-recipe-0ae7.workers.dev/availability?date='+date+'&duration=120')
-    .then(function(r){return r.json();})
-    .then(function(data){
-      var slots=data.slots||[];
-      if(!slots.length){wrap.innerHTML='<p style="font-size:.8rem;color:var(--m);">No availability. Try another day.</p>';return;}
-      wrap.innerHTML='';
-      slots.forEach(function(slot){
-        var btn=document.createElement('button');
-        btn.className='option-btn';
-        btn.innerHTML='<span class="opt-title">'+slot.time+'</span><span class="opt-desc">'+slot.label+'</span>';
-        btn.onclick=function(){
-          document.querySelectorAll('#modal-slots-wrap .option-btn').forEach(function(b){b.classList.remove('selected');});
-          this.classList.add('selected');
-          modalSelectedSlot={start:slot.start,end:slot.end,label:slot.label,time:slot.time};
-          var nb=document.getElementById('modal-time-next-btn');
-          nb.style.opacity='1';nb.style.pointerEvents='auto';
-        };
-        wrap.appendChild(btn);
-      });
-    })
-    .catch(function(){wrap.innerHTML='<p style="font-size:.8rem;color:var(--m);">Could not load. Call (480) 903-4769.</p>';});
-}
-
-async function submitModalForm(){
-  if(!modalSelectedSlot){alert('Please select a time slot.');return;}
-  var fname=document.getElementById('modal-fname').value.trim();
-  var phone=document.getElementById('modal-phone').value.trim();
-  if(!fname||!phone){alert('Please fill in your name and phone number.');return;}
-  var btn=document.getElementById('modal-submit-btn');
-  btn.textContent='Booking...';btn.style.opacity='.7';btn.disabled=true;
-  try{
-    var res=await fetch('https://vistamount-booking.billowing-recipe-0ae7.workers.dev/book',{
-      method:'POST',headers:{'Content-Type':'application/json'},
-      body:JSON.stringify({
-        name:(fname+' '+(document.getElementById('modal-lname').value||'')).trim(),
-        phone:phone,email:document.getElementById('modal-email').value,
-        address:document.getElementById('modal-address').value,
-        slotStart:modalSelectedSlot.start,slotEnd:modalSelectedSlot.end,
-        summary:'Modal booking',notes:document.getElementById('modal-notes').value
-      })
-    });
-    var data=await res.json();
-    if(data.success){
-      document.getElementById('modal-form-wrap').style.display='none';
-      document.getElementById('modal-success').classList.add('show');
-    } else {
-      btn.textContent='Confirm Booking';btn.style.opacity='1';btn.disabled=false;
-      alert('Booking failed. Please call (480) 903-4769.');
-    }
-  }catch(e){
-    btn.textContent='Confirm Booking';btn.style.opacity='1';btn.disabled=false;
-    alert('Connection error. Please call (480) 903-4769.');
-  }
-}
-
-// ==================== EXIT POPUP ====================
-var exitPopupShown=false;
-function showExitPopup(){
-  if(exitPopupShown)return;
-  exitPopupShown=true;
-  const popup = document.getElementById('exit-popup');
-  if (popup) popup.classList.add('show');
-}
-function closeExitPopup(){
-  const popup = document.getElementById('exit-popup');
-  if (popup) popup.classList.remove('show');
-}
-
-// Desktop: mouse leaving top of page
-document.addEventListener('mouseleave',function(e){
-  // if(e.clientY<=0)showExitPopup();
-});
-
-// Mobile: back button / page hide after 30s of engagement
-var mobileTimer=setTimeout(function(){
-  // if(window.innerWidth<=768)showExitPopup();
-},30000);
 </script>
 
 <script>
@@ -1867,6 +1623,66 @@ function showPaymentStep() {
   }
 }
 
+// Calculate job duration based on selected services
+function calculateJobDuration() {
+  const tvCount = mainState.tvcount || 1;
+  let totalMinutes = 0;
+  
+  // Base TV mounting time
+  if (tvCount === 1) {
+    totalMinutes += 60; // 1 hour for first TV
+  } else if (tvCount === 2) {
+    totalMinutes += 120; // 2 hours base for 2 TVs
+  } else if (tvCount === 3) {
+    totalMinutes += 180; // 3 hours base for 3 TVs
+  } else if (tvCount >= 4) {
+    totalMinutes += 240; // 4 hours base for 4+ TVs
+  }
+  
+  // Add time for cord concealment based on wall types
+  let cordConcealCount = 0;
+  let hasBrickTileStone = false;
+  let hasStucco = false;
+  
+  mainState.tvs.forEach(tv => {
+    if (tv.cords === 'concealed') {
+      cordConcealCount++;
+      if (tv.wall === 'brick' || tv.wall === 'tile' || tv.wall === 'stone') {
+        hasBrickTileStone = true;
+      } else if (tv.wall === 'stucco') {
+        hasStucco = true;
+      }
+    }
+  });
+  
+  // Add cord concealment time
+  if (cordConcealCount > 0) {
+    if (hasBrickTileStone) {
+      totalMinutes += 60; // Extra hour for difficult materials
+    } else if (hasStucco) {
+      totalMinutes += 30; // Extra 30 min for stucco
+    } else {
+      totalMinutes += 30; // Extra 30 min for drywall
+    }
+  }
+  
+  // Add soundbar time
+  if (mainState.soundbars > 0) {
+    totalMinutes += mainState.soundbars * 45; // 45 min per soundbar
+  }
+  
+  // Add dismount time
+  if (mainState.dismounts > 0) {
+    totalMinutes += mainState.dismounts * 20; // 20 min per dismount
+  }
+  
+  // Round up to nearest 30 minutes
+  totalMinutes = Math.ceil(totalMinutes / 30) * 30;
+  
+  // Convert to hours for slot generation
+  return totalMinutes / 60;
+}
+
 async function initSquarePayment() {
   if (!window.Square) {
     console.error('Square.js failed to load');
@@ -1942,5 +1758,367 @@ window.goStep = function(n) {
 ;
 </script>
 
-</body>
+
+<!-- Booking Modal -->
+<div id="booking-modal" class="modal-overlay">
+  <div class="modal-container">
+    <button class="modal-close" onclick="closeBookingModal()">✕</button>
+    
+    <div class="modal-header">
+      <div class="modal-eyebrow">BOOK YOUR INSTALL</div>
+      <h2 class="modal-title">Join <span style="color:#4facff">800+ Happy Customers</span></h2>
+      
+      <div class="modal-features">
+        <span><span style="font-size:1rem">⚡</span> Takes 60 seconds</span>
+        <span><span style="font-size:1rem">⚡</span> Instant pricing</span>
+        <span><span style="font-size:1rem">💳</span> $1 deposit for future bookings</span>
+      </div>
+      
+      <div class="progress-bar">
+        <div class="progress-step active" data-step="1">1</div>
+        <div class="progress-line"></div>
+        <div class="progress-step" data-step="2">2</div>
+        <div class="progress-line"></div>
+        <div class="progress-step" data-step="3">3</div>
+        <div class="progress-line"></div>
+        <div class="progress-step" data-step="4">4</div>
+      </div>
+      
+      <div class="progress-labels">
+        <span class="active">TVs</span>
+        <span>Add-ons</span>
+        <span>Schedule</span>
+        <span>Contact</span>
+      </div>
+    </div>
+    
+    <div class="modal-body" id="modal-form-container">
+      <!-- Steps will be inserted here by JavaScript -->
+    </div>
+  </div>
+</div>
+
+
+// ==================== BOOKING MODAL ====================
+let bookingState = {
+  tvs: [],
+  soundbars: 0,
+  dismounts: 0,
+  transport: false,
+  selectedSlot: null,
+  currentStep: 1
+};
+
+function openBookingModal() {
+  document.getElementById('booking-modal').classList.add('open');
+  document.body.style.overflow = 'hidden';
+  initBookingStep1();
+}
+
+function closeBookingModal() {
+  document.getElementById('booking-modal').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// Close on background click
+document.addEventListener('DOMContentLoaded', function() {
+  const modal = document.getElementById('booking-modal');
+  if (modal) {
+    modal.addEventListener('click', function(e) {
+      if (e.target === this) closeBookingModal();
+    });
+  }
+});
+
+function goBookingStep(n) {
+  bookingState.currentStep = n;
+  
+  // Update progress bar
+  document.querySelectorAll('.progress-step').forEach((step, i) => {
+    step.classList.remove('active', 'completed');
+    if (i + 1 < n) step.classList.add('completed');
+    if (i + 1 === n) step.classList.add('active');
+  });
+  
+  document.querySelectorAll('.progress-labels span').forEach((label, i) => {
+    label.classList.toggle('active', i + 1 === n);
+  });
+  
+  // Show correct step
+  document.querySelectorAll('.modal-step').forEach(step => {
+    step.classList.remove('active');
+  });
+  document.getElementById('step-' + n).classList.add('active');
+  
+  // Initialize step-specific content
+  if (n === 1) initBookingStep1();
+  if (n === 2) initBookingStep2();
+  if (n === 3) initBookingStep3();
+  if (n === 4) initBookingStep4();
+}
+
+function initBookingStep1() {
+  // Initialize with 1 TV if empty
+  if (bookingState.tvs.length === 0) {
+    bookingState.tvs = [{
+      id: 'tv1',
+      size: '32-64',
+      hasMount: false,
+      mountType: 'tilting',
+      cords: 'visible',
+      wall: 'drywall'
+    }];
+  }
+  
+  const container = document.getElementById('step-1');
+  container.innerHTML = `
+    <div style="margin-bottom:24px;">
+      <label style="display:block;font-size:0.85rem;color:var(--m);margin-bottom:12px;">How many TVs?</label>
+      <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
+        <button class="option-btn ${bookingState.tvs.length === 1 ? 'selected' : ''}" onclick="setTVCount(1)">1 TV</button>
+        <button class="option-btn ${bookingState.tvs.length === 2 ? 'selected' : ''}" onclick="setTVCount(2)">2 TVs</button>
+        <button class="option-btn ${bookingState.tvs.length === 3 ? 'selected' : ''}" onclick="setTVCount(3)">3 TVs</button>
+        <button class="option-btn ${bookingState.tvs.length >= 4 ? 'selected' : ''}" onclick="setTVCount(4)">4+ TVs</button>
+      </div>
+    </div>
+    
+    <div id="tv-cards-container"></div>
+    
+    <div class="modal-nav">
+      <div></div>
+      <button class="btn-next" onclick="goBookingStep(2)">Next: Add-ons →</button>
+    </div>
+  `;
+  
+  renderTVCards();
+}
+
+function setTVCount(count) {
+  const current = bookingState.tvs.length;
+  if (count > current) {
+    for (let i = current; i < count; i++) {
+      bookingState.tvs.push({
+        id: 'tv' + (i + 1),
+        size: '32-64',
+        hasMount: false,
+        mountType: 'tilting',
+        cords: 'visible',
+        wall: 'drywall'
+      });
+    }
+  } else if (count < current) {
+    bookingState.tvs = bookingState.tvs.slice(0, count);
+  }
+  initBookingStep1();
+}
+
+function renderTVCards() {
+  const container = document.getElementById('tv-cards-container');
+  container.innerHTML = bookingState.tvs.map((tv, i) => `
+    <div class="tv-card" style="background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);padding:20px;margin-bottom:16px;border-radius:8px;">
+      <div style="font-weight:600;margin-bottom:16px;color:var(--bl);">TV ${i + 1}</div>
+      
+      <div style="margin-bottom:16px;">
+        <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:8px;">TV Size</label>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;">
+          <button class="option-btn ${tv.size === '<32' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '<32')">Under 32"</button>
+          <button class="option-btn ${tv.size === '32-64' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '32-64')">32"–64"</button>
+          <button class="option-btn ${tv.size === '65-84' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '65-84')">65"–84"</button>
+          <button class="option-btn ${tv.size === '85+' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '85+')">85"+</button>
+        </div>
+      </div>
+      
+      <div style="margin-bottom:16px;">
+        <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:8px;">Mount Type</label>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
+          <button class="option-btn ${tv.mountType === 'fixed' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'fixed')">Fixed</button>
+          <button class="option-btn ${tv.mountType === 'tilting' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'tilting')">Tilting</button>
+          <button class="option-btn ${tv.mountType === 'fullmotion' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'fullmotion')">Full Motion</button>
+        </div>
+      </div>
+      
+      <div style="margin-bottom:16px;">
+        <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:8px;">Cord Management</label>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;">
+          <button class="option-btn ${tv.cords === 'visible' ? 'selected' : ''}" onclick="setTVProp(${i}, 'cords', 'visible')">Visible</button>
+          <button class="option-btn ${tv.cords === 'concealed' ? 'selected' : ''}" onclick="setTVProp(${i}, 'cords', 'concealed')">Concealed</button>
+        </div>
+      </div>
+      
+      <div>
+        <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:8px;">Wall Type</label>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;">
+          <button class="option-btn ${tv.wall === 'drywall' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'drywall')">Drywall</button>
+          <button class="option-btn ${tv.wall === 'stucco' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'stucco')">Stucco</button>
+          <button class="option-btn ${tv.wall === 'brick' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'brick')">Brick</button>
+          <button class="option-btn ${tv.wall === 'tile' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'tile')">Tile/Stone</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+function setTVProp(index, prop, value) {
+  bookingState.tvs[index][prop] = value;
+  renderTVCards();
+}
+
+function initBookingStep2() {
+  const container = document.getElementById('step-2');
+  container.innerHTML = `
+    <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:16px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;">
+        <div>
+          <div style="font-weight:600;margin-bottom:4px;">Soundbar Installation</div>
+          <div style="font-size:0.75rem;color:var(--m);">$100 first, $75 each after</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <button class="qty-btn" onclick="adjustQty('soundbars', -1)">−</button>
+          <span style="font-weight:600;min-width:20px;text-align:center;">${bookingState.soundbars}</span>
+          <button class="qty-btn" onclick="adjustQty('soundbars', 1)">+</button>
+        </div>
+      </div>
+      
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:16px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;">
+        <div>
+          <div style="font-weight:600;margin-bottom:4px;">Remove Existing Mount</div>
+          <div style="font-size:0.75rem;color:var(--m);">$25 each</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;">
+          <button class="qty-btn" onclick="adjustQty('dismounts', -1)">−</button>
+          <span style="font-weight:600;min-width:20px;text-align:center;">${bookingState.dismounts}</span>
+          <button class="qty-btn" onclick="adjustQty('dismounts', 1)">+</button>
+        </div>
+      </div>
+    </div>
+    
+    <div class="modal-nav">
+      <button class="btn-back" onclick="goBookingStep(1)">← Back</button>
+      <button class="btn-next" onclick="goBookingStep(3)">Next: Schedule →</button>
+    </div>
+  `;
+}
+
+function adjustQty(field, delta) {
+  bookingState[field] = Math.max(0, bookingState[field] + delta);
+  initBookingStep2();
+}
+
+function initBookingStep3() {
+  const container = document.getElementById('step-3');
+  container.innerHTML = `
+    <div style="margin-bottom:24px;">
+      <label style="display:block;font-size:0.85rem;color:var(--m);margin-bottom:12px;">Select Date</label>
+      <input type="date" id="booking-date" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);font-size:0.9rem;" onchange="loadBookingSlots()">
+    </div>
+    
+    <div id="booking-slots" style="margin-bottom:24px;">
+      <p style="font-size:0.85rem;color:var(--m);">Select a date to see available times</p>
+    </div>
+    
+    <div class="modal-nav">
+      <button class="btn-back" onclick="goBookingStep(2)">← Back</button>
+      <button class="btn-next" id="step3-next" style="opacity:0.5;pointer-events:none;" onclick="goBookingStep(4)">Next: Contact →</button>
+    </div>
+  `;
+  
+  // Set min date to today
+  const dateInput = document.getElementById('booking-date');
+  const today = new Date().toISOString().split('T')[0];
+  dateInput.min = today;
+}
+
+function loadBookingSlots() {
+  // This will integrate with your existing slot loading logic
+  const slotsContainer = document.getElementById('booking-slots');
+  slotsContainer.innerHTML = '<p style="font-size:0.85rem;color:var(--m);">Loading available times...</p>';
+  
+  // Placeholder - integrate with actual availability API
+  setTimeout(() => {
+    slotsContainer.innerHTML = `
+      <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;">
+        <button class="option-btn" onclick="selectSlot('9:00 AM')">9:00 AM</button>
+        <button class="option-btn" onclick="selectSlot('11:00 AM')">11:00 AM</button>
+        <button class="option-btn" onclick="selectSlot('1:00 PM')">1:00 PM</button>
+        <button class="option-btn" onclick="selectSlot('3:00 PM')">3:00 PM</button>
+      </div>
+    `;
+  }, 500);
+}
+
+function selectSlot(time) {
+  bookingState.selectedSlot = time;
+  document.querySelectorAll('#booking-slots .option-btn').forEach(btn => {
+    btn.classList.toggle('selected', btn.textContent === time);
+  });
+  document.getElementById('step3-next').style.opacity = '1';
+  document.getElementById('step3-next').style.pointerEvents = 'auto';
+}
+
+function initBookingStep4() {
+  const container = document.getElementById('step-4');
+  container.innerHTML = `
+    <div style="margin-bottom:24px;">
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
+        <div>
+          <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:6px;">First Name *</label>
+          <input type="text" id="fname" placeholder="John" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);">
+        </div>
+        <div>
+          <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:6px;">Last Name *</label>
+          <input type="text" id="lname" placeholder="Smith" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);">
+        </div>
+      </div>
+      
+      <div style="margin-bottom:12px;">
+        <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:6px;">Phone *</label>
+        <input type="tel" id="phone" placeholder="(480) 555-1234" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);">
+      </div>
+      
+      <div style="margin-bottom:12px;">
+        <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:6px;">Email *</label>
+        <input type="email" id="email" placeholder="john@example.com" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);">
+      </div>
+      
+      <div style="margin-bottom:12px;">
+        <label style="display:block;font-size:0.8rem;color:var(--m);margin-bottom:6px;">Address *</label>
+        <input type="text" id="address" placeholder="123 Main St, Phoenix AZ 85001" style="width:100%;padding:12px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;color:var(--w);">
+      </div>
+    </div>
+    
+    <div id="payment-section" style="margin-bottom:24px;">
+      <div style="background:rgba(45,127,232,.08);padding:16px;border-radius:6px;margin-bottom:16px;">
+        <div style="font-size:0.85rem;color:var(--m);margin-bottom:12px;">Payment - $1 Deposit</div>
+        <div id="card-container"></div>
+      </div>
+    </div>
+    
+    <div class="modal-nav">
+      <button class="btn-back" onclick="goBookingStep(3)">← Back</button>
+      <button class="btn-next" onclick="submitBooking()">Complete Booking →</button>
+    </div>
+  `;
+  
+  // Initialize Square payment
+  initSquarePayment();
+}
+
+function submitBooking() {
+  alert('Booking system ready! Integration with Square payment next.');
+}
+
+// Initialize modal structure
+document.addEventListener('DOMContentLoaded', function() {
+  const formContainer = document.getElementById('modal-form-container');
+  if (formContainer) {
+    formContainer.innerHTML = `
+      <div class="modal-step active" id="step-1"></div>
+      <div class="modal-step" id="step-2"></div>
+      <div class="modal-step" id="step-3"></div>
+      <div class="modal-step" id="step-4"></div>
+    `;
+  }
+});
+
+</script></body>
 </html>
