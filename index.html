@@ -1766,6 +1766,11 @@ async function initSquarePayment() {
     return;
   }
   
+  if (card) {
+    console.log('Card already initialized');
+    return;
+  }
+  
   try {
     const payments = window.Square.payments(SQUARE_APP_ID, SQUARE_LOCATION_ID);
     
