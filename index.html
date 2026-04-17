@@ -1922,7 +1922,7 @@ async function initSquarePayment() {
     
     // Initialize Apple Pay
     try {
-      const paymentRequest = payments.paymentRequest({
+      const applePayRequest = await payments.paymentRequest({
         countryCode: 'US',
         currencyCode: 'USD',
         total: {
@@ -1931,7 +1931,7 @@ async function initSquarePayment() {
         },
       });
       
-      const applePay = await payments.applePay(paymentRequest);
+      const applePay = await payments.applePay(applePayRequest);
       await applePay.attach('#apple-pay-container');
       
       // Handle Apple Pay token
@@ -1951,7 +1951,7 @@ async function initSquarePayment() {
     
     // Initialize Google Pay
     try {
-      const paymentRequest2 = payments.paymentRequest({
+      const googlePayRequest = await payments.paymentRequest({
         countryCode: 'US',
         currencyCode: 'USD',
         total: {
@@ -1960,7 +1960,7 @@ async function initSquarePayment() {
         },
       });
       
-      const googlePay = await payments.googlePay(paymentRequest2);
+      const googlePay = await payments.googlePay(googlePayRequest);
       await googlePay.attach('#google-pay-container');
       
       // Handle Google Pay token
