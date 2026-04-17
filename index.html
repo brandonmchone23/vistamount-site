@@ -784,11 +784,12 @@ function closeLightbox(){
           <div>
             <div style="font-size:1rem;font-weight:600;color:#ffa500;margin-bottom:4px;">Deposit Policy</div>
             <div style="font-size:.82rem;color:var(--w);line-height:1.5;">
-              <strong style="color:#4facff;">Same-day appointments:</strong> FREE, no deposit required<br>
-              <strong style="color:#ffa500;">Future appointments:</strong> $50 deposit ($25 non-refundable booking fee)
+              <strong style="color:#4facff;">Booking for TODAY:</strong> FREE, no deposit required<br>
+              <strong style="color:#ffa500;">Booking for TOMORROW or later:</strong> $50 deposit required ($25 non-refundable booking fee)
             </div>
           </div>
         </div>
+      </div>
       </div>
       
       <div style="display:flex;gap:24px;margin-bottom:32px;flex-wrap:wrap;">
@@ -1664,7 +1665,7 @@ function checkIfDepositNeeded() {
     // Same-day: Highlight it, hide payment field
     depositNotice.style.background = 'rgba(79,172,255,.15)';
     depositNotice.style.borderColor = '#4facff';
-    depositMessage.innerHTML = '<strong style="color:#4facff;font-size:.9rem;">✓ SAME-DAY APPOINTMENT - NO DEPOSIT REQUIRED</strong><br><span style="font-size:.75rem;">You selected today. Just confirm below and we\'ll call within 2 hours. Pay when job is complete.</span>';
+    depositMessage.innerHTML = '<strong style="color:#4facff;font-size:.9rem;">✓ BOOKING FOR TODAY - NO DEPOSIT REQUIRED</strong><br><span style="font-size:.75rem;">You selected today. Just confirm below and we\'ll call within 2 hours. Pay when job is complete.</span>';
     cardContainer.style.display = 'none';
     paymentStatus.innerHTML = '';
     submitBtn.textContent = 'Confirm Booking ✓';
