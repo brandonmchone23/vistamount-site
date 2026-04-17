@@ -1935,7 +1935,7 @@ async function initSquarePayment() {
       await applePay.attach('#apple-pay-container');
       
       // Handle Apple Pay token
-      applePay.addEventListener('ontokenization', async (event) => {
+      applePay.addEventListener('tokenization', async (event) => {
         const { tokenResult, error } = event.detail;
         if (error) {
           alert('Apple Pay failed: ' + error.message);
@@ -1964,7 +1964,7 @@ async function initSquarePayment() {
       await googlePay.attach('#google-pay-container');
       
       // Handle Google Pay token
-      googlePay.addEventListener('ontokenization', async (event) => {
+      googlePay.addEventListener('tokenization', async (event) => {
         const { tokenResult, error } = event.detail;
         if (error) {
           alert('Google Pay failed: ' + error.message);
