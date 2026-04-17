@@ -947,44 +947,7 @@ function closeLightbox(){
       </div>
 
     
-      <!-- Step 5: Payment (conditional) -->
-      <div class="form-step" id="step5">
-        <!-- Same-day message -->
-        <div id="same-day-skip" style="display:none;">
-          <div style="background:rgba(79,172,255,.15);border:2px solid #4facff;border-radius:8px;padding:32px;text-align:center;margin-bottom:24px;">
-            <div style="font-size:2.5rem;margin-bottom:16px;">✓</div>
-            <div style="font-size:1.2rem;font-weight:600;color:#4facff;margin-bottom:12px;">No Deposit Required</div>
-            <div style="font-size:.85rem;color:var(--m);line-height:1.6;">You selected TODAY. Just confirm below and we'll call within 2 hours to confirm your appointment.</div>
-          </div>
-        </div>
-        
-        <!-- Future appointment payment -->
-        <div id="future-payment" style="display:none;">
-          <div style="background:rgba(255,165,0,.12);border:2px solid #ffa500;border-radius:8px;padding:24px;margin-bottom:24px;">
-            <div style="font-size:1.1rem;font-weight:600;color:#ffa500;margin-bottom:12px;">💳 $50 Deposit Required</div>
-            <div style="font-size:.82rem;color:var(--m);margin-bottom:20px;">Secures your appointment. Applied to final invoice. $25 non-refundable booking fee.</div>
-            
-            <!-- Apple Pay / Google Pay -->
-            <div id="payment-methods" style="display:flex;flex-direction:column;gap:12px;margin-bottom:20px;">
-              <div id="apple-pay-button" style="display:none;"></div>
-              <div id="google-pay-button" style="display:none;"></div>
-              <div style="text-align:center;color:var(--m);font-size:.75rem;margin:8px 0;">OR PAY WITH CARD</div>
-            </div>
-            
-            <!-- Card -->
-            <div id="card-container"></div>
-            <div id="payment-status" style="margin-top:12px;"></div>
-          </div>
-        </div>
-        
-        <div class="form-nav">
-          <button class="btn-back" onclick="goStep(4)">&larr; Back</button>
-          <button class="btn-submit" id="submit-btn" onclick="submitForm()">Confirm Booking ✓</button>
-        </div>
-      </div>
-</div>
-
-    <div class="success-state" id="success">
+      <div class="success-state" id="success">
       <div class="success-icon">&#10003;</div>
       <div class="success-title">You're Booked!</div>
       <p class="success-sub">A member of the VistaMount team will call within 2 hours to confirm your appointment. We look forward to getting your space right.</p>
