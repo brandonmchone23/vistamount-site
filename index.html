@@ -848,6 +848,9 @@ function openBookingModal() {
   modal.classList.add('open');
   document.body.style.overflow = 'hidden';
   
+  // Initialize scroll indicators
+  setTimeout(function() { initScrollIndicators(); }, 500);
+  
   // Initialize the form container if it doesn't have steps yet
   const formContainer = document.getElementById('modal-form-container');
   if (!formContainer.querySelector('.modal-step')) {
