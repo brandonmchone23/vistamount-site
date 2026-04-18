@@ -807,22 +807,30 @@ function calculatePrice() {
 
 // Scroll indicator functionality
 function initScrollIndicators() {
-  document.querySelectorAll('.modal-step').forEach(step => {
+  console.log('initScrollIndicators called');
+  const steps = document.querySelectorAll('.modal-step');
+  console.log('Found steps:', steps.length);
+  
+  steps.forEach(step => {
     const existing = step.querySelector('.scroll-indicator');
     if (existing) existing.remove();
     
     const indicator = document.createElement('div');
     indicator.className = 'scroll-indicator';
     step.appendChild(indicator);
+    console.log('Added indicator to step');
     
     function checkScroll() {
       const isScrollable = step.scrollHeight > step.clientHeight;
       const isAtBottom = step.scrollTop + step.clientHeight >= step.scrollHeight - 10;
+      console.log('Check scroll - scrollable:', isScrollable, 'atBottom:', isAtBottom);
       
-      if (isScrollable && isAtBottom === false) {
+      if (isScrollable && !isAtBottom) {
         indicator.classList.add('show');
+        console.log('Showing indicator');
       } else {
         indicator.classList.remove('show');
+        console.log('Hiding indicator');
       }
     }
     
