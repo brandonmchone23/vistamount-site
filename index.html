@@ -1240,7 +1240,24 @@ function showSuccessScreen(confirmationNumber) {
 
 function initBookingStep4() {
   const container = document.getElementById('step-4');
+  
+  // Format selected date/time
+  let dateTimeDisplay = '';
+  if (bookingState.selectedDate) {
+    const date = new Date(bookingState.selectedDate);
+    const dateStr = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+    const timeStr = bookingState.selectedSlot ? bookingState.selectedSlot.time : 'Time TBD';
+    dateTimeDisplay = `
+      <div style="background:#e8f4ff;padding:16px;border-radius:8px;margin-bottom:24px;border:1px solid #b8daff;">
+        <div style="font-size:0.75rem;color:#666;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">Appointment</div>
+        <div style="font-size:1.1rem;font-weight:600;color:#1e88e5;">${dateStr}</div>
+        <div style="font-size:0.9rem;color:#666;margin-top:2px;">${timeStr}</div>
+      </div>
+    `;
+  }
+  
   container.innerHTML = `
+    ${dateTimeDisplay}
     <div style="margin-bottom:24px;">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
         <div>
