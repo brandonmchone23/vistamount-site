@@ -1203,6 +1203,24 @@ async function initModalSquarePayment() {
   
   try {
     const payments = window.Square.payments('sq0idp-B3c5ZI18_DbdYE7RbSIYqA', 'LRF9PX7GSDB5M');
+    
+    // Try to initialize Google Pay
+    try {
+      const googlePay = await payments.googlePay({ amount: '50.00', currencyCode: 'USD' });
+      await googlePay.attach('#google-pay-container');
+    } catch (e) {
+      console.log('Google Pay not available:', e);
+    }
+    
+    // Try to initialize Apple Pay
+    try {
+      const applePay = await payments.applePay({ amount: '50.00', currencyCode: 'USD' });
+      await applePay.attach('#apple-pay-container');
+    } catch (e) {
+      console.log('Apple Pay not available:', e);
+    }
+    
+    // Initialize card (always available)
     modalCard = await payments.card();
     await modalCard.attach('#card-container');
     console.log('Square card attached to modal');
