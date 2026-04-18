@@ -810,6 +810,16 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function goBookingStep(n) {
+  // Validate step 3 - require date selection
+  if (bookingState.currentStep === 3 && n === 4) {
+    const dateInput = document.getElementById('booking-date');
+    if (!dateInput || !dateInput.value) {
+      alert('Please select a date to continue.');
+      return;
+    }
+    bookingState.selectedDate = dateInput.value;
+  }
+  
   bookingState.currentStep = n;
   
   // Update progress bar
