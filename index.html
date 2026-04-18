@@ -1787,6 +1787,16 @@ function closeLightbox(){
   <a href="/" class="footer-logo"><img src="/images/logo-final.png" alt="VistaMount" style="height:28px;width:auto;display:block;opacity:.5;"/></a>
   <p class="footer-center">&copy; 2026 VistaMount LLC &middot; Phoenix, AZ</p>
   <div class="footer-phone"><a href="tel:+14809034769">(480) 903-4769</a></div>
+
+<!-- BOTTOM CTA -->
+<section style="background:var(--bl);padding:80px 52px;text-align:center;">
+  <div style="max-width:800px;margin:0 auto;">
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:3rem;color:#fff;margin-bottom:16px;letter-spacing:.06em;">Ready to Transform Your Space?</h2>
+    <p style="color:rgba(255,255,255,0.8);font-size:1.1rem;margin-bottom:32px;">Book your professional TV mounting today. Same-day service available.</p>
+    <button onclick="openBookingModal()" style="background:#fff;color:var(--bl);padding:16px 48px;font-size:1rem;font-weight:600;border:none;border-radius:6px;cursor:pointer;letter-spacing:.06em;text-transform:uppercase;transition:transform .2s;">Book Now</button>
+  </div>
+</section>
+
 </footer>
 
 <script>
@@ -1801,6 +1811,21 @@ function toggleAcc(header){
 
 // ==================== HERO CANVAS ====================
 var hc=document.getElementById('hero-canvas');
+hc.addEventListener('click', function(e) {
+  var rect = hc.getBoundingClientRect();
+  var x = e.clientX - rect.left;
+  var y = e.clientY - rect.top;
+  var W = hc.width, H = hc.height;
+  // Button dimensions from hCTA function
+  var bw = Math.min(260, W * 0.65);
+  var bh = 50;
+  var bx = W / 2 - bw / 2;
+  var by = H * 0.69;
+  // Check if click is inside button
+  if (x >= bx && x <= bx + bw && y >= by && y <= by + bh) {
+    openBookingModal();
+  }
+});
 var hctx=hc.getContext('2d');
 function resizeHero(){hc.width=hc.offsetWidth;hc.height=hc.offsetHeight;}
 resizeHero();
