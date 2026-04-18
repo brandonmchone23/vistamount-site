@@ -804,6 +804,33 @@ function calculatePrice() {
   return total;
 }
 
+
+// Scroll indicator functionality
+function initScrollIndicators() {
+  document.querySelectorAll('.modal-step').forEach(step => {
+    const existing = step.querySelector('.scroll-indicator');
+    if (existing) existing.remove();
+    
+    const indicator = document.createElement('div');
+    indicator.className = 'scroll-indicator';
+    step.appendChild(indicator);
+    
+    function checkScroll() {
+      const isScrollable = step.scrollHeight > step.clientHeight;
+      const isAtBottom = step.scrollTop + step.clientHeight >= step.scrollHeight - 10;
+      
+      if (isScrollable && isAtBottom === false) {
+        indicator.classList.add('show');
+      } else {
+        indicator.classList.remove('show');
+      }
+    }
+    
+    step.addEventListener('scroll', checkScroll);
+    setTimeout(checkScroll, 100);
+  });
+}
+
 function updatePriceDisplay() {
   const price = calculatePrice();
   const priceElements = document.querySelectorAll('.price-display');
