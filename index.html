@@ -807,36 +807,29 @@ function calculatePrice() {
 
 // Scroll indicator functionality
 function initScrollIndicators() {
-  console.log('initScrollIndicators called');
-  const steps = document.querySelectorAll('.modal-step');
-  console.log('Found steps:', steps.length);
+  const modalBody = document.querySelector('.modal-body');
+  if (!modalBody) return;
   
-  steps.forEach(step => {
-    const existing = step.querySelector('.scroll-indicator');
-    if (existing) existing.remove();
+  const existing = modalBody.querySelector('.scroll-indicator');
+  if (existing) existing.remove();
+  
+  const indicator = document.createElement('div');
+  indicator.className = 'scroll-indicator';
+  modalBody.appendChild(indicator);
+  
+  function checkScroll() {
+    const isScrollable = modalBody.scrollHeight > modalBody.clientHeight;
+    const isAtBottom = modalBody.scrollTop + modalBody.clientHeight >= modalBody.scrollHeight - 10;
     
-    const indicator = document.createElement('div');
-    indicator.className = 'scroll-indicator';
-    step.appendChild(indicator);
-    console.log('Added indicator to step');
-    
-    function checkScroll() {
-      const isScrollable = step.scrollHeight > step.clientHeight;
-      const isAtBottom = step.scrollTop + step.clientHeight >= step.scrollHeight - 10;
-      console.log('Check scroll - scrollable:', isScrollable, 'atBottom:', isAtBottom);
-      
-      if (isScrollable && !isAtBottom) {
-        indicator.classList.add('show');
-        console.log('Showing indicator');
-      } else {
-        indicator.classList.remove('show');
-        console.log('Hiding indicator');
-      }
+    if (isScrollable && !isAtBottom) {
+      indicator.classList.add('show');
+    } else {
+      indicator.classList.remove('show');
     }
-    
-    step.addEventListener('scroll', checkScroll);
-    setTimeout(checkScroll, 100);
-  });
+  }
+  
+  modalBody.addEventListener('scroll', checkScroll);
+  setTimeout(checkScroll, 100);
 }
 
 function updatePriceDisplay() {
