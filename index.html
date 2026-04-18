@@ -1033,15 +1033,17 @@ function initBookingStep3() {
       <div style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#2d7fe8;">$${total}</div>
       <div style="font-size:0.75rem;color:#666;margin-top:4px;">Final price confirmed on-site</div>
     </div>
+    
+    <div class="modal-nav">
+      <button class="btn-back" onclick="goBookingStep(2)">← Back</button>
+      <button class="btn-next" onclick="goBookingStep(4)">Next →</button>
+    </div>
   `;
   
   // Set min date to today
   const dateInput = document.getElementById('booking-date');
   const today = new Date().toISOString().split('T')[0];
   dateInput.min = today;
-  
-  // Render nav with disabled next button
-
 }
 
 async function loadBookingSlots() {
