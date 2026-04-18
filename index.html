@@ -912,6 +912,10 @@ function goBookingStep(n) {
   });
   document.getElementById('step-' + n).classList.add('active');
   
+  // Reset modal scroll to top
+  const modalBody = document.querySelector('.modal-body');
+  if (modalBody) modalBody.scrollTop = 0;
+  
   // Initialize step-specific content
   if (n === 1) initBookingStep1();
   if (n === 2) initBookingStep2();
