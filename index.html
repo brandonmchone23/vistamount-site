@@ -719,6 +719,395 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
   margin-bottom: 16px;
 }
 
+
+/* ============================================
+   PREMIUM SECTION DESIGN - intentional, varied
+   ============================================ */
+
+/* Universal section dividers (clean visual separation) */
+.services-section, .process-section, .why-section { position: relative; }
+
+/* Section rhythm — override inline styles for variety */
+section#services-section.services-section {
+  background: linear-gradient(180deg, #0a1628 0%, #112038 100%) !important;
+  padding: 110px 52px !important;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+section#services-section.services-section::before {
+  content: '';
+  position: absolute; top: 0; left: 50%; transform: translateX(-50%);
+  width: 80%; max-width: 900px; height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(45,127,232,.6), transparent);
+}
+section#services-section.services-section::after {
+  content: '';
+  position: absolute; top: -200px; right: -100px; width: 500px; height: 500px;
+  background: radial-gradient(circle, rgba(45,127,232,.15) 0%, transparent 60%);
+  pointer-events: none;
+}
+section#services-section .services-inner { position: relative; z-index: 2; }
+section#services-section .section-eyebrow { color: #2d7fe8 !important; letter-spacing: 3px; }
+section#services-section .section-title-light { color: #fff !important; }
+section#services-section .section-title-light em { color: #2d7fe8; font-style: normal; }
+section#services-section .svc {
+  background: rgba(255,255,255,.04);
+  border: 1px solid rgba(255,255,255,.08);
+  padding: 34px 28px;
+  border-radius: 14px;
+  transition: all .4s cubic-bezier(.16,1,.3,1);
+  position: relative;
+  overflow: hidden;
+}
+section#services-section .svc::before {
+  content: '';
+  position: absolute; top: 0; left: 0; width: 3px; height: 0;
+  background: #2d7fe8;
+  transition: height .4s cubic-bezier(.16,1,.3,1);
+}
+section#services-section .svc:hover {
+  background: rgba(45,127,232,.08);
+  border-color: rgba(45,127,232,.4);
+  transform: translateY(-4px);
+}
+section#services-section .svc:hover::before { height: 100%; }
+section#services-section .svc-num { color: rgba(45,127,232,.9); font-weight: 700; letter-spacing: 2px; font-size: .82rem; }
+section#services-section .svc-name { color: #fff; font-weight: 600; font-size: 1.18rem; margin-top: 8px; }
+section#services-section .svc-desc { color: rgba(255,255,255,.7); line-height: 1.65; }
+section#services-section .svc-price { color: #2d7fe8; font-weight: 600; margin-top: 14px; font-size: .92rem; }
+
+/* PROCESS — horizontal timeline with connector */
+section#process-section.process-section {
+  background: #ffffff !important;
+  padding: 110px 52px !important;
+  position: relative;
+}
+section#process-section .process-grid {
+  position: relative;
+  display: grid !important;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 32px;
+  max-width: 1200px;
+  margin: 64px auto 0;
+}
+section#process-section .process-grid::before {
+  content: '';
+  position: absolute;
+  top: 28px; left: 10%; right: 10%;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, rgba(45,127,232,.3) 10%, rgba(45,127,232,.3) 90%, transparent);
+  z-index: 0;
+}
+section#process-section .process-grid > div {
+  position: relative;
+  z-index: 1;
+  text-align: center;
+  padding: 0 8px;
+}
+section#process-section .step-dot {
+  width: 56px; height: 56px;
+  border-radius: 50%;
+  background: #fff;
+  border: 2px solid #2d7fe8;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 22px;
+  font-weight: 700;
+  color: #2d7fe8;
+  box-shadow: 0 0 0 8px #fff, 0 10px 30px rgba(45,127,232,.18);
+  transition: all .3s;
+}
+section#process-section .process-grid > div:hover .step-dot {
+  background: #2d7fe8;
+  color: #fff;
+  transform: scale(1.08);
+}
+section#process-section .step-num { font-size: 1.05rem; }
+section#process-section .step-title { font-weight: 600; font-size: 1.12rem; color: #0a1628; margin-bottom: 8px; }
+section#process-section .step-desc { color: #4a5568; line-height: 1.6; font-size: .94rem; }
+
+@media (max-width: 860px) {
+  section#process-section .process-grid { grid-template-columns: 1fr; gap: 40px; }
+  section#process-section .process-grid::before { display: none; }
+}
+
+/* WHY — dark split with stat strip */
+section.why-section {
+  background: linear-gradient(135deg, #0a1628 0%, #1a2847 100%) !important;
+  padding: 110px 52px !important;
+  color: #fff;
+  position: relative;
+  overflow: hidden;
+}
+section.why-section::before {
+  content: '';
+  position: absolute; bottom: -120px; left: -80px;
+  width: 400px; height: 400px;
+  background: radial-gradient(circle, rgba(45,127,232,.18) 0%, transparent 60%);
+  pointer-events: none;
+}
+
+/* WHO — light with emoji cards */
+section.who-section-premium {
+  background: #f7f9fc !important;
+  padding: 110px 52px !important;
+}
+section.who-section-premium .who-grid > div {
+  background: #fff;
+  padding: 36px 28px;
+  border-radius: 14px;
+  box-shadow: 0 4px 20px rgba(10,22,40,.06);
+  transition: all .4s cubic-bezier(.16,1,.3,1);
+  border: 1px solid rgba(10,22,40,.05);
+}
+section.who-section-premium .who-grid > div:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 14px 40px rgba(10,22,40,.12);
+  border-color: rgba(45,127,232,.3);
+}
+
+/* TRUST BAR — dark strip */
+.trust-bar {
+  background: #0a1628;
+  padding: 28px 52px;
+  border-top: 1px solid rgba(255,255,255,.06);
+  border-bottom: 1px solid rgba(255,255,255,.06);
+}
+.trust-bar-inner {
+  max-width: 1200px; margin: 0 auto;
+  display: grid; grid-template-columns: repeat(4, 1fr);
+  gap: 24px; align-items: center;
+}
+.trust-item {
+  display: flex; align-items: center; gap: 12px;
+  color: rgba(255,255,255,.85);
+  font-size: .92rem; font-weight: 500;
+  justify-content: center;
+}
+.trust-item .trust-icon {
+  width: 36px; height: 36px;
+  display: flex; align-items: center; justify-content: center;
+  background: rgba(45,127,232,.15);
+  border-radius: 10px;
+  color: #2d7fe8;
+  font-size: 1.1rem;
+}
+@media (max-width: 860px) {
+  .trust-bar-inner { grid-template-columns: repeat(2, 1fr); gap: 18px; }
+  .trust-bar { padding: 22px 20px; }
+}
+
+/* PRICING */
+.pricing-section {
+  background: #fff;
+  padding: 110px 52px;
+  position: relative;
+}
+.pricing-inner { max-width: 1200px; margin: 0 auto; }
+.pricing-header { text-align: center; margin-bottom: 60px; }
+.pricing-eyebrow { color: #2d7fe8; font-weight: 600; letter-spacing: 3px; font-size: .8rem; text-transform: uppercase; }
+.pricing-title { font-size: 2.4rem; font-weight: 700; color: #0a1628; margin-top: 12px; letter-spacing: -.5px; line-height: 1.15; }
+.pricing-title em { color: #2d7fe8; font-style: normal; }
+.pricing-sub { color: #64748b; margin-top: 14px; font-size: 1.05rem; max-width: 560px; margin-left: auto; margin-right: auto; line-height: 1.6; }
+.pricing-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 22px;
+}
+.pricing-card {
+  background: #fff;
+  border: 1px solid #e4e8ef;
+  border-radius: 16px;
+  padding: 34px 26px;
+  position: relative;
+  transition: all .4s cubic-bezier(.16,1,.3,1);
+  display: flex; flex-direction: column;
+}
+.pricing-card:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 18px 50px rgba(10,22,40,.1);
+  border-color: rgba(45,127,232,.35);
+}
+.pricing-card.featured {
+  background: linear-gradient(180deg, #0a1628 0%, #152843 100%);
+  border: none;
+  color: #fff;
+  transform: scale(1.03);
+  box-shadow: 0 14px 40px rgba(10,22,40,.18);
+}
+.pricing-card.featured:hover { transform: scale(1.03) translateY(-6px); }
+.pricing-badge {
+  position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+  background: #2d7fe8; color: #fff;
+  padding: 5px 14px; border-radius: 100px;
+  font-size: .72rem; font-weight: 700; letter-spacing: 1px; text-transform: uppercase;
+  box-shadow: 0 6px 18px rgba(45,127,232,.4);
+}
+.pricing-name { font-size: .88rem; font-weight: 600; color: #64748b; text-transform: uppercase; letter-spacing: 1.5px; }
+.pricing-card.featured .pricing-name { color: rgba(255,255,255,.7); }
+.pricing-price { font-size: 2.4rem; font-weight: 700; color: #0a1628; margin: 14px 0 6px; letter-spacing: -1px; }
+.pricing-card.featured .pricing-price { color: #fff; }
+.pricing-price .dollar { font-size: 1.2rem; vertical-align: top; margin-right: 2px; color: #2d7fe8; }
+.pricing-card.featured .pricing-price .dollar { color: #2d7fe8; }
+.pricing-price .suffix { font-size: .9rem; font-weight: 500; color: #94a3b8; margin-left: 4px; }
+.pricing-card.featured .pricing-price .suffix { color: rgba(255,255,255,.6); }
+.pricing-desc { color: #64748b; font-size: .92rem; line-height: 1.55; margin-bottom: 20px; min-height: 42px; }
+.pricing-card.featured .pricing-desc { color: rgba(255,255,255,.75); }
+.pricing-features { list-style: none; padding: 0; margin: 0 0 28px; flex: 1; }
+.pricing-features li {
+  display: flex; gap: 10px; align-items: flex-start;
+  padding: 9px 0;
+  color: #334155;
+  font-size: .93rem;
+  border-bottom: 1px solid rgba(10,22,40,.05);
+}
+.pricing-features li:last-child { border-bottom: none; }
+.pricing-card.featured .pricing-features li { color: rgba(255,255,255,.88); border-bottom-color: rgba(255,255,255,.08); }
+.pricing-features li::before {
+  content: '✓'; color: #2d7fe8; font-weight: 700; flex-shrink: 0;
+}
+.pricing-cta {
+  display: inline-block;
+  width: 100%; text-align: center;
+  padding: 14px 20px;
+  border-radius: 10px;
+  background: #f1f5f9;
+  color: #0a1628;
+  font-weight: 600; font-size: .92rem;
+  text-decoration: none;
+  transition: all .2s;
+  letter-spacing: .3px;
+}
+.pricing-cta:hover { background: #e2e8f0; }
+.pricing-card.featured .pricing-cta {
+  background: #2d7fe8;
+  color: #fff;
+  box-shadow: 0 8px 20px rgba(45,127,232,.35);
+}
+.pricing-card.featured .pricing-cta:hover { background: #1e6bc8; }
+.pricing-note { text-align: center; color: #94a3b8; margin-top: 36px; font-size: .88rem; }
+
+@media (max-width: 1024px) {
+  .pricing-grid { grid-template-columns: repeat(2, 1fr); }
+  .pricing-card.featured { transform: none; }
+}
+@media (max-width: 600px) {
+  .pricing-grid { grid-template-columns: 1fr; }
+  .pricing-section { padding: 80px 20px; }
+}
+
+/* REVIEWS ENHANCED */
+.reviews-cards {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 22px;
+  max-width: 1200px;
+  margin: 48px auto 0;
+}
+.review-card {
+  background: #fff;
+  border: 1px solid rgba(10,22,40,.06);
+  border-radius: 14px;
+  padding: 30px 26px;
+  box-shadow: 0 4px 20px rgba(10,22,40,.04);
+  transition: all .4s cubic-bezier(.16,1,.3,1);
+  position: relative;
+  display: flex; flex-direction: column;
+}
+.review-card:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 14px 40px rgba(10,22,40,.1);
+  border-color: rgba(45,127,232,.25);
+}
+.review-stars { color: #f5a623; letter-spacing: 2px; font-size: 1rem; margin-bottom: 14px; }
+.review-quote {
+  color: #1e293b;
+  font-size: 1rem; line-height: 1.65;
+  margin-bottom: 22px; flex: 1;
+  font-weight: 400;
+}
+.review-quote::before {
+  content: '"'; font-family: Georgia, serif; font-size: 3.2rem;
+  color: #2d7fe8; opacity: .25;
+  position: absolute; top: 12px; right: 22px;
+  line-height: 1;
+}
+.review-meta {
+  padding-top: 16px;
+  border-top: 1px solid rgba(10,22,40,.06);
+  display: flex; align-items: center; gap: 12px;
+}
+.review-avatar {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: linear-gradient(135deg, #2d7fe8, #1a3a6b);
+  color: #fff; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  font-size: .95rem;
+}
+.review-name { font-weight: 600; color: #0a1628; font-size: .95rem; }
+.review-sub { color: #94a3b8; font-size: .82rem; margin-top: 2px; }
+.review-source { margin-left: auto; font-size: .72rem; color: #94a3b8; font-weight: 600; letter-spacing: 1px; text-transform: uppercase; }
+
+@media (max-width: 860px) {
+  .reviews-cards { grid-template-columns: 1fr; }
+}
+
+/* FOOTER ENHANCED */
+.footer-premium {
+  background: #0a1628;
+  color: #cbd5e1;
+  padding: 70px 52px 30px;
+}
+.footer-inner { max-width: 1200px; margin: 0 auto; }
+.footer-grid {
+  display: grid;
+  grid-template-columns: 1.4fr 1fr 1fr 1fr;
+  gap: 50px;
+  padding-bottom: 50px;
+  border-bottom: 1px solid rgba(255,255,255,.08);
+}
+.footer-brand { }
+.footer-logo { font-size: 1.4rem; font-weight: 700; color: #fff; letter-spacing: -.5px; }
+.footer-logo span { color: #2d7fe8; }
+.footer-tag { color: #94a3b8; margin-top: 14px; line-height: 1.6; font-size: .94rem; max-width: 320px; }
+.footer-heading { color: #fff; font-size: .78rem; font-weight: 700; letter-spacing: 2px; text-transform: uppercase; margin-bottom: 20px; }
+.footer-list { list-style: none; padding: 0; margin: 0; }
+.footer-list li { margin-bottom: 12px; font-size: .95rem; color: #cbd5e1; }
+.footer-list a { color: #cbd5e1; text-decoration: none; transition: color .2s; }
+.footer-list a:hover { color: #2d7fe8; }
+.footer-list .ft-icon { color: #2d7fe8; margin-right: 8px; display: inline-block; width: 16px; }
+.footer-bottom {
+  padding-top: 28px;
+  display: flex; justify-content: space-between; align-items: center;
+  color: #64748b; font-size: .85rem;
+  flex-wrap: wrap; gap: 14px;
+}
+.footer-bottom a { color: #94a3b8; text-decoration: none; margin-left: 16px; }
+.footer-bottom a:hover { color: #fff; }
+@media (max-width: 860px) {
+  .footer-grid { grid-template-columns: 1fr 1fr; gap: 36px; }
+  .footer-premium { padding: 50px 22px 24px; }
+}
+@media (max-width: 520px) {
+  .footer-grid { grid-template-columns: 1fr; gap: 28px; }
+}
+
+/* Hero scroll chevron replacing SCROLL text */
+.scroll-chevron {
+  display: inline-flex; flex-direction: column; align-items: center;
+  color: rgba(255,255,255,.75);
+  font-size: .72rem; letter-spacing: 3px; text-transform: uppercase;
+  font-weight: 600;
+}
+.scroll-chevron svg {
+  margin-top: 10px;
+  animation: chev-bounce 2s ease-in-out infinite;
+}
+@keyframes chev-bounce {
+  0%, 100% { transform: translateY(0); opacity: .9; }
+  50% { transform: translateY(6px); opacity: .5; }
+}
+
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18018755852"></script>
@@ -1622,6 +2011,133 @@ document.addEventListener('DOMContentLoaded', function() {
 <div style="border-top:1px solid rgba(0,0,0,.08);">
 <!-- GALLERY -->
 </div></div><!-- end tools accordion -->
+
+<!-- TRUST BAR -->
+<div class="trust-bar">
+  <div class="trust-bar-inner">
+    <div class="trust-item"><span class="trust-icon">★</span><span>4.9 / 5 across Google &amp; Thumbtack</span></div>
+    <div class="trust-item"><span class="trust-icon">✓</span><span>800+ installs in Phoenix metro</span></div>
+    <div class="trust-item"><span class="trust-icon">⚡</span><span>Same-week availability</span></div>
+    <div class="trust-item"><span class="trust-icon">🛡</span><span>Fully insured &amp; background-checked</span></div>
+  </div>
+</div>
+<!-- services -->
+<section class="services-section" id="services-section">
+  <div class="services-inner">
+    <div class="section-eyebrow fade-up">What We Do</div>
+    <h2 class="section-title-light clip-text"><span class="inner">Every Install,<br><em>Flawlessly Done.</em></span></h2>
+    <div class="svc-grid">
+      <div class="svc scale-in d1"><div class="svc-num">01</div><div class="svc-name">Precision TV Mounting</div><p class="svc-desc">Flat, tilt, and full-motion mounts on any wall type. Drywall, concrete, brick, tile handled with precision.</p><div class="svc-price">From $100</div></div>
+      <div class="svc scale-in d2"><div class="svc-num">02</div><div class="svc-name">Clean, Hidden Wiring</div><p class="svc-desc">In-wall routing or surface raceways. Zero visible wiring. Your TV looks like it grew out of the wall.</p><div class="svc-price">From $40 — no visible wires</div></div>
+      <div class="svc scale-in d3"><div class="svc-num">03</div><div class="svc-name">Outlet Installation</div><p class="svc-desc">In-wall power outlet added behind your TV for a completely clean look. No extension cords, no clutter.</p><div class="svc-price">~$150/hr + parts</div></div>
+      <div class="svc scale-in d4"><div class="svc-num">04</div><div class="svc-name">Soundbar Install</div><p class="svc-desc">Wall-mounted soundbars aligned perfectly below your TV. Cables managed, brackets secured, audio calibrated.</p><div class="svc-price">From $100</div></div>
+      <div class="svc scale-in d5"><div class="svc-num">05</div><div class="svc-name">Smart Home & AV</div><p class="svc-desc">Full AV rack builds, surround sound, PoE systems. High-end Airbnbs, commercial spaces, luxury residences.</p><div class="svc-price">Contact for quote</div></div>
+      <div class="svc scale-in d6"><div class="svc-num">06</div><div class="svc-name">TV Delivery & Dismount</div><p class="svc-desc">We deliver TVs to your location and safely remove existing mounted TVs. Under 75" is $25, 75"+ is $70.</p><div class="svc-price">From $25/TV</div></div>
+    </div>
+  </div>
+</section>
+<!-- process -->
+<section class="process-section" id="process-section">
+  <div class="process-inner">
+    <div class="section-eyebrow fade-up">How It Works</div>
+    <h2 class="section-title-light clip-text" style="margin-bottom:0;"><span class="inner">Simple.<br><em>Fast. Done.</em></span></h2>
+    <div class="process-grid">
+      <div class="process-line"><div class="process-line-fill fade-line"></div></div>
+      <div class="step fade-up d1"><div class="step-dot"><span class="step-num">01</span></div><div class="step-title">Book Online</div><p class="step-desc">Join 800+ Phoenix homeowners who've trusted VistaMount. Get an instant quote and pick a real available slot.</p></div>
+      <div class="step fade-up d2"><div class="step-dot"><span class="step-num">02</span></div><div class="step-title">We Confirm</div><p class="step-desc">A member of the VistaMount team will call within 2 hours to confirm details and answer any questions.</p></div>
+      <div class="step fade-up d3"><div class="step-dot"><span class="step-num">03</span></div><div class="step-title">Precision Install</div><p class="step-desc">Arrive on time, install clean, test everything, leave zero mess.</p></div>
+      <div class="step fade-up d4" style="transition-delay:.19s;"><div class="step-dot"><span class="step-num">04</span></div><div class="step-title">Enjoy It</div><p class="step-desc">Your setup looks exactly how it should. Pay when done.</p></div>
+    </div>
+  </div>
+</section>
+<!-- why -->
+<section class="why-section">
+  <div class="why-inner">
+    <div class="why-left fade-up">
+      <div class="why-big-stat"><span class="count" data-t="800" style="display:inline;">0</span><span>+</span></div>
+      <div class="why-big-label">Jobs completed in Phoenix metro</div>
+    </div>
+    <div class="why-right">
+      <div class="section-eyebrow fade-up">Why VistaMount</div>
+      <h2 class="clip-text fade-up d1"><span class="inner">The install you <em>actually</em> wanted.</span></h2>
+      <p class="fade-up d2">No subcontractors, no surprises. Every job is handled personally — consistent quality, zero handoffs, and an installer who actually cares how it looks when we leave. Specializing in fireplace, tile, and high-end installs.</p>
+      <div class="why-points fade-up d3">
+        <div class="why-point">800+ installs. Consistent 5-star results. Zero handoffs.</div>
+        <div class="why-point">All wall types including concrete and brick</div>
+        <div class="why-point">In-wall cable concealment on every install</div>
+        <div class="why-point">Sanus and ONN mounts - no cheap hardware</div>
+        <div class="why-point">Not the cheapest — just done right the first time</div>
+      </div>
+      
+    </div>
+  </div>
+</section>
+
+<!-- PRICING -->
+<section class="pricing-section" id="pricing">
+  <div class="pricing-inner">
+    <div class="pricing-header fade-up">
+      <div class="pricing-eyebrow">Straightforward Pricing</div>
+      <h2 class="pricing-title">No surprises. <em>No hidden fees.</em></h2>
+      <p class="pricing-sub">Flat-rate packages for the most common setups. Custom installs quoted in minutes — just text us a photo of your wall.</p>
+    </div>
+    <div class="pricing-grid">
+      <div class="pricing-card fade-up d1">
+        <div class="pricing-name">Standard Mount</div>
+        <div class="pricing-price"><span class="dollar">$</span>100<span class="suffix">starting</span></div>
+        <p class="pricing-desc">TV mounted level, secure, and perfectly positioned on drywall.</p>
+        <ul class="pricing-features">
+          <li>Up to 65" TV</li>
+          <li>Flat or tilt mount</li>
+          <li>Level-checked install</li>
+          <li>Cable tie-down</li>
+        </ul>
+        <a href="#booking-modal" onclick="openBookingModal();return false;" class="pricing-cta">Book Standard</a>
+      </div>
+
+      <div class="pricing-card featured fade-up d2">
+        <div class="pricing-badge">Most Popular</div>
+        <div class="pricing-name">Clean Install</div>
+        <div class="pricing-price"><span class="dollar">$</span>185<span class="suffix">starting</span></div>
+        <p class="pricing-desc">Zero visible wires. In-wall cable routing for that finished-builder look.</p>
+        <ul class="pricing-features">
+          <li>Everything in Standard</li>
+          <li>In-wall cable concealment</li>
+          <li>Power relocated behind TV</li>
+          <li>Full-motion mount compatible</li>
+        </ul>
+        <a href="#booking-modal" onclick="openBookingModal();return false;" class="pricing-cta">Book Clean Install</a>
+      </div>
+
+      <div class="pricing-card fade-up d3">
+        <div class="pricing-name">Fireplace / Tile</div>
+        <div class="pricing-price"><span class="dollar">$</span>285<span class="suffix">starting</span></div>
+        <p class="pricing-desc">Stone, brick, or tile installs handled right — with the proper hardware and heat clearance.</p>
+        <ul class="pricing-features">
+          <li>Masonry &amp; tile drilling</li>
+          <li>Full-motion mount included</li>
+          <li>Heat-safe cable routing</li>
+          <li>Sealed &amp; color-matched</li>
+        </ul>
+        <a href="#booking-modal" onclick="openBookingModal();return false;" class="pricing-cta">Book Fireplace</a>
+      </div>
+
+      <div class="pricing-card fade-up d4">
+        <div class="pricing-name">Full Setup</div>
+        <div class="pricing-price"><span class="dollar">$</span>395<span class="suffix">starting</span></div>
+        <p class="pricing-desc">TV, soundbar, components, and smart devices — configured end-to-end.</p>
+        <ul class="pricing-features">
+          <li>TV + soundbar mounted</li>
+          <li>Components connected &amp; tuned</li>
+          <li>Remote + streaming set up</li>
+          <li>Walk-through before we leave</li>
+        </ul>
+        <a href="#booking-modal" onclick="openBookingModal();return false;" class="pricing-cta">Book Full Setup</a>
+      </div>
+    </div>
+    <p class="pricing-note">Prices are starting points. Exact quote in under 60 seconds — book online or text a photo.</p>
+  </div>
+</section>
 <section style="background:var(--light3);padding:100px 52px;overflow:hidden;">
   <div style="max-width:1200px;margin:0 auto;">
     <div class="section-eyebrow fade-up">Real Work</div>
@@ -1753,90 +2269,50 @@ function closeLightbox(){
       <div class="elfsight-app-9fe1bb53-e8e9-45d0-a43a-0d8a17a63a0f" data-elfsight-app-lazy></div>
     </div>
   </div>
-</section>
 
-<div class="accordion-wrap">
-<div class="acc-header" onclick="toggleAcc(this)" id="acc-services">
-  <div class="acc-left"><div class="acc-title">Our Services</div><div class="acc-sub">TV mounting, wiring, soundbars, smart home & more</div></div>
-  <div class="acc-icon"><span class="acc-chevron">▼</span></div>
-</div>
-<div class="acc-body">
-<section class="services-section" id="services-section">
-  <div class="services-inner">
-    <div class="section-eyebrow fade-up">What We Do</div>
-    <h2 class="section-title-light clip-text"><span class="inner">Every Install,<br><em>Flawlessly Done.</em></span></h2>
-    <div class="svc-grid">
-      <div class="svc scale-in d1"><div class="svc-num">01</div><div class="svc-name">Precision TV Mounting</div><p class="svc-desc">Flat, tilt, and full-motion mounts on any wall type. Drywall, concrete, brick, tile handled with precision.</p><div class="svc-price">From $100</div></div>
-      <div class="svc scale-in d2"><div class="svc-num">02</div><div class="svc-name">Clean, Hidden Wiring</div><p class="svc-desc">In-wall routing or surface raceways. Zero visible wiring. Your TV looks like it grew out of the wall.</p><div class="svc-price">From $40 — no visible wires</div></div>
-      <div class="svc scale-in d3"><div class="svc-num">03</div><div class="svc-name">Outlet Installation</div><p class="svc-desc">In-wall power outlet added behind your TV for a completely clean look. No extension cords, no clutter.</p><div class="svc-price">~$150/hr + parts</div></div>
-      <div class="svc scale-in d4"><div class="svc-num">04</div><div class="svc-name">Soundbar Install</div><p class="svc-desc">Wall-mounted soundbars aligned perfectly below your TV. Cables managed, brackets secured, audio calibrated.</p><div class="svc-price">From $100</div></div>
-      <div class="svc scale-in d5"><div class="svc-num">05</div><div class="svc-name">Smart Home & AV</div><p class="svc-desc">Full AV rack builds, surround sound, PoE systems. High-end Airbnbs, commercial spaces, luxury residences.</p><div class="svc-price">Contact for quote</div></div>
-      <div class="svc scale-in d6"><div class="svc-num">06</div><div class="svc-name">TV Delivery & Dismount</div><p class="svc-desc">We deliver TVs to your location and safely remove existing mounted TVs. Under 75" is $25, 75"+ is $70.</p><div class="svc-price">From $25/TV</div></div>
-    </div>
-  </div>
-</section>
 
-<!-- PROCESS -->
-</div></div><!-- end services accordion -->
-<div class="accordion-wrap">
-<div class="acc-header" onclick="toggleAcc(this)" id="acc-process">
-  <div class="acc-left"><div class="acc-title">How It Works</div><div class="acc-sub">Book online, we confirm, install, done — 4 simple steps</div></div>
-  <div class="acc-icon"><span class="acc-chevron">▼</span></div>
-</div>
-<div class="acc-body">
-<section class="process-section" id="process-section">
-  <div class="process-inner">
-    <div class="section-eyebrow fade-up">How It Works</div>
-    <h2 class="section-title-light clip-text" style="margin-bottom:0;"><span class="inner">Simple.<br><em>Fast. Done.</em></span></h2>
-    <div class="process-grid">
-      <div class="process-line"><div class="process-line-fill fade-line"></div></div>
-      <div class="step fade-up d1"><div class="step-dot"><span class="step-num">01</span></div><div class="step-title">Book Online</div><p class="step-desc">Join 800+ Phoenix homeowners who've trusted VistaMount. Get an instant quote and pick a real available slot.</p></div>
-      <div class="step fade-up d2"><div class="step-dot"><span class="step-num">02</span></div><div class="step-title">We Confirm</div><p class="step-desc">A member of the VistaMount team will call within 2 hours to confirm details and answer any questions.</p></div>
-      <div class="step fade-up d3"><div class="step-dot"><span class="step-num">03</span></div><div class="step-title">Precision Install</div><p class="step-desc">Arrive on time, install clean, test everything, leave zero mess.</p></div>
-      <div class="step fade-up d4" style="transition-delay:.19s;"><div class="step-dot"><span class="step-num">04</span></div><div class="step-title">Enjoy It</div><p class="step-desc">Your setup looks exactly how it should. Pay when done.</p></div>
-    </div>
-  </div>
-</section>
-
-<!-- WHY -->
-</div></div><!-- end process accordion -->
-<div class="accordion-wrap">
-<div class="acc-header" onclick="toggleAcc(this)" id="acc-why">
-  <div class="acc-left"><div class="acc-title">Why VistaMount</div><div class="acc-sub">800+ installs · no subcontractors · 1-year warranty</div></div>
-  <div class="acc-icon"><span class="acc-chevron">▼</span></div>
-</div>
-<div class="acc-body">
-<section class="why-section">
-  <div class="why-inner">
-    <div class="why-left fade-up">
-      <div class="why-big-stat"><span class="count" data-t="800" style="display:inline;">0</span><span>+</span></div>
-      <div class="why-big-label">Jobs completed in Phoenix metro</div>
-    </div>
-    <div class="why-right">
-      <div class="section-eyebrow fade-up">Why VistaMount</div>
-      <h2 class="clip-text fade-up d1"><span class="inner">The install you <em>actually</em> wanted.</span></h2>
-      <p class="fade-up d2">No subcontractors, no surprises. Every job is handled personally — consistent quality, zero handoffs, and an installer who actually cares how it looks when we leave. Specializing in fireplace, tile, and high-end installs.</p>
-      <div class="why-points fade-up d3">
-        <div class="why-point">800+ installs. Consistent 5-star results. Zero handoffs.</div>
-        <div class="why-point">All wall types including concrete and brick</div>
-        <div class="why-point">In-wall cable concealment on every install</div>
-        <div class="why-point">Sanus and ONN mounts - no cheap hardware</div>
-        <div class="why-point">Not the cheapest — just done right the first time</div>
+<div class="reviews-cards">
+  <div class="review-card fade-up d1">
+    <div class="review-stars">★★★★★</div>
+    <p class="review-quote">Brandon mounted our TV over a stone fireplace that two other companies turned down. Showed up on time, did it clean, zero mess. You can't even see a wire. Worth every dollar.</p>
+    <div class="review-meta">
+      <div class="review-avatar">JM</div>
+      <div>
+        <div class="review-name">Jessica M.</div>
+        <div class="review-sub">Scottsdale, AZ</div>
       </div>
-      
+      <div class="review-source">Google</div>
     </div>
   </div>
-</section>
-
-<!-- WHO THIS IS FOR -->
-</div></div><!-- end why accordion -->
-<div class="accordion-wrap">
-<div class="acc-header" onclick="toggleAcc(this)" id="acc-who">
-  <div class="acc-left"><div class="acc-title">Who It's For</div><div class="acc-sub">New homes, fireplaces, Airbnbs, living room upgrades</div></div>
-  <div class="acc-icon"><span class="acc-chevron">▼</span></div>
+  <div class="review-card fade-up d2">
+    <div class="review-stars">★★★★★</div>
+    <p class="review-quote">Hired VistaMount for our new build — 3 TVs, in-wall wiring, soundbar, the works. Done in one afternoon, and it looks like the builder did it. Already booked them again for the media room.</p>
+    <div class="review-meta">
+      <div class="review-avatar">DR</div>
+      <div>
+        <div class="review-name">David R.</div>
+        <div class="review-sub">Gilbert, AZ</div>
+      </div>
+      <div class="review-source">Thumbtack</div>
+    </div>
+  </div>
+  <div class="review-card fade-up d3">
+    <div class="review-stars">★★★★★</div>
+    <p class="review-quote">Best installer I've hired for any project. Texted a photo Tuesday, TV was on the wall Thursday, priced fair. Treated our place like his own. Highly recommend.</p>
+    <div class="review-meta">
+      <div class="review-avatar">AK</div>
+      <div>
+        <div class="review-name">Amanda K.</div>
+        <div class="review-sub">Chandler, AZ</div>
+      </div>
+      <div class="review-source">Facebook</div>
+    </div>
+  </div>
 </div>
-<div class="acc-body">
-<section style="background:var(--light2);padding:80px 52px;">
+
+</section>
+<!-- who -->
+<section class="who-section-premium" style="padding:110px 52px;">
   <div style="max-width:1200px;margin:0 auto;">
     <div class="section-eyebrow fade-up">Who It's For</div>
     <h2 class="section-title-light clip-text" style="margin-bottom:48px;"><span class="inner">Perfect for your<br><em>situation.</em></span></h2>
@@ -1865,8 +2341,7 @@ function closeLightbox(){
   </div>
 </section>
 
-<!-- TOOLS -->
-</div></div><!-- end who accordion -->
+<!-- end who accordion -->
 <div class="accordion-wrap accordion-wrap-dark">
 <div class="acc-header" onclick="toggleAcc(this)" id="acc-tools">
   <div class="acc-left"><div class="acc-title">Professional Equipment</div><div class="acc-sub">Milwaukee tools, laser levels, thermal cameras & more</div></div>
@@ -1928,21 +2403,57 @@ function closeLightbox(){
 </div><!-- end accordion wrapper -->
 
 
-<footer>
-  <a href="/" class="footer-logo"><img src="/images/logo-final.png" alt="VistaMount" style="height:28px;width:auto;display:block;opacity:.5;"/></a>
-  <p class="footer-center">&copy; 2026 VistaMount LLC &middot; Phoenix, AZ</p>
-  <div class="footer-phone"><a href="tel:+14809034769">(480) 903-4769</a></div>
 
-<!-- BOTTOM CTA -->
-<section style="background:var(--bl);padding:60px 52px;text-align:center;">
-  <div style="max-width:600px;margin:0 auto;">
-    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:#fff;margin-bottom:12px;letter-spacing:.06em;">Ready for Your Install?</h2>
-    <p style="color:rgba(255,255,255,0.85);font-size:0.9rem;margin-bottom:24px;">Professional TV mounting. Same-day service available.</p>
-    <button onclick="openBookingModal()" style="background:#fff;color:var(--bl);padding:12px 32px;font-size:0.85rem;font-weight:600;border:none;border-radius:6px;cursor:pointer;letter-spacing:.06em;text-transform:uppercase;transition:transform .2s;">Book Now</button>
+<footer class="footer-premium">
+  <div class="footer-inner">
+    <div class="footer-grid">
+      <div class="footer-brand">
+        <div class="footer-logo">Vista<span>Mount</span></div>
+        <p class="footer-tag">Premium TV mounting &amp; smart home installs across the Phoenix metro. Owner-operated. Every install done right the first time.</p>
+      </div>
+      <div>
+        <div class="footer-heading">Contact</div>
+        <ul class="footer-list">
+          <li><span class="ft-icon">☎</span><a href="tel:4809034769">(480) 903-4769</a></li>
+          <li><span class="ft-icon">✉</span><a href="mailto:hello@vistamountaz.com">hello@vistamountaz.com</a></li>
+          <li><span class="ft-icon">⏱</span>Mon–Sat · 8am – 7pm</li>
+          <li><span class="ft-icon">📍</span>Phoenix, Arizona</li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Services</div>
+        <ul class="footer-list">
+          <li><a href="#services-section">TV Mounting</a></li>
+          <li><a href="#services-section">Hidden Wiring</a></li>
+          <li><a href="#services-section">Fireplace Installs</a></li>
+          <li><a href="#services-section">Soundbar &amp; Audio</a></li>
+          <li><a href="#services-section">Smart Home</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="footer-heading">Service Areas</div>
+        <ul class="footer-list">
+          <li>Phoenix</li>
+          <li>Scottsdale</li>
+          <li>Gilbert · Chandler</li>
+          <li>Mesa · Tempe</li>
+          <li>Paradise Valley</li>
+          <li>Queen Creek</li>
+        </ul>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <div>© <span id="yr"></span> VistaMount. All rights reserved.</div>
+      <div>
+        <a href="#services-section">Services</a>
+        <a href="#pricing">Pricing</a>
+        <a href="#booking-modal" onclick="openBookingModal();return false;">Book</a>
+      </div>
+    </div>
   </div>
-</section>
-
+  <script>document.getElementById('yr').textContent = new Date().getFullYear();</script>
 </footer>
+
 
 <script>
 // ==================== ACCORDION ====================
