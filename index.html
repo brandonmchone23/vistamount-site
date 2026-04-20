@@ -155,6 +155,8 @@ body.hero-skip #hero-cta-wrap{animation:none;opacity:1;transform:translateX(-50%
   #hero-cta-wrap{bottom:32px;gap:12px}
   #hero-cta{padding:15px 28px;font-size:13px}
   #hero-trust{font-size:10px;gap:6px}
+
+  .hero-eyebrow{letter-spacing:.18em;font-size:10px;white-space:nowrap}
 }
 .hero-scroll-hint{display:none}
 @keyframes fadeHint{to{opacity:.5;}}
@@ -2313,7 +2315,7 @@ document.addEventListener('DOMContentLoaded', function() {
     draw(cur);ne.textContent=cur>=MAX?'800+':cur;
     var lbl=getLbl(cur);
     if(lbl){var cc=getCol(cur/MAX);le.textContent=lbl;le.style.color=rgba(cc,1);}
-    if(cur>=MAX&&ls){ls.textContent='800+ installs · 4.9★ · Same-day available';ls.style.opacity='1';}
+    if(cur>=MAX&&ls){ls.textContent='800+ installs Â· 4.9â Â· Same-day available';ls.style.opacity='1';}
     requestAnimationFrame(step);
   }
   draw(0);
@@ -3179,7 +3181,7 @@ async function submitForm(){
     } catch (e) {
       console.error('Error:', e);
       alert('Booking failed. Please call (480) 903-4769.');
-      btn.textContent = 'Confirm Booking ✓';
+      btn.textContent = 'Confirm Booking â';
       btn.disabled = false;
     }
   } else {
@@ -3235,7 +3237,7 @@ async function handlePaymentSubmit() {
     }
   } catch (e) {
     alert('Payment failed: ' + e.message);
-    submitBtn.textContent = 'Confirm Booking ✓';
+    submitBtn.textContent = 'Confirm Booking â';
     submitBtn.disabled = false;
   }
 }
@@ -3352,7 +3354,7 @@ function showPaymentStep() {
     // Show same-day skip message
     sameDaySkip.style.display = 'block';
     futurePayment.style.display = 'none';
-    submitBtn.textContent = 'Confirm Booking ✓';
+    submitBtn.textContent = 'Confirm Booking â';
   } else {
     // Show payment options
     sameDaySkip.style.display = 'none';
@@ -3472,14 +3474,14 @@ function checkIfDepositNeeded() {
     depositMessage.innerHTML = '<strong style="color:#4facff;font-size:.9rem;">&#10003; BOOKING FOR TODAY - NO DEPOSIT REQUIRED</strong><br><span style="font-size:.75rem;">You selected today. Just confirm below and we\'ll call within 2 hours. Pay when job is complete.</span>';
     cardContainer.style.display = 'none';
     paymentStatus.innerHTML = '';
-    submitBtn.textContent = 'Confirm Booking ✓';
+    submitBtn.textContent = 'Confirm Booking â';
   } else {
     // Future: Show deposit requirement and payment field
     depositNotice.style.background = 'rgba(255,165,0,.1)';
     depositNotice.style.borderColor = '#ffa500';
     depositMessage.innerHTML = '<strong style="color:#ffa500;font-size:.9rem;">&#128179; $50 DEPOSIT REQUIRED</strong><br><span style="font-size:.75rem;">$50 applied to invoice. $25 non-refundable booking fee + $25 refundable if you cancel.</span>';
     cardContainer.style.display = 'block';
-    submitBtn.textContent = 'Pay $1 Test Deposit & Confirm ✓';
+    submitBtn.textContent = 'Pay $1 Test Deposit & Confirm â';
     if (!card) {
       initSquarePayment();
     }
