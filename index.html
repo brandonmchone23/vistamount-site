@@ -1333,10 +1333,10 @@ function calculatePrice() {
     else if (tv.size === '65-84') total += 150;
     else if (tv.size === '85+') total += 200;
     
-    // Mount type (all mounts $45; full-motion has add'l markup confirmed at quote)
+    // Mount type: fixed/tilt $45, full-motion $75 (includes mount markup)
     if (tv.mountType === 'fixed') total += 45;
     else if (tv.mountType === 'tilting') total += 45;
-    else if (tv.mountType === 'fullmotion') total += 45;
+    else if (tv.mountType === 'fullmotion') total += 75;
     
     // Cord concealment (on-wall raceway = $50, in-wall concealment = $75)
     if (tv.cords === 'raceway') total += 50;
@@ -1582,7 +1582,7 @@ function renderTVCards() {
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
           <button class="option-btn ${tv.mountType === 'fixed' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'fixed')">Fixed<br><small style="font-size:0.75rem;opacity:0.8;">+$45</small></button>
           <button class="option-btn ${tv.mountType === 'tilting' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'tilting')">Tilting<br><small style="font-size:0.75rem;opacity:0.8;">+$45</small></button>
-          <button class="option-btn ${tv.mountType === 'fullmotion' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'fullmotion')">Full Motion<br><small style="font-size:0.7rem;opacity:0.8;">+$45 + markup</small></button>
+          <button class="option-btn ${tv.mountType === 'fullmotion' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'fullmotion')">Full Motion<br><small style="font-size:0.75rem;opacity:0.8;">+$75</small></button>
         </div>
       </div>
       
@@ -2279,9 +2279,9 @@ document.addEventListener('DOMContentLoaded', function() {
         <ul class="upg-list">
           <li><span>Fixed</span><span class="upg-price">+$45</span></li>
           <li><span>Tilting</span><span class="upg-price">+$45</span></li>
-          <li><span>Full Motion</span><span class="upg-price">+$45 + markup</span></li>
+          <li><span>Full Motion</span><span class="upg-price">+$75</span></li>
         </ul>
-        <div class="upg-footnote">Flat rate covers the mount and install. Full-motion mounts carry an added markup — we'll confirm exact cost at quote.</div>
+        <div class="upg-footnote">Every mount price includes the hardware and the install — no surprise add-ons at your door.</div>
       </div>
 
       <div class="pricing-upgrade fade-up d2">
