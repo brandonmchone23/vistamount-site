@@ -311,7 +311,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
   nav{padding:18px 24px;}.nav-links{display:none;}
   .stats-grid{grid-template-columns:1fr 1fr;}.stat:nth-child(2){border-right:none;}
   .services-section,.process-section,.why-section{padding:80px 24px;}
-  .svc-grid{grid-template-columns:1fr;}
+  /* removed svc-grid override */
   .process-grid{grid-template-columns:1fr 1fr;gap:40px;}.process-line{display:none;}
   .why-inner{grid-template-columns:1fr;gap:48px;}
   .booking-wrap{padding:60px 24px;}
@@ -1107,6 +1107,26 @@ section.who-section-premium .who-grid > div:hover {
   0%, 100% { transform: translateY(0); opacity: .9; }
   50% { transform: translateY(6px); opacity: .5; }
 }
+
+
+/* Why section text legibility */
+section.why-section h1, section.why-section h2,
+section.why-section .clip-text,
+section.why-section .section-title,
+section.why-section .section-title-light { color: #fff !important; }
+section.why-section em { color: #2d7fe8 !important; font-style: normal !important; }
+section.why-section p, section.why-section li,
+section.why-section .section-subtitle { color: rgba(255,255,255,.82) !important; }
+section.why-section .section-eyebrow { color: #2d7fe8 !important; }
+section.why-section .why-bullet,
+section.why-section ul li { color: rgba(255,255,255,.88) !important; }
+/* And the counter stat */
+section.why-section #vm-counter,
+section.why-section [id*="counter"] { color: #2d7fe8 !important; }
+
+/* FIX: services grid proper columns */
+.svc-grid { display: grid !important; grid-template-columns: repeat(3, 1fr) !important; gap: 18px !important; }
+@media (max-width: 860px) { .svc-grid { grid-template-columns: 1fr !important; gap: 12px !important; } }
 
 </style>
 <!-- Google tag (gtag.js) -->
@@ -2271,44 +2291,7 @@ function closeLightbox(){
   </div>
 
 
-<div class="reviews-cards">
-  <div class="review-card fade-up d1">
-    <div class="review-stars">★★★★★</div>
-    <p class="review-quote">Brandon mounted our TV over a stone fireplace that two other companies turned down. Showed up on time, did it clean, zero mess. You can't even see a wire. Worth every dollar.</p>
-    <div class="review-meta">
-      <div class="review-avatar">JM</div>
-      <div>
-        <div class="review-name">Jessica M.</div>
-        <div class="review-sub">Scottsdale, AZ</div>
-      </div>
-      <div class="review-source">Google</div>
-    </div>
-  </div>
-  <div class="review-card fade-up d2">
-    <div class="review-stars">★★★★★</div>
-    <p class="review-quote">Hired VistaMount for our new build — 3 TVs, in-wall wiring, soundbar, the works. Done in one afternoon, and it looks like the builder did it. Already booked them again for the media room.</p>
-    <div class="review-meta">
-      <div class="review-avatar">DR</div>
-      <div>
-        <div class="review-name">David R.</div>
-        <div class="review-sub">Gilbert, AZ</div>
-      </div>
-      <div class="review-source">Thumbtack</div>
-    </div>
-  </div>
-  <div class="review-card fade-up d3">
-    <div class="review-stars">★★★★★</div>
-    <p class="review-quote">Best installer I've hired for any project. Texted a photo Tuesday, TV was on the wall Thursday, priced fair. Treated our place like his own. Highly recommend.</p>
-    <div class="review-meta">
-      <div class="review-avatar">AK</div>
-      <div>
-        <div class="review-name">Amanda K.</div>
-        <div class="review-sub">Chandler, AZ</div>
-      </div>
-      <div class="review-source">Facebook</div>
-    </div>
-  </div>
-</div>
+
 
 </section>
 <!-- who -->
