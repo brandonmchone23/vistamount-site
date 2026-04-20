@@ -105,6 +105,11 @@ nav.scrolled-light .nav-book{color:#fff!important;}
 #hero-trust{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;font-size:12px;color:rgba(255,255,255,.65);letter-spacing:.02em}
 #hero-trust .trust-stars{color:#FFD700;font-size:13px;letter-spacing:1px}
 #hero-trust .trust-dot{color:rgba(79,172,255,.45)}
+@media(max-width:640px){
+  #hero-trust{font-size:11px;gap:6px 8px;padding:0 12px}
+  #hero-trust .trust-stars{font-size:12px;letter-spacing:0.5px}
+  #hero-trust .trust-dot{display:none}
+}
 
 /* Keyframes */
 @keyframes drawLine{
@@ -612,7 +617,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
 }
 
 .scroll-indicator::after {
-  content: '&#9660;';
+  content: '\25BC';
   font-size: 1.2rem;
   color: #4facff;
   text-shadow: 0 0 8px rgba(79, 172, 255, 0.6), 0 0 12px rgba(79, 172, 255, 0.4);
@@ -2308,7 +2313,7 @@ document.addEventListener('DOMContentLoaded', function() {
     draw(cur);ne.textContent=cur>=MAX?'800+':cur;
     var lbl=getLbl(cur);
     if(lbl){var cc=getCol(cur/MAX);le.textContent=lbl;le.style.color=rgba(cc,1);}
-    if(cur>=MAX&&ls){ls.textContent='800+ installs &middot; 4.9&#9733; &middot; Same-day available';ls.style.opacity='1';}
+    if(cur>=MAX&&ls){ls.textContent='800+ installs · 4.9★ · Same-day available';ls.style.opacity='1';}
     requestAnimationFrame(step);
   }
   draw(0);
@@ -3174,7 +3179,7 @@ async function submitForm(){
     } catch (e) {
       console.error('Error:', e);
       alert('Booking failed. Please call (480) 903-4769.');
-      btn.textContent = 'Confirm Booking &#10003;';
+      btn.textContent = 'Confirm Booking ✓';
       btn.disabled = false;
     }
   } else {
@@ -3230,7 +3235,7 @@ async function handlePaymentSubmit() {
     }
   } catch (e) {
     alert('Payment failed: ' + e.message);
-    submitBtn.textContent = 'Confirm Booking &#10003;';
+    submitBtn.textContent = 'Confirm Booking ✓';
     submitBtn.disabled = false;
   }
 }
@@ -3347,7 +3352,7 @@ function showPaymentStep() {
     // Show same-day skip message
     sameDaySkip.style.display = 'block';
     futurePayment.style.display = 'none';
-    submitBtn.textContent = 'Confirm Booking &#10003;';
+    submitBtn.textContent = 'Confirm Booking ✓';
   } else {
     // Show payment options
     sameDaySkip.style.display = 'none';
@@ -3467,14 +3472,14 @@ function checkIfDepositNeeded() {
     depositMessage.innerHTML = '<strong style="color:#4facff;font-size:.9rem;">&#10003; BOOKING FOR TODAY - NO DEPOSIT REQUIRED</strong><br><span style="font-size:.75rem;">You selected today. Just confirm below and we\'ll call within 2 hours. Pay when job is complete.</span>';
     cardContainer.style.display = 'none';
     paymentStatus.innerHTML = '';
-    submitBtn.textContent = 'Confirm Booking &#10003;';
+    submitBtn.textContent = 'Confirm Booking ✓';
   } else {
     // Future: Show deposit requirement and payment field
     depositNotice.style.background = 'rgba(255,165,0,.1)';
     depositNotice.style.borderColor = '#ffa500';
     depositMessage.innerHTML = '<strong style="color:#ffa500;font-size:.9rem;">&#128179; $50 DEPOSIT REQUIRED</strong><br><span style="font-size:.75rem;">$50 applied to invoice. $25 non-refundable booking fee + $25 refundable if you cancel.</span>';
     cardContainer.style.display = 'block';
-    submitBtn.textContent = 'Pay $1 Test Deposit & Confirm &#10003;';
+    submitBtn.textContent = 'Pay $1 Test Deposit & Confirm ✓';
     if (!card) {
       initSquarePayment();
     }
