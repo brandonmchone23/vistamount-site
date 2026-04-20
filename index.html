@@ -55,8 +55,112 @@ nav.scrolled-light .nav-links a:hover{color:var(--dark-text);}
 nav.scrolled-light .nav-book{color:#fff!important;}
 
 /* HERO */
-#hero{position:relative;height:100vh;display:flex;align-items:stretch;overflow:hidden;background:#000;}#hero-left{position:relative;width:55%;flex-shrink:0;}#hero-right{flex:1;position:relative;overflow:hidden;}#hero-right img{width:100%;height:100%;object-fit:cover;object-position:20% center;display:block;}#hero-right::before{content:"";position:absolute;inset:0;background:linear-gradient(to right,rgba(6,8,15,1) 0%,rgba(6,8,15,.5) 25%,rgba(6,8,15,.05) 55%,transparent 100%);z-index:1;}#hero-right::after{content:"";position:absolute;inset:0;border-left:1px solid rgba(79,172,255,0.25);z-index:2;}@media(max-width:768px){#hero{flex-direction:column;height:100vh;}#hero-left{width:100%;height:70vh;}#hero-right{width:100%;flex:1;}}
-#hero-canvas{position:absolute;inset:0;width:100%;height:100%;cursor:pointer;}#hero-left{display:flex;align-items:center;justify-content:center;}
+/* ============ HERO (v2): full-bleed TV-on-wall composition ============ */
+#hero{position:relative;height:100vh;min-height:640px;overflow:hidden;background:#06080f;display:flex;align-items:center;justify-content:center;isolation:isolate}
+
+/* Plaster wall  warm Phoenix/Scottsdale desert tones */
+#hero-wall{position:absolute;inset:0;background:
+  radial-gradient(ellipse 80% 60% at 50% 35%, #3a2f24 0%, #2a2119 40%, #1a130d 75%, #0b0805 100%),
+  linear-gradient(180deg, #2a2119 0%, #1a130d 60%, #06080f 100%);
+  opacity:0;
+  animation:wallFadeIn 1.2s cubic-bezier(.22,1,.36,1) 0.8s forwards
+}
+/* Plaster texture overlay  simulates hand-troweled finish with layered noise */
+#hero-wall::before{content:"";position:absolute;inset:0;background:
+  radial-gradient(ellipse 40% 30% at 25% 20%, rgba(210,175,130,.08), transparent 60%),
+  radial-gradient(ellipse 35% 40% at 75% 70%, rgba(180,140,100,.06), transparent 60%),
+  radial-gradient(ellipse 50% 20% at 50% 100%, rgba(0,0,0,.4), transparent 70%);
+  mix-blend-mode:overlay;pointer-events:none}
+#hero-wall::after{content:"";position:absolute;inset:0;background:
+  repeating-linear-gradient(37deg, rgba(255,220,180,.015) 0 2px, transparent 2px 5px),
+  repeating-linear-gradient(-52deg, rgba(0,0,0,.02) 0 3px, transparent 3px 7px);
+  pointer-events:none;opacity:.8}
+
+/* Soft vignette to focus eye on center */
+#hero::after{content:"";position:absolute;inset:0;background:
+  radial-gradient(ellipse 70% 55% at 50% 50%, transparent 0%, transparent 50%, rgba(0,0,0,.55) 100%);
+  pointer-events:none;z-index:3}
+
+/* TV composition */
+#hero-tv-wrap{position:relative;z-index:2;width:min(780px,72vw);aspect-ratio:1000/580;display:flex;align-items:center;justify-content:center}
+#hero-tv-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+#tv-screen{animation:screenOn 0.6s ease-out 1.1s forwards}
+
+/* Bezel lines  each draws in sequentially */
+.bezel-line{stroke-dasharray:2000;stroke-dashoffset:2000;opacity:0}
+#bezel-top   {animation:drawLine .45s cubic-bezier(.65,0,.35,1) .15s forwards, bezelPulse 2.4s ease-in-out 1.6s infinite}
+#bezel-right {animation:drawLine .45s cubic-bezier(.65,0,.35,1) .35s forwards, bezelPulse 2.4s ease-in-out 1.6s infinite}
+#bezel-bottom{animation:drawLine .45s cubic-bezier(.65,0,.35,1) .55s forwards, bezelPulse 2.4s ease-in-out 1.6s infinite}
+#bezel-left  {animation:drawLine .55s cubic-bezier(.65,0,.35,1) .75s forwards, bezelPulse 2.4s ease-in-out 1.6s infinite}
+
+/* TV mount stem  small visual detail behind TV */
+#hero-tv-mount{position:absolute;left:50%;bottom:-18px;transform:translateX(-50%);width:44px;height:26px;background:linear-gradient(180deg,#1a1a1a,#0a0a0a);border-radius:3px;box-shadow:0 4px 12px rgba(0,0,0,.6);opacity:0;animation:mountFadeIn .4s ease .9s forwards;z-index:1}
+#hero-tv-mount::before{content:"";position:absolute;left:50%;top:-14px;transform:translateX(-50%);width:8px;height:16px;background:linear-gradient(180deg,#222,#111);border-radius:2px 2px 0 0}
+
+/* Content inside the TV "screen" */
+#hero-tv-content{position:relative;z-index:4;text-align:center;padding:0 8%;opacity:0;animation:contentFadeIn .8s cubic-bezier(.22,1,.36,1) 1.3s forwards}
+.hero-eyebrow{font-size:clamp(10px,1.1vw,13px);letter-spacing:.32em;color:#4facff;font-weight:500;margin-bottom:clamp(10px,2vw,22px);text-transform:uppercase}
+.hero-wordmark{font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,8.5vw,124px);font-weight:400;color:#fff;line-height:.95;margin:0 0 clamp(10px,1.5vw,16px);letter-spacing:.02em;text-shadow:0 0 40px rgba(79,172,255,.25);background:linear-gradient(180deg,#fff 0%,#d9e8ff 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero-tagline{font-size:clamp(13px,1.4vw,17px);color:rgba(255,255,255,.72);margin:0;font-weight:300;letter-spacing:.01em;max-width:520px;margin-left:auto;margin-right:auto}
+
+/* CTA + trust bar below TV */
+#hero-cta-wrap{position:absolute;left:50%;bottom:clamp(48px,10vh,110px);transform:translateX(-50%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:18px;opacity:0;animation:ctaRiseIn .7s cubic-bezier(.22,1,.36,1) 1.7s forwards}
+#hero-cta{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(180deg,#4facff 0%,#2d7fe8 100%);color:#fff;border:none;padding:18px 38px;border-radius:999px;font-family:inherit;font-size:15px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;box-shadow:0 10px 40px rgba(79,172,255,.35),0 2px 8px rgba(0,0,0,.4);transition:transform .25s ease,box-shadow .25s ease}
+#hero-cta:hover{transform:translateY(-2px);box-shadow:0 14px 48px rgba(79,172,255,.5),0 4px 12px rgba(0,0,0,.5)}
+#hero-cta svg{transition:transform .25s ease}
+#hero-cta:hover svg{transform:translateX(4px)}
+#hero-trust{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;font-size:12px;color:rgba(255,255,255,.65);letter-spacing:.02em}
+#hero-trust .trust-stars{color:#FFD700;font-size:13px;letter-spacing:1px}
+#hero-trust .trust-dot{color:rgba(79,172,255,.45)}
+
+/* Keyframes */
+@keyframes drawLine{
+  0%{stroke-dashoffset:2000;opacity:0}
+  5%{opacity:1}
+  100%{stroke-dashoffset:0;opacity:1}
+}
+@keyframes bezelPulse{
+  0%,100%{filter:url(#bezelGlow) drop-shadow(0 0 4px rgba(79,172,255,.3))}
+  50%{filter:url(#bezelGlow) drop-shadow(0 0 14px rgba(79,172,255,.7))}
+}
+@keyframes wallFadeIn{to{opacity:1}}
+@keyframes screenOn{
+  0%{opacity:0}
+  60%{opacity:.3}
+  100%{opacity:.88}
+}
+@keyframes contentFadeIn{
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
+}
+@keyframes ctaRiseIn{
+  from{opacity:0;transform:translate(-50%,16px)}
+  to{opacity:1;transform:translate(-50%,0)}
+}
+@keyframes mountFadeIn{to{opacity:.7}}
+
+/* Session cache: if user has visited, skip animations (show final state instantly) */
+body.hero-skip #hero-wall{animation:none;opacity:1}
+body.hero-skip #tv-screen{animation:none;opacity:.88}
+body.hero-skip .bezel-line{animation:none;stroke-dashoffset:0;opacity:1}
+body.hero-skip #hero-tv-mount{animation:none;opacity:.7}
+body.hero-skip #hero-tv-content{animation:none;opacity:1;transform:none}
+body.hero-skip #hero-cta-wrap{animation:none;opacity:1;transform:translateX(-50%)}
+
+/* Respect reduced motion */
+@media (prefers-reduced-motion: reduce){
+  #hero-wall,.bezel-line,#tv-screen,#hero-tv-mount,#hero-tv-content,#hero-cta-wrap{animation-duration:.01s;animation-delay:0s}
+}
+
+/* Mobile */
+@media(max-width:768px){
+  #hero{min-height:560px}
+  #hero-tv-wrap{width:88vw}
+  .hero-eyebrow{letter-spacing:.22em}
+  #hero-cta-wrap{bottom:32px;gap:12px}
+  #hero-cta{padding:15px 28px;font-size:13px}
+  #hero-trust{font-size:10px;gap:6px}
+}
 .hero-scroll-hint{position:absolute;bottom:40px;left:50%;transform:translateX(-50%);display:flex;flex-direction:column;align-items:center;gap:8px;opacity:0;animation:fadeHint 1s ease 3.5s forwards;}
 @keyframes fadeHint{to{opacity:.5;}}
 .scroll-line{width:1px;height:48px;background:linear-gradient(to bottom,var(--bl),transparent);animation:scrollPulse 1.5s ease-in-out 3.5s infinite;}
@@ -2071,9 +2175,65 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- HERO -->
 <section id="hero">
-  <div id="hero-left"><div id="hero-stats" style="position:absolute;bottom:100px;left:0;right:0;z-index:10;display:flex;align-items:center;justify-content:center;gap:20px;flex-wrap:wrap;pointer-events:none;"><span style="color:#FFD700;font-size:13px;">★★★★★</span><span style="color:rgba(255,255,255,.75);font-size:12px;">4.9/5 · 200+ Reviews</span><span style="color:rgba(79,172,255,.3);">|</span><span style="color:rgba(255,255,255,.75);font-size:12px;">800+ Installs</span><span style="color:rgba(79,172,255,.3);">|</span><span style="color:rgba(255,255,255,.75);font-size:12px;">Insured &amp; Guaranteed</span></div><canvas id="hero-canvas"></canvas></div><div id="hero-right"><img src="/images/IMG_1626.jpg" alt="Premium TV mounting installation by VistaMount"/></div>
-  <div style="position:absolute;top:0;right:0;width:45%;height:100%;background:radial-gradient(ellipse at 80% 50%,rgba(79,172,255,0.07) 0%,transparent 70%);pointer-events:none;"></div>
-  <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:60%;height:40%;background:radial-gradient(ellipse at 50% 100%,rgba(45,127,232,0.06) 0%,transparent 70%);pointer-events:none;"></div>
+  <!-- Warm plaster wall background (full-bleed, fades in) -->
+  <div id="hero-wall" aria-hidden="true"></div>
+
+  <!-- Centered TV composition -->
+  <div id="hero-tv-wrap">
+    <!-- TV bezel (SVG drawn-in lines) -->
+    <svg id="hero-tv-svg" viewBox="0 0 1000 580" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <defs>
+        <linearGradient id="bezelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+          <stop offset="0%" stop-color="#4facff"/>
+          <stop offset="50%" stop-color="#2d7fe8"/>
+          <stop offset="100%" stop-color="#4facff"/>
+        </linearGradient>
+        <filter id="bezelGlow" x="-10%" y="-10%" width="120%" height="120%">
+          <feGaussianBlur stdDeviation="4" result="blur"/>
+          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
+      </defs>
+      <!-- TV screen fill (inner dark panel that appears after bezel draws) -->
+      <rect id="tv-screen" x="6" y="6" width="988" height="568" rx="14" ry="14" fill="#06080f" opacity="0"/>
+      <!-- Four animated path segments forming the bezel -->
+      <path class="bezel-line" id="bezel-top"    d="M 500 6 L 994 6" fill="none" stroke="url(#bezelGrad)" stroke-width="3" stroke-linecap="round" filter="url(#bezelGlow)"/>
+      <path class="bezel-line" id="bezel-right"  d="M 994 6 L 994 574" fill="none" stroke="url(#bezelGrad)" stroke-width="3" stroke-linecap="round" filter="url(#bezelGlow)"/>
+      <path class="bezel-line" id="bezel-bottom" d="M 994 574 L 6 574" fill="none" stroke="url(#bezelGrad)" stroke-width="3" stroke-linecap="round" filter="url(#bezelGlow)"/>
+      <path class="bezel-line" id="bezel-left"   d="M 6 574 L 6 6 L 500 6" fill="none" stroke="url(#bezelGrad)" stroke-width="3" stroke-linecap="round" filter="url(#bezelGlow)"/>
+    </svg>
+
+    <!-- TV mount stem + plate (subtle detail for realism) -->
+    <div id="hero-tv-mount" aria-hidden="true"></div>
+
+    <!-- Content that appears INSIDE the TV screen -->
+    <div id="hero-tv-content">
+      <div class="hero-eyebrow">PHOENIX, AZ � SAME-DAY OFTEN AVAILABLE</div>
+      <h1 class="hero-wordmark">VISTAMOUNT</h1>
+      <p class="hero-tagline">Clean installs. No visible wires. Done right the first time.</p>
+    </div>
+  </div>
+
+  <!-- CTA + trust bar below TV (slide up) -->
+  <div id="hero-cta-wrap">
+    <button id="hero-cta" onclick="openBookingModal(); return false;">
+      <span>Book Your Install</span>
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+    </button>
+    <div id="hero-trust">
+      <span class="trust-stars"></span>
+      <span class="trust-text">4.9/5</span>
+      <span class="trust-dot">�</span>
+      <span class="trust-text">800+ Installs</span>
+      <span class="trust-dot">�</span>
+      <span class="trust-text">Insured &amp; Guaranteed</span>
+    </div>
+  </div>
+
+  <!-- Scroll hint -->
+  <div class="hero-scroll-hint" aria-hidden="true">
+    <span>Scroll</span>
+    <span class="hero-scroll-dot"></span>
+  </div>
 </section>
 
 <!-- STATS - WHITE -->
@@ -2652,6 +2812,8 @@ function toggleAcc(header){
 
 // ==================== HERO CANVAS ====================
 var hc=document.getElementById('hero-canvas');
+if(hc){
+
 hc.addEventListener('click', function(e) {
   var rect = hc.getBoundingClientRect();
   var x = e.clientX - rect.left;
@@ -2773,6 +2935,7 @@ function heroFrame(ts){
 }
 requestAnimationFrame(heroFrame);
 hc.style.cursor='pointer';
+}
 
 
 // ==================== NAV ====================
@@ -3331,6 +3494,20 @@ window.goStep = function(n) {
 </script>
 
 
+
+<script>// Hero v2: session-based skip (returning visitors see final state instantly)
+(function(){
+  try{
+    if(sessionStorage.getItem('vm_hero_seen')==='1'){
+      document.body.classList.add('hero-skip');
+    } else {
+      // Mark as seen after animation completes (~2.5s)
+      setTimeout(function(){
+        try{ sessionStorage.setItem('vm_hero_seen','1'); }catch(e){}
+      }, 2500);
+    }
+  }catch(e){}
+})();</script>
 
 <!-- Footer -->
 <footer style="background:#06080f;border-top:1px solid rgba(79,172,255,0.1);padding:40px 20px;text-align:center;">
