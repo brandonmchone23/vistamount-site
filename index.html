@@ -58,47 +58,50 @@ nav.scrolled-light .nav-book{color:#fff!important;}
 /* ============ HERO (v2): full-bleed TV-on-wall composition ============ */
 #hero{position:relative;height:100vh;min-height:640px;overflow:hidden;background:#06080f;display:flex;align-items:center;justify-content:center;isolation:isolate}
 
-/* Plaster wall  warm Phoenix/Scottsdale desert tones */
+/* Plaster wall — warm Phoenix/Scottsdale desert tones */
 #hero-wall{position:absolute;inset:0;background:
-  radial-gradient(ellipse 80% 60% at 50% 35%, #3a2f24 0%, #2a2119 40%, #1a130d 75%, #0b0805 100%),
-  linear-gradient(180deg, #2a2119 0%, #1a130d 60%, #06080f 100%);
+  radial-gradient(ellipse 90% 70% at 50% 38%, #5a4636 0%, #42332a 35%, #2c2118 65%, #1a130d 90%, #0f0a06 100%),
+  linear-gradient(180deg, #40322a 0%, #2a1f17 55%, #120c08 100%);
   opacity:0;
-  animation:wallFadeIn 1.4s cubic-bezier(.22,1,.36,1) 1.0s forwards
+  animation:wallFadeIn 1.4s cubic-bezier(.22,1,.36,1) 0.3s forwards
 }
-/* Plaster texture overlay  simulates hand-troweled finish with layered noise */
-#hero-wall::before{content:"";position:absolute;inset:0;background:
-  radial-gradient(ellipse 40% 30% at 25% 20%, rgba(210,175,130,.08), transparent 60%),
-  radial-gradient(ellipse 35% 40% at 75% 70%, rgba(180,140,100,.06), transparent 60%),
-  radial-gradient(ellipse 50% 20% at 50% 100%, rgba(0,0,0,.4), transparent 70%);
+/* Plaster texture overlay — simulates hand-troweled finish with layered noise */
+#hero-wall::before{content:'';position:absolute;inset:0;background:
+  radial-gradient(ellipse 40% 30% at 25% 20%, rgba(230,190,140,.12), transparent 60%),
+  radial-gradient(ellipse 35% 40% at 75% 70%, rgba(200,155,110,.09), transparent 60%),
+  radial-gradient(ellipse 55% 25% at 50% 100%, rgba(0,0,0,.45), transparent 70%);
   mix-blend-mode:overlay;pointer-events:none}
-#hero-wall::after{content:"";position:absolute;inset:0;background:
-  repeating-linear-gradient(37deg, rgba(255,220,180,.015) 0 2px, transparent 2px 5px),
-  repeating-linear-gradient(-52deg, rgba(0,0,0,.02) 0 3px, transparent 3px 7px);
-  pointer-events:none;opacity:.8}
+#hero-wall::after{content:'';position:absolute;inset:0;background:
+  repeating-linear-gradient(37deg, rgba(255,220,180,.022) 0 2px, transparent 2px 5px),
+  repeating-linear-gradient(-52deg, rgba(0,0,0,.025) 0 3px, transparent 3px 7px);
+  pointer-events:none;opacity:.85}
 
 /* Soft vignette to focus eye on center */
-#hero::after{content:"";position:absolute;inset:0;background:
-  radial-gradient(ellipse 70% 55% at 50% 50%, transparent 0%, transparent 50%, rgba(0,0,0,.55) 100%);
+#hero::after{content:'';position:absolute;inset:0;background:
+  radial-gradient(ellipse 70% 55% at 50% 50%, transparent 0%, transparent 45%, rgba(0,0,0,.5) 100%);
   pointer-events:none;z-index:3}
 
-/* TV composition */
-#hero-tv-wrap{position:relative;z-index:2;width:min(780px,72vw);aspect-ratio:1000/580;display:flex;align-items:center;justify-content:center}
+/* TV composition — wall-mounted flat panel */
+#hero-tv-wrap{position:relative;z-index:2;width:min(820px,74vw);aspect-ratio:16/9;display:flex;align-items:center;justify-content:center}
 #hero-tv-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
-#tv-screen{animation:screenOn 0.6s ease-out 2.0s forwards}
-#tv-flash{animation:tvFlash 0.45s cubic-bezier(.25,.46,.45,.94) 1.8s forwards;opacity:0;mix-blend-mode:screen;pointer-events:none}
 
-/* Bezel lines  each draws in sequentially */
-.bezel-line{stroke-dasharray:3500;stroke-dashoffset:3500;opacity:0}
-#bezel-full{animation:drawLine 1.6s cubic-bezier(.65,0,.35,1) 0.3s forwards}
+/* TV body group — fades in as a placed unit (no bezel-drawing) */
+#tv-body-group{opacity:0;transform-origin:center;transform:scale(.97);animation:tvPlace 1.1s cubic-bezier(.22,1,.36,1) 1.1s forwards}
+
+/* Screen power-on flash */
+#tv-flash{animation:tvFlash 0.55s cubic-bezier(.25,.46,.45,.94) 2.0s forwards}
+
+/* Subtle power LED blink after screen on */
+#tv-power-led{animation:ledOn 0.6s ease-out 2.4s forwards}
 
 /* Content inside the TV "screen" */
-#hero-tv-content{position:relative;z-index:4;text-align:center;padding:0 8%;opacity:0;animation:contentFadeIn .7s cubic-bezier(.22,1,.36,1) 2.2s forwards}
+#hero-tv-content{position:relative;z-index:4;text-align:center;padding:0 8%;opacity:0;animation:contentFadeIn .7s cubic-bezier(.22,1,.36,1) 2.4s forwards}
 .hero-eyebrow{font-size:clamp(10px,1.1vw,13px);letter-spacing:.32em;color:#4facff;font-weight:500;margin-bottom:clamp(10px,2vw,22px);text-transform:uppercase}
-.hero-wordmark{opacity:0;animation:wordmarkReveal 1.0s cubic-bezier(.22,1,.36,1) 2.7s forwards;font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,8.5vw,124px);font-weight:400;color:#fff;line-height:.95;margin:0 0 clamp(10px,1.5vw,16px);letter-spacing:.02em;text-shadow:0 0 40px rgba(79,172,255,.25);background:linear-gradient(180deg,#fff 0%,#d9e8ff 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
+.hero-wordmark{opacity:0;animation:wordmarkReveal 1.0s cubic-bezier(.22,1,.36,1) 2.9s forwards;font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,8.5vw,124px);font-weight:400;color:#fff;line-height:.95;margin:0 0 clamp(10px,1.5vw,16px);letter-spacing:.02em;text-shadow:0 0 40px rgba(79,172,255,.25);background:linear-gradient(180deg,#fff 0%,#d9e8ff 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .hero-tagline{font-size:clamp(13px,1.4vw,17px);color:rgba(255,255,255,.72);margin:0;font-weight:300;letter-spacing:.01em;max-width:520px;margin-left:auto;margin-right:auto}
 
 /* CTA + trust bar below TV */
-#hero-cta-wrap{position:absolute;left:50%;bottom:clamp(48px,10vh,110px);transform:translateX(-50%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:18px;opacity:0;animation:ctaRiseIn 0.9s cubic-bezier(.22,1,.36,1) 3.5s forwards}
+#hero-cta-wrap{position:absolute;left:50%;bottom:clamp(48px,10vh,110px);transform:translateX(-50%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:18px;opacity:0;animation:ctaRiseIn 0.9s cubic-bezier(.22,1,.36,1) 3.7s forwards}
 #hero-cta{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(180deg,#4facff 0%,#2d7fe8 100%);color:#fff;border:none;padding:18px 38px;border-radius:999px;font-family:inherit;font-size:15px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;box-shadow:0 10px 40px rgba(79,172,255,.35),0 2px 8px rgba(0,0,0,.4);transition:transform .25s ease,box-shadow .25s ease}
 #hero-cta:hover{transform:translateY(-2px);box-shadow:0 14px 48px rgba(79,172,255,.5),0 4px 12px rgba(0,0,0,.5)}
 #hero-cta svg{transition:transform .25s ease}
@@ -113,22 +116,23 @@ nav.scrolled-light .nav-book{color:#fff!important;}
 }
 
 /* Keyframes */
-@keyframes drawLine{
-  0%{stroke-dashoffset:3500;opacity:0;filter:url(#bezelGlow) drop-shadow(0 0 2px rgba(79,172,255,.2))}
-  3%{opacity:1}
-  100%{stroke-dashoffset:0;opacity:1;filter:url(#bezelGlow) drop-shadow(0 0 7px rgba(79,172,255,.45))}
-}
 @keyframes wallFadeIn{to{opacity:1}}
-@keyframes screenOn{
-  0%{opacity:0}
-  40%{opacity:.4}
-  100%{opacity:.92}
+@keyframes tvPlace{
+  0%{opacity:0;transform:scale(.96)}
+  60%{opacity:1}
+  100%{opacity:1;transform:scale(1)}
 }
 @keyframes tvFlash{
-  0%{opacity:0;transform:scale(1)}
-  15%{opacity:1;transform:scale(1)}
-  60%{opacity:.55;transform:scale(.92)}
-  100%{opacity:0;transform:scale(.7)}
+  0%{opacity:0}
+  12%{opacity:1}
+  40%{opacity:.7}
+  100%{opacity:0}
+}
+@keyframes ledOn{
+  0%{opacity:0}
+  30%{opacity:.85}
+  60%{opacity:.2}
+  100%{opacity:.75}
 }
 @keyframes contentFadeIn{
   from{opacity:0;transform:translateY(6px)}
@@ -144,18 +148,17 @@ nav.scrolled-light .nav-book{color:#fff!important;}
   from{opacity:0;transform:translate(-50%,18px)}
   to{opacity:1;transform:translate(-50%,0)}
 }
-/* Session cache: if user has visited, skip animations (show final state instantly) */
 body.hero-skip #hero-wall{animation:none;opacity:1}
-body.hero-skip #tv-screen{animation:none;opacity:.92}
+body.hero-skip #tv-body-group{animation:none;opacity:1;transform:none}
 body.hero-skip #tv-flash{display:none}
-body.hero-skip .bezel-line{animation:none;stroke-dashoffset:0;opacity:1;filter:url(#bezelGlow) drop-shadow(0 0 7px rgba(79,172,255,.45))}
+body.hero-skip #tv-power-led{animation:none;opacity:.75}
 body.hero-skip #hero-tv-content{animation:none;opacity:1;transform:none}
 body.hero-skip .hero-wordmark{animation:none;opacity:1;transform:none;filter:none}
 body.hero-skip #hero-cta-wrap{animation:none;opacity:1;transform:translateX(-50%)}
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce){
-  #hero-wall,.bezel-line,#tv-screen,#hero-tv-content,#hero-cta-wrap{animation-duration:.01s;animation-delay:0s}
+  #hero-wall,#tv-body-group,#tv-flash,#tv-power-led,#hero-tv-content,.hero-wordmark,#hero-cta-wrap{animation-duration:.01s;animation-delay:0s}
 }
 
 /* Mobile */
@@ -2204,28 +2207,55 @@ document.addEventListener('DOMContentLoaded', function() {
   <!-- Centered TV composition -->
   <div id="hero-tv-wrap">
     <!-- TV bezel (SVG drawn-in lines) -->
-    <svg id="hero-tv-svg" viewBox="0 0 1000 580" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <svg id="hero-tv-svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
       <defs>
-        <radialGradient id="flashGrad" cx="50%" cy="50%" r="55%">
-          <stop offset="0%" stop-color="#e8f4ff" stop-opacity="1"/>
-          <stop offset="40%" stop-color="#7fb8ff" stop-opacity="0.85"/>
+        <!-- Radial flash for power-on moment -->
+        <radialGradient id="flashGrad" cx="50%" cy="50%" r="60%">
+          <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
+          <stop offset="35%" stop-color="#bcdcff" stop-opacity="0.9"/>
           <stop offset="100%" stop-color="#4facff" stop-opacity="0"/>
         </radialGradient>
-        <linearGradient id="bezelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
-          <stop offset="0%" stop-color="#4facff"/>
-          <stop offset="50%" stop-color="#2d7fe8"/>
-          <stop offset="100%" stop-color="#4facff"/>
+        <!-- Subtle vignette on the screen so it doesn't read as pure black hole -->
+        <radialGradient id="screenVignette" cx="50%" cy="45%" r="75%">
+          <stop offset="0%" stop-color="#0d1424" stop-opacity="1"/>
+          <stop offset="65%" stop-color="#060912" stop-opacity="1"/>
+          <stop offset="100%" stop-color="#02040a" stop-opacity="1"/>
+        </radialGradient>
+        <!-- Bezel gradient: matte dark with a hint of top highlight -->
+        <linearGradient id="bezelBody" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#18181c"/>
+          <stop offset="50%" stop-color="#0e0e12"/>
+          <stop offset="100%" stop-color="#070709"/>
         </linearGradient>
-        <filter id="bezelGlow" x="-10%" y="-10%" width="120%" height="120%">
-          <feGaussianBlur stdDeviation="4" result="blur"/>
-          <feMerge><feMergeNode in="blur"/><feMergeNode in="SourceGraphic"/></feMerge>
+        <!-- Screen edge micro-highlight -->
+        <linearGradient id="screenEdge" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#2a3040" stop-opacity="0.8"/>
+          <stop offset="100%" stop-color="#0a0e18" stop-opacity="0.9"/>
+        </linearGradient>
+        <!-- Soft glow beneath TV for wall-mount depth -->
+        <filter id="tvShadow" x="-20%" y="-20%" width="140%" height="160%">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="18"/>
+          <feOffset dx="0" dy="24" result="offsetblur"/>
+          <feComponentTransfer><feFuncA type="linear" slope="0.7"/></feComponentTransfer>
+          <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
       </defs>
-      <!-- TV screen fill (inner dark panel that appears after bezel draws) -->
-      <rect id="tv-screen" x="6" y="6" width="988" height="568" rx="14" ry="14" fill="#06080f" opacity="0"/>
-      <rect id="tv-flash" x="6" y="6" width="988" height="568" rx="14" ry="14" fill="url(#flashGrad)" opacity="0"/>
-      <!-- Four animated path segments forming the bezel -->
-      <path class="bezel-line" id="bezel-full" d="M 500 6 L 994 6 L 994 574 L 6 574 L 6 6 Z" fill="none" stroke="url(#bezelGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#bezelGlow)"/>
+
+      <!-- Group for the whole TV body - fades in as a unit after wall -->
+      <g id="tv-body-group">
+        <!-- TV body (matte black bezel, asymmetric chin) with drop shadow -->
+        <rect id="tv-body" x="40" y="60" width="1520" height="820" rx="14" ry="14" fill="url(#bezelBody)" filter="url(#tvShadow)"/>
+        <!-- Screen inset (dark panel) - screen area sits above chin -->
+        <rect id="tv-screen" x="62" y="82" width="1476" height="720" rx="4" ry="4" fill="url(#screenVignette)"/>
+        <!-- Screen micro-edge highlight (tiny inset border) -->
+        <rect id="tv-screen-edge" x="62" y="82" width="1476" height="720" rx="4" ry="4" fill="none" stroke="url(#screenEdge)" stroke-width="1" opacity="0.8"/>
+        <!-- Bottom chin subtle brand text -->
+        <text id="tv-chin-brand" x="800" y="855" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="16" letter-spacing="4" fill="#2a2a32" opacity="0.9">VISTAMOUNT</text>
+        <!-- Power LED pinpoint on chin -->
+        <circle id="tv-power-led" cx="80" cy="850" r="2.5" fill="#4facff" opacity="0"/>
+        <!-- Screen flash overlay for power-on moment -->
+        <rect id="tv-flash" x="62" y="82" width="1476" height="720" rx="4" ry="4" fill="url(#flashGrad)" opacity="0" style="mix-blend-mode:screen"/>
+      </g>
     </svg>
 
     <!-- Content that appears INSIDE the TV screen -->
@@ -2332,7 +2362,7 @@ document.addEventListener('DOMContentLoaded', function() {
     draw(cur);ne.textContent=cur>=MAX?'800+':cur;
     var lbl=getLbl(cur);
     if(lbl){var cc=getCol(cur/MAX);le.textContent=lbl;le.style.color=rgba(cc,1);}
-    if(cur>=MAX&&ls){ls.textContent='800+ installs ÃÂ· 4.9Ã¢ÂÂ ÃÂ· Same-day available';ls.style.opacity='1';}
+    if(cur>=MAX&&ls){ls.textContent='800+ installs ÃÂÃÂ· 4.9ÃÂ¢ÃÂÃÂ ÃÂÃÂ· Same-day available';ls.style.opacity='1';}
     requestAnimationFrame(step);
   }
   draw(0);
@@ -3198,7 +3228,7 @@ async function submitForm(){
     } catch (e) {
       console.error('Error:', e);
       alert('Booking failed. Please call (480) 903-4769.');
-      btn.textContent = 'Confirm Booking Ã¢ÂÂ';
+      btn.textContent = 'Confirm Booking ÃÂ¢ÃÂÃÂ';
       btn.disabled = false;
     }
   } else {
@@ -3254,7 +3284,7 @@ async function handlePaymentSubmit() {
     }
   } catch (e) {
     alert('Payment failed: ' + e.message);
-    submitBtn.textContent = 'Confirm Booking Ã¢ÂÂ';
+    submitBtn.textContent = 'Confirm Booking ÃÂ¢ÃÂÃÂ';
     submitBtn.disabled = false;
   }
 }
@@ -3371,7 +3401,7 @@ function showPaymentStep() {
     // Show same-day skip message
     sameDaySkip.style.display = 'block';
     futurePayment.style.display = 'none';
-    submitBtn.textContent = 'Confirm Booking Ã¢ÂÂ';
+    submitBtn.textContent = 'Confirm Booking ÃÂ¢ÃÂÃÂ';
   } else {
     // Show payment options
     sameDaySkip.style.display = 'none';
@@ -3491,14 +3521,14 @@ function checkIfDepositNeeded() {
     depositMessage.innerHTML = '<strong style="color:#4facff;font-size:.9rem;">&#10003; BOOKING FOR TODAY - NO DEPOSIT REQUIRED</strong><br><span style="font-size:.75rem;">You selected today. Just confirm below and we\'ll call within 2 hours. Pay when job is complete.</span>';
     cardContainer.style.display = 'none';
     paymentStatus.innerHTML = '';
-    submitBtn.textContent = 'Confirm Booking Ã¢ÂÂ';
+    submitBtn.textContent = 'Confirm Booking ÃÂ¢ÃÂÃÂ';
   } else {
     // Future: Show deposit requirement and payment field
     depositNotice.style.background = 'rgba(255,165,0,.1)';
     depositNotice.style.borderColor = '#ffa500';
     depositMessage.innerHTML = '<strong style="color:#ffa500;font-size:.9rem;">&#128179; $50 DEPOSIT REQUIRED</strong><br><span style="font-size:.75rem;">$50 applied to invoice. $25 non-refundable booking fee + $25 refundable if you cancel.</span>';
     cardContainer.style.display = 'block';
-    submitBtn.textContent = 'Pay $1 Test Deposit & Confirm Ã¢ÂÂ';
+    submitBtn.textContent = 'Pay $1 Test Deposit & Confirm ÃÂ¢ÃÂÃÂ';
     if (!card) {
       initSquarePayment();
     }
