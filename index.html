@@ -58,14 +58,14 @@ nav.scrolled-light .nav-book{color:#fff!important;}
 /* ============ HERO (v2): full-bleed TV-on-wall composition ============ */
 #hero{position:relative;height:100vh;min-height:640px;overflow:hidden;background:#06080f;display:flex;align-items:center;justify-content:center;isolation:isolate}
 
-/* Plaster wall — warm Phoenix/Scottsdale desert tones */
+/* Plaster wall â warm Phoenix/Scottsdale desert tones */
 #hero-wall{position:absolute;inset:0;background:
   radial-gradient(ellipse 90% 70% at 50% 38%, #5a4636 0%, #42332a 35%, #2c2118 65%, #1a130d 90%, #0f0a06 100%),
   linear-gradient(180deg, #40322a 0%, #2a1f17 55%, #120c08 100%);
   opacity:0;
   animation:wallFadeIn 1.4s cubic-bezier(.22,1,.36,1) 0.3s forwards
 }
-/* Plaster texture overlay — simulates hand-troweled finish with layered noise */
+/* Plaster texture overlay â simulates hand-troweled finish with layered noise */
 #hero-wall::before{content:'';position:absolute;inset:0;background:
   radial-gradient(ellipse 40% 30% at 25% 20%, rgba(230,190,140,.12), transparent 60%),
   radial-gradient(ellipse 35% 40% at 75% 70%, rgba(200,155,110,.09), transparent 60%),
@@ -81,11 +81,11 @@ nav.scrolled-light .nav-book{color:#fff!important;}
   radial-gradient(ellipse 70% 55% at 50% 50%, transparent 0%, transparent 45%, rgba(0,0,0,.5) 100%);
   pointer-events:none;z-index:3}
 
-/* TV composition — wall-mounted flat panel */
+/* TV composition â wall-mounted flat panel */
 #hero-tv-wrap{position:relative;z-index:2;width:min(820px,74vw);aspect-ratio:16/9;display:flex;align-items:center;justify-content:center}
 #hero-tv-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 
-/* TV body group — fades in as a placed unit (no bezel-drawing) */
+/* TV body group â fades in as a placed unit (no bezel-drawing) */
 #tv-body-group{opacity:0;transform-origin:center;transform:scale(.97);animation:tvPlace 1.1s cubic-bezier(.22,1,.36,1) 1.1s forwards}
 
 /* Screen power-on flash */
@@ -2209,52 +2209,39 @@ document.addEventListener('DOMContentLoaded', function() {
     <!-- TV bezel (SVG drawn-in lines) -->
     <svg id="hero-tv-svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
       <defs>
-        <!-- Radial flash for power-on moment -->
         <radialGradient id="flashGrad" cx="50%" cy="50%" r="60%">
           <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
           <stop offset="35%" stop-color="#bcdcff" stop-opacity="0.9"/>
           <stop offset="100%" stop-color="#4facff" stop-opacity="0"/>
         </radialGradient>
-        <!-- Subtle vignette on the screen so it doesn't read as pure black hole -->
         <radialGradient id="screenVignette" cx="50%" cy="45%" r="75%">
           <stop offset="0%" stop-color="#0d1424" stop-opacity="1"/>
           <stop offset="65%" stop-color="#060912" stop-opacity="1"/>
           <stop offset="100%" stop-color="#02040a" stop-opacity="1"/>
         </radialGradient>
-        <!-- Bezel gradient: matte dark with a hint of top highlight -->
         <linearGradient id="bezelBody" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stop-color="#18181c"/>
-          <stop offset="50%" stop-color="#0e0e12"/>
-          <stop offset="100%" stop-color="#070709"/>
+          <stop offset="0%" stop-color="#1a1a1f"/>
+          <stop offset="50%" stop-color="#0f0f13"/>
+          <stop offset="100%" stop-color="#07070a"/>
         </linearGradient>
-        <!-- Screen edge micro-highlight -->
         <linearGradient id="screenEdge" x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" stop-color="#2a3040" stop-opacity="0.8"/>
           <stop offset="100%" stop-color="#0a0e18" stop-opacity="0.9"/>
         </linearGradient>
-        <!-- Soft glow beneath TV for wall-mount depth -->
         <filter id="tvShadow" x="-20%" y="-20%" width="140%" height="160%">
-          <feGaussianBlur in="SourceAlpha" stdDeviation="18"/>
-          <feOffset dx="0" dy="24" result="offsetblur"/>
-          <feComponentTransfer><feFuncA type="linear" slope="0.7"/></feComponentTransfer>
+          <feGaussianBlur in="SourceAlpha" stdDeviation="22"/>
+          <feOffset dx="0" dy="28" result="offsetblur"/>
+          <feComponentTransfer><feFuncA type="linear" slope="0.75"/></feComponentTransfer>
           <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
       </defs>
-
-      <!-- Group for the whole TV body - fades in as a unit after wall -->
       <g id="tv-body-group">
-        <!-- TV body (matte black bezel, asymmetric chin) with drop shadow -->
-        <rect id="tv-body" x="40" y="60" width="1520" height="820" rx="14" ry="14" fill="url(#bezelBody)" filter="url(#tvShadow)"/>
-        <!-- Screen inset (dark panel) - screen area sits above chin -->
-        <rect id="tv-screen" x="62" y="82" width="1476" height="720" rx="4" ry="4" fill="url(#screenVignette)"/>
-        <!-- Screen micro-edge highlight (tiny inset border) -->
-        <rect id="tv-screen-edge" x="62" y="82" width="1476" height="720" rx="4" ry="4" fill="none" stroke="url(#screenEdge)" stroke-width="1" opacity="0.8"/>
-        <!-- Bottom chin subtle brand text -->
-        <text id="tv-chin-brand" x="800" y="855" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="16" letter-spacing="4" fill="#2a2a32" opacity="0.9">VISTAMOUNT</text>
-        <!-- Power LED pinpoint on chin -->
-        <circle id="tv-power-led" cx="80" cy="850" r="2.5" fill="#4facff" opacity="0"/>
-        <!-- Screen flash overlay for power-on moment -->
-        <rect id="tv-flash" x="62" y="82" width="1476" height="720" rx="4" ry="4" fill="url(#flashGrad)" opacity="0" style="mix-blend-mode:screen"/>
+        <rect id="tv-body" x="40" y="40" width="1520" height="820" rx="10" ry="10" fill="url(#bezelBody)" filter="url(#tvShadow)"/>
+        <rect id="tv-screen" x="54" y="54" width="1492" height="762" rx="2" ry="2" fill="url(#screenVignette)"/>
+        <rect id="tv-screen-edge" x="54" y="54" width="1492" height="762" rx="2" ry="2" fill="none" stroke="url(#screenEdge)" stroke-width="1" opacity="0.8"/>
+        <text id="tv-chin-brand" x="800" y="842" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="13" letter-spacing="3" fill="#2e2e36" opacity="0.85">VISTAMOUNT</text>
+        <circle id="tv-power-led" cx="80" cy="838" r="2.2" fill="#4facff" opacity="0"/>
+        <rect id="tv-flash" x="54" y="54" width="1492" height="762" rx="2" ry="2" fill="url(#flashGrad)" opacity="0" style="mix-blend-mode:screen"/>
       </g>
     </svg>
 
@@ -2362,7 +2349,7 @@ document.addEventListener('DOMContentLoaded', function() {
     draw(cur);ne.textContent=cur>=MAX?'800+':cur;
     var lbl=getLbl(cur);
     if(lbl){var cc=getCol(cur/MAX);le.textContent=lbl;le.style.color=rgba(cc,1);}
-    if(cur>=MAX&&ls){ls.textContent='800+ installs ÃÂÃÂ· 4.9ÃÂ¢ÃÂÃÂ ÃÂÃÂ· Same-day available';ls.style.opacity='1';}
+    if(cur>=MAX&&ls){ls.textContent='800+ installs ÃÂÃÂÃÂÃÂ· 4.9ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ ÃÂÃÂÃÂÃÂ· Same-day available';ls.style.opacity='1';}
     requestAnimationFrame(step);
   }
   draw(0);
@@ -3228,7 +3215,7 @@ async function submitForm(){
     } catch (e) {
       console.error('Error:', e);
       alert('Booking failed. Please call (480) 903-4769.');
-      btn.textContent = 'Confirm Booking ÃÂ¢ÃÂÃÂ';
+      btn.textContent = 'Confirm Booking ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ';
       btn.disabled = false;
     }
   } else {
@@ -3284,7 +3271,7 @@ async function handlePaymentSubmit() {
     }
   } catch (e) {
     alert('Payment failed: ' + e.message);
-    submitBtn.textContent = 'Confirm Booking ÃÂ¢ÃÂÃÂ';
+    submitBtn.textContent = 'Confirm Booking ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ';
     submitBtn.disabled = false;
   }
 }
@@ -3401,7 +3388,7 @@ function showPaymentStep() {
     // Show same-day skip message
     sameDaySkip.style.display = 'block';
     futurePayment.style.display = 'none';
-    submitBtn.textContent = 'Confirm Booking ÃÂ¢ÃÂÃÂ';
+    submitBtn.textContent = 'Confirm Booking ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ';
   } else {
     // Show payment options
     sameDaySkip.style.display = 'none';
@@ -3521,14 +3508,14 @@ function checkIfDepositNeeded() {
     depositMessage.innerHTML = '<strong style="color:#4facff;font-size:.9rem;">&#10003; BOOKING FOR TODAY - NO DEPOSIT REQUIRED</strong><br><span style="font-size:.75rem;">You selected today. Just confirm below and we\'ll call within 2 hours. Pay when job is complete.</span>';
     cardContainer.style.display = 'none';
     paymentStatus.innerHTML = '';
-    submitBtn.textContent = 'Confirm Booking ÃÂ¢ÃÂÃÂ';
+    submitBtn.textContent = 'Confirm Booking ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ';
   } else {
     // Future: Show deposit requirement and payment field
     depositNotice.style.background = 'rgba(255,165,0,.1)';
     depositNotice.style.borderColor = '#ffa500';
     depositMessage.innerHTML = '<strong style="color:#ffa500;font-size:.9rem;">&#128179; $50 DEPOSIT REQUIRED</strong><br><span style="font-size:.75rem;">$50 applied to invoice. $25 non-refundable booking fee + $25 refundable if you cancel.</span>';
     cardContainer.style.display = 'block';
-    submitBtn.textContent = 'Pay $1 Test Deposit & Confirm ÃÂ¢ÃÂÃÂ';
+    submitBtn.textContent = 'Pay $1 Test Deposit & Confirm ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ';
     if (!card) {
       initSquarePayment();
     }
