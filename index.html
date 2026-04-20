@@ -1337,12 +1337,9 @@ function calculatePrice() {
     if (tv.mountType === 'tilting') total += 25;
     else if (tv.mountType === 'fullmotion') total += 50;
     
-    // Cord concealment
-    if (tv.cords === 'concealed') {
-      if (tv.wall === 'drywall') total += 50;
-      else if (tv.wall === 'stucco') total += 75;
-      else if (tv.wall === 'brick' || tv.wall === 'tile') total += 100;
-    }
+    // Cord concealment (on-wall raceway = $50, in-wall concealment = $75)
+    if (tv.cords === 'raceway') total += 50;
+    else if (tv.cords === 'concealed') total += 75;
     
     // Wall type upcharge for mounting
     if (tv.wall === 'stucco') total += 75;
@@ -1590,9 +1587,10 @@ function renderTVCards() {
       
       <div style="margin-bottom:16px;">
         <label style="display:block;font-size:0.8rem;color:#666;margin-bottom:8px;">Cord Management</label>
-        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;">
-          <button class="option-btn ${tv.cords === 'visible' ? 'selected' : ''}" onclick="setTVProp(${i}, 'cords', 'visible')">Visible<br><small style="font-size:0.75rem;opacity:0.8;">Included</small></button>
-          <button class="option-btn ${tv.cords === 'concealed' ? 'selected' : ''}" onclick="setTVProp(${i}, 'cords', 'concealed')">Concealed<br><small style="font-size:0.75rem;opacity:0.8;">+$50–$100</small></button>
+        <div style="display: grid; grid-template-columns: repeat(3,1fr); gap: 6px;">
+          <button class="option-btn ${tv.cords === 'visible' ? 'selected' : ''}" onclick="setTVProp(${i}, 'cords', 'visible')">Visible<br><small style="font-size: 0.7rem; opacity: 0.8;">Included</small></button>
+          <button class="option-btn ${tv.cords === 'raceway' ? 'selected' : ''}" onclick="setTVProp(${i}, 'cords', 'raceway')">On-Wall<br><small style="font-size: 0.7rem; opacity: 0.8;">+$50</small></button>
+          <button class="option-btn ${tv.cords === 'concealed' ? 'selected' : ''}" onclick="setTVProp(${i}, 'cords', 'concealed')">In-Wall<br><small style="font-size: 0.7rem; opacity: 0.8;">+$75</small></button>
         </div>
       </div>
       
@@ -2189,7 +2187,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <h2 class="section-title-light clip-text"><span class="inner">Every Install,<br><em>Flawlessly Done.</em></span></h2>
     <div class="svc-grid">
       <div class="svc scale-in d1"><div class="svc-num">01</div><div class="svc-name">Precision TV Mounting</div><p class="svc-desc">Flat, tilt, and full-motion mounts on any wall type. Drywall, concrete, brick, tile handled with precision.</p><div class="svc-price">From $100</div></div>
-      <div class="svc scale-in d2"><div class="svc-num">02</div><div class="svc-name">Clean, Hidden Wiring</div><p class="svc-desc">In-wall routing or surface raceways. Zero visible wiring. Your TV looks like it grew out of the wall.</p><div class="svc-price">From $40 — no visible wires</div></div>
+      <div class="svc scale-in d2"><div class="svc-num">02</div><div class="svc-name">Clean, Hidden Wiring</div><p class="svc-desc">In-wall routing or surface raceways. Zero visible wiring. Your TV looks like it grew out of the wall.</p><div class="svc-price">From $50 — no visible wires</div></div>
       <div class="svc scale-in d3"><div class="svc-num">03</div><div class="svc-name">Outlet Installation</div><p class="svc-desc">In-wall power outlet added behind your TV for a completely clean look. No extension cords, no clutter.</p><div class="svc-price">~$150/hr + parts</div></div>
       <div class="svc scale-in d4"><div class="svc-num">04</div><div class="svc-name">Soundbar Install</div><p class="svc-desc">Wall-mounted soundbars aligned perfectly below your TV. Cables managed, brackets secured, audio calibrated.</p><div class="svc-price">From $100</div></div>
       <div class="svc scale-in d5"><div class="svc-num">05</div><div class="svc-name">Smart Home & AV</div><p class="svc-desc">Full AV rack builds, surround sound, PoE systems. High-end Airbnbs, commercial spaces, luxury residences.</p><div class="svc-price">Contact for quote</div></div>
@@ -2848,7 +2846,7 @@ function calcMainEst(){
     var p=MAIN_PRICES[tv.size]||125;
     if(tv.mount!=='own')p+=({fullmotion:65,tilt:50,flat:50}[tv.mount]||0);
     if(tv.cords==='inwall')p+=75;
-    else if(tv.cords==='raceway')p+=40;
+    else if(tv.cords==='raceway')p+=50;
     else if(tv.cords==='outlet')p+=150;
     p+=(MAIN_WALL_PRICES[tv.wall]||0);
     if(i>0)p-=25;
@@ -2870,7 +2868,7 @@ function buildMainBreakdown(){
     lines.push({label:'TV '+(i+1)+' — '+MAIN_SIZE_LABELS[tv.size]+(disc?' (multi-unit discount applied)':''),amt:'$'+(p-disc),highlight:disc>0});
     if(tv.mount!=='own'){var mp=({fullmotion:65,tilt:50,flat:50}[tv.mount]||0);lines.push({label:MAIN_MOUNT_LABELS[tv.mount],amt:mp?'+$'+mp:'Incl.'});}
     else lines.push({label:'Customer-supplied mount',amt:'Incl.'});
-    if(tv.cords!=='none'){var cp=({raceway:40,inwall:75,outlet:150}[tv.cords]||0);lines.push({label:MAIN_CORDS_LABELS[tv.cords],amt:'+$'+cp});}
+    if(tv.cords!=='none'){var cp=({raceway:50,inwall:75,outlet:150}[tv.cords]||0);lines.push({label:MAIN_CORDS_LABELS[tv.cords],amt:'+$'+cp});}
     if(tv.wall!=='drywall'){var wp=MAIN_WALL_PRICES[tv.wall]||0;lines.push({label:MAIN_WALL_LABELS[tv.wall]+' wall upcharge',amt:'+$'+wp});}
   });
   if(mainState.soundbars>0)lines.push({label:'Soundbar install ×'+mainState.soundbars,amt:'+$'+(100+(mainState.soundbars-1)*75)});
