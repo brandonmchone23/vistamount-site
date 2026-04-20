@@ -1518,7 +1518,7 @@ function initBookingStep1() {
     <div style="background:#e8f4ff;padding:20px;border-radius:8px;border:1px solid #b8daff;margin-top:24px;text-align:center;">
       <div style="font-size:0.85rem;color:#666;margin-bottom:8px;">Estimated Total</div>
       <div class="price-display" style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#2d7fe8;">$0</div>
-      <div style="font-size:0.75rem;color:#666;margin-top:8px;">$50 deposit applies to final invoice</div>
+      <div style="font-size:0.75rem;color:#666;margin-top:8px;">$50 deposit only for next-day bookings · same-day books free</div>
       <div style="font-size:0.75rem;color:#666;margin-top:4px;">Final price confirmed on-site</div>
     </div>
     
@@ -1647,7 +1647,7 @@ function initBookingStep2() {
     <div style="background:#e8f4ff;padding:20px;border-radius:8px;border:1px solid #b8daff;margin-top:24px;text-align:center;">
       <div style="font-size:0.85rem;color:#666;margin-bottom:8px;">Estimated Total</div>
       <div class="price-display" style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#2d7fe8;">$0</div>
-      <div style="font-size:0.75rem;color:#666;margin-top:8px;">$50 deposit applies to final invoice</div>
+      <div style="font-size:0.75rem;color:#666;margin-top:8px;">$50 deposit only for next-day bookings · same-day books free</div>
       <div style="font-size:0.75rem;color:#666;margin-top:4px;">Final price confirmed on-site</div>
     </div>
     
@@ -1978,7 +1978,7 @@ function initBookingStep4() {
     <div style="background:#e8f4ff;padding:20px;border-radius:8px;border:1px solid #b8daff;margin-top:24px;text-align:center;">
       <div style="font-size:0.85rem;color:#666;margin-bottom:8px;">Estimated Total</div>
       <div class="price-display" style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#2d7fe8;">$0</div>
-      <div style="font-size:0.75rem;color:#666;margin-top:8px;">$50 deposit applies to final invoice</div>
+      <div style="font-size:0.75rem;color:#666;margin-top:8px;">$50 deposit only for next-day bookings · same-day books free</div>
       <div style="font-size:0.75rem;color:#666;margin-top:4px;">Final price confirmed on-site</div>
     </div>
     
@@ -2338,8 +2338,8 @@ document.addEventListener('DOMContentLoaded', function() {
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg>
           </div>
           <div class="policy-body">
-            <div class="policy-title">Same-day service, by request</div>
-            <div class="policy-desc">Same-day slots are for advance bookings when our schedule allows — we don't hold open walk-in windows. Book online to see real availability.</div>
+            <div class="policy-title">Same-day service, when available</div>
+            <div class="policy-desc">Same-day is often possible but not guaranteed — it depends on how our schedule looks when you book. Check the live calendar for today's real openings. No walk-ups; everything is booked online.</div>
           </div>
         </div>
         <div class="policy-card">
@@ -2347,8 +2347,8 @@ document.addEventListener('DOMContentLoaded', function() {
             <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
           </div>
           <div class="policy-body">
-            <div class="policy-title">$50 deposit · $25 non-refundable</div>
-            <div class="policy-desc">A $50 deposit reserves your slot and applies to the final invoice. Reschedule anytime — you keep the full deposit. If you cancel outright, $25 is non-refundable. Keeps our calendar real and both of our time respected.</div>
+            <div class="policy-title">$50 deposit for next-day bookings</div>
+            <div class="policy-desc">Same-day books free — no deposit, just confirm. Next-day or advance-booked appointments require a $50 deposit that applies to your final invoice. Reschedule anytime and you keep the full deposit; cancel outright and $25 is non-refundable. Keeps our calendar real and respects both of our time.</div>
           </div>
         </div>
       </div>
@@ -2701,7 +2701,7 @@ function hText(alpha,oy){
   var eyebrowSize=Math.min(12,W*0.022);
   hctx.font='600 '+eyebrowSize+'px sans-serif';
   hctx.letterSpacing='3px';hctx.fillStyle='#4facff';
-  hctx.fillText('SAME-DAY INSTALLATION · PHOENIX, AZ',W/2,H*0.30+oy);
+  hctx.fillText('SAME-DAY OFTEN AVAILABLE · PHOENIX, AZ',W/2,H*0.30+oy);
 
   // Main wordmark
   var fs=Math.min(W*0.145,H*0.22);
