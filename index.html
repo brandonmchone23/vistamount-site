@@ -58,14 +58,14 @@ nav.scrolled-light .nav-book{color:#fff!important;}
 /* ============ HERO (v2): full-bleed TV-on-wall composition ============ */
 #hero{position:relative;height:100vh;min-height:640px;overflow:hidden;background:#06080f;display:flex;align-items:center;justify-content:center;isolation:isolate}
 
-/* Plaster wall â warm Phoenix/Scottsdale desert tones */
+/* Plaster wall Ã¢ÂÂ warm Phoenix/Scottsdale desert tones */
 #hero-wall{position:absolute;inset:0;background:
   radial-gradient(ellipse 90% 70% at 50% 38%, #5a4636 0%, #42332a 35%, #2c2118 65%, #1a130d 90%, #0f0a06 100%),
   linear-gradient(180deg, #40322a 0%, #2a1f17 55%, #120c08 100%);
   opacity:0;
   animation:wallFadeIn 1.4s cubic-bezier(.22,1,.36,1) 0.3s forwards
 }
-/* Plaster texture overlay â simulates hand-troweled finish with layered noise */
+/* Plaster texture overlay Ã¢ÂÂ simulates hand-troweled finish with layered noise */
 #hero-wall::before{content:'';position:absolute;inset:0;background:
   radial-gradient(ellipse 40% 30% at 25% 20%, rgba(230,190,140,.12), transparent 60%),
   radial-gradient(ellipse 35% 40% at 75% 70%, rgba(200,155,110,.09), transparent 60%),
@@ -81,11 +81,11 @@ nav.scrolled-light .nav-book{color:#fff!important;}
   radial-gradient(ellipse 70% 55% at 50% 50%, transparent 0%, transparent 45%, rgba(0,0,0,.5) 100%);
   pointer-events:none;z-index:3}
 
-/* TV composition â wall-mounted flat panel */
-#hero-tv-wrap{position:relative;z-index:2;width:min(820px,74vw);aspect-ratio:16/9;display:flex;align-items:center;justify-content:center}
+/* TV composition Ã¢ÂÂ wall-mounted flat panel */
+#hero-tv-wrap{position:relative;z-index:2;width:min(820px,74vw);aspect-ratio:1600/1020;display:flex;align-items:center;justify-content:center}
 #hero-tv-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 
-/* TV body group â fades in as a placed unit (no bezel-drawing) */
+/* TV body group Ã¢ÂÂ fades in as a placed unit (no bezel-drawing) */
 #tv-body-group{opacity:0;transform-origin:center;transform:scale(.97);animation:tvPlace 1.1s cubic-bezier(.22,1,.36,1) 1.1s forwards}
 
 /* Screen power-on flash */
@@ -93,6 +93,12 @@ nav.scrolled-light .nav-book{color:#fff!important;}
 
 /* Subtle power LED blink after screen on */
 #tv-power-led{animation:ledOn 0.6s ease-out 2.4s forwards}
+#soundbar-group{opacity:0;transform-origin:center;transform:translateY(10px) scale(.98);animation:sbPlace 0.9s cubic-bezier(.22,1,.36,1) 2.3s forwards}
+#sb-power-led{animation:ledOn 0.5s ease-out 2.7s forwards}
+.sb-txt{opacity:0}
+#sb-txt-dash{animation:sbTxtDash 0.5s steps(4) 2.8s forwards}
+#sb-txt-hdmi{animation:sbTxtOn 0.4s steps(1) 3.1s forwards}
+#sb-txt-arc{animation:sbTxtOn 0.5s steps(1) 3.5s forwards}
 
 /* Content inside the TV "screen" */
 #hero-tv-content{position:relative;z-index:4;text-align:center;padding:0 8%;opacity:0;animation:contentFadeIn .7s cubic-bezier(.22,1,.36,1) 2.4s forwards}
@@ -144,6 +150,29 @@ nav.scrolled-light .nav-book{color:#fff!important;}
   70%{filter:blur(0) brightness(1.15)}
   100%{opacity:1;transform:scale(1);filter:blur(0) brightness(1)}
 }
+@keyframes sbPlace{
+  0%{opacity:0;transform:translateY(10px) scale(.98)}
+  60%{opacity:1}
+  100%{opacity:1;transform:translateY(0) scale(1)}
+}
+@keyframes sbTxtDash{
+  0%{opacity:0}
+  20%{opacity:0.9}
+  50%{opacity:0.3}
+  80%{opacity:0.9}
+  100%{opacity:0}
+}
+@keyframes sbTxtOn{
+  0%{opacity:0}
+  100%{opacity:1}
+}
+#sb-txt-hdmi{animation-fill-mode:forwards}
+#sb-txt-arc{animation-fill-mode:forwards}
+/* When ARC appears, hide HDMI */
+#sb-txt-hdmi{animation:sbTxtOn 0.3s steps(1) 3.1s forwards, sbTxtOff 0.1s steps(1) 3.5s forwards}
+@keyframes sbTxtOff{
+  to{opacity:0}
+}
 @keyframes ctaRiseIn{
   from{opacity:0;transform:translate(-50%,18px)}
   to{opacity:1;transform:translate(-50%,0)}
@@ -154,6 +183,11 @@ body.hero-skip #tv-flash{display:none}
 body.hero-skip #tv-power-led{animation:none;opacity:.75}
 body.hero-skip #hero-tv-content{animation:none;opacity:1;transform:none}
 body.hero-skip .hero-wordmark{animation:none;opacity:1;transform:none;filter:none}
+body.hero-skip #soundbar-group{animation:none;opacity:1;transform:none}
+body.hero-skip #sb-power-led{animation:none;opacity:.75}
+body.hero-skip #sb-txt-dash{animation:none;opacity:0}
+body.hero-skip #sb-txt-hdmi{animation:none;opacity:0}
+body.hero-skip #sb-txt-arc{animation:none;opacity:1}
 body.hero-skip #hero-cta-wrap{animation:none;opacity:1;transform:translateX(-50%)}
 
 /* Respect reduced motion */
@@ -1751,6 +1785,11 @@ function initBookingStep2() {
           <div style="font-weight:600;margin-bottom:4px;">Remove Existing Mount</div>
           <div style="font-size:0.75rem;color:#666;">$25 each</div>
         </div>
+        <div class="addon-item">
+          <div class="addon-name">TV Haul-Away &amp; Recycling</div>
+          <div class="addon-desc">Old TV? We haul it away and drop it at <a href="https://www.agapecomputerandelectronicsrecycling.com/" target="_blank" rel="noopener" style="color:#4facff;text-decoration:none;border-bottom:1px dotted rgba(79,172,255,.4)">Agape</a> in Phoenix &mdash; zero landfill.</div>
+          <div class="addon-cost">Included <span class="muted">with install</span></div>
+        </div>
         <div style="display:flex;align-items:center;gap:12px;">
           <button class="qty-btn" onclick="adjustQty('dismounts', -1)">&minus;</button>
           <span style="font-weight:600;min-width:20px;text-align:center;">${bookingState.dismounts}</span>
@@ -2207,7 +2246,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <!-- Centered TV composition -->
   <div id="hero-tv-wrap">
     <!-- TV bezel (SVG drawn-in lines) -->
-    <svg id="hero-tv-svg" viewBox="0 0 1600 900" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+    <svg id="hero-tv-svg" viewBox="0 0 1600 1020" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
       <defs>
         <radialGradient id="flashGrad" cx="50%" cy="50%" r="60%">
           <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
@@ -2228,13 +2267,28 @@ document.addEventListener('DOMContentLoaded', function() {
           <stop offset="0%" stop-color="#2a3040" stop-opacity="0.8"/>
           <stop offset="100%" stop-color="#0a0e18" stop-opacity="0.9"/>
         </linearGradient>
+        <linearGradient id="soundbarBody" x1="0%" y1="0%" x2="0%" y2="100%">
+          <stop offset="0%" stop-color="#161619"/>
+          <stop offset="50%" stop-color="#0c0c0f"/>
+          <stop offset="100%" stop-color="#050507"/>
+        </linearGradient>
+        <pattern id="grillePattern" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse">
+          <circle cx="3" cy="3" r="1" fill="#050507" opacity="0.7"/>
+        </pattern>
         <filter id="tvShadow" x="-20%" y="-20%" width="140%" height="160%">
           <feGaussianBlur in="SourceAlpha" stdDeviation="22"/>
           <feOffset dx="0" dy="28" result="offsetblur"/>
           <feComponentTransfer><feFuncA type="linear" slope="0.75"/></feComponentTransfer>
           <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
         </filter>
+        <filter id="sbShadow" x="-20%" y="-40%" width="140%" height="220%">
+          <feGaussianBlur in="SourceAlpha" stdDeviation="10"/>
+          <feOffset dx="0" dy="10" result="offsetblur"/>
+          <feComponentTransfer><feFuncA type="linear" slope="0.6"/></feComponentTransfer>
+          <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
+        </filter>
       </defs>
+
       <g id="tv-body-group">
         <rect id="tv-body" x="40" y="40" width="1520" height="820" rx="10" ry="10" fill="url(#bezelBody)" filter="url(#tvShadow)"/>
         <rect id="tv-screen" x="54" y="54" width="1492" height="762" rx="2" ry="2" fill="url(#screenVignette)"/>
@@ -2243,13 +2297,30 @@ document.addEventListener('DOMContentLoaded', function() {
         <circle id="tv-power-led" cx="80" cy="838" r="2.2" fill="#4facff" opacity="0"/>
         <rect id="tv-flash" x="54" y="54" width="1492" height="762" rx="2" ry="2" fill="url(#flashGrad)" opacity="0" style="mix-blend-mode:screen"/>
       </g>
+
+      <g id="soundbar-group">
+        <!-- Soundbar body with shadow -->
+        <rect id="sb-body" x="330" y="900" width="940" height="68" rx="6" ry="6" fill="url(#soundbarBody)" filter="url(#sbShadow)"/>
+        <!-- Speaker grille (perforated pattern) on the left half -->
+        <rect id="sb-grille" x="350" y="916" width="660" height="36" rx="2" ry="2" fill="url(#grillePattern)"/>
+        <!-- Tiny power LED on far left -->
+        <circle id="sb-power-led" cx="352" cy="934" r="1.8" fill="#4facff" opacity="0"/>
+        <!-- Display panel on the right (dark recessed) -->
+        <rect id="sb-display-panel" x="1060" y="918" width="180" height="32" rx="3" ry="3" fill="#0a0a0c" stroke="#1a1a1f" stroke-width="1"/>
+        <!-- Display text (amber VFD-style) -->
+        <g id="sb-display-group" style="filter:drop-shadow(0 0 4px rgba(255,179,71,0.55))">
+          <text class="sb-txt" id="sb-txt-dash" x="1150" y="940" text-anchor="middle" font-family="'Courier New',monospace" font-size="16" font-weight="700" letter-spacing="4" fill="#ffb347" opacity="0">- - -</text>
+          <text class="sb-txt" id="sb-txt-hdmi" x="1150" y="940" text-anchor="middle" font-family="'Courier New',monospace" font-size="16" font-weight="700" letter-spacing="2" fill="#ffb347" opacity="0">HDMI</text>
+          <text class="sb-txt" id="sb-txt-arc" x="1150" y="940" text-anchor="middle" font-family="'Courier New',monospace" font-size="16" font-weight="700" letter-spacing="2" fill="#ffb347" opacity="0">HDMI ARC</text>
+        </g>
+      </g>
     </svg>
 
     <!-- Content that appears INSIDE the TV screen -->
     <div id="hero-tv-content">
       <div class="hero-eyebrow">PHOENIX, AZ &middot; SAME-DAY OFTEN AVAILABLE</div>
       <h1 class="hero-wordmark">VISTAMOUNT</h1>
-      <p class="hero-tagline">Clean installs. No visible wires. Done right the first time.</p>
+      <p class="hero-tagline">Clean installs. Hidden wires available. Done right the first time.</p>
     </div>
   </div>
 
@@ -2349,7 +2420,7 @@ document.addEventListener('DOMContentLoaded', function() {
     draw(cur);ne.textContent=cur>=MAX?'800+':cur;
     var lbl=getLbl(cur);
     if(lbl){var cc=getCol(cur/MAX);le.textContent=lbl;le.style.color=rgba(cc,1);}
-    if(cur>=MAX&&ls){ls.textContent='800+ installs ÃÂÃÂÃÂÃÂ· 4.9ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ ÃÂÃÂÃÂÃÂ· Same-day available';ls.style.opacity='1';}
+    if(cur>=MAX&&ls){ls.textContent='800+ installs ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ· 4.9ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ· Same-day available';ls.style.opacity='1';}
     requestAnimationFrame(step);
   }
   draw(0);
@@ -2481,7 +2552,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li><span>Tilting</span><span class="upg-price">+$45</span></li>
           <li><span>Full Motion</span><span class="upg-price">+$75</span></li>
         </ul>
-        <div class="upg-footnote">Every mount price includes the hardware and the install &mdash; no surprise add-ons at your door.</div>
+        <div class="upg-footnote">Mount prices cover the mount hardware only. Installation is priced separately and shown in your total.</div>
       </div>
 
       <div class="pricing-upgrade fade-up d2">
@@ -3215,7 +3286,7 @@ async function submitForm(){
     } catch (e) {
       console.error('Error:', e);
       alert('Booking failed. Please call (480) 903-4769.');
-      btn.textContent = 'Confirm Booking ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ';
+      btn.textContent = 'Confirm Booking ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ';
       btn.disabled = false;
     }
   } else {
@@ -3271,7 +3342,7 @@ async function handlePaymentSubmit() {
     }
   } catch (e) {
     alert('Payment failed: ' + e.message);
-    submitBtn.textContent = 'Confirm Booking ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ';
+    submitBtn.textContent = 'Confirm Booking ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ';
     submitBtn.disabled = false;
   }
 }
@@ -3388,7 +3459,7 @@ function showPaymentStep() {
     // Show same-day skip message
     sameDaySkip.style.display = 'block';
     futurePayment.style.display = 'none';
-    submitBtn.textContent = 'Confirm Booking ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ';
+    submitBtn.textContent = 'Confirm Booking ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ';
   } else {
     // Show payment options
     sameDaySkip.style.display = 'none';
@@ -3508,14 +3579,14 @@ function checkIfDepositNeeded() {
     depositMessage.innerHTML = '<strong style="color:#4facff;font-size:.9rem;">&#10003; BOOKING FOR TODAY - NO DEPOSIT REQUIRED</strong><br><span style="font-size:.75rem;">You selected today. Just confirm below and we\'ll call within 2 hours. Pay when job is complete.</span>';
     cardContainer.style.display = 'none';
     paymentStatus.innerHTML = '';
-    submitBtn.textContent = 'Confirm Booking ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ';
+    submitBtn.textContent = 'Confirm Booking ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ';
   } else {
     // Future: Show deposit requirement and payment field
     depositNotice.style.background = 'rgba(255,165,0,.1)';
     depositNotice.style.borderColor = '#ffa500';
     depositMessage.innerHTML = '<strong style="color:#ffa500;font-size:.9rem;">&#128179; $50 DEPOSIT REQUIRED</strong><br><span style="font-size:.75rem;">$50 applied to invoice. $25 non-refundable booking fee + $25 refundable if you cancel.</span>';
     cardContainer.style.display = 'block';
-    submitBtn.textContent = 'Pay $1 Test Deposit & Confirm ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ';
+    submitBtn.textContent = 'Pay $1 Test Deposit & Confirm ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ';
     if (!card) {
       initSquarePayment();
     }
