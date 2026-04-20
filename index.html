@@ -90,10 +90,6 @@ nav.scrolled-light .nav-book{color:#fff!important;}
 .bezel-line{stroke-dasharray:3500;stroke-dashoffset:3500;opacity:0}
 #bezel-full{animation:drawLine 1.2s cubic-bezier(.65,0,.35,1) .2s forwards, bezelPulse 2.4s ease-in-out 1.8s infinite}
 
-/* TV mount stem  small visual detail behind TV */
-#hero-tv-mount{position:absolute;left:50%;bottom:-18px;transform:translateX(-50%);width:44px;height:26px;background:linear-gradient(180deg,#1a1a1a,#0a0a0a);border-radius:3px;box-shadow:0 4px 12px rgba(0,0,0,.6);opacity:0;animation:mountFadeIn .4s ease .9s forwards;z-index:1}
-#hero-tv-mount::before{content:"";position:absolute;left:50%;top:-14px;transform:translateX(-50%);width:8px;height:16px;background:linear-gradient(180deg,#222,#111);border-radius:2px 2px 0 0}
-
 /* Content inside the TV "screen" */
 #hero-tv-content{position:relative;z-index:4;text-align:center;padding:0 8%;opacity:0;animation:contentFadeIn .8s cubic-bezier(.22,1,.36,1) 1.3s forwards}
 .hero-eyebrow{font-size:clamp(10px,1.1vw,13px);letter-spacing:.32em;color:#4facff;font-weight:500;margin-bottom:clamp(10px,2vw,22px);text-transform:uppercase}
@@ -134,19 +130,16 @@ nav.scrolled-light .nav-book{color:#fff!important;}
   from{opacity:0;transform:translate(-50%,16px)}
   to{opacity:1;transform:translate(-50%,0)}
 }
-@keyframes mountFadeIn{to{opacity:.7}}
-
 /* Session cache: if user has visited, skip animations (show final state instantly) */
 body.hero-skip #hero-wall{animation:none;opacity:1}
 body.hero-skip #tv-screen{animation:none;opacity:.88}
 body.hero-skip .bezel-line{animation:none;stroke-dashoffset:0;opacity:1}
-body.hero-skip #hero-tv-mount{animation:none;opacity:.7}
 body.hero-skip #hero-tv-content{animation:none;opacity:1;transform:none}
 body.hero-skip #hero-cta-wrap{animation:none;opacity:1;transform:translateX(-50%)}
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce){
-  #hero-wall,.bezel-line,#tv-screen,#hero-tv-mount,#hero-tv-content,#hero-cta-wrap{animation-duration:.01s;animation-delay:0s}
+  #hero-wall,.bezel-line,#tv-screen,#hero-tv-content,#hero-cta-wrap{animation-duration:.01s;animation-delay:0s}
 }
 
 /* Mobile */
@@ -619,7 +612,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
 }
 
 .scroll-indicator::after {
-  content: 'â¼';
+  content: 'Ã¢ÂÂ¼';
   font-size: 1.2rem;
   color: #4facff;
   text-shadow: 0 0 8px rgba(79, 172, 255, 0.6), 0 0 12px rgba(79, 172, 255, 0.4);
@@ -828,7 +821,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
 /* Universal section dividers (clean visual separation) */
 .services-section, .process-section, .why-section { position: relative; }
 
-/* Section rhythm â override inline styles for variety */
+/* Section rhythm Ã¢ÂÂ override inline styles for variety */
 section#services-section.services-section {
   background: linear-gradient(180deg, #0a1628 0%, #112038 100%) !important;
   padding: 110px 52px !important;
@@ -878,7 +871,7 @@ section#services-section .svc-name { color: #fff; font-weight: 600; font-size: 1
 section#services-section .svc-desc { color: rgba(255,255,255,.7); line-height: 1.65; }
 section#services-section .svc-price { color: #2d7fe8; font-weight: 600; margin-top: 14px; font-size: .92rem; }
 
-/* PROCESS â horizontal timeline with connector */
+/* PROCESS Ã¢ÂÂ horizontal timeline with connector */
 section#process-section.process-section {
   background: #ffffff !important;
   padding: 110px 52px !important;
@@ -932,7 +925,7 @@ section#process-section .step-desc { color: #4a5568; line-height: 1.6; font-size
   section#process-section .process-grid::before { display: none; }
 }
 
-/* WHY â dark split with stat strip */
+/* WHY Ã¢ÂÂ dark split with stat strip */
 section.why-section {
   background: linear-gradient(135deg, #0a1628 0%, #1a2847 100%) !important;
   padding: 110px 52px !important;
@@ -948,7 +941,7 @@ section.why-section::before {
   pointer-events: none;
 }
 
-/* WHO â light with emoji cards */
+/* WHO Ã¢ÂÂ light with emoji cards */
 section.who-section-premium {
   background: #f7f9fc !important;
   padding: 110px 52px !important;
@@ -967,7 +960,7 @@ section.who-section-premium .who-grid > div:hover {
   border-color: rgba(45,127,232,.3);
 }
 
-/* TRUST BAR â dark strip */
+/* TRUST BAR Ã¢ÂÂ dark strip */
 .trust-bar {
   background: #0a1628;
   padding: 28px 52px;
@@ -1131,7 +1124,7 @@ section.why-section [id*="counter"] { color: #2d7fe8 !important; }
 @media (max-width: 860px) { .svc-grid { grid-template-columns: 1fr !important; gap: 12px !important; } }
 
 
-/* ======= PRICING v2 â transparent pricing system ======= */
+/* ======= PRICING v2 Ã¢ÂÂ transparent pricing system ======= */
 .pricing-section {
   background: #ffffff;
   padding: 110px 52px;
@@ -1151,7 +1144,7 @@ section.why-section [id*="counter"] { color: #2d7fe8 !important; }
 .pricing-title em { color: #2d7fe8; font-style: normal; }
 .pricing-sub { color: #64748b; margin-top: 16px; font-size: 1.05rem; max-width: 600px; margin-left: auto; margin-right: auto; line-height: 1.6; }
 
-/* Base pricing block â TV size grid */
+/* Base pricing block Ã¢ÂÂ TV size grid */
 .pricing-block {
   background: linear-gradient(180deg, #0a1628 0%, #142a4a 100%);
   border-radius: 20px;
@@ -1216,7 +1209,7 @@ section.why-section [id*="counter"] { color: #2d7fe8 !important; }
   box-shadow: 0 6px 16px rgba(45,127,232,.35);
 }
 
-/* Upgrades â 3 col grid */
+/* Upgrades Ã¢ÂÂ 3 col grid */
 .pricing-upgrade-grid {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
@@ -1619,7 +1612,7 @@ function initBookingStep1() {
     <div style="background:#e8f4ff;padding:20px;border-radius:8px;border:1px solid #b8daff;margin-top:24px;text-align:center;">
       <div style="font-size:0.85rem;color:#666;margin-bottom:8px;">Estimated Total</div>
       <div class="price-display" style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#2d7fe8;">$0</div>
-      <div style="font-size:0.75rem;color:#666;margin-top:8px;">$50 deposit only for next-day bookings Â· same-day books free</div>
+      <div style="font-size:0.75rem;color:#666;margin-top:8px;">$50 deposit only for next-day bookings ÃÂ· same-day books free</div>
       <div style="font-size:0.75rem;color:#666;margin-top:4px;">Final price confirmed on-site</div>
     </div>
     
@@ -1627,7 +1620,7 @@ function initBookingStep1() {
     
     <div class="modal-nav">
       <div></div>
-      <button class="btn-next" onclick="goBookingStep(2)">Next: Add-ons â</button>
+      <button class="btn-next" onclick="goBookingStep(2)">Next: Add-ons Ã¢ÂÂ</button>
     </div>
   `;
   
@@ -1672,8 +1665,8 @@ function renderTVCards() {
         <label style="display:block;font-size:0.8rem;color:#666;margin-bottom:8px;">TV Size</label>
         <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;">
           <button class="option-btn ${tv.size === '<32' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '<32')">Under 32"<br><small style="font-size:0.75rem;opacity:0.8;">$100</small></button>
-          <button class="option-btn ${tv.size === '32-64' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '32-64')">32"â64"<br><small style="font-size:0.75rem;opacity:0.8;">$125</small></button>
-          <button class="option-btn ${tv.size === '65-84' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '65-84')">65"â84"<br><small style="font-size:0.75rem;opacity:0.8;">$150</small></button>
+          <button class="option-btn ${tv.size === '32-64' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '32-64')">32"Ã¢ÂÂ64"<br><small style="font-size:0.75rem;opacity:0.8;">$125</small></button>
+          <button class="option-btn ${tv.size === '65-84' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '65-84')">65"Ã¢ÂÂ84"<br><small style="font-size:0.75rem;opacity:0.8;">$150</small></button>
           <button class="option-btn ${tv.size === '85+' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '85+')">85"+<br><small style="font-size:0.75rem;opacity:0.8;">$200</small></button>
         </div>
       </div>
@@ -1726,7 +1719,7 @@ function initBookingStep2() {
           <div style="font-size:0.75rem;color:#666;">$100 first, $75 each after</div>
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
-          <button class="qty-btn" onclick="adjustQty('soundbars', -1)">â</button>
+          <button class="qty-btn" onclick="adjustQty('soundbars', -1)">Ã¢ÂÂ</button>
           <span style="font-weight:600;min-width:20px;text-align:center;">${bookingState.soundbars}</span>
           <button class="qty-btn" onclick="adjustQty('soundbars', 1)">+</button>
         </div>
@@ -1738,7 +1731,7 @@ function initBookingStep2() {
           <div style="font-size:0.75rem;color:#666;">$25 each</div>
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
-          <button class="qty-btn" onclick="adjustQty('dismounts', -1)">â</button>
+          <button class="qty-btn" onclick="adjustQty('dismounts', -1)">Ã¢ÂÂ</button>
           <span style="font-weight:600;min-width:20px;text-align:center;">${bookingState.dismounts}</span>
           <button class="qty-btn" onclick="adjustQty('dismounts', 1)">+</button>
         </div>
@@ -1748,13 +1741,13 @@ function initBookingStep2() {
     <div style="background:#e8f4ff;padding:20px;border-radius:8px;border:1px solid #b8daff;margin-top:24px;text-align:center;">
       <div style="font-size:0.85rem;color:#666;margin-bottom:8px;">Estimated Total</div>
       <div class="price-display" style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#2d7fe8;">$0</div>
-      <div style="font-size:0.75rem;color:#666;margin-top:8px;">$50 deposit only for next-day bookings Â· same-day books free</div>
+      <div style="font-size:0.75rem;color:#666;margin-top:8px;">$50 deposit only for next-day bookings ÃÂ· same-day books free</div>
       <div style="font-size:0.75rem;color:#666;margin-top:4px;">Final price confirmed on-site</div>
     </div>
     
     <div class="modal-nav">
-      <button class="btn-back" onclick="goBookingStep(1)">â Back</button>
-      <button class="btn-next" onclick="goBookingStep(3)">Next: Schedule â</button>
+      <button class="btn-back" onclick="goBookingStep(1)">Ã¢ÂÂ Back</button>
+      <button class="btn-next" onclick="goBookingStep(3)">Next: Schedule Ã¢ÂÂ</button>
     </div>
   `;
   updatePriceDisplay();
@@ -1787,8 +1780,8 @@ function initBookingStep3() {
     </div>
     
     <div class="modal-nav">
-      <button class="btn-back" onclick="goBookingStep(2)">â Back</button>
-      <button class="btn-next" onclick="goBookingStep(4)">Next â</button>
+      <button class="btn-back" onclick="goBookingStep(2)">Ã¢ÂÂ Back</button>
+      <button class="btn-next" onclick="goBookingStep(4)">Next Ã¢ÂÂ</button>
     </div>
   `;
   
@@ -1990,7 +1983,7 @@ function showSuccessScreen(confirmationNumber) {
   const container = document.getElementById('modal-form-container');
   container.innerHTML = `
     <div style="text-align:center;padding:60px 40px;">
-      <div style="font-size:4rem;margin-bottom:20px;">â</div>
+      <div style="font-size:4rem;margin-bottom:20px;">Ã¢ÂÂ</div>
       <h2 style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--bl);margin-bottom:12px;">Booking Confirmed!</h2>
       <div style="font-size:1rem;color:#666;margin-bottom:30px;">Confirmation #: <strong style="color:var(--w)">${confirmationNumber}</strong></div>
       <div style="background:#f0f4f8;padding:20px;border-radius:6px;margin-bottom:30px;">
@@ -2062,7 +2055,7 @@ function initBookingStep4() {
         <div style="background:#fff3cd;padding:12px;border-radius:6px;margin-bottom:16px;border-left:3px solid #ffc107;">
           <div style="font-size:0.8rem;color:#856404;font-weight:600;margin-bottom:4px;">Why we require a deposit:</div>
           <div style="font-size:0.75rem;color:#856404;line-height:1.5;">
-            We're a small business. Last-minute cancellations cost us time and lost income. The $50 deposit ensures you're serious about your appointment. <strong>$25 is non-refundable, $25 is refunded if you cancel.</strong> <strong>Same-day bookings are free</strong> â no deposit needed.
+            We're a small business. Last-minute cancellations cost us time and lost income. The $50 deposit ensures you're serious about your appointment. <strong>$25 is non-refundable, $25 is refunded if you cancel.</strong> <strong>Same-day bookings are free</strong> Ã¢ÂÂ no deposit needed.
           </div>
         </div>
         
@@ -2079,13 +2072,13 @@ function initBookingStep4() {
     <div style="background:#e8f4ff;padding:20px;border-radius:8px;border:1px solid #b8daff;margin-top:24px;text-align:center;">
       <div style="font-size:0.85rem;color:#666;margin-bottom:8px;">Estimated Total</div>
       <div class="price-display" style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#2d7fe8;">$0</div>
-      <div style="font-size:0.75rem;color:#666;margin-top:8px;">$50 deposit only for next-day bookings Â· same-day books free</div>
+      <div style="font-size:0.75rem;color:#666;margin-top:8px;">$50 deposit only for next-day bookings ÃÂ· same-day books free</div>
       <div style="font-size:0.75rem;color:#666;margin-top:4px;">Final price confirmed on-site</div>
     </div>
     
     <div class="modal-nav">
-      <button class="btn-back" onclick="goBookingStep(3)">â Back</button>
-      <button class="btn-next" onclick="submitBooking()">Complete Booking â</button>
+      <button class="btn-back" onclick="goBookingStep(3)">Ã¢ÂÂ Back</button>
+      <button class="btn-next" onclick="submitBooking()">Complete Booking Ã¢ÂÂ</button>
     </div>
   `;
   
@@ -2196,9 +2189,6 @@ document.addEventListener('DOMContentLoaded', function() {
       <path class="bezel-line" id="bezel-full" d="M 500 6 L 994 6 L 994 574 L 6 574 L 6 6 Z" fill="none" stroke="url(#bezelGrad)" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" filter="url(#bezelGlow)"/>
     </svg>
 
-    <!-- TV mount stem + plate (subtle detail for realism) -->
-    <div id="hero-tv-mount" aria-hidden="true"></div>
-
     <!-- Content that appears INSIDE the TV screen -->
     <div id="hero-tv-content">
       <div class="hero-eyebrow">PHOENIX, AZ &middot; SAME-DAY OFTEN AVAILABLE</div>
@@ -2246,16 +2236,16 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
     <div style="display:flex;flex-direction:column;gap:20px;">
       <div class="fade-up d1" style="padding:22px 28px;border:1px solid rgba(0,0,0,.08);">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--dark-text);line-height:1;margin-bottom:4px;">4.9 â</div>
-        <div style="font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mid-text);">Rating Â· 200+ Reviews</div>
+        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--dark-text);line-height:1;margin-bottom:4px;">4.9 Ã¢ÂÂ</div>
+        <div style="font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mid-text);">Rating ÃÂ· 200+ Reviews</div>
       </div>
       <div class="fade-up d2" style="padding:22px 28px;border:1px solid rgba(0,0,0,.08);">
         <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--dark-text);line-height:1;margin-bottom:4px;">Same-Day Available</div>
-        <div style="font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mid-text);">Book Online Â· Instant Quote</div>
+        <div style="font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mid-text);">Book Online ÃÂ· Instant Quote</div>
       </div>
       <div class="fade-up d3" style="padding:22px 28px;border:1px solid rgba(0,0,0,.08);">
         <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--dark-text);line-height:1;margin-bottom:4px;">Fireplace & Tile</div>
-        <div style="font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mid-text);">Specialists Â· All Wall Types</div>
+        <div style="font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mid-text);">Specialists ÃÂ· All Wall Types</div>
       </div>
     </div>
   </div>
@@ -2303,7 +2293,7 @@ document.addEventListener('DOMContentLoaded', function() {
     draw(cur);ne.textContent=cur>=MAX?'800+':cur;
     var lbl=getLbl(cur);
     if(lbl){var cc=getCol(cur/MAX);le.textContent=lbl;le.style.color=rgba(cc,1);}
-    if(cur>=MAX&&ls){ls.textContent='800+ installs Â· 4.9â Â· Same-day available';ls.style.opacity='1';}
+    if(cur>=MAX&&ls){ls.textContent='800+ installs ÃÂ· 4.9Ã¢ÂÂ ÃÂ· Same-day available';ls.style.opacity='1';}
     requestAnimationFrame(step);
   }
   draw(0);
@@ -2329,10 +2319,10 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- TRUST BAR -->
 <div class="trust-bar">
   <div class="trust-bar-inner">
-    <div class="trust-item"><span class="trust-icon">â</span><span>4.9 / 5 across Google &amp; Thumbtack</span></div>
-    <div class="trust-item"><span class="trust-icon">â</span><span>800+ installs in Phoenix metro</span></div>
-    <div class="trust-item"><span class="trust-icon">â¡</span><span>Same-week availability</span></div>
-    <div class="trust-item"><span class="trust-icon">ð¡</span><span>Fully insured &amp; background-checked</span></div>
+    <div class="trust-item"><span class="trust-icon">Ã¢ÂÂ</span><span>4.9 / 5 across Google &amp; Thumbtack</span></div>
+    <div class="trust-item"><span class="trust-icon">Ã¢ÂÂ</span><span>800+ installs in Phoenix metro</span></div>
+    <div class="trust-item"><span class="trust-icon">Ã¢ÂÂ¡</span><span>Same-week availability</span></div>
+    <div class="trust-item"><span class="trust-icon">Ã°ÂÂÂ¡</span><span>Fully insured &amp; background-checked</span></div>
   </div>
 </div>
 <!-- services -->
@@ -2342,7 +2332,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <h2 class="section-title-light clip-text"><span class="inner">Every Install,<br><em>Flawlessly Done.</em></span></h2>
     <div class="svc-grid">
       <div class="svc scale-in d1"><div class="svc-num">01</div><div class="svc-name">Precision TV Mounting</div><p class="svc-desc">Flat, tilt, and full-motion mounts on any wall type. Drywall, concrete, brick, tile handled with precision.</p><div class="svc-price">From $100</div></div>
-      <div class="svc scale-in d2"><div class="svc-num">02</div><div class="svc-name">Clean, Hidden Wiring</div><p class="svc-desc">In-wall routing or surface raceways. Zero visible wiring. Your TV looks like it grew out of the wall.</p><div class="svc-price">From $50 â no visible wires</div></div>
+      <div class="svc scale-in d2"><div class="svc-num">02</div><div class="svc-name">Clean, Hidden Wiring</div><p class="svc-desc">In-wall routing or surface raceways. Zero visible wiring. Your TV looks like it grew out of the wall.</p><div class="svc-price">From $50 Ã¢ÂÂ no visible wires</div></div>
       <div class="svc scale-in d3"><div class="svc-num">03</div><div class="svc-name">Outlet Installation</div><p class="svc-desc">In-wall power outlet added behind your TV for a completely clean look. No extension cords, no clutter.</p><div class="svc-price">~$150/hr + parts</div></div>
       <div class="svc scale-in d4"><div class="svc-num">04</div><div class="svc-name">Soundbar Install</div><p class="svc-desc">Wall-mounted soundbars aligned perfectly below your TV. Cables managed, brackets secured, audio calibrated.</p><div class="svc-price">From $100</div></div>
       <div class="svc scale-in d5"><div class="svc-num">05</div><div class="svc-name">Smart Home & AV</div><p class="svc-desc">Full AV rack builds, surround sound, PoE systems. High-end Airbnbs, commercial spaces, luxury residences.</p><div class="svc-price">Contact for quote</div></div>
@@ -2374,13 +2364,13 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="why-right">
       <div class="section-eyebrow fade-up">Why VistaMount</div>
       <h2 class="clip-text fade-up d1"><span class="inner">The install you <em>actually</em> wanted.</span></h2>
-      <p class="fade-up d2">No subcontractors, no surprises. Every job is handled personally â consistent quality, zero handoffs, and an installer who actually cares how it looks when we leave. Specializing in fireplace, tile, and high-end installs.</p>
+      <p class="fade-up d2">No subcontractors, no surprises. Every job is handled personally Ã¢ÂÂ consistent quality, zero handoffs, and an installer who actually cares how it looks when we leave. Specializing in fireplace, tile, and high-end installs.</p>
       <div class="why-points fade-up d3">
         <div class="why-point">800+ installs. Consistent 5-star results. Zero handoffs.</div>
         <div class="why-point">All wall types including concrete and brick</div>
         <div class="why-point">In-wall cable concealment on every install</div>
         <div class="why-point">Sanus and ONN mounts - no cheap hardware</div>
-        <div class="why-point">Not the cheapest â just done right the first time</div>
+        <div class="why-point">Not the cheapest Ã¢ÂÂ just done right the first time</div>
       </div>
       
     </div>
@@ -2393,14 +2383,14 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="pricing-header fade-up">
       <div class="pricing-eyebrow">Transparent Pricing</div>
       <h2 class="pricing-title">Pay for your install, <em>not a guess.</em></h2>
-      <p class="pricing-sub">Every price below is exactly what you'll see in the booking form. No upsells, no surprises â what we quote is what you pay.</p>
+      <p class="pricing-sub">Every price below is exactly what you'll see in the booking form. No upsells, no surprises Ã¢ÂÂ what we quote is what you pay.</p>
     </div>
 
     <!-- MAIN: TV size pricing -->
     <div class="pricing-block fade-up d1">
       <div class="pricing-block-head">
-        <div class="pricing-block-eyebrow">Base Install Â· by TV size</div>
-        <div class="pricing-block-note">Labor Â· per TV Â· drywall</div>
+        <div class="pricing-block-eyebrow">Base Install ÃÂ· by TV size</div>
+        <div class="pricing-block-note">Labor ÃÂ· per TV ÃÂ· drywall</div>
       </div>
       <div class="size-grid">
         <div class="size-card">
@@ -2408,12 +2398,12 @@ document.addEventListener('DOMContentLoaded', function() {
           <div class="size-price">$100</div>
         </div>
         <div class="size-card">
-          <div class="size-label">32" â 64"</div>
+          <div class="size-label">32" Ã¢ÂÂ 64"</div>
           <div class="size-price">$125</div>
           <div class="size-tag">Most common</div>
         </div>
         <div class="size-card">
-          <div class="size-label">65" â 84"</div>
+          <div class="size-label">65" Ã¢ÂÂ 84"</div>
           <div class="size-price">$150</div>
         </div>
         <div class="size-card">
@@ -2435,7 +2425,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li><span>Tilting</span><span class="upg-price">+$45</span></li>
           <li><span>Full Motion</span><span class="upg-price">+$75</span></li>
         </ul>
-        <div class="upg-footnote">Every mount price includes the hardware and the install â no surprise add-ons at your door.</div>
+        <div class="upg-footnote">Every mount price includes the hardware and the install Ã¢ÂÂ no surprise add-ons at your door.</div>
       </div>
 
       <div class="pricing-upgrade fade-up d2">
@@ -2448,7 +2438,7 @@ document.addEventListener('DOMContentLoaded', function() {
           <li><span>On-wall raceway</span><span class="upg-price">+$50</span></li>
           <li><span>In-wall (concealed)</span><span class="upg-price">+$75</span></li>
         </ul>
-        <div class="upg-footnote">In-wall is the clean builder look â zero visible wires.</div>
+        <div class="upg-footnote">In-wall is the clean builder look Ã¢ÂÂ zero visible wires.</div>
       </div>
 
       <div class="pricing-upgrade fade-up d3">
@@ -2474,7 +2464,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="addon-item">
           <div class="addon-name">Soundbar Installation</div>
           <div class="addon-desc">Mounted level, aligned, cables managed.</div>
-          <div class="addon-cost">$100 <span class="sep">Â·</span> <span class="muted">$75 each after</span></div>
+          <div class="addon-cost">$100 <span class="sep">ÃÂ·</span> <span class="muted">$75 each after</span></div>
         </div>
         <div class="addon-item">
           <div class="addon-name">Remove Existing Mount</div>
@@ -2493,7 +2483,7 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
           <div class="policy-body">
             <div class="policy-title">Same-day service, when available</div>
-            <div class="policy-desc">Same-day is often possible but not guaranteed â it depends on how our schedule looks when you book. We come to you anywhere in Phoenix metro, so check the live calendar for today's real openings and book online.</div>
+            <div class="policy-desc">Same-day is often possible but not guaranteed Ã¢ÂÂ it depends on how our schedule looks when you book. We come to you anywhere in Phoenix metro, so check the live calendar for today's real openings and book online.</div>
           </div>
         </div>
         <div class="policy-card">
@@ -2502,15 +2492,15 @@ document.addEventListener('DOMContentLoaded', function() {
           </div>
           <div class="policy-body">
             <div class="policy-title">$50 deposit for next-day bookings</div>
-            <div class="policy-desc">Same-day books free â no deposit, just confirm. Next-day or advance-booked appointments require a $50 deposit that applies to your final invoice. Reschedule anytime and you keep the full deposit; cancel outright and $25 is non-refundable. Keeps our calendar real and respects both of our time.</div>
+            <div class="policy-desc">Same-day books free Ã¢ÂÂ no deposit, just confirm. Next-day or advance-booked appointments require a $50 deposit that applies to your final invoice. Reschedule anytime and you keep the full deposit; cancel outright and $25 is non-refundable. Keeps our calendar real and respects both of our time.</div>
           </div>
         </div>
       </div>
     </div>
 
     <div class="pricing-cta-row">
-      <a href="#booking-modal" onclick="openBookingModal();return false;" class="pricing-btn-primary">Get Instant Quote â</a>
-      <div class="pricing-cta-note">Takes 60 seconds Â· Exact quote before you confirm</div>
+      <a href="#booking-modal" onclick="openBookingModal();return false;" class="pricing-btn-primary">Get Instant Quote Ã¢ÂÂ</a>
+      <div class="pricing-cta-note">Takes 60 seconds ÃÂ· Exact quote before you confirm</div>
     </div>
   </div>
 </section>
@@ -2520,38 +2510,38 @@ document.addEventListener('DOMContentLoaded', function() {
     <h2 class="section-title-light clip-text" style="margin-bottom:48px;"><span class="inner">Real Results.<br><em>Every time.</em></span></h2>
     <div style="display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:3px;overflow:hidden;" class="gallery-grid">
 
-      <div class="gallery-item fade-up" style="cursor:pointer;" onclick="openLightbox('Frame TV Â· Fireplace','Samsung Frame TV mounted above fireplace. Clean cord-free finish.','Phoenix Metro, AZ',this.querySelector('img').src)">
+      <div class="gallery-item fade-up" style="cursor:pointer;" onclick="openLightbox('Frame TV ÃÂ· Fireplace','Samsung Frame TV mounted above fireplace. Clean cord-free finish.','Phoenix Metro, AZ',this.querySelector('img').src)">
         <img src="/images/IMG_1358.jpg" alt="Frame TV above fireplace"/>
         <div class="gallery-overlay">
           <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);margin-bottom:4px;">Phoenix Metro, AZ</div>
-          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Frame TV Â· Fireplace</div>
+          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Frame TV ÃÂ· Fireplace</div>
           <div style="font-size:.75rem;color:rgba(255,255,255,.7);">Samsung Frame TV mounted above fireplace. Clean cord-free finish.</div>
         </div>
       </div>
 
-      <div class="gallery-item fade-up" style="cursor:pointer;" onclick="openLightbox('Frame TV Â· Christmas','Samsung Frame TV mounted next to Christmas tree. Zero visible wires.','Phoenix Metro, AZ',this.querySelector('img').src)">
+      <div class="gallery-item fade-up" style="cursor:pointer;" onclick="openLightbox('Frame TV ÃÂ· Christmas','Samsung Frame TV mounted next to Christmas tree. Zero visible wires.','Phoenix Metro, AZ',this.querySelector('img').src)">
         <img src="/images/IMG_1020.jpg" alt="Frame TV next to Christmas tree"/>
         <div class="gallery-overlay">
           <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);margin-bottom:4px;">Phoenix Metro, AZ</div>
-          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Frame TV Â· Christmas</div>
+          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Frame TV ÃÂ· Christmas</div>
           <div style="font-size:.75rem;color:rgba(255,255,255,.7);">Samsung Frame TV mounted next to Christmas tree. Zero visible wires.</div>
         </div>
       </div>
 
-      <div class="gallery-item fade-up" style="cursor:pointer;" onclick="openLightbox('Frame TV Â· Designer Setup','Frame TV with tall plant and custom TV stand. Immaculate finish.','Phoenix Metro, AZ',this.querySelector('img').src)">
+      <div class="gallery-item fade-up" style="cursor:pointer;" onclick="openLightbox('Frame TV ÃÂ· Designer Setup','Frame TV with tall plant and custom TV stand. Immaculate finish.','Phoenix Metro, AZ',this.querySelector('img').src)">
         <img src="/images/IMG_1626.jpg" alt="Frame TV with tall plant and orange TV stand"/>
         <div class="gallery-overlay">
           <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);margin-bottom:4px;">Phoenix Metro, AZ</div>
-          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Frame TV Â· Designer Setup</div>
+          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Frame TV ÃÂ· Designer Setup</div>
           <div style="font-size:.75rem;color:rgba(255,255,255,.7);">Frame TV with tall plant and custom TV stand. Immaculate finish.</div>
         </div>
       </div>
 
-      <div class="gallery-item fade-up" style="cursor:pointer;" onclick="openLightbox('Clean Mount Â· Chevron Stand','TV mounted above chevron console. Wires completely hidden.','Phoenix Metro, AZ',this.querySelector('img').src)">
+      <div class="gallery-item fade-up" style="cursor:pointer;" onclick="openLightbox('Clean Mount ÃÂ· Chevron Stand','TV mounted above chevron console. Wires completely hidden.','Phoenix Metro, AZ',this.querySelector('img').src)">
         <img src="/images/IMG_1352.jpg" alt="TV above chevron stand"/>
         <div class="gallery-overlay">
           <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);margin-bottom:4px;">Phoenix Metro, AZ</div>
-          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Clean Mount Â· Chevron Stand</div>
+          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Clean Mount ÃÂ· Chevron Stand</div>
           <div style="font-size:.75rem;color:rgba(255,255,255,.7);">TV mounted above chevron console. Wires completely hidden.</div>
         </div>
       </div>
@@ -2565,20 +2555,20 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
       </div>
 
-      <div class="gallery-item fade-up" style="cursor:pointer;" onclick="openLightbox('Frame TV Â· Built-In Look','Frame TV between custom shelving with ceiling fan. Perfectly level.','Phoenix Metro, AZ',this.querySelector('img').src)">
+      <div class="gallery-item fade-up" style="cursor:pointer;" onclick="openLightbox('Frame TV ÃÂ· Built-In Look','Frame TV between custom shelving with ceiling fan. Perfectly level.','Phoenix Metro, AZ',this.querySelector('img').src)">
         <img src="/images/IMG_1435.jpg" alt="Frame TV between shelves with ceiling fan"/>
         <div class="gallery-overlay">
           <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);margin-bottom:4px;">Phoenix Metro, AZ</div>
-          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Frame TV Â· Built-In Look</div>
+          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Frame TV ÃÂ· Built-In Look</div>
           <div style="font-size:.75rem;color:rgba(255,255,255,.7);">Frame TV between custom shelving with ceiling fan. Perfectly level.</div>
         </div>
       </div>
 
-      <div class="gallery-item fade-up" style="cursor:pointer;" onclick="openLightbox('Fall Setup Â· Frame TV','Seasonal styling meets a flawless mount. Every detail on point.','Phoenix Metro, AZ',this.querySelector('img').src)">
+      <div class="gallery-item fade-up" style="cursor:pointer;" onclick="openLightbox('Fall Setup ÃÂ· Frame TV','Seasonal styling meets a flawless mount. Every detail on point.','Phoenix Metro, AZ',this.querySelector('img').src)">
         <img src="/images/IMG_1167.jpg" alt="Frame TV with fall pumpkin decor"/>
         <div class="gallery-overlay">
           <div style="font-size:.65rem;letter-spacing:.2em;text-transform:uppercase;color:var(--bl);margin-bottom:4px;">Phoenix Metro, AZ</div>
-          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Fall Setup Â· Frame TV</div>
+          <div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:4px;">Fall Setup ÃÂ· Frame TV</div>
           <div style="font-size:.75rem;color:rgba(255,255,255,.7);">Seasonal styling meets a flawless mount. Every detail on point.</div>
         </div>
       </div>
@@ -2639,8 +2629,8 @@ function closeLightbox(){
 <section style="background:var(--light);padding:100px 52px;">
   <div style="max-width:1200px;margin:0 auto;">
     <div class="section-eyebrow fade-up">Real Reviews</div>
-    <h2 class="section-title-light clip-text" style="margin-bottom:16px;"><span class="inner">4.9â across<br><em>every platform.</em></span></h2>
-    <p class="fade-up" style="color:var(--mid-text);font-size:.9rem;margin-bottom:40px;">Google. Facebook. Thumbtack. Customers rate us the same everywhere â because the quality never changes.</p>
+    <h2 class="section-title-light clip-text" style="margin-bottom:16px;"><span class="inner">4.9Ã¢ÂÂ across<br><em>every platform.</em></span></h2>
+    <p class="fade-up" style="color:var(--mid-text);font-size:.9rem;margin-bottom:40px;">Google. Facebook. Thumbtack. Customers rate us the same everywhere Ã¢ÂÂ because the quality never changes.</p>
     <div class="fade-up d1">
       <div class="elfsight-app-9fe1bb53-e8e9-45d0-a43a-0d8a17a63a0f" data-elfsight-app-lazy></div>
     </div>
@@ -2657,22 +2647,22 @@ function closeLightbox(){
     <h2 class="section-title-light clip-text" style="margin-bottom:48px;"><span class="inner">Perfect for your<br><em>situation.</em></span></h2>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:16px;" class="who-grid">
       <div class="fade-up d1" style="background:var(--light);padding:32px 24px;border:1px solid rgba(0,0,0,.06);">
-        <div style="font-size:2rem;margin-bottom:12px;">ð </div>
+        <div style="font-size:2rem;margin-bottom:12px;">Ã°ÂÂÂ </div>
         <div style="font-weight:500;color:var(--dark-text);margin-bottom:8px;font-size:.95rem;">New Home Setup</div>
         <div style="font-size:.78rem;color:var(--mid-text);line-height:1.7;">Moving in and want everything mounted clean from day one.</div>
       </div>
       <div class="fade-up d2" style="background:var(--light);padding:32px 24px;border:1px solid rgba(0,0,0,.06);">
-        <div style="font-size:2rem;margin-bottom:12px;">ð¥</div>
+        <div style="font-size:2rem;margin-bottom:12px;">Ã°ÂÂÂ¥</div>
         <div style="font-weight:500;color:var(--dark-text);margin-bottom:8px;font-size:.95rem;">Fireplace Mounts</div>
-        <div style="font-size:.78rem;color:var(--mid-text);line-height:1.7;">Tile, stone, or brick â we handle installs others won't touch.</div>
+        <div style="font-size:.78rem;color:var(--mid-text);line-height:1.7;">Tile, stone, or brick Ã¢ÂÂ we handle installs others won't touch.</div>
       </div>
       <div class="fade-up d3" style="background:var(--light);padding:32px 24px;border:1px solid rgba(0,0,0,.06);">
-        <div style="font-size:2rem;margin-bottom:12px;">ð¨</div>
+        <div style="font-size:2rem;margin-bottom:12px;">Ã°ÂÂÂ¨</div>
         <div style="font-weight:500;color:var(--dark-text);margin-bottom:8px;font-size:.95rem;">Airbnb &amp; Rentals</div>
         <div style="font-size:.78rem;color:var(--mid-text);line-height:1.7;">Premium setups that impress guests and hold up long-term.</div>
       </div>
       <div class="fade-up d4" style="background:var(--light);padding:32px 24px;border:1px solid rgba(0,0,0,.06);">
-        <div style="font-size:2rem;margin-bottom:12px;">â¨</div>
+        <div style="font-size:2rem;margin-bottom:12px;">Ã¢ÂÂ¨</div>
         <div style="font-weight:500;color:var(--dark-text);margin-bottom:8px;font-size:.95rem;">Living Room Upgrade</div>
         <div style="font-size:.78rem;color:var(--mid-text);line-height:1.7;">No wires, no mess. Just a clean, finished look you'll love.</div>
       </div>
@@ -2684,22 +2674,22 @@ function closeLightbox(){
 <div class="accordion-wrap accordion-wrap-dark">
 <div class="acc-header" onclick="toggleAcc(this)" id="acc-tools">
   <div class="acc-left"><div class="acc-title">Professional Equipment</div><div class="acc-sub">Milwaukee tools, laser levels, thermal cameras & more</div></div>
-  <div class="acc-icon"><span class="acc-chevron">â¼</span></div>
+  <div class="acc-icon"><span class="acc-chevron">Ã¢ÂÂ¼</span></div>
 </div>
 <div class="acc-body">
 <section style="background:#0a0a0a;padding:80px 52px;">
   <div style="max-width:1200px;margin:0 auto;">
     <div class="section-eyebrow fade-up" style="color:#4facff;">Professional Grade</div>
     <h2 class="fade-up" style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);color:#fff;letter-spacing:.03em;margin:0 0 12px;line-height:1;">We Show Up Equipped.</h2>
-    <p class="fade-up" style="font-size:.9rem;color:rgba(255,255,255,.4);max-width:560px;line-height:1.8;margin:0 0 52px;">Not every installer brings the right tools. We do. Every job gets the full kit â no guessing, no damage, no callbacks.</p>
+    <p class="fade-up" style="font-size:.9rem;color:rgba(255,255,255,.4);max-width:560px;line-height:1.8;margin:0 0 52px;">Not every installer brings the right tools. We do. Every job gets the full kit Ã¢ÂÂ no guessing, no damage, no callbacks.</p>
     <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.06);" class="tools-grid">
-      <div class="fade-up d1" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Drilling & Driving</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee M18 FUEL</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Drill & impact driver. Maximum torque for any wall type â drywall, tile, concrete, brick.</div></div>
-      <div class="fade-up d2" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Leveling</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee + Bosch Laser</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Laser levels for perfect alignment every time. No eyeballing â your TV is always straight.</div></div>
+      <div class="fade-up d1" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Drilling & Driving</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee M18 FUEL</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Drill & impact driver. Maximum torque for any wall type Ã¢ÂÂ drywall, tile, concrete, brick.</div></div>
+      <div class="fade-up d2" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Leveling</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee + Bosch Laser</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Laser levels for perfect alignment every time. No eyeballing Ã¢ÂÂ your TV is always straight.</div></div>
       <div class="fade-up d3" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Wall Scanning</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Walabot Advanced Stud Finder</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Sees studs, pipes, and live wires behind the wall before we drill. Zero surprises.</div></div>
       <div class="fade-up d4" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Inspection</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Borescope + Thermal Camera</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">See inside walls before cutting. Thermal camera detects heat signatures and hidden wiring.</div></div>
       <div class="fade-up d1" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Electrical Safety</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Voltmeter + Safety Kit</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Full electrical safety equipment and voltmeter on every job involving outlet work.</div></div>
       <div class="fade-up d2" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Cutting & Finishing</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee Multi-Tool</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Precise cuts for outlet boxes, cable access, and in-wall work. Clean edges, no mess left behind.</div></div>
-      <div class="fade-up d3" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Cleanup</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee Vacuum</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">We clean up after ourselves. Drywall dust, debris â gone before we leave.</div></div>
+      <div class="fade-up d3" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Cleanup</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee Vacuum</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">We clean up after ourselves. Drywall dust, debris Ã¢ÂÂ gone before we leave.</div></div>
       <div class="fade-up d4" style="background:#0a0a0a;padding:28px 24px;display:flex;flex-direction:column;justify-content:center;border:1px solid rgba(45,127,232,.25);"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">The result</div><div style="font-size:1.1rem;font-weight:500;color:#fff;margin-bottom:6px;line-height:1.4;">Done right.<br>The first time.</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Professional tools mean fewer holes, cleaner installs, and zero damage to your home.</div></div>
     </div>
   </div>
@@ -2709,8 +2699,8 @@ function closeLightbox(){
 
 <div class="accordion-wrap accordion-wrap-dark">
 <div class="acc-header" onclick="toggleAcc(this)" id="acc-warranty">
-  <div class="acc-left"><div class="acc-title">Our Guarantee</div><div class="acc-sub">1-year workmanship warranty Â· insured Â· no payment until done</div></div>
-  <div class="acc-icon"><span class="acc-chevron">â¼</span></div>
+  <div class="acc-left"><div class="acc-title">Our Guarantee</div><div class="acc-sub">1-year workmanship warranty ÃÂ· insured ÃÂ· no payment until done</div></div>
+  <div class="acc-icon"><span class="acc-chevron">Ã¢ÂÂ¼</span></div>
 </div>
 <div class="acc-body">
 <section style="background:#050810;padding:70px 52px;">
@@ -2725,12 +2715,12 @@ function closeLightbox(){
         <div style="font-size:.58rem;letter-spacing:.22em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">VistaMount Workmanship Guarantee</div>
         <div style="font-size:1.6rem;font-weight:700;color:#fff;margin-bottom:20px;font-family:'Bebas Neue',sans-serif;letter-spacing:.04em;line-height:1.1;">We Stand Behind<br>Every Install.</div>
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:10px 32px;">
-          <div style="display:flex;align-items:flex-start;gap:8px;"><span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">â</span><span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">1-year workmanship warranty on all installs</span></div>
-          <div style="display:flex;align-items:flex-start;gap:8px;"><span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">â</span><span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">Free callback if anything shifts or loosens</span></div>
-          <div style="display:flex;align-items:flex-start;gap:8px;"><span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">â</span><span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">Fully insured â your home is protected</span></div>
-          <div style="display:flex;align-items:flex-start;gap:8px;"><span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">â</span><span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">No payment until the job is complete</span></div>
-          <div style="display:flex;align-items:flex-start;gap:8px;"><span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">â</span><span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">800+ installs â consistent 5-star results</span></div>
-          <div style="display:flex;align-items:flex-start;gap:8px;"><span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">â</span><span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">Satisfaction guaranteed or we make it right</span></div>
+          <div style="display:flex;align-items:flex-start;gap:8px;"><span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">Ã¢ÂÂ</span><span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">1-year workmanship warranty on all installs</span></div>
+          <div style="display:flex;align-items:flex-start;gap:8px;"><span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">Ã¢ÂÂ</span><span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">Free callback if anything shifts or loosens</span></div>
+          <div style="display:flex;align-items:flex-start;gap:8px;"><span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">Ã¢ÂÂ</span><span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">Fully insured Ã¢ÂÂ your home is protected</span></div>
+          <div style="display:flex;align-items:flex-start;gap:8px;"><span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">Ã¢ÂÂ</span><span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">No payment until the job is complete</span></div>
+          <div style="display:flex;align-items:flex-start;gap:8px;"><span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">Ã¢ÂÂ</span><span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">800+ installs Ã¢ÂÂ consistent 5-star results</span></div>
+          <div style="display:flex;align-items:flex-start;gap:8px;"><span style="color:#2d7fe8;flex-shrink:0;margin-top:2px;">Ã¢ÂÂ</span><span style="font-size:.76rem;color:rgba(255,255,255,.5);line-height:1.6;">Satisfaction guaranteed or we make it right</span></div>
         </div>
       </div>
     </div>
@@ -2753,10 +2743,10 @@ function closeLightbox(){
       <div>
         <div class="footer-heading">Contact</div>
         <ul class="footer-list">
-          <li><span class="ft-icon">â</span><a href="tel:4809034769">(480) 903-4769</a></li>
-          <li><span class="ft-icon">â</span><a href="mailto:hello@vistamountaz.com">hello@vistamountaz.com</a></li>
-          <li><span class="ft-icon">â±</span>MonâSat Â· 8am â 7pm</li>
-          <li><span class="ft-icon">ð</span>Phoenix, Arizona</li>
+          <li><span class="ft-icon">Ã¢ÂÂ</span><a href="tel:4809034769">(480) 903-4769</a></li>
+          <li><span class="ft-icon">Ã¢ÂÂ</span><a href="mailto:hello@vistamountaz.com">hello@vistamountaz.com</a></li>
+          <li><span class="ft-icon">Ã¢ÂÂ±</span>MonÃ¢ÂÂSat ÃÂ· 8am Ã¢ÂÂ 7pm</li>
+          <li><span class="ft-icon">Ã°ÂÂÂ</span>Phoenix, Arizona</li>
         </ul>
       </div>
       <div>
@@ -2774,15 +2764,15 @@ function closeLightbox(){
         <ul class="footer-list">
           <li>Phoenix</li>
           <li>Scottsdale</li>
-          <li>Gilbert Â· Chandler</li>
-          <li>Mesa Â· Tempe</li>
+          <li>Gilbert ÃÂ· Chandler</li>
+          <li>Mesa ÃÂ· Tempe</li>
           <li>Paradise Valley</li>
           <li>Queen Creek</li>
         </ul>
       </div>
     </div>
     <div class="footer-bottom">
-      <div>Â© <span id="yr"></span> VistaMount. All rights reserved.</div>
+      <div>ÃÂ© <span id="yr"></span> VistaMount. All rights reserved.</div>
       <div>
         <a href="#services-section">Services</a>
         <a href="#pricing">Pricing</a>
@@ -2857,7 +2847,7 @@ function hText(alpha,oy){
   var eyebrowSize=Math.min(12,W*0.022);
   hctx.font='600 '+eyebrowSize+'px sans-serif';
   hctx.letterSpacing='3px';hctx.fillStyle='#4facff';
-  hctx.fillText('SAME-DAY OFTEN AVAILABLE Â· PHOENIX, AZ',W/2,H*0.30+oy);
+  hctx.fillText('SAME-DAY OFTEN AVAILABLE ÃÂ· PHOENIX, AZ',W/2,H*0.30+oy);
 
   // Main wordmark
   var fs=Math.min(W*0.145,H*0.22);
@@ -2884,7 +2874,7 @@ function hCTA(alpha){
   var W=hc.width,H=hc.height;
   hctx.save();hctx.globalAlpha=alpha;
 
-  // Button â solid fill, clean
+  // Button Ã¢ÂÂ solid fill, clean
   var bw=Math.min(260,W*0.65),bh=50,bx=W/2-bw/2,by=H*0.69;
   hctx.fillStyle='#2d7fe8';
   hctx.fillRect(bx,by,bw,bh);
@@ -2968,7 +2958,7 @@ var MAIN_WALL_PRICES={drywall:0,stucco:75,brick:100,tile:150,fireplace:75};
 var MAIN_MOUNT_LABELS={fullmotion:'Full-Motion Mount',tilt:'Tilt Mount',flat:'Flat/Fixed Mount',own:'Customer Mount'};
 var MAIN_CORDS_LABELS={none:'No Cord Management',raceway:'On-Wall Raceway',inwall:'In-Wall Concealment',outlet:'In-Wall + Outlet'};
 var MAIN_WALL_LABELS={drywall:'Drywall',stucco:'Stucco',brick:'Brick/Concrete',tile:'Tile/Stone',fireplace:'Fireplace'};
-var MAIN_SIZE_LABELS={'<32':'Under 32\"','32-64':'32\"â64\"','65-84':'65\"â84\"','85+':'85\"+'};
+var MAIN_SIZE_LABELS={'<32':'Under 32\"','32-64':'32\"Ã¢ÂÂ64\"','65-84':'65\"Ã¢ÂÂ84\"','85+':'85\"+'};
 
 function setMainTVCount(n,btn){
   btn.closest('[id="tv-count-opts"]').querySelectorAll('.option-btn').forEach(function(b){b.classList.remove('selected');});
@@ -2987,7 +2977,7 @@ function updateMainTVSummary(idx,c){
   var tv=mainState.tvs[idx];
   var el=document.getElementById('main-tv-summary-'+idx);
   if(!el)return;
-  el.textContent=(MAIN_SIZE_LABELS[tv.size]||tv.size)+' Â· '+(MAIN_WALL_LABELS[tv.wall]||tv.wall);
+  el.textContent=(MAIN_SIZE_LABELS[tv.size]||tv.size)+' ÃÂ· '+(MAIN_WALL_LABELS[tv.wall]||tv.wall);
 }
 
 function adjMain(key,delta){
@@ -3023,14 +3013,14 @@ function buildMainBreakdown(){
   mainState.tvs.forEach(function(tv,i){
     var p=MAIN_PRICES[tv.size]||125;
     var disc=i>0?25:0;
-    lines.push({label:'TV '+(i+1)+' â '+MAIN_SIZE_LABELS[tv.size]+(disc?' (multi-unit discount applied)':''),amt:'$'+(p-disc),highlight:disc>0});
+    lines.push({label:'TV '+(i+1)+' Ã¢ÂÂ '+MAIN_SIZE_LABELS[tv.size]+(disc?' (multi-unit discount applied)':''),amt:'$'+(p-disc),highlight:disc>0});
     if(tv.mount!=='own'){var mp=({fullmotion:65,tilt:50,flat:50}[tv.mount]||0);lines.push({label:MAIN_MOUNT_LABELS[tv.mount],amt:mp?'+$'+mp:'Incl.'});}
     else lines.push({label:'Customer-supplied mount',amt:'Incl.'});
     if(tv.cords!=='none'){var cp=({raceway:50,inwall:75,outlet:150}[tv.cords]||0);lines.push({label:MAIN_CORDS_LABELS[tv.cords],amt:'+$'+cp});}
     if(tv.wall!=='drywall'){var wp=MAIN_WALL_PRICES[tv.wall]||0;lines.push({label:MAIN_WALL_LABELS[tv.wall]+' wall upcharge',amt:'+$'+wp});}
   });
-  if(mainState.soundbars>0)lines.push({label:'Soundbar install Ã'+mainState.soundbars,amt:'+$'+(100+(mainState.soundbars-1)*75)});
-  if(mainState.dismounts>0)lines.push({label:'Mount removal Ã'+mainState.dismounts,amt:'+$'+(mainState.dismounts*25)});
+  if(mainState.soundbars>0)lines.push({label:'Soundbar install ÃÂ'+mainState.soundbars,amt:'+$'+(100+(mainState.soundbars-1)*75)});
+  if(mainState.dismounts>0)lines.push({label:'Mount removal ÃÂ'+mainState.dismounts,amt:'+$'+(mainState.dismounts*25)});
 
   var linesEl=document.getElementById('main-breakdown-lines');
   if(!linesEl)return;
@@ -3169,7 +3159,7 @@ async function submitForm(){
     } catch (e) {
       console.error('Error:', e);
       alert('Booking failed. Please call (480) 903-4769.');
-      btn.textContent = 'Confirm Booking â';
+      btn.textContent = 'Confirm Booking Ã¢ÂÂ';
       btn.disabled = false;
     }
   } else {
@@ -3225,7 +3215,7 @@ async function handlePaymentSubmit() {
     }
   } catch (e) {
     alert('Payment failed: ' + e.message);
-    submitBtn.textContent = 'Confirm Booking â';
+    submitBtn.textContent = 'Confirm Booking Ã¢ÂÂ';
     submitBtn.disabled = false;
   }
 }
@@ -3318,7 +3308,7 @@ function updateStep4Button() {
   if (isSameDay) {
     // Same-day: Hide payment, show confirmation notice
     if (paymentSection) paymentSection.style.display = 'none';
-    if (paymentNotice) paymentNotice.innerHTML = 'â Confirmation call within 2 hours<br/>â No payment required until job is complete';
+    if (paymentNotice) paymentNotice.innerHTML = 'Ã¢ÂÂ Confirmation call within 2 hours<br/>Ã¢ÂÂ No payment required until job is complete';
   } else {
     // Future: Show payment section, initialize Square
     if (paymentSection) paymentSection.style.display = 'block';
@@ -3342,7 +3332,7 @@ function showPaymentStep() {
     // Show same-day skip message
     sameDaySkip.style.display = 'block';
     futurePayment.style.display = 'none';
-    submitBtn.textContent = 'Confirm Booking â';
+    submitBtn.textContent = 'Confirm Booking Ã¢ÂÂ';
   } else {
     // Show payment options
     sameDaySkip.style.display = 'none';
@@ -3459,17 +3449,17 @@ function checkIfDepositNeeded() {
     // Same-day: Highlight it, hide payment field
     depositNotice.style.background = 'rgba(79,172,255,.15)';
     depositNotice.style.borderColor = '#4facff';
-    depositMessage.innerHTML = '<strong style="color:#4facff;font-size:.9rem;">â BOOKING FOR TODAY - NO DEPOSIT REQUIRED</strong><br><span style="font-size:.75rem;">You selected today. Just confirm below and we\'ll call within 2 hours. Pay when job is complete.</span>';
+    depositMessage.innerHTML = '<strong style="color:#4facff;font-size:.9rem;">Ã¢ÂÂ BOOKING FOR TODAY - NO DEPOSIT REQUIRED</strong><br><span style="font-size:.75rem;">You selected today. Just confirm below and we\'ll call within 2 hours. Pay when job is complete.</span>';
     cardContainer.style.display = 'none';
     paymentStatus.innerHTML = '';
-    submitBtn.textContent = 'Confirm Booking â';
+    submitBtn.textContent = 'Confirm Booking Ã¢ÂÂ';
   } else {
     // Future: Show deposit requirement and payment field
     depositNotice.style.background = 'rgba(255,165,0,.1)';
     depositNotice.style.borderColor = '#ffa500';
-    depositMessage.innerHTML = '<strong style="color:#ffa500;font-size:.9rem;">ð³ $50 DEPOSIT REQUIRED</strong><br><span style="font-size:.75rem;">$50 applied to invoice. $25 non-refundable booking fee + $25 refundable if you cancel.</span>';
+    depositMessage.innerHTML = '<strong style="color:#ffa500;font-size:.9rem;">Ã°ÂÂÂ³ $50 DEPOSIT REQUIRED</strong><br><span style="font-size:.75rem;">$50 applied to invoice. $25 non-refundable booking fee + $25 refundable if you cancel.</span>';
     cardContainer.style.display = 'block';
-    submitBtn.textContent = 'Pay $1 Test Deposit & Confirm â';
+    submitBtn.textContent = 'Pay $1 Test Deposit & Confirm Ã¢ÂÂ';
     if (!card) {
       initSquarePayment();
     }
@@ -3510,7 +3500,7 @@ window.goStep = function(n) {
       Designed & developed by VistaMount
     </div>
     <div style="font-size:0.75rem;color:rgba(232,237,245,0.4);">
-      Â© 2026 VistaMount LLC â¢ Phoenix, AZ
+      ÃÂ© 2026 VistaMount LLC Ã¢ÂÂ¢ Phoenix, AZ
     </div>
   </div>
 </footer>
@@ -3518,16 +3508,16 @@ window.goStep = function(n) {
 <!-- Booking Modal -->
 <div id="booking-modal" class="modal-overlay">
   <div class="modal-container">
-    <button class="modal-close" onclick="closeBookingModal()">â</button>
+    <button class="modal-close" onclick="closeBookingModal()">Ã¢ÂÂ</button>
     
     <div class="modal-header">
       <div class="modal-eyebrow">BOOK YOUR INSTALL</div>
       <h2 class="modal-title">Join <span style="color:#4facff">800+ Happy Customers</span></h2>
       
       <div class="modal-features">
-        <span><span style="font-size:1rem">â¡</span> Takes 60 seconds</span>
-        <span><span style="font-size:1rem">â¡</span> Instant pricing</span>
-        <span><span style="font-size:1rem">ð³</span> $50 deposit for future bookings</span>
+        <span><span style="font-size:1rem">Ã¢ÂÂ¡</span> Takes 60 seconds</span>
+        <span><span style="font-size:1rem">Ã¢ÂÂ¡</span> Instant pricing</span>
+        <span><span style="font-size:1rem">Ã°ÂÂÂ³</span> $50 deposit for future bookings</span>
       </div>
       
       <div class="progress-bar">
