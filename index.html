@@ -1240,6 +1240,44 @@ section.why-section [id*="counter"] { color: #2d7fe8 !important; }
   .pricing-addons { padding: 24px 22px; }
 }
 
+
+/* Pricing policy / scheduling strip */
+.pricing-policy {
+  margin-bottom: 40px;
+}
+.policy-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 18px;
+}
+.policy-card {
+  display: flex; align-items: flex-start; gap: 16px;
+  background: #fff;
+  border: 1px solid #e4e8ef;
+  border-left: 3px solid #2d7fe8;
+  border-radius: 12px;
+  padding: 22px 24px;
+  transition: all .25s;
+}
+.policy-card:hover {
+  border-color: rgba(45,127,232,.35);
+  border-left-color: #2d7fe8;
+  box-shadow: 0 8px 24px rgba(10,22,40,.06);
+}
+.policy-icon {
+  width: 38px; height: 38px; flex-shrink: 0;
+  background: rgba(45,127,232,.1);
+  border-radius: 10px;
+  color: #2d7fe8;
+  display: flex; align-items: center; justify-content: center;
+}
+.policy-title { font-weight: 700; color: #0a1628; font-size: 1rem; margin-bottom: 6px; letter-spacing: -.1px; }
+.policy-desc { color: #64748b; font-size: .9rem; line-height: 1.6; }
+
+@media (max-width: 860px) {
+  .policy-grid { grid-template-columns: 1fr; }
+}
+
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18018755852"></script>
@@ -2209,7 +2247,7 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="pricing-block fade-up d1">
       <div class="pricing-block-head">
         <div class="pricing-block-eyebrow">Base Install · by TV size</div>
-        <div class="pricing-block-note">Drywall · fixed mount · per TV</div>
+        <div class="pricing-block-note">Labor · per TV · drywall</div>
       </div>
       <div class="size-grid">
         <div class="size-card">
@@ -2240,10 +2278,11 @@ document.addEventListener('DOMContentLoaded', function() {
         </div>
         <div class="upg-title">Mount Type</div>
         <ul class="upg-list">
-          <li><span>Fixed</span><span class="upg-price muted">Included</span></li>
+          <li><span>Fixed</span><span class="upg-price muted">Labor incl.</span></li>
           <li><span>Tilting</span><span class="upg-price">+$25</span></li>
           <li><span>Full Motion</span><span class="upg-price">+$50</span></li>
         </ul>
+        <div class="upg-footnote">Mount hardware: $30–$100. ONN flat on the low end, Sanus Elite on the high — bring your own or we'll supply.</div>
       </div>
 
       <div class="pricing-upgrade fade-up d2">
@@ -2253,9 +2292,10 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="upg-title">Cord Management</div>
         <ul class="upg-list">
           <li><span>Visible</span><span class="upg-price muted">Included</span></li>
-          <li><span>Concealed (in-wall)</span><span class="upg-price">+$50–$100</span></li>
+          <li><span>On-wall raceway</span><span class="upg-price">+$50</span></li>
+          <li><span>In-wall (concealed)</span><span class="upg-price">+$75</span></li>
         </ul>
-        <div class="upg-footnote">No visible wires. The clean look.</div>
+        <div class="upg-footnote">In-wall is the clean builder look — zero visible wires.</div>
       </div>
 
       <div class="pricing-upgrade fade-up d3">
@@ -2291,9 +2331,33 @@ document.addEventListener('DOMContentLoaded', function() {
       </div>
     </div>
 
+    <!-- DEPOSIT & SCHEDULING POLICY -->
+    <div class="pricing-policy fade-up">
+      <div class="policy-grid">
+        <div class="policy-card">
+          <div class="policy-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="16" rx="2"/><line x1="3" y1="10" x2="21" y2="10"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="16" y1="2" x2="16" y2="6"/></svg>
+          </div>
+          <div class="policy-body">
+            <div class="policy-title">Same-day service, by request</div>
+            <div class="policy-desc">Same-day slots are for advance bookings when our schedule allows — we don't hold open walk-in windows. Book online to see real availability.</div>
+          </div>
+        </div>
+        <div class="policy-card">
+          <div class="policy-icon">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="6" width="20" height="12" rx="2"/><line x1="2" y1="10" x2="22" y2="10"/></svg>
+          </div>
+          <div class="policy-body">
+            <div class="policy-title">$50 deposit · $25 non-refundable</div>
+            <div class="policy-desc">A $50 deposit reserves your slot and applies to the final invoice. Reschedule anytime — you keep the full deposit. If you cancel outright, $25 is non-refundable. Keeps our calendar real and both of our time respected.</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <div class="pricing-cta-row">
       <a href="#booking-modal" onclick="openBookingModal();return false;" class="pricing-btn-primary">Get Instant Quote →</a>
-      <div class="pricing-cta-note">Takes 60 seconds · $50 deposit applies to final invoice</div>
+      <div class="pricing-cta-note">Takes 60 seconds · Exact quote before you confirm</div>
     </div>
   </div>
 </section>
