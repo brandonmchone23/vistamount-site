@@ -58,14 +58,14 @@ nav.scrolled-light .nav-book{color:#fff!important;}
 /* ============ HERO (v2): full-bleed TV-on-wall composition ============ */
 #hero{position:relative;height:100vh;min-height:640px;overflow:hidden;background:#06080f;display:flex;align-items:center;justify-content:center;isolation:isolate}
 
-/* Plaster wall ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ warm Phoenix/Scottsdale desert tones */
+/* Plaster wall ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ warm Phoenix/Scottsdale desert tones */
 #hero-wall{position:absolute;inset:0;background:
   radial-gradient(ellipse 90% 70% at 50% 38%, #5a4636 0%, #42332a 35%, #2c2118 65%, #1a130d 90%, #0f0a06 100%),
   linear-gradient(180deg, #40322a 0%, #2a1f17 55%, #120c08 100%);
   opacity:0;
   animation:wallFadeIn 1.4s cubic-bezier(.22,1,.36,1) 0.3s forwards
 }
-/* Plaster texture overlay ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ simulates hand-troweled finish with layered noise */
+/* Plaster texture overlay ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ simulates hand-troweled finish with layered noise */
 #hero-wall::before{content:'';position:absolute;inset:0;background:
   radial-gradient(ellipse 40% 30% at 25% 20%, rgba(230,190,140,.12), transparent 60%),
   radial-gradient(ellipse 35% 40% at 75% 70%, rgba(200,155,110,.09), transparent 60%),
@@ -81,11 +81,11 @@ nav.scrolled-light .nav-book{color:#fff!important;}
   radial-gradient(ellipse 70% 55% at 50% 50%, transparent 0%, transparent 45%, rgba(0,0,0,.5) 100%);
   pointer-events:none;z-index:3}
 
-/* TV composition ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ wall-mounted flat panel */
+/* TV composition ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ wall-mounted flat panel */
 #hero-tv-wrap{position:relative;z-index:2;width:min(720px,68vw);aspect-ratio:1600/1020;display:flex;align-items:center;justify-content:center}
 #hero-tv-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
 
-/* TV body group ÃÂÃÂ¢ÃÂÃÂÃÂÃÂ fades in as a placed unit (no bezel-drawing) */
+/* TV body group ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ fades in as a placed unit (no bezel-drawing) */
 #tv-body-group{opacity:0;transform-origin:center;transform:scale(.97);animation:tvPlace 1.1s cubic-bezier(.22,1,.36,1) 1.1s forwards}
 
 /* Screen power-on flash */
@@ -99,6 +99,24 @@ nav.scrolled-light .nav-book{color:#fff!important;}
 #sb-txt-dash{animation:sbTxtDash 0.5s steps(4) 2.8s forwards}
 #sb-txt-hdmi{animation:sbTxtOn 0.4s steps(1) 3.1s forwards}
 #sb-txt-arc{animation:sbTxtOn 0.5s steps(1) 3.5s forwards}
+/* Skyline fades in as screen powers on */
+#tv-skyline{animation:skylineFadeIn 1.2s cubic-bezier(.22,1,.36,1) 2.2s forwards}
+/* V-shield logo bloom reveal - same premium treatment as the old wordmark */
+#tv-logo{transform-origin:center center;animation:logoReveal 1.1s cubic-bezier(.22,1,.36,1) 2.7s forwards}
+/* Tagline below TV fades in after main composition */
+#hero-tagline-below{
+  position:absolute;left:50%;transform:translateX(-50%);
+  bottom:clamp(130px,18vh,200px);
+  z-index:5;
+  margin:0;
+  font-size:clamp(13px,1.4vw,16px);
+  color:rgba(255,255,255,.72);
+  font-weight:300;letter-spacing:.01em;
+  text-align:center;
+  max-width:520px;width:90%;
+  opacity:0;
+  animation:taglineFadeIn 0.8s cubic-bezier(.22,1,.36,1) 3.3s forwards
+}
 
 /* Content inside the TV "screen" */
 #hero-tv-content{position:relative;z-index:4;text-align:center;padding:0 8%;opacity:0;animation:contentFadeIn .7s cubic-bezier(.22,1,.36,1) 2.4s forwards}
@@ -173,6 +191,20 @@ nav.scrolled-light .nav-book{color:#fff!important;}
 @keyframes sbTxtOff{
   to{opacity:0}
 }
+@keyframes skylineFadeIn{
+  from{opacity:0}
+  to{opacity:0.92}
+}
+@keyframes logoReveal{
+  0%{opacity:0;transform:translate(640px,240px) scale(1.15);filter:blur(8px) brightness(1.8) drop-shadow(0 0 0 rgba(79,172,255,0))}
+  40%{opacity:1;filter:blur(3px) brightness(1.5) drop-shadow(0 0 20px rgba(79,172,255,0.7))}
+  70%{filter:blur(0) brightness(1.2) drop-shadow(0 0 14px rgba(79,172,255,0.5))}
+  100%{opacity:1;transform:translate(640px,240px) scale(1);filter:blur(0) brightness(1) drop-shadow(0 0 10px rgba(79,172,255,0.3))}
+}
+@keyframes taglineFadeIn{
+  from{opacity:0;transform:translate(-50%,8px)}
+  to{opacity:1;transform:translate(-50%,0)}
+}
 @keyframes ctaRiseIn{
   from{opacity:0;transform:translate(-50%,18px)}
   to{opacity:1;transform:translate(-50%,0)}
@@ -188,11 +220,14 @@ body.hero-skip #sb-power-led{animation:none;opacity:.75}
 body.hero-skip #sb-txt-dash{animation:none;opacity:0}
 body.hero-skip #sb-txt-hdmi{animation:none;opacity:0}
 body.hero-skip #sb-txt-arc{animation:none;opacity:1}
+body.hero-skip #tv-skyline{animation:none;opacity:.92}
+body.hero-skip #tv-logo{animation:none;opacity:1;transform:translate(640px,240px);filter:none}
+body.hero-skip #hero-tagline-below{animation:none;opacity:1;transform:translateX(-50%)}
 body.hero-skip #hero-cta-wrap{animation:none;opacity:1;transform:translateX(-50%)}
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce){
-  #hero-wall,#tv-body-group,#tv-flash,#tv-power-led,#hero-tv-content,.hero-wordmark,#hero-cta-wrap{animation-duration:.01s;animation-delay:0s}
+  #hero-wall,#tv-body-group,#tv-flash,#tv-power-led,#tv-skyline,#tv-logo,#hero-tagline-below,#soundbar-group,.sb-txt,#hero-cta-wrap{animation-duration:.01s;animation-delay:0s}
 }
 
 /* Mobile */
@@ -2293,6 +2328,124 @@ document.addEventListener('DOMContentLoaded', function() {
         <rect id="tv-body" x="40" y="40" width="1520" height="820" rx="10" ry="10" fill="url(#bezelBody)" filter="url(#tvShadow)"/>
         <rect id="tv-screen" x="54" y="54" width="1492" height="762" rx="2" ry="2" fill="url(#screenVignette)"/>
         <rect id="tv-screen-edge" x="54" y="54" width="1492" height="762" rx="2" ry="2" fill="none" stroke="url(#screenEdge)" stroke-width="1" opacity="0.8"/>
+        
+        <!-- Phoenix skyline backdrop - subtle silhouette at bottom of screen -->
+        <g id="tv-skyline" opacity="0">
+          <!-- Dusk sky gradient above horizon -->
+          <defs>
+            <linearGradient id="duskGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#0a1428" stop-opacity="0"/>
+              <stop offset="60%" stop-color="#1a1530" stop-opacity="0.4"/>
+              <stop offset="85%" stop-color="#3a2418" stop-opacity="0.55"/>
+              <stop offset="100%" stop-color="#5a3418" stop-opacity="0.6"/>
+            </linearGradient>
+            <linearGradient id="vShieldFace" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#6ab8ff"/>
+              <stop offset="55%" stop-color="#3d90ff"/>
+              <stop offset="100%" stop-color="#1f5fc8"/>
+            </linearGradient>
+            <linearGradient id="vShieldBody" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#2a2f3a"/>
+              <stop offset="50%" stop-color="#141820"/>
+              <stop offset="100%" stop-color="#0a0c12"/>
+            </linearGradient>
+            <linearGradient id="vShieldHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
+              <stop offset="0%" stop-color="#8fc8ff" stop-opacity="0.9"/>
+              <stop offset="100%" stop-color="#4facff" stop-opacity="0.3"/>
+            </linearGradient>
+          </defs>
+          <!-- Dusk gradient fill behind skyline -->
+          <rect x="54" y="500" width="1492" height="316" fill="url(#duskGrad)"/>
+          <!-- Warm horizon glow -->
+          <ellipse cx="900" cy="785" rx="700" ry="40" fill="#ff9950" opacity="0.12"/>
+          <!-- Distant mountain range (background, lighter) -->
+          <path d="M 54 760 L 180 730 L 260 745 L 340 720 L 420 735 L 520 715 L 620 728 L 720 710 L 820 725 L 920 705 L 1040 720 L 1160 700 L 1280 715 L 1400 695 L 1500 710 L 1546 705 L 1546 816 L 54 816 Z" fill="#0d1220" opacity="0.85"/>
+          <!-- Camelback Mountain silhouette (foreground right) -->
+          <path d="M 950 760 L 1000 720 L 1060 700 L 1120 680 L 1180 665 L 1220 640 L 1260 625 L 1290 618 L 1320 622 L 1345 635 L 1370 655 L 1395 665 L 1420 660 L 1445 652 L 1470 648 L 1495 645 L 1520 650 L 1546 655 L 1546 816 L 950 816 Z" fill="#060912" opacity="0.9"/>
+          <!-- Downtown Phoenix skyline (center-left, rectangular buildings) -->
+          <g fill="#050810" opacity="0.95">
+            <rect x="380" y="720" width="28" height="96"/>
+            <rect x="414" y="705" width="22" height="111"/>
+            <rect x="442" y="695" width="32" height="121"/>
+            <rect x="480" y="680" width="26" height="136"/>
+            <rect x="512" y="665" width="38" height="151"/>
+            <rect x="556" y="675" width="24" height="141"/>
+            <rect x="586" y="690" width="30" height="126"/>
+            <rect x="622" y="700" width="22" height="116"/>
+            <rect x="650" y="712" width="28" height="104"/>
+            <rect x="684" y="722" width="20" height="94"/>
+            <rect x="710" y="730" width="26" height="86"/>
+            <rect x="742" y="740" width="18" height="76"/>
+          </g>
+          <!-- Tiny window lights in buildings (warm amber) -->
+          <g fill="#ffb867" opacity="0.55">
+            <rect x="389" y="745" width="2" height="2"/>
+            <rect x="395" y="755" width="2" height="2"/>
+            <rect x="420" y="725" width="2" height="2"/>
+            <rect x="428" y="745" width="2" height="2"/>
+            <rect x="451" y="715" width="2" height="2"/>
+            <rect x="460" y="735" width="2" height="2"/>
+            <rect x="466" y="755" width="2" height="2"/>
+            <rect x="488" y="700" width="2" height="2"/>
+            <rect x="494" y="720" width="2" height="2"/>
+            <rect x="499" y="740" width="2" height="2"/>
+            <rect x="520" y="685" width="2" height="2"/>
+            <rect x="528" y="705" width="2" height="2"/>
+            <rect x="536" y="725" width="2" height="2"/>
+            <rect x="544" y="745" width="2" height="2"/>
+            <rect x="565" y="695" width="2" height="2"/>
+            <rect x="572" y="715" width="2" height="2"/>
+            <rect x="595" y="710" width="2" height="2"/>
+            <rect x="603" y="730" width="2" height="2"/>
+            <rect x="610" y="750" width="2" height="2"/>
+            <rect x="630" y="720" width="2" height="2"/>
+            <rect x="637" y="740" width="2" height="2"/>
+            <rect x="658" y="730" width="2" height="2"/>
+            <rect x="665" y="750" width="2" height="2"/>
+            <rect x="691" y="740" width="2" height="2"/>
+            <rect x="697" y="760" width="2" height="2"/>
+          </g>
+          <!-- Stars scattered in upper sky -->
+          <g fill="#c8d8ff" opacity="0.5">
+            <circle cx="180" cy="180" r="0.8"/>
+            <circle cx="340" cy="140" r="1"/>
+            <circle cx="520" cy="220" r="0.8"/>
+            <circle cx="710" cy="160" r="0.9"/>
+            <circle cx="880" cy="200" r="0.7"/>
+            <circle cx="1050" cy="150" r="1"/>
+            <circle cx="1220" cy="210" r="0.8"/>
+            <circle cx="1380" cy="170" r="0.9"/>
+            <circle cx="270" cy="300" r="0.7"/>
+            <circle cx="600" cy="310" r="0.8"/>
+            <circle cx="990" cy="290" r="0.7"/>
+            <circle cx="1310" cy="330" r="0.8"/>
+          </g>
+        </g>
+
+        <!-- V-shield logo (boot splash, centered upper-middle of screen) -->
+        <g id="tv-logo" opacity="0" transform="translate(640 240)">
+          <!-- Shield: outer dark body with bevel -->
+          <!-- Shield outer path (pentagon/shield shape) -->
+          <path d="M 0 0 L 320 0 L 320 180 L 160 330 L 0 180 Z" fill="url(#vShieldBody)" stroke="#0a0e16" stroke-width="2"/>
+          <!-- Top edge highlight -->
+          <path d="M 0 0 L 320 0 L 316 6 L 4 6 Z" fill="url(#vShieldHighlight)" opacity="0.6"/>
+          <!-- Inner V shape (blue, beveled) - main V stroke -->
+          <path d="M 72 30 L 124 30 L 176 185 L 228 30 L 280 30 L 204 260 L 148 260 Z" fill="url(#vShieldFace)"/>
+          <!-- V inner bevel highlight on left edge of V -->
+          <path d="M 72 30 L 124 30 L 128 45 L 90 45 Z" fill="#8fc8ff" opacity="0.75"/>
+          <!-- V inner shadow on right edge -->
+          <path d="M 228 30 L 280 30 L 260 55 L 230 55 Z" fill="#1a4a8a" opacity="0.6"/>
+          <!-- Second V slash (offset right, as in logo) -->
+          <path d="M 165 30 L 210 30 L 255 155 L 240 185 Z" fill="url(#vShieldFace)" opacity="0.9"/>
+          <!-- Third thin V slash -->
+          <path d="M 235 30 L 270 30 L 300 110 L 285 140 Z" fill="#4facff" opacity="0.75"/>
+          <!-- Left side diagonal line details (from logo) -->
+          <path d="M 28 60 L 58 60 L 58 66 L 28 66 Z" fill="#1a1f2a" opacity="0.9"/>
+          <path d="M 28 80 L 54 80 L 54 86 L 28 86 Z" fill="#1a1f2a" opacity="0.9"/>
+          <path d="M 28 100 L 48 100 L 48 106 L 28 106 Z" fill="#1a1f2a" opacity="0.9"/>
+          <!-- Shield edge glow -->
+          <path d="M 0 0 L 320 0 L 320 180 L 160 330 L 0 180 Z" fill="none" stroke="#4facff" stroke-width="1" opacity="0.3"/>
+        </g>
         <text id="tv-chin-brand" x="800" y="842" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="13" letter-spacing="3" fill="#2e2e36" opacity="0.85">VISTAMOUNT</text>
         <circle id="tv-power-led" cx="80" cy="838" r="2.2" fill="#4facff" opacity="0"/>
         <rect id="tv-flash" x="54" y="54" width="1492" height="762" rx="2" ry="2" fill="url(#flashGrad)" opacity="0" style="mix-blend-mode:screen"/>
@@ -2317,14 +2470,11 @@ document.addEventListener('DOMContentLoaded', function() {
     </svg>
 
     <!-- Content that appears INSIDE the TV screen -->
-    <div id="hero-tv-content">
-      <div class="hero-eyebrow">PHOENIX, AZ &middot; SAME-DAY OFTEN AVAILABLE</div>
-      <h1 class="hero-wordmark">VISTAMOUNT</h1>
-      <p class="hero-tagline">Clean installs. Hidden wires available. Done right the first time.</p>
-    </div>
+    
   </div>
 
   <!-- CTA + trust bar below TV (slide up) -->
+  <p id="hero-tagline-below">Clean installs. Hidden wires available. Done right the first time.</p>
   <div id="hero-cta-wrap">
     <button id="hero-cta" onclick="openBookingModal(); return false;">
       <span>Book Your Install</span>
@@ -2335,6 +2485,8 @@ document.addEventListener('DOMContentLoaded', function() {
       <span class="trust-text">4.9/5</span>
       <span class="trust-dot">&middot;</span>
       <span class="trust-text">800+ Installs</span>
+      <span class="trust-dot">&middot;</span>
+      <span class="trust-text">Same-day often available</span>
       <span class="trust-dot">&middot;</span>
       <span class="trust-text">Insured &amp; Guaranteed</span>
     </div>
@@ -2420,7 +2572,7 @@ document.addEventListener('DOMContentLoaded', function() {
     draw(cur);ne.textContent=cur>=MAX?'800+':cur;
     var lbl=getLbl(cur);
     if(lbl){var cc=getCol(cur/MAX);le.textContent=lbl;le.style.color=rgba(cc,1);}
-    if(cur>=MAX&&ls){ls.textContent='800+ installs ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ· 4.9ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ· Same-day available';ls.style.opacity='1';}
+    if(cur>=MAX&&ls){ls.textContent='800+ installs ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ· 4.9ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ· Same-day available';ls.style.opacity='1';}
     requestAnimationFrame(step);
   }
   draw(0);
@@ -3291,7 +3443,7 @@ async function submitForm(){
     } catch (e) {
       console.error('Error:', e);
       alert('Booking failed. Please call (480) 903-4769.');
-      btn.textContent = 'Confirm Booking ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ';
+      btn.textContent = 'Confirm Booking ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ';
       btn.disabled = false;
     }
   } else {
@@ -3347,7 +3499,7 @@ async function handlePaymentSubmit() {
     }
   } catch (e) {
     alert('Payment failed: ' + e.message);
-    submitBtn.textContent = 'Confirm Booking ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ';
+    submitBtn.textContent = 'Confirm Booking ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ';
     submitBtn.disabled = false;
   }
 }
@@ -3464,7 +3616,7 @@ function showPaymentStep() {
     // Show same-day skip message
     sameDaySkip.style.display = 'block';
     futurePayment.style.display = 'none';
-    submitBtn.textContent = 'Confirm Booking ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ';
+    submitBtn.textContent = 'Confirm Booking ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ';
   } else {
     // Show payment options
     sameDaySkip.style.display = 'none';
@@ -3584,14 +3736,14 @@ function checkIfDepositNeeded() {
     depositMessage.innerHTML = '<strong style="color:#4facff;font-size:.9rem;">&#10003; BOOKING FOR TODAY - NO DEPOSIT REQUIRED</strong><br><span style="font-size:.75rem;">You selected today. Just confirm below and we\'ll call within 2 hours. Pay when job is complete.</span>';
     cardContainer.style.display = 'none';
     paymentStatus.innerHTML = '';
-    submitBtn.textContent = 'Confirm Booking ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ';
+    submitBtn.textContent = 'Confirm Booking ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ';
   } else {
     // Future: Show deposit requirement and payment field
     depositNotice.style.background = 'rgba(255,165,0,.1)';
     depositNotice.style.borderColor = '#ffa500';
     depositMessage.innerHTML = '<strong style="color:#ffa500;font-size:.9rem;">&#128179; $50 DEPOSIT REQUIRED</strong><br><span style="font-size:.75rem;">$50 applied to invoice. $25 non-refundable booking fee + $25 refundable if you cancel.</span>';
     cardContainer.style.display = 'block';
-    submitBtn.textContent = 'Pay $1 Test Deposit & Confirm ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ';
+    submitBtn.textContent = 'Pay $1 Test Deposit & Confirm ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ';
     if (!card) {
       initSquarePayment();
     }
