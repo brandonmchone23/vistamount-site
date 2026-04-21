@@ -2495,7 +2495,14 @@ document.addEventListener('DOMContentLoaded', function() {
         </g>
 
         <!-- V-shield logo PNG (boot splash centered on screen) -->
-        <image id="tv-logo" href="/images/logo-final.png" x="610" y="260" width="380" height="325" preserveAspectRatio="xMidYMid meet" opacity="0"/>
+        <defs>
+<clipPath id="logo-shield-clip"><rect x="660" y="275" width="280" height="200"/></clipPath>
+<linearGradient id="wordmark-grad" x1="0%" y1="0%" x2="0%" y2="100%">
+<stop offset="0%" stop-color="#ffffff"/><stop offset="100%" stop-color="#cfd8e3"/>
+</linearGradient>
+</defs>
+<image id="tv-logo" href="/images/logo-final.png" x="660" y="275" width="280" height="240" preserveAspectRatio="xMidYMin meet" clip-path="url(#logo-shield-clip)"/>
+<text id="tv-wordmark" x="800" y="525" text-anchor="middle" font-family="'Inter','Helvetica Neue',Arial,sans-serif" font-weight="800" font-size="46" letter-spacing="8" fill="url(#wordmark-grad)" style="paint-order:stroke;">VISTAMOUNT</text>
         <text id="tv-chin-brand" x="800" y="842" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="13" letter-spacing="3" fill="#2e2e36" opacity="0.85">VISTAMOUNT</text>
         <circle id="tv-power-led" cx="80" cy="838" r="2.2" fill="#4facff" opacity="0"/>
         <rect id="tv-flash" x="54" y="54" width="1492" height="762" rx="2" ry="2" fill="url(#flashGrad)" opacity="0" style="mix-blend-mode:screen"/>
