@@ -3028,12 +3028,19 @@ function closeLightbox(){
 
 
 </section>
-<section style="background:#0a0a0a;padding:80px 52px;">
+<section style="background:#0a0a0a;padding:60px 52px;">
   <div style="max-width:1200px;margin:0 auto;">
-    <div class="section-eyebrow fade-up" style="color:#4facff;">Professional Grade</div>
-    <h2 class="fade-up" style="font-family:'Bebas Neue',sans-serif;font-size:clamp(2.5rem,5vw,4rem);color:#fff;letter-spacing:.03em;margin:0 0 12px;line-height:1;">We Show Up Equipped.</h2>
-    <p class="fade-up" style="font-size:.9rem;color:rgba(255,255,255,.4);max-width:560px;line-height:1.8;margin:0 0 52px;">Not every installer brings the right tools. We do. Every job gets the full kit &mdash; no guessing, no damage, no callbacks.</p>
-    <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.06);" class="tools-grid">
+    <div class="accordion-wrap accordion-wrap-dark" style="background:transparent;border:1px solid rgba(59,130,246,0.15);border-radius:12px;overflow:hidden;">
+      <div class="acc-header" onclick="toggleAcc(this)" id="acc-equipment" style="background:rgba(255,255,255,0.02);">
+        <div class="acc-left">
+          <div class="acc-title" style="color:#fff;">Professional Equipment</div>
+          <div class="acc-sub" style="color:#94a3b8;">Milwaukee tools, laser levels, Walabot scanner, thermal camera & more — tap to see what we bring</div>
+        </div>
+        <div class="acc-icon"><span class="acc-chevron">&#9660;</span></div>
+      </div>
+      <div class="acc-body">
+        <div style="padding:24px 0 8px;">
+          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.06);" class="tools-grid">
       <div class="fade-up d1" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Drilling & Driving</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee M18 FUEL</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Drill & impact driver. Maximum torque for any wall type &mdash; drywall, tile, concrete, brick.</div></div>
       <div class="fade-up d2" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Leveling</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee + Bosch Laser</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Laser levels for perfect alignment every time. No eyeballing &mdash; your TV is always straight.</div></div>
       <div class="fade-up d3" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Wall Scanning</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Walabot Advanced Stud Finder</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Sees studs, pipes, and live wires behind the wall before we drill. Zero surprises.</div></div>
@@ -3042,6 +3049,9 @@ function closeLightbox(){
       <div class="fade-up d2" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Cutting & Finishing</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee Multi-Tool</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Precise cuts for outlet boxes, cable access, and in-wall work. Clean edges, no mess left behind.</div></div>
       <div class="fade-up d3" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Cleanup</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee Vacuum</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">We clean up after ourselves. Drywall dust, debris &mdash; gone before we leave.</div></div>
       <div class="fade-up d4" style="background:#0a0a0a;padding:28px 24px;display:flex;flex-direction:column;justify-content:center;border:1px solid rgba(45,127,232,.25);"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">The result</div><div style="font-size:1.1rem;font-weight:500;color:#fff;margin-bottom:6px;line-height:1.4;">Done right.<br>The first time.</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Professional tools mean fewer holes, cleaner installs, and zero damage to your home.</div></div>
+    </div>
+        </div>
+      </div>
     </div>
   </div>
 </section>
