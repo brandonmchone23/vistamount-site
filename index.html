@@ -12,6 +12,26 @@
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
 <noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/></noscript>
 <style>
+/* === v9 responsive safety === */
+html,body{overflow-x:hidden;max-width:100vw}
+*{box-sizing:border-box}
+@media (max-width:640px){
+  nav{padding:10px 12px !important}
+  .nav-phone{font-size:13px !important;padding:6px 10px !important}
+  .nav-book{padding:8px 14px !important;font-size:13px !important}
+  #hero{padding:72px 10px 32px !important;min-height:100dvh}
+  #hero-tv-wrap{width:min(96vw,560px) !important}
+  #hero-tagline-below{font-size:13px !important;max-width:94%}
+  #hero-cta{padding:14px 28px !important;font-size:14px !important}
+  #hero-trust{font-size:11.5px !important;gap:6px 12px !important;padding:0 8px}
+  #hero-trust .trust-dot{display:none !important}
+}
+@media (max-width:420px){
+  .nav-phone{font-size:12px !important;letter-spacing:0 !important}
+  .nav-book{padding:7px 12px !important;font-size:12px !important;letter-spacing:.05em !important}
+  nav{padding:8px 8px !important;gap:6px !important}
+}
+
 :root{
   --light: #ffffff;
   --light2: #f8f9fa;
@@ -56,25 +76,23 @@ nav.scrolled-light .nav-book{color:#fff!important;}
 
 /* HERO */
 /* ============ HERO (v2): full-bleed TV-on-wall composition ============ */
-#hero{position:relative;height:100vh;min-height:640px;overflow:hidden;background:#06080f;display:flex;align-items:center;justify-content:center;isolation:isolate}
+#hero{position:relative;min-height:100vh;padding:80px 16px 48px;overflow:hidden;background:#06080f;display:flex;flex-direction:column;align-items:center;justify-content:center;isolation:isolate}
 
 /* Plaster wall ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ warm Phoenix/Scottsdale desert tones */
 #hero-wall{position:absolute;inset:0;background:
-  radial-gradient(ellipse 110% 85% at 50% 42%, #3d342c 0%, #2e2720 40%, #1e1914 75%, #120e0a 100%);
+  radial-gradient(ellipse 95% 70% at 50% 50%, #2a2520 0%, #1a1714 45%, #0d0a09 80%, #06040a 100%);
   opacity:0;
   animation:wallFadeIn 1.4s cubic-bezier(.22,1,.36,1) 0.3s forwards
 }
-/* Soft warm tone overlay - no repeating patterns */
-#hero-wall::before{content:'';position:absolute;inset:0;background:
-  radial-gradient(ellipse 60% 45% at 50% 45%, rgba(200,165,125,.09), transparent 75%);
-  pointer-events:none}
+/* Removed warm tone hotspot (v9) */
+
 #hero-wall::after{content:'';position:absolute;inset:0;background:
   radial-gradient(ellipse 120% 60% at 50% 100%, rgba(0,0,0,.25), transparent 60%);
   pointer-events:none}
 
-#hero::after{content:'';position:absolute;inset:0;background:
-  radial-gradient(ellipse 70% 55% at 50% 50%, transparent 0%, transparent 45%, rgba(0,0,0,.5) 100%);
-  pointer-events:none;z-index:3}
+#hero::after{content:'';position:absolute;inset:0;pointer-events:none;background:
+    radial-gradient(ellipse 65% 50% at 50% 50%, transparent 0%, transparent 50%, rgba(0,0,0,.35) 100%)
+  }
 
 /* TV composition ÃÂÃÂÃÂÃÂ¢ÃÂÃÂÃÂÃÂÃÂÃÂÃÂÃÂ wall-mounted flat panel */
 #hero-tv-wrap{position:relative;z-index:2;width:min(720px,68vw);aspect-ratio:1600/1020;display:flex;align-items:center;justify-content:center}
@@ -101,15 +119,13 @@ nav.scrolled-light .nav-book{color:#fff!important;}
 #tv-logo{transform-origin:center center;animation:logoReveal 1.1s cubic-bezier(.22,1,.36,1) 2.7s forwards}
 /* Tagline below TV fades in after main composition */
 #hero-tagline-below{
-  position:absolute;left:50%;transform:translateX(-50%);
-  bottom:clamp(130px,18vh,200px);
+  position:relative;margin:clamp(14px,2vh,28px) auto 0;
   z-index:5;
-  margin:0;
   font-size:clamp(13px,1.4vw,16px);
-  color:rgba(255,255,255,.72);
+  color:rgba(255,255,255,.78);
   font-weight:300;letter-spacing:.01em;
   text-align:center;
-  max-width:520px;width:90%;
+  max-width:560px;width:90%;
   opacity:0;
   animation:taglineFadeIn 0.8s cubic-bezier(.22,1,.36,1) 4.3s forwards
 }
@@ -121,12 +137,20 @@ nav.scrolled-light .nav-book{color:#fff!important;}
 .hero-tagline{font-size:clamp(13px,1.4vw,17px);color:rgba(255,255,255,.72);margin:0;font-weight:300;letter-spacing:.01em;max-width:520px;margin-left:auto;margin-right:auto}
 
 /* CTA + trust bar below TV */
-#hero-cta-wrap{position:absolute;left:50%;bottom:clamp(18px,4vh,40px);transform:translateX(-50%);z-index:5;display:flex;flex-direction:column;align-items:center;gap:18px;opacity:0;animation:ctaRiseIn 0.9s cubic-bezier(.22,1,.36,1) 3.7s forwards}
+#hero-cta-wrap{
+    position:relative;margin:clamp(16px,2.4vh,32px) auto 0;text-align:center;z-index:6;
+    opacity:0;
+    animation:ctaRiseIn 0.9s cubic-bezier(.22,1,.36,1) 4.5s forwards
+  }
 #hero-cta{display:inline-flex;align-items:center;gap:10px;background:linear-gradient(180deg,#4facff 0%,#2d7fe8 100%);color:#fff;border:none;padding:18px 38px;border-radius:999px;font-family:inherit;font-size:15px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;cursor:pointer;box-shadow:0 10px 40px rgba(79,172,255,.35),0 2px 8px rgba(0,0,0,.4);transition:transform .25s ease,box-shadow .25s ease}
 #hero-cta:hover{transform:translateY(-2px);box-shadow:0 14px 48px rgba(79,172,255,.5),0 4px 12px rgba(0,0,0,.5)}
 #hero-cta svg{transition:transform .25s ease}
 #hero-cta:hover svg{transform:translateX(4px)}
-#hero-trust{display:flex;align-items:center;gap:10px;flex-wrap:wrap;justify-content:center;font-size:12px;color:rgba(255,255,255,.65);letter-spacing:.02em}
+#hero-trust{
+    position:relative;margin:clamp(14px,2vh,22px) auto 0;z-index:5;
+    display:flex;align-items:center;justify-content:center;flex-wrap:wrap;
+    gap:10px 18px;color:rgba(255,255,255,.68);font-size:13px;letter-spacing:.02em
+  }
 #hero-trust .trust-stars{color:#FFD700;font-size:13px;letter-spacing:1px}
 #hero-trust .trust-dot{color:rgba(79,172,255,.45)}
 @media(max-width:640px){
@@ -194,12 +218,12 @@ nav.scrolled-light .nav-book{color:#fff!important;}
   100%{opacity:1;transform:scale(1);filter:blur(0) brightness(1) drop-shadow(0 0 10px rgba(79,172,255,0.3))}
 }
 @keyframes taglineFadeIn{
-  from{opacity:0;transform:translate(-50%,8px)}
-  to{opacity:1;transform:translate(-50%,0)}
+  from{opacity:0;transform:translateY(8px)}
+  to{opacity:1;transform:translateY(0)}
 }
 @keyframes ctaRiseIn{
-  from{opacity:0;transform:translate(-50%,18px)}
-  to{opacity:1;transform:translate(-50%,0)}
+  from{opacity:0;transform:translateY(18px)}
+  to{opacity:1;transform:translateY(0)}
 }
 body.hero-skip #hero-wall{animation:none;opacity:1}
 body.hero-skip #tv-body-group{animation:none;opacity:1;transform:none}
@@ -215,8 +239,8 @@ body.hero-skip #sb-txt-hdmi{animation:none;opacity:0}
 body.hero-skip #sb-txt-arc{animation:none;opacity:1}
 body.hero-skip #tv-skyline{animation:none;opacity:.92}
 body.hero-skip #tv-logo{animation:none;opacity:1;transform:none;filter:none}
-body.hero-skip #hero-tagline-below{animation:none;opacity:1;transform:translateX(-50%)}
-body.hero-skip #hero-cta-wrap{animation:none;opacity:1;transform:translateX(-50%)}
+body.hero-skip #hero-tagline-below{animation:none;opacity:1;transform:none}
+body.hero-skip #hero-cta-wrap{animation:none;opacity:1;transform:none}
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce){
@@ -2324,99 +2348,168 @@ document.addEventListener('DOMContentLoaded', function() {
         
         <!-- Phoenix skyline backdrop - subtle silhouette at bottom of screen -->
         <g id="tv-skyline" opacity="0">
-          <!-- Dusk sky gradient above horizon -->
+          <!-- Warm horizon glow behind distant mountain line -->
           <defs>
-            <linearGradient id="duskGrad" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#0a1428" stop-opacity="0"/>
-              <stop offset="60%" stop-color="#1a1530" stop-opacity="0.4"/>
-              <stop offset="85%" stop-color="#3a2418" stop-opacity="0.55"/>
-              <stop offset="100%" stop-color="#5a3418" stop-opacity="0.6"/>
+            <linearGradient id="skyDuskGrad" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#0b1530"/>
+              <stop offset="55%" stop-color="#1a1838"/>
+              <stop offset="78%" stop-color="#6b3a2e" stop-opacity=".55"/>
+              <stop offset="92%" stop-color="#8a4a28" stop-opacity=".35"/>
+              <stop offset="100%" stop-color="#0c0a18"/>
             </linearGradient>
-            <linearGradient id="vShieldFace" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#6ab8ff"/>
-              <stop offset="55%" stop-color="#3d90ff"/>
-              <stop offset="100%" stop-color="#1f5fc8"/>
-            </linearGradient>
-            <linearGradient id="vShieldBody" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#2a2f3a"/>
-              <stop offset="50%" stop-color="#141820"/>
-              <stop offset="100%" stop-color="#0a0c12"/>
-            </linearGradient>
-            <linearGradient id="vShieldHighlight" x1="0%" y1="0%" x2="0%" y2="100%">
-              <stop offset="0%" stop-color="#8fc8ff" stop-opacity="0.9"/>
-              <stop offset="100%" stop-color="#4facff" stop-opacity="0.3"/>
+            <linearGradient id="horizonGlow" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#e67a3a" stop-opacity="0"/>
+              <stop offset="60%" stop-color="#e67a3a" stop-opacity=".18"/>
+              <stop offset="100%" stop-color="#e67a3a" stop-opacity="0"/>
             </linearGradient>
           </defs>
-          <!-- Dusk gradient fill behind skyline -->
-          <rect x="54" y="500" width="1492" height="316" fill="url(#duskGrad)"/>
-          <!-- Warm horizon glow -->
-          <ellipse cx="900" cy="785" rx="700" ry="40" fill="#ff9950" opacity="0.12"/>
-          <!-- Distant mountain range (background, lighter) -->
-          <path d="M 54 760 L 180 730 L 260 745 L 340 720 L 420 735 L 520 715 L 620 728 L 720 710 L 820 725 L 920 705 L 1040 720 L 1160 700 L 1280 715 L 1400 695 L 1500 710 L 1546 705 L 1546 816 L 54 816 Z" fill="#0d1220" opacity="0.85"/>
-          <!-- Camelback Mountain silhouette (foreground right) -->
-          <path d="M 950 760 L 1000 720 L 1060 700 L 1120 680 L 1180 665 L 1220 640 L 1260 625 L 1290 618 L 1320 622 L 1345 635 L 1370 655 L 1395 665 L 1420 660 L 1445 652 L 1470 648 L 1495 645 L 1520 650 L 1546 655 L 1546 816 L 950 816 Z" fill="#060912" opacity="0.9"/>
-          <!-- Downtown Phoenix skyline (center-left, rectangular buildings) -->
-          <g fill="#050810" opacity="0.95">
-            <rect x="380" y="720" width="28" height="96"/>
-            <rect x="414" y="705" width="22" height="111"/>
-            <rect x="442" y="695" width="32" height="121"/>
-            <rect x="480" y="680" width="26" height="136"/>
-            <rect x="512" y="665" width="38" height="151"/>
-            <rect x="556" y="675" width="24" height="141"/>
-            <rect x="586" y="690" width="30" height="126"/>
-            <rect x="622" y="700" width="22" height="116"/>
-            <rect x="650" y="712" width="28" height="104"/>
-            <rect x="684" y="722" width="20" height="94"/>
-            <rect x="710" y="730" width="26" height="86"/>
-            <rect x="742" y="740" width="18" height="76"/>
+          <!-- Sky (dusk gradient) already painted by screen bg; add dusk band low on screen -->
+          <rect x="54" y="640" width="1492" height="180" fill="url(#horizonGlow)" opacity=".9"/>
+
+          <!-- Stars (subtle, only upper half of screen) -->
+          <g id="tv-stars" fill="#cfd9ff" opacity=".55">
+            <circle cx="180" cy="220" r="1.2"/><circle cx="310" cy="310" r="1"/>
+            <circle cx="430" cy="190" r="1.3"/><circle cx="520" cy="360" r="1"/>
+            <circle cx="640" cy="150" r="1.1"/><circle cx="720" cy="290" r="1"/>
+            <circle cx="880" cy="210" r="1.2"/><circle cx="970" cy="340" r="1"/>
+            <circle cx="1080" cy="170" r="1.1"/><circle cx="1180" cy="280" r="1"/>
+            <circle cx="1290" cy="200" r="1.3"/><circle cx="1400" cy="330" r="1"/>
+            <circle cx="240" cy="420" r="1"/><circle cx="1460" cy="420" r="1.2"/>
           </g>
-          <!-- Tiny window lights in buildings (warm amber) -->
-          <g fill="#ffb867" opacity="0.55">
-            <rect x="389" y="745" width="2" height="2"/>
-            <rect x="395" y="755" width="2" height="2"/>
-            <rect x="420" y="725" width="2" height="2"/>
-            <rect x="428" y="745" width="2" height="2"/>
-            <rect x="451" y="715" width="2" height="2"/>
-            <rect x="460" y="735" width="2" height="2"/>
-            <rect x="466" y="755" width="2" height="2"/>
-            <rect x="488" y="700" width="2" height="2"/>
-            <rect x="494" y="720" width="2" height="2"/>
-            <rect x="499" y="740" width="2" height="2"/>
-            <rect x="520" y="685" width="2" height="2"/>
-            <rect x="528" y="705" width="2" height="2"/>
-            <rect x="536" y="725" width="2" height="2"/>
-            <rect x="544" y="745" width="2" height="2"/>
-            <rect x="565" y="695" width="2" height="2"/>
-            <rect x="572" y="715" width="2" height="2"/>
-            <rect x="595" y="710" width="2" height="2"/>
-            <rect x="603" y="730" width="2" height="2"/>
-            <rect x="610" y="750" width="2" height="2"/>
-            <rect x="630" y="720" width="2" height="2"/>
-            <rect x="637" y="740" width="2" height="2"/>
-            <rect x="658" y="730" width="2" height="2"/>
-            <rect x="665" y="750" width="2" height="2"/>
-            <rect x="691" y="740" width="2" height="2"/>
-            <rect x="697" y="760" width="2" height="2"/>
+
+          <!-- Distant mountain layer (South Mountain silhouette, far, blue-grey) -->
+          <path d="M 54 760
+                   L 120 740 L 180 750 L 240 725 L 310 745 L 380 720 L 450 738
+                   L 520 715 L 600 735 L 680 712 L 760 730 L 850 710 L 940 728
+                   L 1020 708 L 1100 725 L 1180 705 L 1270 722 L 1360 700 L 1440 718
+                   L 1500 708 L 1546 714 L 1546 816 L 54 816 Z"
+                fill="#171f3a" opacity=".95"/>
+
+          <!-- Camelback Mountain silhouette (recognizable hump-and-head profile, right-of-center foreground) -->
+          <!-- Two humps: the Camel's Head (taller, left) and Camel's Hump (lower, right), with notch between -->
+          <path d="M 880 780
+                   L 940 760
+                   L 980 742
+                   L 1010 728
+                   L 1035 710
+                   L 1055 692
+                   L 1070 678
+                   L 1082 668
+                   L 1092 660
+                   L 1100 656
+                   L 1106 658
+                   L 1110 664
+                   L 1112 672
+                   L 1114 684
+                   L 1116 696
+                   L 1122 704
+                   L 1130 706
+                   L 1140 702
+                   L 1152 692
+                   L 1168 678
+                   L 1188 672
+                   L 1208 676
+                   L 1228 682
+                   L 1252 694
+                   L 1278 708
+                   L 1306 722
+                   L 1336 736
+                   L 1368 748
+                   L 1400 758
+                   L 1440 768
+                   L 1490 776
+                   L 1546 782
+                   L 1546 820
+                   L 880 820 Z"
+                fill="#0c1224"/>
+
+          <!-- Downtown Phoenix skyline (left-of-center, rectangular towers with window lights) -->
+          <!-- Buildings grouped; heights roughly match real downtown profile:
+               Chase Tower (tallest ~40 floors), BMO Tower, One Renaissance Square twins, US Bank Center -->
+          <g id="tv-downtown">
+            <!-- Base platform shadow -->
+            <rect x="280" y="780" width="620" height="40" fill="#05070f"/>
+
+            <!-- Far left short building (Luhrs / older stock) -->
+            <rect x="300" y="748" width="38" height="72" fill="#0a0f1c"/>
+            <!-- Mid-height block -->
+            <rect x="348" y="724" width="44" height="96" fill="#0b1020"/>
+            <!-- Residential tower -->
+            <rect x="402" y="708" width="42" height="112" fill="#0a0f1e"/>
+            <!-- US Bank Center (stepped top) -->
+            <rect x="454" y="688" width="56" height="132" fill="#0c1326"/>
+            <rect x="466" y="674" width="32" height="20" fill="#0c1326"/>
+            <rect x="478" y="666" width="8" height="12" fill="#0c1326"/>
+            <!-- One Renaissance Square I -->
+            <rect x="522" y="700" width="44" height="120" fill="#0b1122"/>
+            <!-- One Renaissance Square II (shorter twin) -->
+            <rect x="572" y="712" width="40" height="108" fill="#0b1020"/>
+            <!-- BMO Tower (modern, tallest box, crown) -->
+            <rect x="620" y="652" width="58" height="168" fill="#0d1528"/>
+            <rect x="634" y="640" width="30" height="14" fill="#0d1528"/>
+            <rect x="646" y="628" width="6" height="14" fill="#0d1528"/>
+            <!-- Chase Tower (tallest in Phoenix, white-ish but silhouette dark) -->
+            <rect x="690" y="620" width="62" height="200" fill="#0e1629"/>
+            <rect x="702" y="606" width="38" height="16" fill="#0e1629"/>
+            <rect x="716" y="592" width="10" height="16" fill="#0e1629"/>
+            <!-- 44 Monroe residential -->
+            <rect x="762" y="680" width="36" height="140" fill="#0a0f1e"/>
+            <!-- Hyatt Regency cylinder approximation -->
+            <rect x="806" y="702" width="32" height="118" fill="#0b1022"/>
+            <rect x="810" y="696" width="24" height="8" fill="#0b1022"/>
+            <!-- Collier Center -->
+            <rect x="846" y="720" width="34" height="100" fill="#0a0f1c"/>
+
+            <!-- Warm window lights (amber pinpricks, clustered) -->
+            <g fill="#ffb56b" opacity=".85">
+              <!-- Chase -->
+              <rect x="696" y="640" width="3" height="3"/><rect x="706" y="648" width="3" height="3"/>
+              <rect x="718" y="660" width="3" height="3"/><rect x="730" y="668" width="3" height="3"/>
+              <rect x="742" y="678" width="3" height="3"/><rect x="700" y="688" width="3" height="3"/>
+              <rect x="712" y="700" width="3" height="3"/><rect x="724" y="712" width="3" height="3"/>
+              <rect x="736" y="724" width="3" height="3"/><rect x="706" y="740" width="3" height="3"/>
+              <rect x="720" y="752" width="3" height="3"/><rect x="734" y="766" width="3" height="3"/>
+              <rect x="696" y="780" width="3" height="3"/><rect x="740" y="796" width="3" height="3"/>
+              <!-- BMO -->
+              <rect x="628" y="670" width="3" height="3"/><rect x="644" y="682" width="3" height="3"/>
+              <rect x="658" y="696" width="3" height="3"/><rect x="668" y="712" width="3" height="3"/>
+              <rect x="632" y="726" width="3" height="3"/><rect x="650" y="740" width="3" height="3"/>
+              <rect x="664" y="756" width="3" height="3"/><rect x="636" y="774" width="3" height="3"/>
+              <!-- Renaissance -->
+              <rect x="530" y="720" width="3" height="3"/><rect x="548" y="736" width="3" height="3"/>
+              <rect x="558" y="756" width="3" height="3"/><rect x="540" y="776" width="3" height="3"/>
+              <rect x="580" y="728" width="3" height="3"/><rect x="596" y="744" width="3" height="3"/>
+              <rect x="588" y="766" width="3" height="3"/><rect x="602" y="790" width="3" height="3"/>
+              <!-- US Bank -->
+              <rect x="462" y="708" width="3" height="3"/><rect x="478" y="724" width="3" height="3"/>
+              <rect x="492" y="742" width="3" height="3"/><rect x="466" y="762" width="3" height="3"/>
+              <rect x="482" y="780" width="3" height="3"/><rect x="496" y="798" width="3" height="3"/>
+              <!-- Residential / smaller -->
+              <rect x="408" y="730" width="3" height="3"/><rect x="418" y="750" width="3" height="3"/>
+              <rect x="428" y="772" width="3" height="3"/><rect x="412" y="790" width="3" height="3"/>
+              <rect x="358" y="744" width="3" height="3"/><rect x="372" y="768" width="3" height="3"/>
+              <rect x="382" y="790" width="3" height="3"/>
+              <rect x="306" y="762" width="3" height="3"/><rect x="320" y="784" width="3" height="3"/>
+              <rect x="770" y="702" width="3" height="3"/><rect x="780" y="722" width="3" height="3"/>
+              <rect x="788" y="748" width="3" height="3"/><rect x="774" y="772" width="3" height="3"/>
+              <rect x="790" y="796" width="3" height="3"/>
+              <rect x="814" y="724" width="3" height="3"/><rect x="822" y="748" width="3" height="3"/>
+              <rect x="812" y="772" width="3" height="3"/><rect x="826" y="796" width="3" height="3"/>
+              <rect x="856" y="740" width="3" height="3"/><rect x="866" y="768" width="3" height="3"/>
+              <rect x="854" y="798" width="3" height="3"/>
+            </g>
+
+            <!-- Aircraft warning lights (red, atop tallest towers) -->
+            <circle cx="721" cy="620" r="1.8" fill="#ff5b5b" opacity=".9"/>
+            <circle cx="649" cy="652" r="1.6" fill="#ff5b5b" opacity=".9"/>
           </g>
-          <!-- Stars scattered in upper sky -->
-          <g fill="#c8d8ff" opacity="0.5">
-            <circle cx="180" cy="180" r="0.8"/>
-            <circle cx="340" cy="140" r="1"/>
-            <circle cx="520" cy="220" r="0.8"/>
-            <circle cx="710" cy="160" r="0.9"/>
-            <circle cx="880" cy="200" r="0.7"/>
-            <circle cx="1050" cy="150" r="1"/>
-            <circle cx="1220" cy="210" r="0.8"/>
-            <circle cx="1380" cy="170" r="0.9"/>
-            <circle cx="270" cy="300" r="0.7"/>
-            <circle cx="600" cy="310" r="0.8"/>
-            <circle cx="990" cy="290" r="0.7"/>
-            <circle cx="1310" cy="330" r="0.8"/>
-          </g>
+
+          <!-- Thin ground haze line -->
+          <rect x="54" y="808" width="1492" height="8" fill="#20243a" opacity=".6"/>
         </g>
 
         <!-- V-shield logo PNG (boot splash centered on screen) -->
-        <image id="tv-logo" href="/images/logo.png" x="650" y="210" width="300" height="450" preserveAspectRatio="xMidYMid meet" opacity="0"/>
+        <image id="tv-logo" href="/images/logo-white.png" x="610" y="260" width="380" height="325" preserveAspectRatio="xMidYMid meet" opacity="0"/>
         <text id="tv-chin-brand" x="800" y="842" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="13" letter-spacing="3" fill="#2e2e36" opacity="0.85">VISTAMOUNT</text>
         <circle id="tv-power-led" cx="80" cy="838" r="2.2" fill="#4facff" opacity="0"/>
         <rect id="tv-flash" x="54" y="54" width="1492" height="762" rx="2" ry="2" fill="url(#flashGrad)" opacity="0" style="mix-blend-mode:screen"/>
