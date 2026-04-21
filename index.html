@@ -2005,6 +2005,10 @@ async function submitBooking() {
     (bookingState.soundbars ? ' soundbars:' + bookingState.soundbars : '') +
     (bookingState.dismounts ? ' dismounts:' + bookingState.dismounts : '');
   
+  // Loading state
+  const submitBtn = document.getElementById('modal-submit-btn');
+  if (submitBtn) { submitBtn.textContent = 'Confirming...'; submitBtn.disabled = true; submitBtn.style.opacity = '0.7'; }
+
   // Submit to worker
   try {
     const response = await fetch('https://vistamount-booking.billowing-recipe-0ae7.workers.dev/book', {
@@ -2033,6 +2037,7 @@ async function submitBooking() {
       throw new Error(data.error || 'Booking failed');
     }
   } catch (e) {
+    if (submitBtn) { submitBtn.textContent = 'Complete Booking →'; submitBtn.disabled = false; submitBtn.style.opacity = '1'; }
     alert('Booking failed: ' + e.message + '. Please try again or call (480) 903-4769.');
   }
 }
@@ -2115,7 +2120,7 @@ function initBookingStep4() {
     
     <div class="modal-nav">
       <button class="btn-back" onclick="goBookingStep(3)">&larr; Back</button>
-      <button class="btn-next" onclick="submitBooking()">Complete Booking &rarr;</button>
+      <button class="btn-next" id="modal-submit-btn" onclick="submitBooking()">Complete Booking &rarr;</button>
     </div>
   `;
   
