@@ -240,11 +240,12 @@ body.hero-skip #sb-txt-arc{animation:none;opacity:1}
 body.hero-skip #tv-skyline{animation:none;opacity:.92}
 body.hero-skip #tv-logo{animation:none;opacity:1;transform:none;filter:none}
 body.hero-skip #hero-tagline-below{animation:none;opacity:1;transform:none}
+#hero-insurance-badge{animation:none;opacity:1;transform:none}
 body.hero-skip #hero-cta-wrap{animation:none;opacity:1;transform:none}
 
 /* Respect reduced motion */
 @media (prefers-reduced-motion: reduce){
-  #hero-wall,#tv-body-group,#tv-flash,#tv-power-led,#tv-skyline,#tv-logo,#hero-tagline-below,#soundbar-group,.sb-txt,#hero-cta-wrap{animation-duration:.01s;animation-delay:0s}
+  #hero-wall,#tv-body-group,#tv-flash,#tv-power-led,#tv-skyline,#tv-logo,#hero-tagline-below,#soundbar-group,.sb-txt,#hero-cta-wrap,#hero-insurance-badge{animation-duration:.01s;animation-delay:0s}
 }
 
 /* Mobile */
@@ -1479,6 +1480,32 @@ section.why-section [id*="counter"] { color: #2d7fe8 !important; }
   .policy-grid { grid-template-columns: 1fr; }
 }
 
+
+/* Hero insurance badge (Option B) */
+#hero-insurance-badge{
+  position:relative;margin:clamp(10px,1.6vh,18px) auto 0;
+  display:inline-flex;align-items:center;gap:10px;
+  padding:8px 18px;
+  background:linear-gradient(135deg,rgba(45,127,232,0.18),rgba(79,172,255,0.08));
+  border:1px solid rgba(79,172,255,0.45);
+  border-radius:999px;
+  color:#e8edf5;font-size:12.5px;font-weight:600;letter-spacing:.02em;
+  box-shadow:0 0 24px rgba(45,127,232,0.18),inset 0 1px 0 rgba(255,255,255,0.05);
+  z-index:6;
+  opacity:0;
+  animation:ctaRiseIn 0.9s cubic-bezier(.22,1,.36,1) 4.3s forwards;
+  white-space:nowrap;
+}
+#hero-insurance-badge svg{color:#4facff;flex-shrink:0;}
+#hero-insurance-badge strong{color:#4facff;font-weight:800;letter-spacing:.01em;}
+#hero-insurance-badge .badge-divider{
+  display:inline-block;width:3px;height:3px;border-radius:50%;
+  background:rgba(232,237,245,0.35);
+}
+#hero-insurance-badge-wrap{text-align:center;width:100%;}
+@media (max-width:540px){
+  #hero-insurance-badge{font-size:11px;padding:7px 14px;gap:8px;}
+}
 </style>
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=AW-18018755852"></script>
@@ -2533,6 +2560,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
   <!-- CTA + trust bar below TV (slide up) -->
   <p id="hero-tagline-below">Clean installs. Hidden wires available. Done right the first time.</p>
+  <div style="text-align:center;width:100%;position:relative;z-index:6;">
+  <div id="hero-insurance-badge" aria-label="One Million Dollar liability insured">
+    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+      <path d="M12 2L4 5v7c0 5 3.5 9.2 8 10 4.5-.8 8-5 8-10V5l-8-3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
+      <path d="M8.5 12l2.6 2.6L15.5 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+    </svg>
+    <span><strong>$1M</strong> Liability Insured</span>
+    <span class="badge-divider" aria-hidden="true"></span>
+    <span>Licensed</span>
+    <span class="badge-divider" aria-hidden="true"></span>
+    <span>Same-Day Available</span>
+  </div>
+  </div>
   <div id="hero-cta-wrap">
     <button id="hero-cta" onclick="openBookingModal(); return false;">
       <span>Book Your Install</span>
