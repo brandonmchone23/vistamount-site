@@ -2,7 +2,6 @@
 <html lang="en">
 <head>
 <!-- Cache bust: 1776468199 -->
-<script src="https://web.squarecdn.com/v1/square.js"></script>
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>VistaMount - Premium TV Mounting & Smart Home | Phoenix, AZ</title>
@@ -1976,52 +1975,6 @@ function selectSlot(slot) {
 }
 
 
-let modalCard = null;
-let modalSquareInitialized = false;
-
-async function initModalSquarePayment() {
-  if (!window.Square) {
-    console.error('Square.js not loaded');
-    return;
-  }
-  
-  if (modalSquareInitialized) {
-    console.log('Square already initialized for modal');
-    return;
-  }
-  
-  modalSquareInitialized = true;
-  
-  try {
-    const payments = window.Square.payments('sq0idp-B3c5ZI18_DbdYE7RbSIYqA', 'LRF9PX7GSDB5M');
-    
-    // Try to initialize Google Pay
-    try {
-      const googlePay = await payments.googlePay({ amount: '50.00', currencyCode: 'USD' });
-      await googlePay.attach('#google-pay-container');
-    } catch (e) {
-      console.log('Google Pay not available:', e);
-    }
-    
-    // Try to initialize Apple Pay
-    try {
-      const applePay = await payments.applePay({ amount: '50.00', currencyCode: 'USD' });
-      await applePay.attach('#apple-pay-container');
-    } catch (e) {
-      console.log('Apple Pay not available:', e);
-    }
-    
-    // Initialize card (always available)
-    modalCard = await payments.card();
-    await modalCard.attach('#card-container');
-    console.log('Square card attached to modal');
-  } catch (e) {
-    console.error('Square initialization failed:', e);
-    document.getElementById('payment-status').innerHTML = 
-      '<span style="color:#ff5555;">Payment system failed to load. Please refresh or call (480) 903-4769.</span>';
-  }
-}
-
 async function submitBooking() {
   // Validate required fields
   const fname = document.getElementById('fname').value.trim();
@@ -2039,37 +1992,7 @@ async function submitBooking() {
     alert('Please select a time slot');
     return;
   }
-  
-  // Check if payment is needed
-  const selectedDate = document.getElementById('booking-date').value;
-  const today = new Date().toISOString().split('T')[0];
-  const isSameDay = selectedDate === today;
-  
   let sourceId = null;
-  
-  // Tokenize card if payment needed
-  if (!isSameDay) {
-    if (!modalCard) {
-      alert('Payment system not initialized');
-      return;
-    }
-    
-    try {
-      const statusEl = document.getElementById('payment-status');
-      statusEl.innerHTML = '<span style="color:var(--bl);">Processing payment...</span>';
-      
-      const result = await modalCard.tokenize();
-      if (result.status === 'OK') {
-        sourceId = result.token;
-      } else {
-        throw new Error(result.errors?.[0]?.message || 'Card validation failed');
-      }
-    } catch (e) {
-      document.getElementById('payment-status').innerHTML = 
-        '<span style="color:#ff5555;">Payment failed: ' + e.message + '</span>';
-      return;
-    }
-  }
   
   // Generate confirmation number
   const confirmationNumber = 'VM-' + Math.random().toString(36).substring(2, 6).toUpperCase();
@@ -2183,17 +2106,6 @@ function initBookingStep4() {
         <input type="text" id="address" placeholder="123 Main St, Phoenix AZ 85001" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;">
       </div>
     </div>
-    
-    <div id="payment-section" style="margin-bottom:24px;">
-      <div style="background:#f0f4f8;padding:16px;border-radius:6px;margin-bottom:16px;">
-        <div id="google-pay-container" style="margin-bottom:12px;"></div>
-        <div id="apple-pay-container" style="margin-bottom:12px;"></div>
-        <div id="card-container"></div>
-        
-        <div style="font-size:0.75rem;color:#888;margin-top:12px;line-height:1.4;">
-          The $25 refund is instant in most cases, but can take up to 5 business days.
-        </div>
-      </div>
     </div>
     
     <div style="background:#e8f4ff;padding:20px;border-radius:8px;border:1px solid #b8daff;margin-top:24px;text-align:center;">
@@ -2207,16 +2119,10 @@ function initBookingStep4() {
     </div>
   `;
   
-  // Initialize Square payment
-  initSquarePayment();
-  
   // Update price display
   updatePriceDisplay();
 }
 
-function submitBooking() {
-  alert('Booking system ready! Integration with Square payment next.');
-}
 
 // Initialize modal structure
 document.addEventListener('DOMContentLoaded', function() {
@@ -2230,7 +2136,6 @@ document.addEventListener('DOMContentLoaded', function() {
     `;
   }
 });
-
 
 
   window.dataLayer = window.dataLayer || [];
@@ -2279,14 +2184,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <!-- Fixed Header -->
 
 
-
-
-
-
 <!-- Fixed Header -->
-
-
-
 
 
 <!-- Google Tag Manager (noscript) -->
@@ -2687,7 +2585,6 @@ document.addEventListener('DOMContentLoaded', function() {
 </div>
 
 
-
 <!-- SERVICES -->
 <div style="border-top:1px solid rgba(0,0,0,.08);">
 <!-- GALLERY -->
@@ -3025,8 +2922,6 @@ function closeLightbox(){
   </div>
 
 
-
-
 </section>
 <section style="background:#0a0a0a;padding:60px 52px;">
   <div style="max-width:1200px;margin:0 auto;">
@@ -3140,7 +3035,6 @@ function closeLightbox(){
 
 <!-- end warranty accordion -->
 </div><!-- end accordion wrapper -->
-
 
 
 <footer class="footer-premium">
@@ -3382,7 +3276,6 @@ function setMainTVCount(n,btn){
 }
 
 
-
 function updateMainTVSummary(idx,c){
   var tv=mainState.tvs[idx];
   var el=document.getElementById('main-tv-summary-'+idx);
@@ -3524,8 +3417,6 @@ async function submitForm(){
   const apptDate = new Date(selectedSlot.start);
   const today = new Date();
   const isSameDay = apptDate.toDateString() === today.toDateString();
-  
-  // CRITICAL: Block future appointments from submitting without payment
   // [v9.3] all bookings proceed
   
   
@@ -3570,19 +3461,6 @@ async function submitForm(){
       btn.textContent = 'Confirm Booking ·';
       btn.disabled = false;
     }
-  } else {
-    // Future: tokenize card and process
-    if (!card) {
-      alert('Payment system not ready. Please refresh the page.');
-      return;
-    }
-    
-    const result = await card.tokenize();
-    if (result.status === 'OK') {
-      processPayment(result.token);
-    } else {
-      alert('Card validation failed. Please check your card details.');
-    }
   }
 }
 
@@ -3596,159 +3474,7 @@ calcMainEst();
 </script>
 
 <script>
-// Square Payment Integration
-const SQUARE_APP_ID = 'sq0idp-B3c5ZI18_DbdYE7RbSIYqA';
-const SQUARE_LOCATION_ID = 'LRF9PX7GSDB5M';
-let card;
-let squareInitialized = false;
 
-
-
-async function handlePaymentSubmit() {
-  if (!card) {
-    alert('Payment system not initialized. Please refresh the page.');
-    return;
-  }
-  
-  const submitBtn = document.getElementById('submit-btn');
-  submitBtn.textContent = 'Processing...';
-  submitBtn.disabled = true;
-  
-  try {
-    const result = await card.tokenize();
-    if (result.status === 'OK') {
-      await processPayment(result.token);
-    } else {
-      throw new Error(result.errors?.[0]?.message || 'Card validation failed');
-    }
-  } catch (e) {
-    alert('Payment failed: ' + e.message);
-    submitBtn.textContent = 'Confirm Booking ·';
-    submitBtn.disabled = false;
-  }
-}
-
-async function processPayment(sourceId) {
-  const submitBtn = document.getElementById('submit-btn');
-  submitBtn.textContent = 'Processing...';
-  submitBtn.disabled = true;
-  
-  try {
-    const fname = document.getElementById('fname').value.trim();
-    const summary = 'TVs:'+mainState.tvcount+' '+mainState.tvs.map(function(tv,i){return 'TV'+(i+1)+':'+tv.size+'/'+tv.mount+'/'+tv.cords+'/'+tv.wall;}).join(' ')+(mainState.soundbars?' soundbars:'+mainState.soundbars:'')+(mainState.dismounts?' dismounts:'+mainState.dismounts:'');
-    
-    // Generate confirmation number BEFORE sending to worker
-    const confirmationNumber = 'VM-' + Math.random().toString(36).substring(2, 6).toUpperCase();
-    
-    const res = await fetch('https://vistamount-booking.billowing-recipe-0ae7.workers.dev/book', {
-      method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({
-        name: (fname+' '+(document.getElementById('lname').value||'')).trim(),
-        phone: document.getElementById('phone').value,
-        email: document.getElementById('email').value,
-        address: document.getElementById('address').value,
-        slotStart: selectedSlot.start,
-        slotEnd: selectedSlot.end,
-        summary: summary,
-        notes: '',
-        sourceId: sourceId,
-        confirmationNumber: confirmationNumber
-      })
-    });
-    
-    const data = await res.json();
-    if (data.success) {
-      // Use the same confirmation number we sent to the worker
-      
-      // Populate receipt details
-      document.getElementById('receipt-amount').textContent = '$1.00';
-      document.getElementById('receipt-payment-id').textContent = confirmationNumber;
-      
-      const apptDate = new Date(selectedSlot.start);
-      const dateStr = apptDate.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
-      const timeStr = apptDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
-      document.getElementById('receipt-datetime').textContent = dateStr + ' at ' + timeStr;
-      
-      const tvCount = mainState.tvcount || 1;
-      const serviceStr = tvCount + ' TV' + (tvCount > 1 ? 's' : '') + ' mounted' + 
-                         (mainState.soundbars ? ', ' + mainState.soundbars + ' soundbar(s)' : '') +
-                         (mainState.dismounts ? ', ' + mainState.dismounts + ' dismount(s)' : '');
-      document.getElementById('receipt-service').textContent = serviceStr;
-      
-      document.getElementById('receipt-customer').textContent = fname + ' ' + (document.getElementById('lname').value || '');
-      
-      // Show success screen
-      // Hide form steps but keep form-wrap visible
-      document.querySelectorAll('.form-step').forEach(s => s.style.display = 'none');
-      const formNav = document.querySelector('.form-nav');
-      if (formNav) formNav.style.display = 'none';
-      const paymentSection = document.getElementById('payment-section');
-      if (paymentSection) paymentSection.style.display = 'none';
-      document.getElementById('success').style.display = 'block';
-      document.getElementById('success').classList.add('show');
-      document.getElementById('booking-header').style.display = 'none';
-      window.dataLayer = window.dataLayer || [];
-      window.dataLayer.push({event: 'booking_complete', page: 'main'});
-    } else {
-      throw new Error(data.error || 'Booking failed');
-    }
-  } catch (e) {
-    console.error('Error:', e);
-    document.getElementById('payment-status').innerHTML = 
-      '<div style="color:#ff5555;font-size:.75rem;">Payment failed: '+e.message+'. Please try again or call (480) 903-4769.</div>';
-    submitBtn.textContent = 'Complete Payment & Book';
-    submitBtn.disabled = false;
-  }
-}
-
-
-function updateStep4Button() {
-  if (!selectedSlot || !selectedSlot.start) return;
-  
-  const apptDate = new Date(selectedSlot.start);
-  const today = new Date();
-  const isSameDay = apptDate.toDateString() === today.toDateString();
-  
-  const paymentSection = document.getElementById('payment-section');
-  const paymentNotice = document.getElementById('payment-notice');
-  
-  if (isSameDay) {
-    // Same-day: Hide payment, show confirmation notice
-    if (paymentSection) paymentSection.style.display = 'none';
-    if (paymentNotice) paymentNotice.innerHTML = '&#10003; Confirmation call within 2 hours<br/>&#10003; No payment required until job is complete';
-  } else {
-    // Future: Show payment section, initialize Square
-    if (paymentSection) paymentSection.style.display = 'block';
-    if (paymentNotice) paymentNotice.innerHTML = 'Complete payment to confirm your booking';
-    initSquarePayment();
-  }
-}
-
-function showPaymentStep() {
-  if (!selectedSlot || !selectedSlot.start) return;
-  
-  const apptDate = new Date(selectedSlot.start);
-  const today = new Date();
-  const isSameDay = apptDate.toDateString() === today.toDateString();
-  
-  const sameDaySkip = document.getElementById('same-day-skip');
-  const futurePayment = document.getElementById('future-payment');
-  const submitBtn = document.getElementById('submit-btn');
-  
-  if (isSameDay) {
-    // Show same-day skip message
-    sameDaySkip.style.display = 'block';
-    futurePayment.style.display = 'none';
-    submitBtn.textContent = 'Confirm Booking ·';
-  } else {
-    // Show payment options
-    sameDaySkip.style.display = 'none';
-    futurePayment.style.display = 'block';
-    submitBtn.textContent = 'Complete Payment & Book';
-    initSquarePayment();
-  }
-}
 
 // Calculate job duration based on selected services
 function calculateJobDuration() {
@@ -3810,84 +3536,7 @@ function calculateJobDuration() {
   return totalMinutes / 60;
 }
 
-async function initSquarePayment() {
-  if (!window.Square) {
-    console.error('Square.js failed to load');
-    return;
-  }
-  
-  if (squareInitialized) {
-    console.log('Square already initialized');
-    return;
-  }
-  squareInitialized = true;
-  
-  try {
-    const payments = window.Square.payments(SQUARE_APP_ID, SQUARE_LOCATION_ID);
-    
-    // Initialize Card (required)
-    console.log('Attempting to initialize card...');
-    card = await payments.card();
-    console.log('Card object created:', card);
-    await card.attach('#card-container');
-    console.log('Card attached to container');
-    
-  } catch (e) {
-    console.error('Square initialization failed:', e);
-    document.getElementById('payment-status').innerHTML = 
-      '<div style="color:#ff5555;font-size:.75rem;">Payment system failed to load. Please call (480) 903-4769.</div>';
-  }
-}
 
-// Initialize when Step 4 is reached - only if NOT same-day
-function checkIfDepositNeeded() {
-  // [v9.3] All bookings confirmed by phone call; no online payment.
-  const _dn = document.getElementById('deposit-notice');
-  const _dm = document.getElementById('deposit-message');
-  const _cc = document.getElementById('card-container');
-  const _sb = document.getElementById('submit-booking');
-  if (_dn) { _dn.style.background = 'rgba(79,172,255,.15)'; _dn.style.borderColor = '#4facff'; }
-  if (_dm) { _dm.innerHTML = '<strong style="color:#4facff;font-size:.9rem;">\u2713 Booking request received</strong><br><span style="font-size:.75rem;">We will call you shortly to confirm your appointment details.</span>'; }
-  if (_cc) { _cc.style.display = 'none'; }
-  if (_sb) { _sb.textContent = 'Confirm Booking \u2192'; _sb.style.background = '#22c55e'; _sb.disabled = false; }
-  return;
-
-  if (!selectedSlot || !selectedSlot.start) return;
-  
-  const apptDate = new Date(selectedSlot.start);
-  const today = new Date();
-  const isSameDay = apptDate.toDateString() === today.toDateString();
-  
-  const depositNotice = document.getElementById('deposit-notice');
-  const depositMessage = document.getElementById('deposit-message');
-  const cardContainer = document.getElementById('card-container');
-  const paymentStatus = document.getElementById('payment-status');
-  const submitBtn = document.getElementById('submit-btn');
-  
-  if (isSameDay) {
-    // Same-day: Highlight it, hide payment field
-    depositNotice.style.background = 'rgba(79,172,255,.15)';
-    depositNotice.style.borderColor = '#4facff';
-    depositMessage.innerHTML = '<strong style="color:#4facff;font-size:.9rem;">&#10003; BOOKING CONFIRMATION</strong><br><span style="font-size:.75rem;">You selected today. Just confirm below and we\'ll call within 2 hours. Pay when job is complete.</span>';
-    cardContainer.style.display = 'none';
-    paymentStatus.innerHTML = '';
-    submitBtn.textContent = 'Confirm Booking ·';
-  } else {
-    // Future: Show deposit requirement and payment field
-    depositNotice.style.background = 'rgba(255,165,0,.1)';
-    depositNotice.style.borderColor = '#ffa500';
-    depositMessage.innerHTML = '<strong style="color:#ffa500;font-size:.9rem;">&#128179; FUTURE APPOINTMENT</strong><br><span style="font-size:.75rem;">We will reach out to confirm your appointment.</span>';
-    cardContainer.style.display = 'block';
-    submitBtn.textContent = 'Confirm Booking ·';
-    if (!card) {
-      initSquarePayment();
-    }
-  }
-}
-
-const originalGoStep = window.goStep;
-window.goStep = function(n) {
-  originalGoStep(n);
   if (n === 4 && !card) {
     checkIfDepositNeeded();
   }
@@ -3895,7 +3544,6 @@ window.goStep = function(n) {
 
 ;
 </script>
-
 
 
 <script>// Hero v2: session-based skip (returning visitors see final state instantly)
@@ -3962,9 +3610,6 @@ window.goStep = function(n) {
     </div>
   </div>
 </div>
-
-
-
 
 
 </body>
