@@ -3831,7 +3831,7 @@ window.goStep = function(n) {
 <script>// Hero v2: session-based skip (returning visitors see final state instantly)
 (function(){
   try{
-    if(sessionStorage.getItem('vm_hero_seen')==='1'){
+    if(false && sessionStorage.getItem('vm_hero_seen')==='1'){
       document.body.classList.add('hero-skip');
     } else {
       // Mark as seen after animation completes (~2.5s)
