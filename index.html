@@ -1924,129 +1924,160 @@ function renderTVCards() {
       <div style="margin-bottom:16px;">
         <label style="display:block;font-size:0.8rem;color:#666;margin-bottom:8px;">Mount Type</label>
         <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;">
-          <button class="option-btn ${tv.mountType === 'own' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'own')" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;">
-            <svg width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- OWN MOUNT -->
+          <button class="option-btn ${tv.mountType === 'own' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'own')" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 6px;">
+            <svg width="52" height="38" viewBox="0 0 52 38" fill="none" xmlns="http://www.w3.org/2000/svg">
               <!-- Wall -->
-              <rect x="0" y="4" width="4" height="24" rx="1" fill="currentColor" opacity="0.3"/>
-              <!-- Arm -->
-              <rect x="4" y="13" width="10" height="3" rx="1" fill="currentColor" opacity="0.5"/>
-              <!-- TV side profile - flat -->
-              <rect x="14" y="6" width="5" height="20" rx="1.5" fill="currentColor"/>
-              <!-- Checkmark to indicate customer owns it -->
-              <text x="24" y="20" font-size="12" fill="currentColor" opacity="0.7">✓</text>
+              <rect x="0" y="4" width="5" height="30" rx="1.5" fill="currentColor" opacity="0.3"/>
+              <!-- Short bracket -->
+              <rect x="5" y="16" width="7" height="4" rx="1" fill="currentColor" opacity="0.5"/>
+              <!-- TV side profile (thick rectangle = side of TV) -->
+              <rect x="12" y="8" width="6" height="22" rx="2" fill="currentColor" opacity="0.9"/>
+              <!-- Checkmark badge -->
+              <circle cx="38" cy="14" r="9" fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="1.5" opacity="0.4"/>
+              <path d="M33 14 L36.5 17.5 L43 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" opacity="0.85"/>
             </svg>
-            <span style="font-size:0.78rem;font-weight:600;">I Have My Own</span>
-            <small style="font-size:0.7rem;opacity:0.8;">Included</small>
+            <span style="font-size:0.76rem;font-weight:700;">I Have My Own</span>
+            <small style="font-size:0.65rem;opacity:0.7;">You supply the mount</small>
+            <small style="font-size:0.68rem;font-weight:600;">Included</small>
           </button>
-          <button class="option-btn ${tv.mountType === 'fixed' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'fixed')" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;">
-            <svg width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- FIXED -->
+          <button class="option-btn ${tv.mountType === 'fixed' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'fixed')" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 6px;">
+            <svg width="52" height="38" viewBox="0 0 52 38" fill="none" xmlns="http://www.w3.org/2000/svg">
               <!-- Wall -->
-              <rect x="0" y="4" width="4" height="24" rx="1" fill="currentColor" opacity="0.3"/>
-              <!-- Short arm flush to wall -->
-              <rect x="4" y="13" width="6" height="3" rx="1" fill="currentColor" opacity="0.5"/>
-              <!-- TV side profile - flat/vertical -->
-              <rect x="10" y="6" width="5" height="20" rx="1.5" fill="currentColor"/>
-              <!-- Flat indicator lines -->
-              <line x1="18" y1="10" x2="26" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
-              <line x1="18" y1="16" x2="26" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
-              <line x1="18" y1="22" x2="26" y2="22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+              <rect x="0" y="4" width="5" height="30" rx="1.5" fill="currentColor" opacity="0.3"/>
+              <!-- Flush bracket -->
+              <rect x="5" y="16" width="7" height="4" rx="1" fill="currentColor" opacity="0.5"/>
+              <!-- TV side profile -->
+              <rect x="12" y="8" width="6" height="22" rx="2" fill="currentColor" opacity="0.9"/>
+              <!-- Lock/no-move icon -->
+              <rect x="28" y="13" width="14" height="10" rx="2" fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="1.5" opacity="0.5"/>
+              <path d="M32 13 L32 10 Q35 7 38 10 L38 13" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.5"/>
+              <circle cx="35" cy="18" r="1.5" fill="currentColor" opacity="0.6"/>
             </svg>
-            <span style="font-size:0.78rem;font-weight:600;">Fixed</span>
-            <small style="font-size:0.7rem;opacity:0.8;">+$45</small>
+            <span style="font-size:0.76rem;font-weight:700;">Fixed</span>
+            <small style="font-size:0.65rem;opacity:0.7;">Flat, doesn't move</small>
+            <small style="font-size:0.68rem;font-weight:600;">+$45</small>
           </button>
-          <button class="option-btn ${tv.mountType === 'tilting' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'tilting')" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;">
-            <svg width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- TILTING -->
+          <button class="option-btn ${tv.mountType === 'tilting' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'tilting')" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 6px;">
+            <svg width="52" height="38" viewBox="0 0 52 38" fill="none" xmlns="http://www.w3.org/2000/svg">
               <!-- Wall -->
-              <rect x="0" y="4" width="4" height="24" rx="1" fill="currentColor" opacity="0.3"/>
-              <!-- Arm -->
-              <rect x="4" y="13" width="8" height="3" rx="1" fill="currentColor" opacity="0.5"/>
-              <!-- TV side profile - angled down (tilted) -->
-              <rect x="10" y="8" width="5" height="20" rx="1.5" fill="currentColor" transform="rotate(-15 12 18)"/>
-              <!-- Tilt arc arrow -->
-              <path d="M22 8 Q28 12 24 20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.6"/>
-              <polygon points="23,20 27,20 25,24" fill="currentColor" opacity="0.6"/>
+              <rect x="0" y="4" width="5" height="30" rx="1.5" fill="currentColor" opacity="0.3"/>
+              <!-- Bracket -->
+              <rect x="5" y="15" width="8" height="4" rx="1" fill="currentColor" opacity="0.5"/>
+              <!-- TV side profile angled (tilted down) -->
+              <rect x="12" y="7" width="6" height="22" rx="2" fill="currentColor" opacity="0.9" transform="rotate(-12 15 18)"/>
+              <!-- Arc showing tilt range -->
+              <path d="M22 6 Q30 12 26 24" stroke="currentColor" stroke-width="1.8" fill="none" stroke-linecap="round" opacity="0.55"/>
+              <!-- Arrow tip -->
+              <path d="M24 23 L28 25 L26 20" fill="currentColor" opacity="0.55"/>
             </svg>
-            <span style="font-size:0.78rem;font-weight:600;">Tilting</span>
-            <small style="font-size:0.7rem;opacity:0.8;">+$45</small>
+            <span style="font-size:0.76rem;font-weight:700;">Tilting</span>
+            <small style="font-size:0.65rem;opacity:0.7;">Angles up or down</small>
+            <small style="font-size:0.68rem;font-weight:600;">+$45</small>
           </button>
-          <button class="option-btn ${tv.mountType === 'fullmotion' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'fullmotion')" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;">
-            <svg width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+
+          <!-- FULL MOTION -->
+          <button class="option-btn ${tv.mountType === 'fullmotion' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'fullmotion')" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 6px;">
+            <svg width="52" height="38" viewBox="0 0 52 38" fill="none" xmlns="http://www.w3.org/2000/svg">
               <!-- Wall -->
-              <rect x="0" y="4" width="4" height="24" rx="1" fill="currentColor" opacity="0.3"/>
-              <!-- Articulating arm - two segments -->
-              <rect x="4" y="13" width="8" height="2.5" rx="1" fill="currentColor" opacity="0.5" transform="rotate(-20 4 14)"/>
-              <rect x="14" y="11" width="7" height="2.5" rx="1" fill="currentColor" opacity="0.5" transform="rotate(15 14 12)"/>
-              <!-- TV side profile - angled out -->
-              <rect x="19" y="7" width="5" height="20" rx="1.5" fill="currentColor" transform="rotate(10 21 17)"/>
-              <!-- Multi-direction arrows -->
-              <path d="M28 8 L32 8 M32 8 L30 6 M32 8 L30 10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" opacity="0.65"/>
-              <path d="M28 24 L32 24 M32 24 L30 22 M32 24 L30 26" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" opacity="0.65"/>
+              <rect x="0" y="4" width="5" height="30" rx="1.5" fill="currentColor" opacity="0.3"/>
+              <!-- Arm segment 1 -->
+              <rect x="5" y="17" width="10" height="3.5" rx="1" fill="currentColor" opacity="0.55" transform="rotate(-15 5 18)"/>
+              <!-- Arm segment 2 -->
+              <rect x="14" y="14" width="9" height="3.5" rx="1" fill="currentColor" opacity="0.55" transform="rotate(20 14 15)"/>
+              <!-- TV side profile -->
+              <rect x="21" y="8" width="6" height="22" rx="2" fill="currentColor" opacity="0.9" transform="rotate(8 24 19)"/>
+              <!-- Up arrow -->
+              <path d="M36 6 L40 6 M38 4 L38 9" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+              <!-- Down arrow -->
+              <path d="M36 30 L40 30 M38 28 L38 33" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.6"/>
+              <!-- Left arrow -->
+              <path d="M32 18 L28 18 M29 16 L28 18 L29 20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
+              <!-- Right arrow -->
+              <path d="M44 18 L48 18 M47 16 L48 18 L47 20" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" opacity="0.6"/>
             </svg>
-            <span style="font-size:0.78rem;font-weight:600;">Full Motion</span>
-            <small style="font-size:0.7rem;opacity:0.8;">+$75</small>
+            <span style="font-size:0.76rem;font-weight:700;">Full Motion</span>
+            <small style="font-size:0.65rem;opacity:0.7;">Swivels any direction</small>
+            <small style="font-size:0.68rem;font-weight:600;">+$75</small>
           </button>
+
         </div>
       </div>
       
       <div style="margin-bottom:16px;">
         <label style="display:block;font-size:0.8rem;color:#666;margin-bottom:8px;">Cord Management</label>
-        <div style="display: grid; grid-template-columns: repeat(3,1fr); gap: 6px;">
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
 
-          <!-- VISIBLE: TV with dangling cords -->
-          <button class="option-btn ${tv.cords === 'visible' ? 'selected' : ''}" onclick="setTVProp(${i}, 'cords', 'visible')" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;">
-            <svg width="44" height="38" viewBox="0 0 44 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- Wall -->
-              <rect x="0" y="0" width="44" height="5" rx="1" fill="currentColor" opacity="0.25"/>
-              <!-- TV front view -->
-              <rect x="6" y="5" width="32" height="20" rx="2" fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="1.5"/>
-              <rect x="9" y="8" width="26" height="14" rx="1" fill="currentColor" opacity="0.08"/>
-              <!-- Dangling cords from bottom of TV - squiggly -->
-              <path d="M16 25 Q14 28 16 31 Q18 34 16 37" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.7"/>
-              <path d="M22 25 Q22 29 22 37" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.7"/>
-              <path d="M28 25 Q30 28 28 31 Q26 34 28 37" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.7"/>
+          <!-- VISIBLE -->
+          <button class="option-btn ${tv.cords === 'visible' ? 'selected' : ''}" onclick="setTVProp(${i}, 'cords', 'visible')" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;">
+            <svg width="48" height="44" viewBox="0 0 48 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Wall bar -->
+              <rect x="4" y="0" width="40" height="4" rx="1" fill="currentColor" opacity="0.3"/>
+              <!-- TV body front view -->
+              <rect x="6" y="4" width="36" height="22" rx="2" fill="currentColor" opacity="0.12" stroke="currentColor" stroke-width="1.8"/>
+              <!-- TV screen -->
+              <rect x="9" y="7" width="30" height="16" rx="1" fill="currentColor" opacity="0.07"/>
+              <!-- Dangling messy cords -->
+              <path d="M17 26 Q13 30 17 33 Q21 36 17 40 Q15 42 17 44" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.75"/>
+              <path d="M24 26 Q26 30 24 33 Q22 36 24 39 Q24 41 24 44" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.75"/>
+              <path d="M31 26 Q35 30 31 33 Q27 36 31 40 Q33 42 31 44" stroke="currentColor" stroke-width="2" fill="none" stroke-linecap="round" opacity="0.75"/>
             </svg>
-            <span style="font-size:0.75rem;font-weight:600;">Visible</span>
-            <small style="font-size:0.68rem;opacity:0.75;">Included</small>
+            <span style="font-size:0.72rem;font-weight:700;letter-spacing:0.01em;">Visible</span>
+            <small style="font-size:0.65rem;opacity:0.7;">Cords hang free</small>
+            <small style="font-size:0.68rem;font-weight:600;">Included</small>
           </button>
 
-          <!-- RACEWAY: TV with cords tucked in wall channel -->
-          <button class="option-btn ${tv.cords === 'raceway' ? 'selected' : ''}" onclick="setTVProp(${i}, 'cords', 'raceway')" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;">
-            <svg width="44" height="38" viewBox="0 0 44 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- Wall -->
-              <rect x="0" y="0" width="44" height="5" rx="1" fill="currentColor" opacity="0.25"/>
-              <!-- TV front view -->
-              <rect x="6" y="5" width="32" height="20" rx="2" fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="1.5"/>
-              <rect x="9" y="8" width="26" height="14" rx="1" fill="currentColor" opacity="0.08"/>
-              <!-- Raceway channel on wall below TV -->
-              <rect x="18" y="25" width="8" height="12" rx="1.5" fill="none" stroke="currentColor" stroke-width="1.5" opacity="0.6"/>
-              <!-- Cords inside raceway -->
-              <line x1="21" y1="27" x2="21" y2="35" stroke="currentColor" stroke-width="1" opacity="0.5"/>
-              <line x1="24" y1="27" x2="24" y2="35" stroke="currentColor" stroke-width="1" opacity="0.5"/>
-              <!-- Label "channel" -->
-              <path d="M28 31 L34 31" stroke="currentColor" stroke-width="1" stroke-dasharray="2,2" opacity="0.4"/>
+          <!-- ON-WALL RACEWAY -->
+          <button class="option-btn ${tv.cords === 'raceway' ? 'selected' : ''}" onclick="setTVProp(${i}, 'cords', 'raceway')" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;">
+            <svg width="48" height="44" viewBox="0 0 48 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Wall bar -->
+              <rect x="4" y="0" width="40" height="4" rx="1" fill="currentColor" opacity="0.3"/>
+              <!-- TV body -->
+              <rect x="6" y="4" width="36" height="22" rx="2" fill="currentColor" opacity="0.12" stroke="currentColor" stroke-width="1.8"/>
+              <!-- TV screen -->
+              <rect x="9" y="7" width="30" height="16" rx="1" fill="currentColor" opacity="0.07"/>
+              <!-- Raceway channel box on wall surface -->
+              <rect x="19" y="26" width="10" height="16" rx="2" fill="currentColor" opacity="0.12" stroke="currentColor" stroke-width="1.8"/>
+              <!-- Cords neatly inside channel -->
+              <line x1="22" y1="28" x2="22" y2="40" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+              <line x1="25" y1="28" x2="25" y2="40" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+              <line x1="28" y1="28" x2="28" y2="40" stroke="currentColor" stroke-width="1.2" stroke-linecap="round" opacity="0.5"/>
+              <!-- Arrow pointing to raceway -->
+              <path d="M33 34 L38 34" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" opacity="0.45"/>
+              <polygon points="37,31 41,34 37,37" fill="currentColor" opacity="0.45"/>
             </svg>
-            <span style="font-size:0.75rem;font-weight:600;">On-Wall</span>
-            <small style="font-size:0.68rem;opacity:0.75;">+$50</small>
+            <span style="font-size:0.72rem;font-weight:700;">On-Wall</span>
+            <small style="font-size:0.65rem;opacity:0.7;">Channel on wall</small>
+            <small style="font-size:0.68rem;font-weight:600;">+$50</small>
           </button>
 
-          <!-- IN-WALL: TV with no cords visible, hidden inside wall -->
-          <button class="option-btn ${tv.cords === 'concealed' ? 'selected' : ''}" onclick="setTVProp(${i}, 'cords', 'concealed')" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;">
-            <svg width="44" height="38" viewBox="0 0 44 38" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <!-- Wall -->
-              <rect x="0" y="0" width="44" height="5" rx="1" fill="currentColor" opacity="0.25"/>
-              <!-- TV front view -->
-              <rect x="6" y="5" width="32" height="20" rx="2" fill="currentColor" opacity="0.15" stroke="currentColor" stroke-width="1.5"/>
-              <rect x="9" y="8" width="26" height="14" rx="1" fill="currentColor" opacity="0.08"/>
-              <!-- Wall surface below TV - no cords -->
-              <rect x="6" y="25" width="32" height="10" rx="0" fill="currentColor" opacity="0.06"/>
-              <!-- Hidden cord path shown as dashed inside wall -->
-              <path d="M22 25 L22 35" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2,2" opacity="0.35"/>
-              <!-- Clean checkmark / sparkle = hidden/clean -->
-              <circle cx="35" cy="10" r="5" fill="currentColor" opacity="0.15"/>
-              <path d="M32.5 10 L34.5 12 L37.5 8" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" opacity="0.8"/>
+          <!-- IN-WALL CONCEALED -->
+          <button class="option-btn ${tv.cords === 'concealed' ? 'selected' : ''}" onclick="setTVProp(${i}, 'cords', 'concealed')" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;">
+            <svg width="48" height="44" viewBox="0 0 48 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Wall bar -->
+              <rect x="4" y="0" width="40" height="4" rx="1" fill="currentColor" opacity="0.3"/>
+              <!-- TV body -->
+              <rect x="6" y="4" width="36" height="22" rx="2" fill="currentColor" opacity="0.12" stroke="currentColor" stroke-width="1.8"/>
+              <!-- TV screen -->
+              <rect x="9" y="7" width="30" height="16" rx="1" fill="currentColor" opacity="0.07"/>
+              <!-- Clean wall below - no cords visible -->
+              <rect x="6" y="26" width="36" height="16" rx="1" fill="currentColor" opacity="0.06"/>
+              <!-- Dashed hidden cord path INSIDE wall -->
+              <path d="M24 26 L24 42" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.5,2.5" opacity="0.28"/>
+              <!-- Outlet dot at bottom -->
+              <circle cx="24" cy="42" r="2" fill="currentColor" opacity="0.35"/>
+              <!-- Sparkle/clean indicator top right -->
+              <path d="M37 8 L38.5 11 L42 8 L38.5 5 Z" fill="currentColor" opacity="0.5"/>
+              <path d="M37 8 L42 8" stroke="currentColor" stroke-width="0.8" opacity="0.3"/>
             </svg>
-            <span style="font-size:0.75rem;font-weight:600;">In-Wall</span>
-            <small style="font-size:0.68rem;opacity:0.75;">+$75</small>
+            <span style="font-size:0.72rem;font-weight:700;">In-Wall</span>
+            <small style="font-size:0.65rem;opacity:0.7;">Fully hidden</small>
+            <small style="font-size:0.68rem;font-weight:600;">+$75</small>
           </button>
 
         </div>
