@@ -1924,10 +1924,67 @@ function renderTVCards() {
       <div style="margin-bottom:16px;">
         <label style="display:block;font-size:0.8rem;color:#666;margin-bottom:8px;">Mount Type</label>
         <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;">
-          <button class="option-btn ${tv.mountType === 'own' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'own')">I Have My Own<br><small style="font-size:0.75rem;opacity:0.8;">Included</small></button>
-          <button class="option-btn ${tv.mountType === 'fixed' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'fixed')">Fixed<br><small style="font-size:0.75rem;opacity:0.8;">+$45</small></button>
-          <button class="option-btn ${tv.mountType === 'tilting' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'tilting')">Tilting<br><small style="font-size:0.75rem;opacity:0.8;">+$45</small></button>
-          <button class="option-btn ${tv.mountType === 'fullmotion' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'fullmotion')">Full Motion<br><small style="font-size:0.75rem;opacity:0.8;">+$75</small></button>
+          <button class="option-btn ${tv.mountType === 'own' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'own')" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;">
+            <svg width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Wall -->
+              <rect x="0" y="4" width="4" height="24" rx="1" fill="currentColor" opacity="0.3"/>
+              <!-- Arm -->
+              <rect x="4" y="13" width="10" height="3" rx="1" fill="currentColor" opacity="0.5"/>
+              <!-- TV side profile - flat -->
+              <rect x="14" y="6" width="5" height="20" rx="1.5" fill="currentColor"/>
+              <!-- Checkmark to indicate customer owns it -->
+              <text x="24" y="20" font-size="12" fill="currentColor" opacity="0.7">✓</text>
+            </svg>
+            <span style="font-size:0.78rem;font-weight:600;">I Have My Own</span>
+            <small style="font-size:0.7rem;opacity:0.8;">Included</small>
+          </button>
+          <button class="option-btn ${tv.mountType === 'fixed' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'fixed')" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;">
+            <svg width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Wall -->
+              <rect x="0" y="4" width="4" height="24" rx="1" fill="currentColor" opacity="0.3"/>
+              <!-- Short arm flush to wall -->
+              <rect x="4" y="13" width="6" height="3" rx="1" fill="currentColor" opacity="0.5"/>
+              <!-- TV side profile - flat/vertical -->
+              <rect x="10" y="6" width="5" height="20" rx="1.5" fill="currentColor"/>
+              <!-- Flat indicator lines -->
+              <line x1="18" y1="10" x2="26" y2="10" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+              <line x1="18" y1="16" x2="26" y2="16" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+              <line x1="18" y1="22" x2="26" y2="22" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" opacity="0.5"/>
+            </svg>
+            <span style="font-size:0.78rem;font-weight:600;">Fixed</span>
+            <small style="font-size:0.7rem;opacity:0.8;">+$45</small>
+          </button>
+          <button class="option-btn ${tv.mountType === 'tilting' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'tilting')" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;">
+            <svg width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Wall -->
+              <rect x="0" y="4" width="4" height="24" rx="1" fill="currentColor" opacity="0.3"/>
+              <!-- Arm -->
+              <rect x="4" y="13" width="8" height="3" rx="1" fill="currentColor" opacity="0.5"/>
+              <!-- TV side profile - angled down (tilted) -->
+              <rect x="10" y="8" width="5" height="20" rx="1.5" fill="currentColor" transform="rotate(-15 12 18)"/>
+              <!-- Tilt arc arrow -->
+              <path d="M22 8 Q28 12 24 20" stroke="currentColor" stroke-width="1.5" fill="none" stroke-linecap="round" opacity="0.6"/>
+              <polygon points="23,20 27,20 25,24" fill="currentColor" opacity="0.6"/>
+            </svg>
+            <span style="font-size:0.78rem;font-weight:600;">Tilting</span>
+            <small style="font-size:0.7rem;opacity:0.8;">+$45</small>
+          </button>
+          <button class="option-btn ${tv.mountType === 'fullmotion' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'fullmotion')" style="display:flex;flex-direction:column;align-items:center;gap:4px;padding:10px 6px;">
+            <svg width="40" height="32" viewBox="0 0 40 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <!-- Wall -->
+              <rect x="0" y="4" width="4" height="24" rx="1" fill="currentColor" opacity="0.3"/>
+              <!-- Articulating arm - two segments -->
+              <rect x="4" y="13" width="8" height="2.5" rx="1" fill="currentColor" opacity="0.5" transform="rotate(-20 4 14)"/>
+              <rect x="14" y="11" width="7" height="2.5" rx="1" fill="currentColor" opacity="0.5" transform="rotate(15 14 12)"/>
+              <!-- TV side profile - angled out -->
+              <rect x="19" y="7" width="5" height="20" rx="1.5" fill="currentColor" transform="rotate(10 21 17)"/>
+              <!-- Multi-direction arrows -->
+              <path d="M28 8 L32 8 M32 8 L30 6 M32 8 L30 10" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" opacity="0.65"/>
+              <path d="M28 24 L32 24 M32 24 L30 22 M32 24 L30 26" stroke="currentColor" stroke-width="1.3" stroke-linecap="round" stroke-linejoin="round" opacity="0.65"/>
+            </svg>
+            <span style="font-size:0.78rem;font-weight:600;">Full Motion</span>
+            <small style="font-size:0.7rem;opacity:0.8;">+$75</small>
+          </button>
         </div>
       </div>
       
