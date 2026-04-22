@@ -2096,13 +2096,19 @@ async function loadBookingSlots() {
     const data = await response.json();
     
     if (data.slots && data.slots.length > 0) {
-      let html = '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;">';
-      data.slots.forEach(slot => {
-        const time = new Date(slot.start).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
-        html += `<button class="option-btn" onclick='selectSlot(${JSON.stringify(slot)})'>${time}</button>`;
-      });
-      html += '</div>';
-      slotsContainer.innerHTML = html;
+      const now = new Date();
+      const futureSlots = data.slots.filter(slot => new Date(slot.start) > now);
+      if (futureSlots.length > 0) {
+        let html = '<div style="display:grid;grid-template-columns:repeat(2,1fr);gap:8px;">';
+        futureSlots.forEach(slot => {
+          const time = new Date(slot.start).toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true });
+          html += `<button class="option-btn" onclick='selectSlot(${JSON.stringify(slot)})'>${time}</button>`;
+        });
+        html += '</div>';
+        slotsContainer.innerHTML = html;
+      } else {
+        slotsContainer.innerHTML = '<p style="font-size:0.85rem;color:#ff5555;">No slots available for this date</p>';
+      }
     } else {
       slotsContainer.innerHTML = '<p style="font-size:0.85rem;color:#ff5555;">No slots available for this date</p>';
     }
