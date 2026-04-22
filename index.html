@@ -1629,6 +1629,8 @@ let bookingState = {
   soundbars: 0,
   dismounts: 0,
   haulaway: 0,
+  haulawaySmall: 0,
+  haulawayLarge: 0,
   transport: false,
   selectedSlot: null,
   currentStep: 1
@@ -1705,8 +1707,9 @@ function calculatePrice() {
   // Dismounts
   total += bookingState.dismounts * 25;
   
-  // Haul-away ($25 base per TV, $50 if 55"+ — confirmed on-site)
-  total += (bookingState.haulaway ?? 0) * 25;
+  // Haul-away: $25 for under 55", $50 for 55"+
+  total += (bookingState.haulawaySmall ?? 0) * 25;
+  total += (bookingState.haulawayLarge ?? 0) * 50;
   
   return total;
 }
@@ -2131,16 +2134,30 @@ function initBookingStep2() {
         </div>
       </div>
 
-      <div style="display:flex;justify-content:space-between;align-items:flex-start;padding:16px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;">
-        <div style="flex:1;">
-          <div style="font-weight:600;margin-bottom:4px;">TV Haul-Away &amp; Recycling</div>
-          <div style="font-size:0.75rem;color:#666;margin-bottom:2px;">$25 · TVs under 55" &nbsp;|&nbsp; $50 · TVs 55" and larger</div>
-          <div style="font-size:0.75rem;color:#888;">Dropped at <a href="https://www.agapecomputerandelectronicsrecycling.com/" target="_blank" rel="noopener" style="color:#4facff;text-decoration:none;border-bottom:1px dotted rgba(79,172,255,.4)">Agape</a> in Phoenix — zero landfill.</div>
+      <div style="padding:16px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;">
+        <div style="font-weight:600;margin-bottom:4px;">TV Haul-Away &amp; Recycling</div>
+        <div style="font-size:0.75rem;color:#888;margin-bottom:12px;">Dropped at <a href="https://www.agapecomputerandelectronicsrecycling.com/" target="_blank" rel="noopener" style="color:#4facff;text-decoration:none;border-bottom:1px dotted rgba(79,172,255,.4)">Agape</a> in Phoenix — zero landfill.</div>
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <div>
+            <div style="font-size:0.85rem;font-weight:600;">Under 55″</div>
+            <div style="font-size:0.75rem;color:#666;">$25 each</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <button class="qty-btn" onclick="adjustQtyDirect('haulawaySmall', -1)">&minus;</button>
+            <span style="font-weight:600;min-width:20px;text-align:center;">${bookingState.haulawaySmall ?? 0}</span>
+            <button class="qty-btn" onclick="adjustQtyDirect('haulawaySmall', 1)">+</button>
+          </div>
         </div>
-        <div style="display:flex;align-items:center;gap:12px;margin-left:16px;">
-          <button class="qty-btn" onclick="adjustQty('haulaway', -1)">&minus;</button>
-          <span style="font-weight:600;min-width:20px;text-align:center;">${bookingState.haulaway ?? 0}</span>
-          <button class="qty-btn" onclick="adjustQty('haulaway', 1)">+</button>
+        <div style="display:flex;justify-content:space-between;align-items:center;">
+          <div>
+            <div style="font-size:0.85rem;font-weight:600;">55″ and Larger</div>
+            <div style="font-size:0.75rem;color:#666;">$50 each</div>
+          </div>
+          <div style="display:flex;align-items:center;gap:12px;">
+            <button class="qty-btn" onclick="adjustQtyDirect('haulawayLarge', -1)">&minus;</button>
+            <span style="font-weight:600;min-width:20px;text-align:center;">${bookingState.haulawayLarge ?? 0}</span>
+            <button class="qty-btn" onclick="adjustQtyDirect('haulawayLarge', 1)">+</button>
+          </div>
         </div>
       </div>
     </div>
@@ -2160,6 +2177,12 @@ function initBookingStep2() {
 
 function adjustQty(field, delta) {
   bookingState[field] = Math.max(0, bookingState[field] + delta);
+  initBookingStep2();
+  updatePriceDisplay();
+}
+
+function adjustQtyDirect(field, delta) {
+  bookingState[field] = Math.max(0, (bookingState[field] ?? 0) + delta);
   initBookingStep2();
   updatePriceDisplay();
 }
@@ -2413,50 +2436,30 @@ function initBookingStep4() {
     const wallPrice = tvWallPrice(tv.wall);
     const multiDiscount = i > 0 ? -25 : 0;
     const tvTotal = basePrice + mountPrice + cordPrice + wallPrice + multiDiscount;
+
+    const lineItem = (label, val, price) => price === 0 ? `
+      <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #f1f5f9;">
+        <span style="font-size:0.82rem;color:#64748b;">${label}: <span style="color:#0f1218;font-weight:500;">${val}</span></span>
+        <span style="font-size:0.82rem;color:#94a3b8;">Incl.</span>
+      </div>` : `
+      <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #f1f5f9;">
+        <span style="font-size:0.82rem;color:#64748b;">${label}: <span style="color:#0f1218;font-weight:500;">${val}</span></span>
+        <span style="font-size:0.82rem;color:#0f1218;font-weight:500;">+$${price}</span>
+      </div>`;
+
     return `
-      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;margin-bottom:10px;">
-        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:14px;">
-          <div style="font-weight:700;color:#0f1218;font-size:0.95rem;">TV ${i+1}</div>
-          <span style="font-weight:700;color:#2d7fe8;font-size:1rem;">$${tvTotal}${i > 0 ? ' <span style="font-size:0.72rem;color:#16a34a;font-weight:600;">−$25 multi</span>' : ''}</span>
-        </div>
-
-        <div style="margin-bottom:12px;">
-          <div style="font-size:0.72rem;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">TV Size</div>
-          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:5px;">
-            <button class="option-btn ${tv.size === '<32' ? 'selected' : ''}" onclick="setTVPropStep4(${i},'size','<32')">Under 32"<br><small style="font-size:0.7rem;opacity:0.8;">$100</small></button>
-            <button class="option-btn ${tv.size === '32-64' ? 'selected' : ''}" onclick="setTVPropStep4(${i},'size','32-64')">32"–64"<br><small style="font-size:0.7rem;opacity:0.8;">$125</small></button>
-            <button class="option-btn ${tv.size === '65-84' ? 'selected' : ''}" onclick="setTVPropStep4(${i},'size','65-84')">65"–84"<br><small style="font-size:0.7rem;opacity:0.8;">$150</small></button>
-            <button class="option-btn ${tv.size === '85+' ? 'selected' : ''}" onclick="setTVPropStep4(${i},'size','85+')">85"+<br><small style="font-size:0.7rem;opacity:0.8;">$200</small></button>
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-bottom:8px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <div style="font-weight:700;color:#0f1218;font-size:0.95rem;">TV ${i+1} ${i > 0 ? '<span style="font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;">−$25 multi</span>' : ''}</div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-weight:700;color:#2d7fe8;font-size:1rem;">$${tvTotal}</span>
+            <button onclick="goBookingStep(1)" style="font-size:0.72rem;color:#2d7fe8;background:none;border:1px solid #2d7fe8;border-radius:4px;padding:3px 8px;cursor:pointer;font-weight:600;">Edit</button>
           </div>
         </div>
-
-        <div style="margin-bottom:12px;">
-          <div style="font-size:0.72rem;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">Mount Type</div>
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;">
-            <button class="option-btn ${tv.mountType === 'fixed' ? 'selected' : ''}" onclick="setTVPropStep4(${i},'mountType','fixed')">Fixed<br><small style="font-size:0.7rem;opacity:0.8;">+$45</small></button>
-            <button class="option-btn ${tv.mountType === 'tilting' ? 'selected' : ''}" onclick="setTVPropStep4(${i},'mountType','tilting')">Tilting<br><small style="font-size:0.7rem;opacity:0.8;">+$45</small></button>
-            <button class="option-btn ${tv.mountType === 'fullmotion' ? 'selected' : ''}" onclick="setTVPropStep4(${i},'mountType','fullmotion')">Full Motion<br><small style="font-size:0.7rem;opacity:0.8;">+$75</small></button>
-          </div>
-        </div>
-
-        <div style="margin-bottom:12px;">
-          <div style="font-size:0.72rem;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">Cord Management</div>
-          <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:5px;">
-            <button class="option-btn ${tv.cords === 'visible' ? 'selected' : ''}" onclick="setTVPropStep4(${i},'cords','visible')">Visible<br><small style="font-size:0.7rem;opacity:0.8;">Included</small></button>
-            <button class="option-btn ${tv.cords === 'raceway' ? 'selected' : ''}" onclick="setTVPropStep4(${i},'cords','raceway')">On-Wall<br><small style="font-size:0.7rem;opacity:0.8;">+$50</small></button>
-            <button class="option-btn ${tv.cords === 'concealed' ? 'selected' : ''}" onclick="setTVPropStep4(${i},'cords','concealed')">In-Wall<br><small style="font-size:0.7rem;opacity:0.8;">+$75</small></button>
-          </div>
-        </div>
-
-        <div>
-          <div style="font-size:0.72rem;color:#64748b;font-weight:600;text-transform:uppercase;letter-spacing:.08em;margin-bottom:6px;">Wall Type</div>
-          <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:5px;">
-            <button class="option-btn ${tv.wall === 'drywall' ? 'selected' : ''}" onclick="setTVPropStep4(${i},'wall','drywall')">Drywall<br><small style="font-size:0.7rem;opacity:0.8;">Included</small></button>
-            <button class="option-btn ${tv.wall === 'stucco' ? 'selected' : ''}" onclick="setTVPropStep4(${i},'wall','stucco')">Stucco<br><small style="font-size:0.7rem;opacity:0.8;">+$75</small></button>
-            <button class="option-btn ${tv.wall === 'brick' ? 'selected' : ''}" onclick="setTVPropStep4(${i},'wall','brick')">Brick<br><small style="font-size:0.7rem;opacity:0.8;">+$100</small></button>
-            <button class="option-btn ${tv.wall === 'tile' ? 'selected' : ''}" onclick="setTVPropStep4(${i},'wall','tile')">Tile/Stone<br><small style="font-size:0.7rem;opacity:0.8;">+$150</small></button>
-          </div>
-        </div>
+        ${lineItem('Size', tvSizeLabel(tv.size), basePrice === 100 ? 0 : basePrice)}
+        ${lineItem('Mount', tvMountLabel(tv.mountType), mountPrice)}
+        ${lineItem('Cords', tvCordLabel(tv.cords), cordPrice)}
+        ${lineItem('Wall', tvWallLabel(tv.wall), wallPrice)}
       </div>`;
   }).join('');
 
@@ -2496,7 +2499,7 @@ function initBookingStep4() {
       </div>
     </div>` : '';
 
-  const hasAddons = bookingState.soundbars > 0 || bookingState.dismounts > 0 || (bookingState.haulaway ?? 0) > 0;
+  const hasAddons = bookingState.soundbars > 0 || bookingState.dismounts > 0 || (bookingState.haulawaySmall ?? 0) > 0 || (bookingState.haulawayLarge ?? 0) > 0;
 
   container.innerHTML = `
     ${dateTimeDisplay}
@@ -2508,7 +2511,8 @@ function initBookingStep4() {
       ${hasAddons ? `<div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#64748b;font-weight:600;margin:14px 0 8px;">Add-ons</div>` : ''}
       ${soundbarRows}
       ${addonRow('Mount Removal', '$25 per mount', 'dismounts', bookingState.dismounts, 25)}
-      ${addonRow('TV Haul-Away & Recycling', '$25 under 55″ · $50 for 55″+ (confirmed on-site)', 'haulaway', bookingState.haulaway ?? 0, 25)}
+      ${(bookingState.haulawaySmall ?? 0) > 0 ? addonRow('Haul-Away (Under 55″)', '$25 each', 'haulawaySmall', bookingState.haulawaySmall, 25) : ''}
+      ${(bookingState.haulawayLarge ?? 0) > 0 ? addonRow('Haul-Away (55″+)', '$50 each', 'haulawayLarge', bookingState.haulawayLarge, 50) : ''}
     </div>
 
     <!-- Running Total -->
