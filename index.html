@@ -1480,7 +1480,61 @@ section.why-section [id*="counter"] { color: #2d7fe8 !important; }
 }
 
 
-/* Hero insurance badge (Option B) */
+/* Hero headline above TV */
+#hero-headline{
+  position:relative;z-index:5;text-align:center;
+  margin-bottom:clamp(16px,2.5vh,32px);
+  opacity:0;animation:ctaRiseIn 0.9s cubic-bezier(.22,1,.36,1) 0.4s forwards;
+}
+#hero-hl-top{
+  font-size:clamp(11px,1.1vw,13px);letter-spacing:.3em;text-transform:uppercase;
+  color:#4facff;font-weight:600;margin-bottom:8px;
+}
+#hero-hl-cycle-wrap{
+  font-family:'Bebas Neue',sans-serif;
+  font-size:clamp(42px,7vw,96px);
+  line-height:1;color:#fff;
+  background:linear-gradient(180deg,#fff 0%,#b8d4ff 100%);
+  -webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent;
+  letter-spacing:.04em;margin-bottom:10px;
+  text-shadow:none;
+}
+#hero-hl-cursor{
+  -webkit-text-fill-color:#4facff;
+  animation:cursorBlink .7s step-end infinite;
+  margin-left:2px;
+}
+@keyframes cursorBlink{0%,100%{opacity:1}50%{opacity:0}}
+#hero-hl-sub{
+  font-size:clamp(12px,1.2vw,15px);color:rgba(255,255,255,.45);
+  letter-spacing:.18em;text-transform:uppercase;font-weight:400;
+}
+
+/* Stat chips */
+#hero-stat-chips{
+  display:flex;flex-wrap:wrap;justify-content:center;gap:10px;
+  margin:clamp(12px,1.8vh,20px) auto 0;
+  z-index:5;position:relative;
+  opacity:0;animation:ctaRiseIn 0.8s cubic-bezier(.22,1,.36,1) 4.6s forwards;
+}
+.hero-chip{
+  display:inline-flex;align-items:center;gap:6px;
+  padding:6px 14px;border-radius:999px;
+  background:rgba(255,255,255,.04);
+  border:1px solid rgba(79,172,255,.2);
+  color:rgba(255,255,255,.7);font-size:12px;font-weight:500;
+  letter-spacing:.02em;white-space:nowrap;
+  transition:border-color .2s,background .2s;
+}
+.hero-chip:hover{background:rgba(79,172,255,.1);border-color:rgba(79,172,255,.5);}
+@media(max-width:640px){
+  #hero-headline{margin-bottom:10px;}
+  #hero-hl-cycle-wrap{font-size:clamp(36px,10vw,60px);}
+  #hero-stat-chips{gap:7px;}
+  .hero-chip{font-size:11px;padding:5px 11px;}
+}
+
+
 #hero-insurance-badge{
   position:relative;margin:clamp(10px,1.6vh,18px) auto 0;
   display:inline-flex;align-items:center;gap:10px;
@@ -2379,6 +2433,15 @@ document.addEventListener('DOMContentLoaded', function() {
   <!-- Warm plaster wall background (full-bleed, fades in) -->
   <div id="hero-wall" aria-hidden="true"></div>
 
+  <!-- HEADLINE above TV -->
+  <div id="hero-headline" aria-label="Phoenix's premier TV mounting service">
+    <div id="hero-hl-top">Phoenix's Premier</div>
+    <div id="hero-hl-cycle-wrap">
+      <span id="hero-hl-cycle">TV Mounting</span><span id="hero-hl-cursor">|</span>
+    </div>
+    <div id="hero-hl-sub">Service — Done Right. Done Clean.</div>
+  </div>
+
   <!-- Centered TV composition -->
   <div id="hero-tv-wrap">
     <!-- TV bezel (SVG drawn-in lines) -->
@@ -2627,6 +2690,14 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <!-- Content that appears INSIDE the TV screen -->
     
+  </div>
+
+  <!-- Stat chips -->
+  <div id="hero-stat-chips" aria-hidden="true">
+    <div class="hero-chip">⭐ 4.9 / 5 Rating</div>
+    <div class="hero-chip">🔧 800+ Installs</div>
+    <div class="hero-chip">⚡ Same-Day Available</div>
+    <div class="hero-chip">🛡 $1M Insured</div>
   </div>
 
   <!-- CTA + trust bar below TV (slide up) -->
@@ -3727,6 +3798,41 @@ function calculateJobDuration() {
     }
   }catch(e){}
 })();</script>
+
+<script>
+// Typewriter cycling headline
+(function(){
+  const words = ['TV Mounting','Cord Concealment','Soundbar Install','Smart Home Setup'];
+  const el = document.getElementById('hero-hl-cycle');
+  if (!el) return;
+  let wi = 0, ci = 0, deleting = false;
+  const speed = { type: 72, delete: 38, pause: 2200, pauseAfterDelete: 500 };
+
+  function tick() {
+    const word = words[wi];
+    if (!deleting) {
+      el.textContent = word.slice(0, ++ci);
+      if (ci === word.length) {
+        deleting = true;
+        setTimeout(tick, speed.pause);
+        return;
+      }
+    } else {
+      el.textContent = word.slice(0, --ci);
+      if (ci === 0) {
+        deleting = false;
+        wi = (wi + 1) % words.length;
+        setTimeout(tick, speed.pauseAfterDelete);
+        return;
+      }
+    }
+    setTimeout(tick, deleting ? speed.delete : speed.type);
+  }
+
+  // Start after headline fades in
+  setTimeout(tick, 800);
+})();
+</script>
 
 <!-- Footer -->
 <footer style="background:#06080f;border-top:1px solid rgba(79,172,255,0.1);padding:40px 20px;text-align:center;">
