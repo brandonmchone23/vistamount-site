@@ -1834,9 +1834,9 @@ function initBookingStep1() {
   if (bookingState.tvs.length === 0) {
     bookingState.tvs = [{
       id: 'tv1',
-      size: '32-64',
+      size: '<32',
       hasMount: false,
-      mountType: 'tilting',
+      mountType: 'fixed',
       cords: 'visible',
       wall: 'drywall'
     }];
@@ -1886,9 +1886,9 @@ function setTVCount(count) {
     for (let i = current; i < count; i++) {
       bookingState.tvs.push({
         id: 'tv' + (i + 1),
-        size: '32-64',
+        size: '<32',
         hasMount: false,
-        mountType: 'tilting',
+        mountType: 'fixed',
         cords: 'visible',
         wall: 'drywall'
       });
