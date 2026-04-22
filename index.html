@@ -2117,17 +2117,20 @@ function initBookingStep4() {
   
   // Build TV line items
   const tvSizeLabel = s => ({'<32':'Under 32"','32-64':'32"–64"','65-84':'65"–84"','85+':'85"+'}[s] || s);
-  const tvMountLabel = m => ({'fixed':'Fixed Mount (+$45)','tilting':'Tilting Mount (+$45)','fullmotion':'Full-Motion Mount (+$75)','own':"Customer's Mount (no charge)"}[m] || m);
-  const tvCordLabel = c => ({'visible':'Cords Visible (included)','raceway':'On-Wall Raceway (+$50)','concealed':'In-Wall Concealment (+$75)'}[c] || c);
-  const tvWallLabel = w => ({'drywall':'Drywall (included)','stucco':'Stucco (+$75)','brick':'Brick (+$100)','tile':'Tile/Stone (+$150)','concrete':'Concrete (+$100)'}[w] || w);
+  const tvMountLabel = m => ({'fixed':'Fixed Mount','tilting':'Tilting Mount','fullmotion':'Full-Motion Mount','own':"Customer's Own Mount"}[m] || m);
+  const tvCordLabel = c => ({'visible':'Cords Left Visible','raceway':'On-Wall Raceway','concealed':'In-Wall Concealment'}[c] || c);
+  const tvWallLabel = w => ({'drywall':'Drywall','stucco':'Stucco','brick':'Brick','tile':'Tile/Stone','concrete':'Concrete'}[w] || w);
 
   const tvSizePrice = s => ({'<32':100,'32-64':125,'65-84':150,'85+':200}[s] || 0);
+  const tvMountPrice = m => ({'fullmotion':75,'fixed':45,'tilting':45}[m] || 0);
+  const tvCordPrice = c => ({'raceway':50,'concealed':75}[c] || 0);
+  const tvWallPrice = w => ({'stucco':75,'brick':100,'tile':150,'concrete':100}[w] || 0);
 
   let tvRows = bookingState.tvs.map((tv, i) => {
     const basePrice = tvSizePrice(tv.size);
-    const mountPrice = tv.mountType === 'fullmotion' ? 75 : (tv.mountType === 'fixed' || tv.mountType === 'tilting') ? 45 : 0;
-    const cordPrice = tv.cords === 'raceway' ? 50 : tv.cords === 'concealed' ? 75 : 0;
-    const wallPrice = {'stucco':75,'brick':100,'tile':150,'concrete':100}[tv.wall] || 0;
+    const mountPrice = tvMountPrice(tv.mountType);
+    const cordPrice = tvCordPrice(tv.cords);
+    const wallPrice = tvWallPrice(tv.wall);
     const multiDiscount = i > 0 ? -25 : 0;
     const tvTotal = basePrice + mountPrice + cordPrice + wallPrice + multiDiscount;
     return `
@@ -2139,9 +2142,11 @@ function initBookingStep4() {
             <button onclick="goBookingStep(1)" style="font-size:0.72rem;color:#2d7fe8;background:none;border:1px solid rgba(45,127,232,.35);border-radius:4px;padding:3px 8px;cursor:pointer;font-family:inherit;">Edit</button>
           </div>
         </div>
-        <div style="font-size:0.78rem;color:#64748b;line-height:1.8;">
-          ${tvMountLabel(tv.mountType)} &nbsp;·&nbsp; ${tvCordLabel(tv.cords)} &nbsp;·&nbsp; ${tvWallLabel(tv.wall)}
-          ${i > 0 ? '<br><span style="color:#16a34a;">Multi-TV discount: −$25</span>' : ''}
+        <div style="font-size:0.78rem;color:#64748b;line-height:2;">
+          <span style="display:inline-block;background:rgba(45,127,232,.08);border-radius:4px;padding:1px 7px;margin:1px 2px;">🖥 ${tvMountLabel(tv.mountType)}${mountPrice > 0 ? ' +$'+mountPrice : ''}</span>
+          <span style="display:inline-block;background:rgba(45,127,232,.08);border-radius:4px;padding:1px 7px;margin:1px 2px;">🔌 ${tvCordLabel(tv.cords)}${cordPrice > 0 ? ' +$'+cordPrice : ''}</span>
+          <span style="display:inline-block;background:rgba(45,127,232,.08);border-radius:4px;padding:1px 7px;margin:1px 2px;">🧱 ${tvWallLabel(tv.wall)} wall${wallPrice > 0 ? ' +$'+wallPrice : ''}</span>
+          ${i > 0 ? '<br><span style="color:#16a34a;font-weight:600;">✓ Multi-TV discount: −$25</span>' : ''}
         </div>
       </div>`;
   }).join('');
@@ -2240,7 +2245,7 @@ function initBookingStep4() {
   `;
 
   // Update total
-  document.getElementById('step4-total').textContent = '$' + calcTotal();
+  document.getElementById('step4-total').textContent = '$' + calculatePrice();
 
   // Restore any cached contact info
   if (window._step4Cache) {
