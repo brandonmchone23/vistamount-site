@@ -1516,6 +1516,7 @@ let bookingState = {
   tvs: [],
   soundbars: 0,
   dismounts: 0,
+  haulaway: 0,
   transport: false,
   selectedSlot: null,
   currentStep: 1
@@ -1590,6 +1591,9 @@ function calculatePrice() {
   
   // Dismounts
   total += bookingState.dismounts * 25;
+  
+  // Haul-away ($25 base per TV, $50 if 55"+ — confirmed on-site)
+  total += (bookingState.haulaway ?? 0) * 25;
   
   return total;
 }
@@ -1863,15 +1867,23 @@ function initBookingStep2() {
           <div style="font-weight:600;margin-bottom:4px;">Remove Existing Mount</div>
           <div style="font-size:0.75rem;color:#666;">$25 each</div>
         </div>
-        <div class="addon-item">
-          <div class="addon-name">TV Haul-Away &amp; Recycling</div>
-          <div class="addon-desc">Old TV? We haul it away and drop it at <a href="https://www.agapecomputerandelectronicsrecycling.com/" target="_blank" rel="noopener" style="color:#4facff;text-decoration:none;border-bottom:1px dotted rgba(79,172,255,.4)">Agape</a> in Phoenix &mdash; zero landfill.</div>
-          <div class="addon-cost">Included <span class="muted">with install</span></div>
-        </div>
         <div style="display:flex;align-items:center;gap:12px;">
           <button class="qty-btn" onclick="adjustQty('dismounts', -1)">&minus;</button>
           <span style="font-weight:600;min-width:20px;text-align:center;">${bookingState.dismounts}</span>
           <button class="qty-btn" onclick="adjustQty('dismounts', 1)">+</button>
+        </div>
+      </div>
+
+      <div style="display:flex;justify-content:space-between;align-items:flex-start;padding:16px;background:rgba(45,127,232,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;">
+        <div style="flex:1;">
+          <div style="font-weight:600;margin-bottom:4px;">TV Haul-Away &amp; Recycling</div>
+          <div style="font-size:0.75rem;color:#666;margin-bottom:2px;">$25 · TVs under 55" &nbsp;|&nbsp; $50 · TVs 55" and larger</div>
+          <div style="font-size:0.75rem;color:#888;">Dropped at <a href="https://www.agapecomputerandelectronicsrecycling.com/" target="_blank" rel="noopener" style="color:#4facff;text-decoration:none;border-bottom:1px dotted rgba(79,172,255,.4)">Agape</a> in Phoenix — zero landfill.</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:12px;margin-left:16px;">
+          <button class="qty-btn" onclick="adjustQty('haulaway', -1)">&minus;</button>
+          <span style="font-weight:600;min-width:20px;text-align:center;">${bookingState.haulaway ?? 0}</span>
+          <button class="qty-btn" onclick="adjustQty('haulaway', 1)">+</button>
         </div>
       </div>
     </div>
@@ -2738,7 +2750,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="addon-item">
           <div class="addon-name">TV Haul-Away &amp; Recycling</div>
           <div class="addon-desc">Old TV? We haul it off and drop it at <a href="https://www.agapecomputerandelectronicsrecycling.com/" target="_blank" rel="noopener" style="color:#4facff;text-decoration:none;border-bottom:1px dotted rgba(79,172,255,.45)">Agape</a> in Phoenix &mdash; zero landfill.</div>
-          <div class="addon-cost">Included <span class="muted">with install</span></div>
+          <div class="addon-cost">$25 <span class="muted">under 55"</span> <span class="sep">&middot;</span> $50 <span class="muted">55" &amp; up</span></div>
         </div>
       </div>
     </div>
