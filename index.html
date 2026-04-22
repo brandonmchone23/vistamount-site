@@ -93,6 +93,64 @@ nav.scrolled-light .nav-book{color:#fff!important;}
     radial-gradient(ellipse 65% 50% at 50% 50%, transparent 0%, transparent 50%, rgba(0,0,0,.35) 100%)
   }
 
+/* 3-column hero stage */
+#hero-stage{
+  display:grid;
+  grid-template-columns:1fr min(720px,68vw) 1fr;
+  align-items:center;
+  gap:0;
+  width:100%;
+  max-width:1400px;
+  position:relative;
+  z-index:2;
+}
+
+/* Left & right channels */
+#hero-left-channel, #hero-right-channel{
+  position:relative;
+  height:min(460px,44vw);
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+  justify-content:flex-end;
+  padding-bottom:20px;
+  opacity:0;
+  animation:ctaRiseIn 1s cubic-bezier(.22,1,.36,1) 2.8s forwards;
+}
+#fireplace-canvas, #speaker-canvas{
+  position:absolute;
+  inset:0;
+  width:100%;
+  height:100%;
+}
+
+/* Channel labels */
+#mantel-label, #speaker-label{
+  position:relative;z-index:2;
+  text-align:center;
+  opacity:0;
+  animation:ctaRiseIn 0.8s cubic-bezier(.22,1,.36,1) 4.8s forwards;
+}
+#mantel-label-icon, #speaker-label-icon{
+  font-size:18px;color:#4facff;margin-bottom:4px;
+  animation:bobUpDown 2s ease-in-out 5s infinite;
+}
+@keyframes bobUpDown{0%,100%{transform:translateY(0)}50%{transform:translateY(-5px)}}
+#mantel-label-text, #speaker-label-text{
+  font-size:11px;letter-spacing:.2em;text-transform:uppercase;
+  color:rgba(255,255,255,.8);font-weight:600;
+}
+#mantel-label-sub, #speaker-label-sub{
+  font-size:10px;color:rgba(255,255,255,.35);letter-spacing:.08em;margin-top:3px;
+}
+
+/* Hide channels on mobile */
+@media(max-width:900px){
+  #hero-stage{grid-template-columns:1fr;}
+  #hero-left-channel,#hero-right-channel{display:none;}
+  #hero-tv-wrap{width:min(96vw,560px) !important;}
+}
+
 /* TV composition — wall-mounted flat panel */
 #hero-tv-wrap{position:relative;z-index:2;width:min(720px,68vw);aspect-ratio:1600/1020;display:flex;align-items:center;justify-content:center}
 #hero-tv-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
@@ -2442,8 +2500,21 @@ document.addEventListener('DOMContentLoaded', function() {
     <div id="hero-hl-sub">Service — Done Right. Done Clean.</div>
   </div>
 
-  <!-- Centered TV composition -->
-  <div id="hero-tv-wrap">
+  <!-- 3-column hero stage -->
+  <div id="hero-stage">
+
+    <!-- LEFT CHANNEL: Mantel mount fireplace scene -->
+    <div id="hero-left-channel" aria-hidden="true">
+      <canvas id="fireplace-canvas"></canvas>
+      <div id="mantel-label">
+        <div id="mantel-label-icon">▼</div>
+        <div id="mantel-label-text">Mantel Mount</div>
+        <div id="mantel-label-sub">TV pulls down on demand</div>
+      </div>
+    </div>
+
+    <!-- CENTER: TV composition -->
+    <div id="hero-tv-wrap">
     <!-- TV bezel (SVG drawn-in lines) -->
     <svg id="hero-tv-svg" viewBox="0 0 1600 1020" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
       <defs>
@@ -2690,7 +2761,19 @@ document.addEventListener('DOMContentLoaded', function() {
 
     <!-- Content that appears INSIDE the TV screen -->
     
-  </div>
+  </div><!-- /hero-tv-wrap -->
+
+    <!-- RIGHT CHANNEL: Room ambiance / speaker columns -->
+    <div id="hero-right-channel" aria-hidden="true">
+      <canvas id="speaker-canvas"></canvas>
+      <div id="speaker-label">
+        <div id="speaker-label-icon">♫</div>
+        <div id="speaker-label-text">In-Wall Audio</div>
+        <div id="speaker-label-sub">Surround. No clutter.</div>
+      </div>
+    </div>
+
+  </div><!-- /hero-stage -->
 
   <!-- Stat chips -->
   <div id="hero-stat-chips" aria-hidden="true">
@@ -3831,6 +3914,455 @@ function calculateJobDuration() {
 
   // Start after headline fades in
   setTimeout(tick, 800);
+})();
+
+// ─── FIREPLACE / MANTEL MOUNT SCENE ───────────────────────────────────────
+(function(){
+  const canvas = document.getElementById('fireplace-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  function resize(){
+    canvas.width = canvas.offsetWidth * devicePixelRatio;
+    canvas.height = canvas.offsetHeight * devicePixelRatio;
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+  }
+  resize();
+  window.addEventListener('resize', ()=>{ resize(); });
+
+  const W = ()=>canvas.offsetWidth;
+  const H = ()=>canvas.offsetHeight;
+
+  // Flame particles
+  const particles = [];
+  function spawnParticle(){
+    const cx = W()*0.5, baseY = H()*0.72;
+    const spread = W()*0.12;
+    particles.push({
+      x: cx + (Math.random()-0.5)*spread*2,
+      y: baseY,
+      vx: (Math.random()-0.5)*0.6,
+      vy: -(1.4 + Math.random()*2.2),
+      life: 1,
+      decay: 0.012 + Math.random()*0.018,
+      r: 4 + Math.random()*10,
+      hue: Math.random() < 0.6 ? 20 + Math.random()*20 : 40 + Math.random()*20
+    });
+  }
+
+  // TV mantel animation state
+  let tvY = 0; // 0 = fully retracted into mantel, 1 = fully down
+  let tvTargetY = 0;
+  let tvAnimPhase = 0; // cycles through: wait→extend→wait→retract
+  let phaseTimer = 0;
+  const phases = [
+    { target:0, duration:240 },  // retracted — wait
+    { target:1, duration:180 },  // extend down
+    { target:1, duration:300 },  // extended — wait (watching)
+    { target:0, duration:180 },  // retract up
+  ];
+
+  let frame = 0;
+
+  function drawScene(){
+    const w = W(), h = H();
+    ctx.clearRect(0,0,w,h);
+
+    // ── Room perspective: floor, side wall ──
+    const roomAlpha = 0.85;
+
+    // Floor — warm hardwood planks
+    const floorY = h*0.88;
+    const floorGrad = ctx.createLinearGradient(0, floorY, 0, h);
+    floorGrad.addColorStop(0,'rgba(55,35,18,0.9)');
+    floorGrad.addColorStop(1,'rgba(30,18,8,0.95)');
+    ctx.fillStyle = floorGrad;
+    ctx.beginPath();
+    ctx.moveTo(0,floorY); ctx.lineTo(w,floorY); ctx.lineTo(w,h); ctx.lineTo(0,h);
+    ctx.fill();
+
+    // Floor plank lines
+    ctx.strokeStyle='rgba(80,50,20,0.25)'; ctx.lineWidth=1;
+    for(let i=0;i<6;i++){
+      const py = floorY + (h-floorY)*i/5;
+      ctx.beginPath(); ctx.moveTo(0,py); ctx.lineTo(w,py); ctx.stroke();
+    }
+
+    // ── Fireplace surround ──
+    const fpW = w*0.72, fpH = h*0.56;
+    const fpX = (w-fpW)/2, fpY = h*0.32;
+
+    // Outer surround (marble-ish, cream/warm white)
+    const surroundGrad = ctx.createLinearGradient(fpX,fpY,fpX+fpW,fpY+fpH);
+    surroundGrad.addColorStop(0,'rgba(220,205,185,0.92)');
+    surroundGrad.addColorStop(0.5,'rgba(200,185,165,0.95)');
+    surroundGrad.addColorStop(1,'rgba(185,168,148,0.9)');
+    ctx.fillStyle = surroundGrad;
+    const r=8;
+    ctx.beginPath();
+    ctx.moveTo(fpX+r,fpY); ctx.lineTo(fpX+fpW-r,fpY);
+    ctx.quadraticCurveTo(fpX+fpW,fpY,fpX+fpW,fpY+r);
+    ctx.lineTo(fpX+fpW,fpY+fpH); ctx.lineTo(fpX,fpY+fpH);
+    ctx.lineTo(fpX,fpY+r);
+    ctx.quadraticCurveTo(fpX,fpY,fpX+r,fpY);
+    ctx.fill();
+    ctx.strokeStyle='rgba(160,140,115,0.6)'; ctx.lineWidth=1.5; ctx.stroke();
+
+    // Marble vein lines
+    ctx.save(); ctx.globalAlpha=0.12; ctx.strokeStyle='#8a7560'; ctx.lineWidth=1;
+    for(let i=0;i<4;i++){
+      ctx.beginPath();
+      ctx.moveTo(fpX+fpW*0.1*i, fpY);
+      ctx.bezierCurveTo(fpX+fpW*0.3,fpY+fpH*0.3, fpX+fpW*0.7,fpY+fpH*0.6, fpX+fpW,fpY+fpH*0.4);
+      ctx.stroke();
+    }
+    ctx.restore();
+
+    // ── Mantel shelf ──
+    const mW = fpW*1.12, mH = h*0.035;
+    const mX = (w-mW)/2, mY = fpY - mH;
+    const mantelGrad = ctx.createLinearGradient(mX,mY,mX,mY+mH);
+    mantelGrad.addColorStop(0,'rgba(215,198,175,0.98)');
+    mantelGrad.addColorStop(1,'rgba(185,165,138,0.98)');
+    ctx.fillStyle = mantelGrad;
+    ctx.beginPath();
+    ctx.moveTo(mX,mY); ctx.lineTo(mX+mW,mY); ctx.lineTo(mX+mW,mY+mH+4); ctx.lineTo(mX,mY+mH+4);
+    ctx.fill();
+    ctx.strokeStyle='rgba(150,130,105,0.5)'; ctx.lineWidth=1; ctx.stroke();
+
+    // Mantel shadow underside
+    const shadowGrad = ctx.createLinearGradient(mX,mY+mH,mX,mY+mH+12);
+    shadowGrad.addColorStop(0,'rgba(0,0,0,0.35)');
+    shadowGrad.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=shadowGrad;
+    ctx.fillRect(mX,mY+mH,mW,12);
+
+    // ── Firebox opening (inner arch) ──
+    const ibW = fpW*0.58, ibH = fpH*0.72;
+    const ibX = fpX+(fpW-ibW)/2, ibY = fpY+(fpH-ibH)*0.15;
+    ctx.fillStyle='#0a0608';
+    ctx.beginPath();
+    ctx.moveTo(ibX,ibY+ibH);
+    ctx.lineTo(ibX,ibY+ibW*0.28);
+    ctx.quadraticCurveTo(ibX,ibY, ibX+ibW/2,ibY);
+    ctx.quadraticCurveTo(ibX+ibW,ibY, ibX+ibW,ibY+ibW*0.28);
+    ctx.lineTo(ibX+ibW,ibY+ibH);
+    ctx.fill();
+
+    // ── Fire glow on surround ──
+    const glowR = ibW*0.9;
+    const fireGlow = ctx.createRadialGradient(w/2, ibY+ibH, 0, w/2, ibY+ibH, glowR);
+    const flicker = 0.75 + Math.sin(frame*0.12)*0.06 + Math.random()*0.05;
+    fireGlow.addColorStop(0,`rgba(255,120,30,${0.22*flicker})`);
+    fireGlow.addColorStop(0.4,`rgba(255,80,10,${0.1*flicker})`);
+    fireGlow.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=fireGlow;
+    ctx.fillRect(fpX,fpY,fpW,fpH);
+
+    // ── Floor fire glow cast ──
+    const floorGlow = ctx.createRadialGradient(w/2,floorY,0,w/2,floorY,w*0.5);
+    floorGlow.addColorStop(0,`rgba(255,90,10,${0.12*flicker})`);
+    floorGlow.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=floorGlow;
+    ctx.fillRect(0,floorY-20,w,h-floorY+20);
+
+    // ── Flame particles ──
+    if(frame % 2 === 0) spawnParticle();
+    for(let i=particles.length-1;i>=0;i--){
+      const p=particles[i];
+      p.x+=p.vx; p.y+=p.vy; p.life-=p.decay;
+      p.vx += (Math.random()-0.5)*0.08;
+      if(p.life<=0){particles.splice(i,1);continue;}
+      const alpha = p.life * 0.85;
+      const grad = ctx.createRadialGradient(p.x,p.y,0,p.x,p.y,p.r*p.life);
+      grad.addColorStop(0,`hsla(${p.hue},100%,70%,${alpha})`);
+      grad.addColorStop(0.5,`hsla(${p.hue-10},100%,50%,${alpha*0.6})`);
+      grad.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=grad;
+      ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
+    }
+
+    // ── Mantel TV (pulls down from inside shelf) ──
+    // Ease tvY toward tvTargetY
+    tvY += (tvTargetY - tvY) * 0.04;
+
+    // TV dimensions: compact above-mantel TV
+    const tvW2 = mW * 0.78;
+    const tvH2 = tvW2 * 0.56;
+    const tvXPos = (w - tvW2) / 2;
+    // Retracted: top of TV sits at mantel shelf top; Extended: TV hangs below
+    const retractedY = mY - tvH2 * 0.08; // mostly hidden above shelf
+    const extendedY  = mY - tvH2 * 1.05; // hangs below mantel
+    const tvYPos = retractedY + (extendedY - retractedY) * tvY;
+
+    // TV shadow on mantel/wall when extended
+    if(tvY > 0.05){
+      ctx.save(); ctx.globalAlpha=tvY*0.3;
+      const tsh = ctx.createLinearGradient(tvXPos,tvYPos+tvH2,tvXPos,tvYPos+tvH2+20);
+      tsh.addColorStop(0,'rgba(0,0,0,0.4)'); tsh.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=tsh; ctx.fillRect(tvXPos,tvYPos+tvH2,tvW2,20);
+      ctx.restore();
+    }
+
+    // Draw TV (clip to below mantel top when retracting)
+    ctx.save();
+    // Clip: only show TV below the mantel shelf top
+    ctx.beginPath();
+    ctx.rect(tvXPos-4, mY-4, tvW2+8, h);
+    ctx.clip();
+
+    // TV bezel
+    ctx.fillStyle='#111115';
+    ctx.beginPath();
+    roundRect(ctx, tvXPos, tvYPos, tvW2, tvH2, 5);
+    ctx.fill();
+    ctx.strokeStyle='rgba(60,60,70,0.8)'; ctx.lineWidth=1.5; ctx.stroke();
+
+    // TV screen
+    const scrPad=tvW2*0.02;
+    const scrX=tvXPos+scrPad, scrY=tvYPos+scrPad;
+    const scrW=tvW2-scrPad*2, scrH=tvH2-scrPad*2-tvH2*0.06;
+    const scrGrad = ctx.createLinearGradient(scrX,scrY,scrX,scrY+scrH);
+    // Screen shows warm living room reflection when extended
+    if(tvY > 0.5){
+      scrGrad.addColorStop(0,'#0d1520');
+      scrGrad.addColorStop(0.4,'#0a1018');
+      scrGrad.addColorStop(1,'#060c12');
+      ctx.fillStyle=scrGrad;
+      ctx.beginPath(); roundRect(ctx,scrX,scrY,scrW,scrH,3); ctx.fill();
+
+      // Fire reflection on screen (subtle)
+      const refGlow=ctx.createRadialGradient(scrX+scrW/2,scrY+scrH,0,scrX+scrW/2,scrY+scrH,scrW*0.7);
+      refGlow.addColorStop(0,`rgba(255,80,20,${0.08*flicker})`);
+      refGlow.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=refGlow;
+      ctx.beginPath(); roundRect(ctx,scrX,scrY,scrW,scrH,3); ctx.fill();
+
+      // VistaMount logo on screen
+      ctx.save(); ctx.globalAlpha=0.55*(tvY>0.9?1:(tvY-0.5)*2.5);
+      ctx.fillStyle='#fff';
+      ctx.font=`bold ${scrW*0.07}px 'Montserrat','Arial',sans-serif`;
+      ctx.textAlign='center'; ctx.textBaseline='middle';
+      ctx.fillText('VISTA', scrX+scrW/2, scrY+scrH*0.46);
+      ctx.fillStyle='#4facff';
+      ctx.fillText('MOUNT', scrX+scrW/2, scrY+scrH*0.58);
+      ctx.restore();
+    } else {
+      // Screen off (dark)
+      scrGrad.addColorStop(0,'#05080e'); scrGrad.addColorStop(1,'#020408');
+      ctx.fillStyle=scrGrad;
+      ctx.beginPath(); roundRect(ctx,scrX,scrY,scrW,scrH,3); ctx.fill();
+    }
+
+    // TV base / feet (subtle)
+    ctx.fillStyle='rgba(30,30,35,0.9)';
+    ctx.fillRect(tvXPos+tvW2*0.35, tvYPos+tvH2-3, tvW2*0.3, tvH2*0.06);
+
+    ctx.restore(); // end clip
+
+    // ── Arm / mechanism hint (thin line from mantel to TV) ──
+    if(tvY > 0.1 && tvY < 0.95){
+      ctx.save(); ctx.globalAlpha = Math.min(tvY*2, 1)*0.4;
+      ctx.strokeStyle='rgba(79,172,255,0.7)'; ctx.lineWidth=1; ctx.setLineDash([3,4]);
+      ctx.beginPath();
+      ctx.moveTo(w/2, mY);
+      ctx.lineTo(w/2, tvYPos+tvH2*0.1);
+      ctx.stroke();
+      ctx.restore();
+    }
+
+    // ── Mantel decor ──
+    // Left candle
+    drawCandle(ctx, mX+mW*0.1, mY, mH, flicker);
+    // Right candle
+    drawCandle(ctx, mX+mW*0.9, mY, mH, flicker*0.9+0.1);
+
+    frame++;
+  }
+
+  function drawCandle(ctx, x, topY, mH, flicker){
+    // Candle body
+    ctx.fillStyle='rgba(245,235,215,0.9)';
+    ctx.fillRect(x-4, topY-20, 8, 20);
+    // Flame
+    ctx.save(); ctx.globalAlpha=0.9;
+    const fgrad = ctx.createRadialGradient(x,topY-22,0,x,topY-22,7);
+    fgrad.addColorStop(0,`rgba(255,200,80,${0.95*flicker})`);
+    fgrad.addColorStop(0.5,`rgba(255,100,20,${0.7*flicker})`);
+    fgrad.addColorStop(1,'rgba(0,0,0,0)');
+    ctx.fillStyle=fgrad;
+    ctx.beginPath(); ctx.arc(x,topY-22,7,0,Math.PI*2); ctx.fill();
+    ctx.restore();
+  }
+
+  function roundRect(ctx, x, y, w, h, r){
+    ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y);
+    ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+    ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+    ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+    ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
+    ctx.closePath();
+  }
+
+  // Phase controller
+  function updatePhase(){
+    phaseTimer++;
+    const phase = phases[tvAnimPhase];
+    tvTargetY = phase.target;
+    if(phaseTimer >= phase.duration){
+      phaseTimer=0;
+      tvAnimPhase=(tvAnimPhase+1)%phases.length;
+    }
+  }
+
+  function loop(){
+    updatePhase();
+    drawScene();
+    requestAnimationFrame(loop);
+  }
+
+  // Start after hero loads
+  setTimeout(loop, 2600);
+})();
+
+// ─── SPEAKER / RIGHT CHANNEL ───────────────────────────────────────────────
+(function(){
+  const canvas = document.getElementById('speaker-canvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  function resize(){
+    canvas.width = canvas.offsetWidth * devicePixelRatio;
+    canvas.height = canvas.offsetHeight * devicePixelRatio;
+    ctx.scale(devicePixelRatio, devicePixelRatio);
+  }
+  resize();
+  window.addEventListener('resize', ()=>{ resize(); });
+
+  const W = ()=>canvas.offsetWidth;
+  const H = ()=>canvas.offsetHeight;
+
+  let frame = 0;
+  // Sound wave rings state
+  const rings = [];
+  let nextRing = 0;
+
+  function spawnRing(){
+    rings.push({ r: 0, maxR: W()*0.55, life: 1, speed: 1.4 + Math.random()*0.6 });
+  }
+
+  function drawScene(){
+    const w=W(), h=H();
+    ctx.clearRect(0,0,w,h);
+
+    // Room wall — dark, same tone as hero bg
+    const wallGrad=ctx.createLinearGradient(0,0,w,h);
+    wallGrad.addColorStop(0,'rgba(12,10,20,0.7)');
+    wallGrad.addColorStop(1,'rgba(6,8,15,0.85)');
+    ctx.fillStyle=wallGrad; ctx.fillRect(0,0,w,h);
+
+    // ── In-wall speaker panel ──
+    const spW = w*0.52, spH = h*0.62;
+    const spX = (w-spW)/2, spY = (h-spH)*0.35;
+
+    // Recessed wall cavity (shadow border)
+    ctx.fillStyle='rgba(0,0,0,0.5)';
+    ctx.beginPath();
+    roundRect2(ctx, spX-3, spY-3, spW+6, spH+6, 10);
+    ctx.fill();
+
+    // Speaker grille face
+    const sGrad=ctx.createLinearGradient(spX,spY,spX+spW,spY+spH);
+    sGrad.addColorStop(0,'rgba(22,24,32,0.97)');
+    sGrad.addColorStop(1,'rgba(14,16,22,0.99)');
+    ctx.fillStyle=sGrad;
+    ctx.beginPath(); roundRect2(ctx,spX,spY,spW,spH,8); ctx.fill();
+    ctx.strokeStyle='rgba(79,172,255,0.15)'; ctx.lineWidth=1; ctx.stroke();
+
+    // Grille dots pattern
+    ctx.fillStyle='rgba(79,172,255,0.12)';
+    const dotSpacing=8, dotR=1.2;
+    for(let gx=spX+10;gx<spX+spW-10;gx+=dotSpacing){
+      for(let gy=spY+10;gy<spY+spH-10;gy+=dotSpacing){
+        ctx.beginPath(); ctx.arc(gx,gy,dotR,0,Math.PI*2); ctx.fill();
+      }
+    }
+
+    // Speaker driver (woofer) — center circle
+    const cX=spX+spW/2, cY=spY+spH*0.42;
+    // Surround rings
+    for(let i=4;i>=0;i--){
+      const ri=spW*0.08+i*spW*0.06;
+      const alpha=0.08+i*0.04;
+      ctx.strokeStyle=`rgba(79,172,255,${alpha})`;
+      ctx.lineWidth=i===0?1.5:1;
+      ctx.beginPath(); ctx.arc(cX,cY,ri,0,Math.PI*2); ctx.stroke();
+    }
+    // Dust cap
+    const capGrad=ctx.createRadialGradient(cX-spW*0.025,cY-spW*0.025,0,cX,cY,spW*0.085);
+    capGrad.addColorStop(0,'rgba(79,172,255,0.25)');
+    capGrad.addColorStop(1,'rgba(10,14,25,0.9)');
+    ctx.fillStyle=capGrad;
+    ctx.beginPath(); ctx.arc(cX,cY,spW*0.085,0,Math.PI*2); ctx.fill();
+
+    // Tweeter (small, above)
+    const twY=spY+spH*0.22;
+    ctx.strokeStyle='rgba(79,172,255,0.2)'; ctx.lineWidth=1;
+    for(let i=2;i>=0;i--){
+      ctx.beginPath(); ctx.arc(cX,twY,spW*0.04+i*spW*0.025,0,Math.PI*2); ctx.stroke();
+    }
+    ctx.fillStyle='rgba(79,172,255,0.15)';
+    ctx.beginPath(); ctx.arc(cX,twY,spW*0.032,0,Math.PI*2); ctx.fill();
+
+    // Brand logo on grille
+    ctx.save(); ctx.globalAlpha=0.25;
+    ctx.fillStyle='#4facff';
+    ctx.font=`500 ${spW*0.12}px 'Montserrat','Arial',sans-serif`;
+    ctx.textAlign='center'; ctx.textBaseline='middle';
+    ctx.fillText('VM', cX, spY+spH*0.76);
+    ctx.restore();
+
+    // ── Sound wave rings emanating outward ──
+    nextRing--;
+    if(nextRing<=0){
+      spawnRing();
+      nextRing = 55 + Math.floor(Math.random()*25);
+    }
+    for(let i=rings.length-1;i>=0;i--){
+      const rg=rings[i];
+      rg.r+=rg.speed;
+      rg.life=Math.max(0,1-(rg.r/rg.maxR));
+      if(rg.life<=0){rings.splice(i,1);continue;}
+      ctx.strokeStyle=`rgba(79,172,255,${rg.life*0.45})`;
+      ctx.lineWidth=1.5*rg.life;
+      ctx.beginPath(); ctx.arc(cX,cY,rg.r,0,Math.PI*2); ctx.stroke();
+    }
+
+    // ── EQ bars at bottom (audio visualization) ──
+    const bars=14, barW=(spW*0.7)/bars, barMaxH=spH*0.08;
+    const bStartX=spX+spW*0.15, bY=spY+spH-14;
+    for(let b=0;b<bars;b++){
+      const t=frame*0.06+b*0.4;
+      const bH=barMaxH*(0.25+0.75*Math.abs(Math.sin(t)*Math.cos(t*0.7)));
+      const alpha=0.35+0.35*Math.abs(Math.sin(t));
+      ctx.fillStyle=`rgba(79,172,255,${alpha})`;
+      ctx.fillRect(bStartX+b*barW+1, bY-bH, barW-2, bH);
+    }
+
+    frame++;
+    requestAnimationFrame(drawScene);
+  }
+
+  function roundRect2(ctx,x,y,w,h,r){
+    ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y);
+    ctx.quadraticCurveTo(x+w,y,x+w,y+r);
+    ctx.lineTo(x+w,y+h-r); ctx.quadraticCurveTo(x+w,y+h,x+w-r,y+h);
+    ctx.lineTo(x+r,y+h); ctx.quadraticCurveTo(x,y+h,x,y+h-r);
+    ctx.lineTo(x,y+r); ctx.quadraticCurveTo(x,y,x+r,y);
+    ctx.closePath();
+  }
+
+  setTimeout(()=>requestAnimationFrame(drawScene), 2800);
 })();
 </script>
 
