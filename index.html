@@ -1907,6 +1907,19 @@ function adjustQty(field, delta) {
   updatePriceDisplay();
 }
 
+function step4AdjQty(field, delta) {
+  bookingState[field] = Math.max(0, (bookingState[field] ?? 0) + delta);
+  // Re-render step 4 in place
+  initBookingStep4();
+  // Restore form values if they were filled in
+  if (window._step4Cache) {
+    ['fname','lname','phone','email','address'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && window._step4Cache[id]) el.value = window._step4Cache[id];
+    });
+  }
+}
+
 function initBookingStep3() {
   const container = document.getElementById('step-3');
   const total = calculatePrice();
@@ -2080,8 +2093,14 @@ function showSuccessScreen(confirmationNumber) {
 
 function initBookingStep4() {
   const container = document.getElementById('step-4');
+
+  // Cache any already-typed contact info before re-render
+  window._step4Cache = {};
+  ['fname','lname','phone','email','address'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) window._step4Cache[id] = el.value;
+  });
   
-  // Format selected date/time
   let dateTimeDisplay = '';
   if (bookingState.selectedDate) {
     const date = new Date(bookingState.selectedDate);
@@ -2096,8 +2115,99 @@ function initBookingStep4() {
     `;
   }
   
+  // Build TV line items
+  const tvSizeLabel = s => ({'<32':'Under 32"','32-64':'32"–64"','65-84':'65"–84"','85+':'85"+'}[s] || s);
+  const tvMountLabel = m => ({'own':'Customer\'s Mount','fixed':'Fixed Mount (+$45)','tilting':'Tilting Mount (+$45)','fullmotion':'Full-Motion Mount (+$75)'}[m] || m);
+  const tvCordLabel = c => ({'none':'No Cord Work','raceway':'On-Wall Raceway (+$50)','concealed':'In-Wall Concealment (+$75)'}[c] || c);
+  const tvWallLabel = w => ({'drywall':'Drywall','stucco':'Stucco (+$75)','brick':'Brick (+$100)','tile':'Tile (+$150)','concrete':'Concrete (+$100)'}[w] || w);
+
+  const tvSizePrice = s => ({'<32':100,'32-64':125,'65-84':150,'85+':200}[s] || 0);
+
+  let tvRows = bookingState.tvs.map((tv, i) => {
+    const basePrice = tvSizePrice(tv.size);
+    const mountPrice = tv.mountType === 'fullmotion' ? 75 : (tv.mountType === 'fixed' || tv.mountType === 'tilting') ? 45 : 0;
+    const cordPrice = tv.cords === 'raceway' ? 50 : tv.cords === 'concealed' ? 75 : 0;
+    const wallPrice = {'stucco':75,'brick':100,'tile':150,'concrete':100}[tv.wall] || 0;
+    const multiDiscount = i > 0 ? -25 : 0;
+    const tvTotal = basePrice + mountPrice + cordPrice + wallPrice + multiDiscount;
+    return `
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-bottom:8px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;">
+          <div style="font-weight:700;color:#0f1218;font-size:0.95rem;">TV ${i+1} — ${tvSizeLabel(tv.size)}</div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-weight:700;color:#2d7fe8;">$${tvTotal}</span>
+            <button onclick="goBookingStep(1)" style="font-size:0.72rem;color:#2d7fe8;background:none;border:1px solid rgba(45,127,232,.35);border-radius:4px;padding:3px 8px;cursor:pointer;font-family:inherit;">Edit</button>
+          </div>
+        </div>
+        <div style="font-size:0.78rem;color:#64748b;line-height:1.8;">
+          ${tvMountLabel(tv.mountType)} &nbsp;·&nbsp; ${tvCordLabel(tv.cords)} &nbsp;·&nbsp; ${tvWallLabel(tv.wall)}
+          ${i > 0 ? '<br><span style="color:#16a34a;">Multi-TV discount: −$25</span>' : ''}
+        </div>
+      </div>`;
+  }).join('');
+
+  // Build addon rows with inline +/- controls
+  const addonRow = (label, sublabel, field, qty, unitPrice) => {
+    if (qty === 0) return '';
+    return `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;margin-bottom:8px;">
+        <div>
+          <div style="font-weight:600;font-size:0.9rem;color:#0f1218;">${label}</div>
+          <div style="font-size:0.75rem;color:#64748b;">${sublabel}</div>
+        </div>
+        <div style="display:flex;align-items:center;gap:10px;">
+          <span style="font-weight:700;color:#2d7fe8;min-width:40px;text-align:right;">$${qty * unitPrice}</span>
+          <div style="display:flex;align-items:center;gap:6px;">
+            <button class="qty-btn" onclick="step4AdjQty('${field}', -1)" style="width:28px;height:28px;font-size:1rem;">&minus;</button>
+            <span style="font-weight:600;min-width:18px;text-align:center;">${qty}</span>
+            <button class="qty-btn" onclick="step4AdjQty('${field}', 1)" style="width:28px;height:28px;font-size:1rem;">+</button>
+          </div>
+        </div>
+      </div>`;
+  };
+
+  const soundbarRows = bookingState.soundbars > 0 ? `
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;margin-bottom:8px;">
+      <div>
+        <div style="font-weight:600;font-size:0.9rem;color:#0f1218;">Soundbar Installation &times;${bookingState.soundbars}</div>
+        <div style="font-size:0.75rem;color:#64748b;">$100 first · $75 each additional</div>
+      </div>
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="font-weight:700;color:#2d7fe8;min-width:40px;text-align:right;">$${bookingState.soundbars === 1 ? 100 : 100 + (bookingState.soundbars - 1) * 75}</span>
+        <div style="display:flex;align-items:center;gap:6px;">
+          <button class="qty-btn" onclick="step4AdjQty('soundbars', -1)" style="width:28px;height:28px;font-size:1rem;">&minus;</button>
+          <span style="font-weight:600;min-width:18px;text-align:center;">${bookingState.soundbars}</span>
+          <button class="qty-btn" onclick="step4AdjQty('soundbars', 1)" style="width:28px;height:28px;font-size:1rem;">+</button>
+        </div>
+      </div>
+    </div>` : '';
+
+  const hasAddons = bookingState.soundbars > 0 || bookingState.dismounts > 0 || (bookingState.haulaway ?? 0) > 0;
+
   container.innerHTML = `
     ${dateTimeDisplay}
+
+    <!-- Order Summary -->
+    <div style="margin-bottom:20px;">
+      <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#2d7fe8;font-weight:700;margin-bottom:10px;">Order Summary</div>
+      ${tvRows}
+      ${hasAddons ? `<div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#64748b;font-weight:600;margin:14px 0 8px;">Add-ons</div>` : ''}
+      ${soundbarRows}
+      ${addonRow('Mount Removal', '$25 per mount', 'dismounts', bookingState.dismounts, 25)}
+      ${addonRow('TV Haul-Away & Recycling', '$25 under 55″ · $50 for 55″+ (confirmed on-site)', 'haulaway', bookingState.haulaway ?? 0, 25)}
+    </div>
+
+    <!-- Running Total -->
+    <div id="step4-total-box" style="background:linear-gradient(135deg,rgba(45,127,232,0.08),rgba(79,172,255,0.05));padding:16px 20px;border-radius:8px;border:1px solid rgba(79,172,255,.25);margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;">
+      <div>
+        <div style="font-size:0.78rem;color:#64748b;margin-bottom:2px;">Estimated Total</div>
+        <div style="font-size:0.72rem;color:#94a3b8;">Final price confirmed on-site</div>
+      </div>
+      <div id="step4-total" style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:#2d7fe8;">$0</div>
+    </div>
+
+    <!-- Contact Form -->
+    <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#2d7fe8;font-weight:700;margin-bottom:12px;">Your Info</div>
     <div style="margin-bottom:24px;">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
         <div>
@@ -2109,35 +2219,37 @@ function initBookingStep4() {
           <input type="text" id="lname" placeholder="Smith" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;">
         </div>
       </div>
-      
       <div style="margin-bottom:12px;">
         <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">Phone *</label>
         <input type="tel" id="phone" placeholder="(480) 555-1234" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;">
       </div>
-      
       <div style="margin-bottom:12px;">
         <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">Email *</label>
         <input type="email" id="email" placeholder="john@example.com" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;">
       </div>
-      
       <div style="margin-bottom:12px;">
         <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">Address *</label>
         <input type="text" id="address" placeholder="123 Main St, Phoenix AZ 85001" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;">
       </div>
     </div>
-    </div>
-    
-    <div style="background:#e8f4ff;padding:20px;border-radius:8px;border:1px solid #b8daff;margin-top:24px;text-align:center;">
-      <div style="font-size:0.85rem;color:#666;margin-bottom:8px;">Estimated Total</div>
-      <div class="price-display" style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#2d7fe8;">$0</div><div style="font-size:0.75rem;color:#666;margin-top:4px;">Final price confirmed on-site</div>
-    </div>
-    
+
     <div class="modal-nav">
       <button class="btn-back" onclick="goBookingStep(3)">&larr; Back</button>
       <button class="btn-next" id="modal-submit-btn" onclick="submitBooking()">Complete Booking &rarr;</button>
     </div>
   `;
-  
+
+  // Update total
+  document.getElementById('step4-total').textContent = '$' + calcTotal();
+
+  // Restore any cached contact info
+  if (window._step4Cache) {
+    ['fname','lname','phone','email','address'].forEach(id => {
+      const el = document.getElementById(id);
+      if (el && window._step4Cache[id]) el.value = window._step4Cache[id];
+    });
+  }
+
   // Update price display
   updatePriceDisplay();
 }
