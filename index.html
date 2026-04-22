@@ -2117,9 +2117,9 @@ function initBookingStep4() {
   
   // Build TV line items
   const tvSizeLabel = s => ({'<32':'Under 32"','32-64':'32"–64"','65-84':'65"–84"','85+':'85"+'}[s] || s);
-  const tvMountLabel = m => ({'own':'Customer\'s Mount','fixed':'Fixed Mount (+$45)','tilting':'Tilting Mount (+$45)','fullmotion':'Full-Motion Mount (+$75)'}[m] || m);
-  const tvCordLabel = c => ({'none':'No Cord Work','raceway':'On-Wall Raceway (+$50)','concealed':'In-Wall Concealment (+$75)'}[c] || c);
-  const tvWallLabel = w => ({'drywall':'Drywall','stucco':'Stucco (+$75)','brick':'Brick (+$100)','tile':'Tile (+$150)','concrete':'Concrete (+$100)'}[w] || w);
+  const tvMountLabel = m => ({'fixed':'Fixed Mount (+$45)','tilting':'Tilting Mount (+$45)','fullmotion':'Full-Motion Mount (+$75)','own':"Customer's Mount (no charge)"}[m] || m);
+  const tvCordLabel = c => ({'visible':'Cords Visible (included)','raceway':'On-Wall Raceway (+$50)','concealed':'In-Wall Concealment (+$75)'}[c] || c);
+  const tvWallLabel = w => ({'drywall':'Drywall (included)','stucco':'Stucco (+$75)','brick':'Brick (+$100)','tile':'Tile/Stone (+$150)','concrete':'Concrete (+$100)'}[w] || w);
 
   const tvSizePrice = s => ({'<32':100,'32-64':125,'65-84':150,'85+':200}[s] || 0);
 
