@@ -1679,6 +1679,7 @@ function calculatePrice() {
     if (tv.mountType === 'fixed') total += 45;
     else if (tv.mountType === 'tilting') total += 45;
     else if (tv.mountType === 'fullmotion') total += 75;
+    // 'own' mount = $0, no charge
     
     // Cord concealment (on-wall raceway = $50, in-wall concealment = $75)
     if (tv.cords === 'raceway') total += 50;
@@ -1836,7 +1837,7 @@ function initBookingStep1() {
       id: 'tv1',
       size: '<32',
       hasMount: false,
-      mountType: 'fixed',
+      mountType: 'own',
       cords: 'visible',
       wall: 'drywall'
     }];
@@ -1888,7 +1889,7 @@ function setTVCount(count) {
         id: 'tv' + (i + 1),
         size: '<32',
         hasMount: false,
-        mountType: 'fixed',
+        mountType: 'own',
         cords: 'visible',
         wall: 'drywall'
       });
@@ -1922,7 +1923,8 @@ function renderTVCards() {
       
       <div style="margin-bottom:16px;">
         <label style="display:block;font-size:0.8rem;color:#666;margin-bottom:8px;">Mount Type</label>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;">
+          <button class="option-btn ${tv.mountType === 'own' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'own')">I Have My Own<br><small style="font-size:0.75rem;opacity:0.8;">Included</small></button>
           <button class="option-btn ${tv.mountType === 'fixed' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'fixed')">Fixed<br><small style="font-size:0.75rem;opacity:0.8;">+$45</small></button>
           <button class="option-btn ${tv.mountType === 'tilting' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'tilting')">Tilting<br><small style="font-size:0.75rem;opacity:0.8;">+$45</small></button>
           <button class="option-btn ${tv.mountType === 'fullmotion' ? 'selected' : ''}" onclick="setTVProp(${i}, 'mountType', 'fullmotion')">Full Motion<br><small style="font-size:0.75rem;opacity:0.8;">+$75</small></button>
