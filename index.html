@@ -2317,7 +2317,9 @@ function checkAgreementScroll(el) {
       label.style.color = '#333';
       label.innerHTML = '<strong>I agree to the Service Agreement above and VistaMount LLC\'s <a href="#privacy-policy" style="color:#2d7fe8;">Privacy Policy</a> and <a href="#terms" style="color:#2d7fe8;">Terms of Service</a>.</strong> (Required)';
     }
-    // Hide scroll hint banner
+    // Hide scroll fade and hint banner
+    const fade = document.getElementById('scroll-fade');
+    if (fade) fade.style.display = 'none';
     const banner = document.getElementById('scroll-hint-banner');
     if (banner) banner.style.display = 'none';
     // Flash green border to draw attention
@@ -2628,6 +2630,10 @@ function initBookingStep4() {
         <strong>7. Photography.</strong> VistaMount LLC may photograph completed installations for portfolio and marketing use unless Customer opts out in writing prior to service.<br><br>
         <strong>8. Governing Law.</strong> This agreement is governed by the laws of the State of Arizona. Disputes shall be resolved in Maricopa County, AZ.<br><br>
         By signing below, Customer acknowledges they have read, understood, and agree to these terms.
+      </div>
+        <div id="scroll-fade" style="position:absolute;bottom:0;left:0;right:0;height:48px;background:linear-gradient(to bottom,transparent,#f8fafc);border-radius:0 0 8px 8px;pointer-events:none;display:flex;align-items:flex-end;justify-content:center;padding-bottom:6px;">
+          <span style="font-size:0.7rem;color:#2d7fe8;font-weight:600;letter-spacing:.08em;text-transform:uppercase;">↓ Scroll to read</span>
+        </div>
       </div>
     </div>
 
