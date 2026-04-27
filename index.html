@@ -2113,7 +2113,7 @@ function renderTVCards() {
 
         <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:4px;">
 
-          <div onclick="setTVProp(${i}, 'mantelMount', ${tv.mantelMount === 'mm340' ? 'false' : ''mm340''})"
+          <div onclick="toggleMantelMount(${i}, 'mm340')"
             style="background:#fff;border:2px solid ${tv.mantelMount === 'mm340' ? '#2d7fe8' : '#e5e7eb'};border-radius:8px;padding:12px 14px;cursor:pointer;transition:all .2s;">
             <div style="display:flex;justify-content:space-between;align-items:center;">
               <div>
@@ -2127,7 +2127,7 @@ function renderTVCards() {
             </div>
           </div>
 
-          <div onclick="setTVProp(${i}, 'mantelMount', ${tv.mantelMount === 'mm540' ? 'false' : ''mm540''})"
+          <div onclick="toggleMantelMount(${i}, 'mm540')"
             style="background:#fff;border:2px solid ${tv.mantelMount === 'mm540' ? '#2d7fe8' : '#e5e7eb'};border-radius:8px;padding:12px 14px;cursor:pointer;transition:all .2s;">
             <div style="display:flex;justify-content:space-between;align-items:center;">
               <div>
@@ -2141,7 +2141,7 @@ function renderTVCards() {
             </div>
           </div>
 
-          <div onclick="setTVProp(${i}, 'mantelMount', ${tv.mantelMount === 'mm700' ? 'false' : ''mm700''})"
+          <div onclick="toggleMantelMount(${i}, 'mm700')"
             style="background:#fff;border:2px solid ${tv.mantelMount === 'mm700' ? '#2d7fe8' : '#e5e7eb'};border-radius:8px;padding:12px 14px;cursor:pointer;transition:all .2s;">
             <div style="display:flex;justify-content:space-between;align-items:center;">
               <div>
@@ -2155,7 +2155,7 @@ function renderTVCards() {
             </div>
           </div>
 
-          <div onclick="setTVProp(${i}, 'mantelMount', ${tv.mantelMount === 'max1' ? 'false' : ''max1''})"
+          <div onclick="toggleMantelMount(${i}, 'max1')"
             style="background:#fff;border:2px solid ${tv.mantelMount === 'max1' ? '#2d7fe8' : '#e5e7eb'};border-radius:8px;padding:12px 14px;cursor:pointer;transition:all .2s;">
             <div style="display:flex;justify-content:space-between;align-items:center;">
               <div>
@@ -2169,7 +2169,7 @@ function renderTVCards() {
             </div>
           </div>
 
-          <div onclick="setTVProp(${i}, 'mantelMount', ${tv.mantelMount === 'mm815' ? 'false' : ''mm815''})"
+          <div onclick="toggleMantelMount(${i}, 'mm815')"
             style="background:#fff;border:2px solid ${tv.mantelMount === 'mm815' ? '#2d7fe8' : '#e5e7eb'};border-radius:8px;padding:12px 14px;cursor:pointer;transition:all .2s;">
             <div style="display:flex;justify-content:space-between;align-items:center;">
               <div>
@@ -2190,6 +2190,13 @@ function renderTVCards() {
 
     </div>
   `).join('');
+}
+
+function toggleMantelMount(index, model) {
+  const current = bookingState.tvs[index].mantelMount;
+  bookingState.tvs[index].mantelMount = (current === model) ? false : model;
+  renderTVCards();
+  updatePriceDisplay();
 }
 
 function setTVProp(index, prop, value) {
