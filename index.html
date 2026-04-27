@@ -2379,7 +2379,15 @@ async function submitBooking() {
         summary: summary,
         notes: '',
         sourceId: sourceId,
-        confirmationNumber: confirmationNumber
+        confirmationNumber: confirmationNumber,
+        consent: window._consentData || {
+          signature: '',
+          sms: false,
+          phone: false,
+          email: false,
+          terms: false,
+          timestamp: new Date().toISOString()
+        }
       })
     });
     
