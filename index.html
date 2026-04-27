@@ -2317,6 +2317,9 @@ function checkAgreementScroll(el) {
       label.style.color = '#333';
       label.innerHTML = '<strong>I agree to the Service Agreement above and VistaMount LLC's <a href="#privacy-policy" style="color:#2d7fe8;">Privacy Policy</a> and <a href="#terms" style="color:#2d7fe8;">Terms of Service</a>.</strong> (Required)';
     }
+    // Hide scroll hint banner
+    const banner = document.getElementById('scroll-hint-banner');
+    if (banner) banner.style.display = 'none';
     // Flash green border to draw attention
     const scrollBox = document.getElementById('agreement-scroll');
     if (scrollBox) {
@@ -2609,6 +2612,10 @@ function initBookingStep4() {
     <!-- SERVICE AGREEMENT -->
     <div style="margin-bottom:20px;">
       <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#2d7fe8;font-weight:700;margin-bottom:12px;">Service Agreement</div>
+      <div style="background:#fff3cd;border:1px solid #ffc107;border-radius:6px;padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;font-size:0.8rem;color:#856404;" id="scroll-hint-banner">
+        <span style="font-size:1.1rem;">👇</span>
+        <span><strong>Please scroll through and read the full agreement below</strong> — the checkbox will unlock once you reach the bottom.</span>
+      </div>
       <div id="agreement-scroll" onscroll="checkAgreementScroll(this)" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;max-height:180px;overflow-y:auto;font-size:0.78rem;color:#444;line-height:1.7;">
         <strong style="color:#0f1218;">VistaMount LLC — Service Agreement</strong><br><br>
         This agreement is between VistaMount LLC ("Contractor") and the customer identified below ("Customer") for TV mounting and/or smart home installation services ("Services") at the address provided during booking.<br><br>
