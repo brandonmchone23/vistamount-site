@@ -1688,9 +1688,11 @@ function calculatePrice() {
     else if (tv.cords === 'concealed') total += 75;
     
     // Wall type upcharge for mounting
-    if (tv.wall === 'stucco') total += 75;
-    else if (tv.wall === 'brick') total += 100;
-    else if (tv.wall === 'tile') total += 150;
+    if (!tv.mantelMount || tv.mantelMount === 'false') {
+      if (tv.wall === 'stucco') total += 75;
+      else if (tv.wall === 'brick') total += 100;
+      else if (tv.wall === 'tile') total += 150;
+    }
     
     // Discount for multiple TVs
     if (i > 0) total -= 25;
@@ -2589,13 +2591,13 @@ function initBookingStep4() {
   const tvSizePrice = s => ({'<32':100,'32-64':125,'65-84':150,'85+':200}[s] || 0);
   const tvMountPrice = m => ({'fullmotion':75,'fixed':45,'tilting':45}[m] || 0);
   const tvCordPrice = c => ({'raceway':50,'concealed':75}[c] || 0);
-  const tvWallPrice = w => ({'stucco':75,'brick':100,'tile':150,'concrete':100,'fireplace':75}[w] || 0);
+  const tvWallPrice = (w, tv) => (tv && tv.mantelMount && tv.mantelMount !== 'false') ? 0 : ({'stucco':75,'brick':100,'tile':150,'concrete':100,'fireplace':75}[w] || 0);
 
   let tvRows = bookingState.tvs.map((tv, i) => {
     const basePrice = tvSizePrice(tv.size);
     const mountPrice = tvMountPrice(tv.mountType);
     const cordPrice = tvCordPrice(tv.cords);
-    const wallPrice = tvWallPrice(tv.wall);
+    const wallPrice = tvWallPrice(tv.wall, tv);
     const multiDiscount = i > 0 ? -25 : 0;
     const tvTotal = basePrice + mountPrice + cordPrice + wallPrice + multiDiscount;
 
