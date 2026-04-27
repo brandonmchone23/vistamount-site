@@ -4659,7 +4659,7 @@ function calculateJobDuration() {
 <div id="terms"></div>
 <div id="legal-modal" style="display:none;position:fixed;inset:0;z-index:20000;background:rgba(0,0,0,.85);backdrop-filter:blur(6px);overflow-y:auto;padding:40px 20px;">
   <div style="max-width:760px;margin:0 auto;background:#0d0d12;border:1px solid rgba(79,172,255,.15);border-radius:12px;padding:48px;position:relative;">
-    <button onclick="document.getElementById('legal-modal').style.display='none'" style="position:absolute;top:20px;right:20px;background:none;border:1px solid #333;color:#666;width:36px;height:36px;cursor:pointer;font-size:1.1rem;border-radius:4px;">&#10005;</button>
+    <button onclick="closeLegalModal()" style="position:absolute;top:20px;right:20px;background:none;border:1px solid #333;color:#666;width:36px;height:36px;cursor:pointer;font-size:1.1rem;border-radius:4px;">&#10005;</button>
     <div style="font-size:0.62rem;letter-spacing:.35em;text-transform:uppercase;color:#4facff;margin-bottom:12px;" id="legal-modal-tab">Legal</div>
     <h2 style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:#fff;margin-bottom:32px;" id="legal-modal-title">Privacy Policy &amp; Terms</h2>
     <div id="legal-modal-body" style="color:#888;font-size:0.85rem;line-height:1.9;">
@@ -4683,19 +4683,30 @@ function calculateJobDuration() {
   </div>
 </div>
 <script>
-  document.querySelectorAll('a[href="#privacy-policy"], a[href="#terms"]').forEach(function(link) {
-    link.addEventListener('click', function(e) {
+  document.addEventListener('click', function(e) {
+    const link = e.target.closest('a');
+    if (!link) return;
+    const href = link.getAttribute('href');
+    if (href === '#privacy-policy' || href === '#terms') {
       e.preventDefault();
       document.getElementById('legal-modal').style.display = 'block';
       document.body.style.overflow = 'hidden';
-    });
+    }
   });
   document.getElementById('legal-modal').addEventListener('click', function(e) {
     if (e.target === this) {
       this.style.display = 'none';
-      document.body.style.overflow = '';
+      if (!document.getElementById('booking-modal').classList.contains('open')) {
+        document.body.style.overflow = '';
+      }
     }
   });
+  function closeLegalModal() {
+    document.getElementById('legal-modal').style.display = 'none';
+    if (!document.getElementById('booking-modal').classList.contains('open')) {
+      document.body.style.overflow = '';
+    }
+  }
 </script>
 
 <!-- Booking Modal -->
