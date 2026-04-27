@@ -1670,7 +1670,7 @@ function calculatePrice() {
   let total = 0;
   
   // Base TV pricing
-  const mantelPrices = {'mm340':580,'mm540':700,'mm700':890,'max1':1140,'mm815':1330};
+  const mantelPrices = {'mm340':575,'mm540':699,'mm700':885,'max1':1135,'mm815':1325};
   bookingState.tvs.forEach((tv, i) => {
     const hasMantelMount = tv.mantelMount && mantelPrices[tv.mantelMount];
 
@@ -2138,10 +2138,11 @@ function renderTVCards() {
               <div>
                 <div style="font-size:0.85rem;font-weight:700;color:#0f1218;">MM340 — Standard</div>
                 <div style="font-size:0.75rem;color:#666;margin-top:2px;">44"–80" TVs up to 90 lbs · 27" drop · Swivels 30° · Entry level</div>
+                <div style="font-size:0.72rem;color:#888;margin-top:3px;">Mount $299 + markup + $200 labor</div>
               </div>
               <div style="text-align:right;flex-shrink:0;margin-left:12px;">
-                <div style="font-size:0.9rem;font-weight:700;color:#2d7fe8;">$580</div>
-                <div style="font-size:0.65rem;color:#999;">mount + install</div>
+                <div style="font-size:0.9rem;font-weight:700;color:#2d7fe8;">$575</div>
+                <div style="font-size:0.65rem;color:#999;">all-in · full deposit</div>
               </div>
             </div>
           </div>
@@ -2152,10 +2153,11 @@ function renderTVCards() {
               <div>
                 <div style="font-size:0.85rem;font-weight:700;color:#0f1218;">MM540 — Enhanced <span style="font-size:0.7rem;background:#fef3c7;color:#b45309;padding:2px 6px;border-radius:4px;margin-left:4px;">Most Popular</span></div>
                 <div style="font-size:0.75rem;color:#666;margin-top:2px;">44"–80" TVs up to 90 lbs · Heat sensor handles · Soundbar attachment · Paintable covers</div>
+                <div style="font-size:0.72rem;color:#888;margin-top:3px;">Mount $399 + markup + $200 labor</div>
               </div>
               <div style="text-align:right;flex-shrink:0;margin-left:12px;">
-                <div style="font-size:0.9rem;font-weight:700;color:#2d7fe8;">$700</div>
-                <div style="font-size:0.65rem;color:#999;">mount + install</div>
+                <div style="font-size:0.9rem;font-weight:700;color:#2d7fe8;">$699</div>
+                <div style="font-size:0.65rem;color:#999;">all-in · full deposit</div>
               </div>
             </div>
           </div>
@@ -2166,10 +2168,11 @@ function renderTVCards() {
               <div>
                 <div style="font-size:0.85rem;font-weight:700;color:#0f1218;">MM700 — Premier</div>
                 <div style="font-size:0.75rem;color:#666;margin-top:2px;">50"–90" TVs up to 115 lbs · Heavy duty steel · Award-winning build · Best for large TVs</div>
+                <div style="font-size:0.72rem;color:#888;margin-top:3px;">Mount $549 + markup + $200 labor</div>
               </div>
               <div style="text-align:right;flex-shrink:0;margin-left:12px;">
-                <div style="font-size:0.9rem;font-weight:700;color:#2d7fe8;">$890</div>
-                <div style="font-size:0.65rem;color:#999;">mount + install</div>
+                <div style="font-size:0.9rem;font-weight:700;color:#2d7fe8;">$885</div>
+                <div style="font-size:0.65rem;color:#999;">all-in · full deposit</div>
               </div>
             </div>
           </div>
@@ -2180,10 +2183,11 @@ function renderTVCards() {
               <div>
                 <div style="font-size:0.85rem;font-weight:700;color:#0f1218;">MAX1 — Full Motion <span style="font-size:0.7rem;background:#e0f2fe;color:#0369a1;padding:2px 6px;border-radius:4px;margin-left:4px;">Newest</span></div>
                 <div style="font-size:0.75rem;color:#666;margin-top:2px;">Up to 100" · Full range motion (horizontal + vertical) · Flushest to wall · Ultimate install</div>
+                <div style="font-size:0.72rem;color:#888;margin-top:3px;">Mount $749 + markup + $200 labor</div>
               </div>
               <div style="text-align:right;flex-shrink:0;margin-left:12px;">
-                <div style="font-size:0.9rem;font-weight:700;color:#2d7fe8;">$1,140</div>
-                <div style="font-size:0.65rem;color:#999;">mount + install</div>
+                <div style="font-size:0.9rem;font-weight:700;color:#2d7fe8;">$1,135</div>
+                <div style="font-size:0.65rem;color:#999;">all-in · full deposit</div>
               </div>
             </div>
           </div>
@@ -2194,10 +2198,11 @@ function renderTVCards() {
               <div>
                 <div style="font-size:0.85rem;font-weight:700;color:#0f1218;">MM815 — Motorized <span style="font-size:0.7rem;background:#f3e8ff;color:#7c3aed;padding:2px 6px;border-radius:4px;margin-left:4px;">Premium</span></div>
                 <div style="font-size:0.75rem;color:#666;margin-top:2px;">45"–90" TVs up to 115 lbs · Remote controlled drop & swivel · One-button operation</div>
+                <div style="font-size:0.72rem;color:#888;margin-top:3px;">Mount $899 + markup + $200 labor</div>
               </div>
               <div style="text-align:right;flex-shrink:0;margin-left:12px;">
-                <div style="font-size:0.9rem;font-weight:700;color:#2d7fe8;">$1,330</div>
-                <div style="font-size:0.65rem;color:#999;">mount + install</div>
+                <div style="font-size:0.9rem;font-weight:700;color:#2d7fe8;">$1,325</div>
+                <div style="font-size:0.65rem;color:#999;">all-in · full deposit</div>
               </div>
             </div>
           </div>
@@ -2615,7 +2620,7 @@ function initBookingStep4() {
   const tvCordPrice = c => ({'raceway':50,'concealed':75}[c] || 0);
   const tvWallPrice = (w, tv) => (tv && tv.mantelMount && tv.mantelMount !== 'false' && tv.mantelMount !== 'none') ? 0 : ({'stucco':75,'brick':100,'tile':150,'concrete':100,'fireplace':75}[w] || 0);
 
-  const mantelPricesStep4 = {'mm340':580,'mm540':700,'mm700':890,'max1':1140,'mm815':1330};
+  const mantelPricesStep4 = {'mm340':575,'mm540':699,'mm700':885,'max1':1135,'mm815':1325};
   const mantelNamesStep4 = {'mm340':'MM340 Standard','mm540':'MM540 Enhanced','mm700':'MM700 Premier','max1':'MAX1 Full Motion','mm815':'MM815 Motorized'};
 
   let tvRows = bookingState.tvs.map((tv, i) => {
