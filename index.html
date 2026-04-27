@@ -2306,7 +2306,7 @@ function selectSlot(slot) {
 
 
 function checkAgreementScroll(el) {
-  const atBottom = el.scrollHeight - el.scrollTop <= el.clientHeight + 10;
+  const atBottom = el.scrollHeight - el.scrollTop <= el.clientHeight + 30;
   const checkbox = document.getElementById('consent-terms');
   const label = document.getElementById('consent-terms-label');
   if (atBottom && checkbox) {
@@ -2618,7 +2618,7 @@ function initBookingStep4() {
         <span style="font-size:1.1rem;">👇</span>
         <span><strong>Please scroll through and read the full agreement below</strong> — the checkbox will unlock once you reach the bottom.</span>
       </div>
-      <div id="agreement-scroll" onscroll="checkAgreementScroll(this)" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;max-height:180px;overflow-y:auto;font-size:0.78rem;color:#444;line-height:1.7;">
+      <div id="agreement-scroll" onscroll="checkAgreementScroll(this)" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;max-height:260px;overflow-y:scroll;-webkit-overflow-scrolling:touch;font-size:0.78rem;color:#444;line-height:1.7;">
         <strong style="color:#0f1218;">VistaMount LLC — Service Agreement</strong><br><br>
         This agreement is between VistaMount LLC ("Contractor") and the customer identified below ("Customer") for TV mounting and/or smart home installation services ("Services") at the address provided during booking.<br><br>
         <strong>1. Scope of Work.</strong> Services are limited to those selected during booking. Any additional work requested on-site will be quoted separately before proceeding.<br><br>
