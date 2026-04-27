@@ -1670,35 +1670,37 @@ function calculatePrice() {
   let total = 0;
   
   // Base TV pricing
+  const mantelPrices = {'mm340':580,'mm540':700,'mm700':890,'max1':1140,'mm815':1330};
   bookingState.tvs.forEach((tv, i) => {
-    // TV size pricing
-    if (tv.size === '<32') total += 100;
-    else if (tv.size === '32-64') total += 125;
-    else if (tv.size === '65-84') total += 150;
-    else if (tv.size === '85+') total += 200;
-    
-    // Mount type: fixed/tilt $45, full-motion $75 (includes mount markup)
-    if (tv.mountType === 'fixed') total += 45;
-    else if (tv.mountType === 'tilting') total += 45;
-    else if (tv.mountType === 'fullmotion') total += 75;
-    // 'own' mount = $0, no charge
-    
-    // Cord concealment (on-wall raceway = $50, in-wall concealment = $75)
-    if (tv.cords === 'raceway') total += 50;
-    else if (tv.cords === 'concealed') total += 75;
-    
-    // Wall type upcharge for mounting
-    if (!tv.mantelMount || tv.mantelMount === 'false' || tv.mantelMount === 'none') {
-      if (tv.wall === 'stucco') total += 75;
-      else if (tv.wall === 'brick') total += 100;
-      else if (tv.wall === 'tile') total += 150;
-      else if (tv.wall === 'fireplace') total += 75;
+    const hasMantelMount = tv.mantelMount && mantelPrices[tv.mantelMount];
+
+    if (hasMantelMount) {
+      // MantelMount is all-in (mount + labor) — replaces base TV price entirely
+      total += mantelPrices[tv.mantelMount];
+    } else {
+      // Standard pricing
+      if (tv.size === '<32') total += 100;
+      else if (tv.size === '32-64') total += 125;
+      else if (tv.size === '65-84') total += 150;
+      else if (tv.size === '85+') total += 200;
+
+      if (tv.mountType === 'fixed') total += 45;
+      else if (tv.mountType === 'tilting') total += 45;
+      else if (tv.mountType === 'fullmotion') total += 75;
+
+      if (tv.cords === 'raceway') total += 50;
+      else if (tv.cords === 'concealed') total += 75;
+
+      if (!tv.mantelMount || tv.mantelMount === 'false' || tv.mantelMount === 'none') {
+        if (tv.wall === 'stucco') total += 75;
+        else if (tv.wall === 'brick') total += 100;
+        else if (tv.wall === 'tile') total += 150;
+        else if (tv.wall === 'fireplace') total += 75;
+      }
     }
-    
-    // Discount for multiple TVs
+
+    // Multi-TV discount still applies
     if (i > 0) total -= 25;
-    const mantelPrices = {'mm340':580,'mm540':700,'mm700':890,'max1':1140,'mm815':1330};
-    if (tv.mantelMount && mantelPrices[tv.mantelMount]) total += mantelPrices[tv.mantelMount];
   });
   
   // Soundbars
@@ -2613,13 +2615,12 @@ function initBookingStep4() {
   const tvCordPrice = c => ({'raceway':50,'concealed':75}[c] || 0);
   const tvWallPrice = (w, tv) => (tv && tv.mantelMount && tv.mantelMount !== 'false' && tv.mantelMount !== 'none') ? 0 : ({'stucco':75,'brick':100,'tile':150,'concrete':100,'fireplace':75}[w] || 0);
 
+  const mantelPricesStep4 = {'mm340':580,'mm540':700,'mm700':890,'max1':1140,'mm815':1330};
+  const mantelNamesStep4 = {'mm340':'MM340 Standard','mm540':'MM540 Enhanced','mm700':'MM700 Premier','max1':'MAX1 Full Motion','mm815':'MM815 Motorized'};
+
   let tvRows = bookingState.tvs.map((tv, i) => {
-    const basePrice = tvSizePrice(tv.size);
-    const mountPrice = tvMountPrice(tv.mountType);
-    const cordPrice = tvCordPrice(tv.cords);
-    const wallPrice = tvWallPrice(tv.wall, tv);
+    const hasMantel = tv.mantelMount && mantelPricesStep4[tv.mantelMount];
     const multiDiscount = i > 0 ? -25 : 0;
-    const tvTotal = basePrice + mountPrice + cordPrice + wallPrice + multiDiscount;
 
     const lineItem = (label, val, price) => price === 0 ? `
       <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #f1f5f9;">
@@ -2628,8 +2629,31 @@ function initBookingStep4() {
       </div>` : `
       <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #f1f5f9;">
         <span style="font-size:0.82rem;color:#64748b;">${label}: <span style="color:#0f1218;font-weight:500;">${val}</span></span>
-        <span style="font-size:0.82rem;color:#0f1218;font-weight:500;">+$${price}</span>
+        <span style="font-size:0.82rem;color:#0f1218;font-weight:500;">$${price}</span>
       </div>`;
+
+    if (hasMantel) {
+      const mantelPrice = mantelPricesStep4[tv.mantelMount];
+      const tvTotal = mantelPrice + multiDiscount;
+      return `
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-bottom:8px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
+          <div style="font-weight:700;color:#0f1218;font-size:0.95rem;">TV ${i+1} ${i > 0 ? '<span style="font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;">−$25 multi</span>' : ''}</div>
+          <div style="display:flex;align-items:center;gap:10px;">
+            <span style="font-weight:700;color:#2d7fe8;font-size:1rem;">$${tvTotal}</span>
+            <button onclick="goBookingStep(1)" style="font-size:0.72rem;color:#2d7fe8;background:none;border:1px solid #2d7fe8;border-radius:4px;padding:3px 8px;cursor:pointer;font-weight:600;">Edit</button>
+          </div>
+        </div>
+        ${lineItem('MantelMount ' + mantelNamesStep4[tv.mantelMount], 'Mount + Install (all-in) · Full deposit required', mantelPrice)}
+        ${lineItem('Cords', tvCordLabel(tv.cords), tvCordPrice(tv.cords))}
+      </div>`;
+    }
+
+    const basePrice = tvSizePrice(tv.size);
+    const mountPrice = tvMountPrice(tv.mountType);
+    const cordPrice = tvCordPrice(tv.cords);
+    const wallPrice = tvWallPrice(tv.wall, tv);
+    const tvTotal = basePrice + mountPrice + cordPrice + wallPrice + multiDiscount;
 
     return `
       <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-bottom:8px;">
@@ -2644,11 +2668,6 @@ function initBookingStep4() {
         ${lineItem('Mount', tvMountLabel(tv.mountType), mountPrice)}
         ${lineItem('Cords', tvCordLabel(tv.cords), cordPrice)}
         ${lineItem('Wall', tvWallLabel(tv.wall), wallPrice)}
-        ${(tv.mantelMount && tv.mantelMount !== 'false') ? (() => {
-          const mp = {'mm340':580,'mm540':700,'mm700':890,'max1':1140,'mm815':1330};
-          const mn = {'mm340':'MM340 Standard','mm540':'MM540 Enhanced','mm700':'MM700 Premier','max1':'MAX1 Full Motion','mm815':'MM815 Motorized'};
-          return lineItem('MantelMount ' + (mn[tv.mantelMount]||tv.mantelMount), 'Mount + Install · Deposit required', mp[tv.mantelMount]||0);
-        })() : ''}
       </div>`;
   }).join('');
 
