@@ -2380,6 +2380,7 @@ async function submitBooking() {
         notes: '',
         sourceId: sourceId,
         confirmationNumber: confirmationNumber,
+        quotedPrice: calculatePrice(),
         consent: window._consentData || {
           signature: '',
           sms: false,
