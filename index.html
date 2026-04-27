@@ -2093,6 +2093,7 @@ function renderTVCards() {
           <button class="option-btn ${tv.wall === 'stucco' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'stucco')">Stucco<br><small style="font-size:0.75rem;opacity:0.8;">+$75</small></button>
           <button class="option-btn ${tv.wall === 'brick' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'brick')">Brick<br><small style="font-size:0.75rem;opacity:0.8;">+$100</small></button>
           <button class="option-btn ${tv.wall === 'tile' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'tile')">Tile/Stone<br><small style="font-size:0.75rem;opacity:0.8;">+$150</small></button>
+          <button class="option-btn ${tv.wall === 'fireplace' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'fireplace')">Fireplace<br><small style="font-size:0.75rem;opacity:0.8;">+$75</small></button>
         </div>
       </div>
     </div>
@@ -2191,7 +2192,7 @@ function step4AdjQty(field, delta) {
   bookingState[field] = Math.max(0, (bookingState[field] ?? 0) + delta);
   initBookingStep4();
   if (window._step4Cache) {
-    ['fname','lname','phone','email','address'].forEach(id => {
+    ['fname','lname','phone','email','address','special-notes'].forEach(id => {
       const el = document.getElementById(id);
       if (el && window._step4Cache[id]) el.value = window._step4Cache[id];
     });
@@ -2202,7 +2203,7 @@ function setTVPropStep4(index, prop, value) {
   bookingState.tvs[index][prop] = value;
   initBookingStep4();
   if (window._step4Cache) {
-    ['fname','lname','phone','email','address'].forEach(id => {
+    ['fname','lname','phone','email','address','special-notes'].forEach(id => {
       const el = document.getElementById(id);
       if (el && window._step4Cache[id]) el.value = window._step4Cache[id];
     });
@@ -2405,7 +2406,7 @@ async function submitBooking() {
         slotStart: bookingState.selectedSlot.start,
         slotEnd: bookingState.selectedSlot.end,
         summary: summary,
-        notes: '',
+        notes: document.getElementById('special-notes') ? document.getElementById('special-notes').value.trim() : '',
         sourceId: sourceId,
         confirmationNumber: confirmationNumber,
         quotedPrice: calculatePrice(),
@@ -2461,7 +2462,7 @@ function initBookingStep4() {
 
   // Cache any already-typed contact info before re-render
   window._step4Cache = {};
-  ['fname','lname','phone','email','address'].forEach(id => {
+  ['fname','lname','phone','email','address','special-notes'].forEach(id => {
     const el = document.getElementById(id);
     if (el) window._step4Cache[id] = el.value;
   });
@@ -2484,12 +2485,12 @@ function initBookingStep4() {
   const tvSizeLabel = s => ({'<32':'Under 32"','32-64':'32"–64"','65-84':'65"–84"','85+':'85"+'}[s] || s);
   const tvMountLabel = m => ({'fixed':'Fixed Mount','tilting':'Tilting Mount','fullmotion':'Full-Motion Mount','own':"Customer's Own Mount"}[m] || m);
   const tvCordLabel = c => ({'visible':'Cords Left Visible','raceway':'On-Wall Raceway','concealed':'In-Wall Concealment'}[c] || c);
-  const tvWallLabel = w => ({'drywall':'Drywall','stucco':'Stucco','brick':'Brick','tile':'Tile/Stone','concrete':'Concrete'}[w] || w);
+  const tvWallLabel = w => ({'drywall':'Drywall','stucco':'Stucco','brick':'Brick','tile':'Tile/Stone','concrete':'Concrete','fireplace':'Fireplace'}[w] || w);
 
   const tvSizePrice = s => ({'<32':100,'32-64':125,'65-84':150,'85+':200}[s] || 0);
   const tvMountPrice = m => ({'fullmotion':75,'fixed':45,'tilting':45}[m] || 0);
   const tvCordPrice = c => ({'raceway':50,'concealed':75}[c] || 0);
-  const tvWallPrice = w => ({'stucco':75,'brick':100,'tile':150,'concrete':100}[w] || 0);
+  const tvWallPrice = w => ({'stucco':75,'brick':100,'tile':150,'concrete':100,'fireplace':75}[w] || 0);
 
   let tvRows = bookingState.tvs.map((tv, i) => {
     const basePrice = tvSizePrice(tv.size);
@@ -2611,6 +2612,10 @@ function initBookingStep4() {
         <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">Address *</label>
         <input type="text" id="address" placeholder="123 Main St, Phoenix AZ 85001" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;">
       </div>
+      <div style="margin-bottom:12px;">
+        <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">Gate Code / Special Instructions</label>
+        <textarea id="special-notes" placeholder="e.g. Gate code #1234, ring doorbell twice, park in driveway, dog in backyard..." style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:15px;min-height:80px;resize:vertical;font-family:inherit;"></textarea>
+      </div>
     </div>
 
     <!-- SERVICE AGREEMENT + CONSENT -->
@@ -2686,7 +2691,7 @@ function initBookingStep4() {
 
   // Restore any cached contact info
   if (window._step4Cache) {
-    ['fname','lname','phone','email','address'].forEach(id => {
+    ['fname','lname','phone','email','address','special-notes'].forEach(id => {
       const el = document.getElementById(id);
       if (el && window._step4Cache[id]) el.value = window._step4Cache[id];
     });
