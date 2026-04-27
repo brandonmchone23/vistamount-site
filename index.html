@@ -3682,8 +3682,8 @@ function closeLightbox(){
         <a href="#services-section">Services</a>
         <a href="#pricing">Pricing</a>
         <a href="#booking-modal" onclick="openBookingModal();return false;">Book</a>
-        <a href="#privacy-policy">Privacy Policy</a>
-        <a href="#terms">Terms</a>
+        <a href="javascript:void(0)" onclick="openLegalModal()">Privacy Policy</a>
+        <a href="javascript:void(0)" onclick="openLegalModal()">Terms</a>
       </div>
     </div>
   </div>
@@ -4654,60 +4654,6 @@ function calculateJobDuration() {
   </div>
 </footer>
 
-<!-- PRIVACY POLICY & TERMS MODAL -->
-<div id="legal-modal" style="display:none;position:fixed;inset:0;z-index:20000;background:rgba(0,0,0,.85);backdrop-filter:blur(6px);overflow-y:auto;padding:40px 20px;">
-  <div style="max-width:760px;margin:0 auto;background:#0d0d12;border:1px solid rgba(79,172,255,.15);border-radius:12px;padding:48px;position:relative;">
-    <button onclick="closeLegalModal()" style="position:absolute;top:20px;right:20px;background:none;border:1px solid #333;color:#666;width:36px;height:36px;cursor:pointer;font-size:1.1rem;border-radius:4px;">&#10005;</button>
-    <div style="font-size:0.62rem;letter-spacing:.35em;text-transform:uppercase;color:#4facff;margin-bottom:12px;" id="legal-modal-tab">Legal</div>
-    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:#fff;margin-bottom:32px;" id="legal-modal-title">Privacy Policy &amp; Terms</h2>
-    <div id="legal-modal-body" style="color:#888;font-size:0.85rem;line-height:1.9;">
-      <h3 style="color:#fff;font-size:1rem;margin-bottom:8px;">Privacy Policy</h3>
-      <p><strong style="color:#ccc;">Last updated: January 2026</strong></p>
-      <p>VistaMount LLC ("we," "us," or "our") operates vistamountaz.com. This Privacy Policy explains how we collect, use, and protect your personal information.</p>
-      <p><strong style="color:#ccc;">Information We Collect</strong><br>We collect information you provide directly: name, phone number, email address, and service address when you book an appointment or contact us.</p>
-      <p><strong style="color:#ccc;">How We Use Your Information</strong><br>We use your information to: schedule and confirm appointments; send appointment reminders and follow-ups via SMS, phone, or email (with your consent); process payments; and improve our services.</p>
-      <p><strong style="color:#ccc;">SMS / Text Message Consent</strong><br>By opting in during booking, you consent to receive transactional SMS messages from VistaMount LLC regarding your appointment. Message frequency varies. Message and data rates may apply. Reply STOP at any time to opt out. Reply HELP for assistance. We do not sell or share your phone number with third parties for marketing purposes.</p>
-      <p><strong style="color:#ccc;">Data Sharing</strong><br>We do not sell your personal information. We may share data with service providers who assist in operating our business (e.g., booking software, payment processors) under confidentiality agreements.</p>
-      <p><strong style="color:#ccc;">Data Retention</strong><br>We retain your information for as long as necessary to provide services and comply with legal obligations. You may request deletion by contacting us.</p>
-      <p><strong style="color:#ccc;">Contact</strong><br>VistaMount LLC &bull; Phoenix, AZ &bull; <a href="mailto:info@vistamountaz.com" style="color:#4facff;">info@vistamountaz.com</a></p>
-      <h3 id="terms-section" style="color:#fff;font-size:1rem;margin-bottom:8px;margin-top:40px;">Terms of Service</h3>
-      <p><strong style="color:#ccc;">Services</strong><br>VistaMount LLC provides TV mounting and smart home installation services in the Phoenix, AZ metro area. All services are subject to a Service Agreement agreed to at the time of booking.</p>
-      <p><strong style="color:#ccc;">Appointments</strong><br>Booking an appointment does not guarantee availability until confirmed by VistaMount LLC. Cancellations must be made at least 2 hours before the scheduled appointment. Same-day no-shows may be subject to a $50 cancellation fee.</p>
-      <p><strong style="color:#ccc;">Pricing</strong><br>Prices displayed during booking are estimates. Final pricing is confirmed on-site before work begins. Customer must authorize final price before services are rendered.</p>
-      <p><strong style="color:#ccc;">Limitation of Liability</strong><br>VistaMount LLC's liability is limited to the amount paid for services rendered. We are not responsible for pre-existing conditions, hidden obstructions, or damages caused by circumstances outside our control.</p>
-      <p><strong style="color:#ccc;">Changes to Terms</strong><br>We reserve the right to update these terms at any time. Continued use of our services constitutes acceptance of updated terms.</p>
-      <p style="margin-top:32px;font-size:0.75rem;color:#555;">&copy; 2026 VistaMount LLC. All rights reserved. Phoenix, Arizona.</p>
-    </div>
-  </div>
-</div>
-<script>
-  document.addEventListener('click', function(e) {
-    const link = e.target.closest('a');
-    if (!link) return;
-    const href = link.getAttribute('href');
-    if (href === '#privacy-policy' || href === '#terms') {
-      e.preventDefault();
-      e.stopPropagation();
-      document.getElementById('legal-modal').style.display = 'block';
-      // Don't set overflow here - booking modal may already be open
-    }
-  });
-  document.getElementById('legal-modal').addEventListener('click', function(e) {
-    if (e.target === this) {
-      this.style.display = 'none';
-      if (!document.getElementById('booking-modal').classList.contains('open')) {
-        document.body.style.overflow = '';
-      }
-    }
-  });
-  function closeLegalModal() {
-    document.getElementById('legal-modal').style.display = 'none';
-    if (!document.getElementById('booking-modal').classList.contains('open')) {
-      document.body.style.overflow = '';
-    }
-  }
-</script>
-
 <!-- Booking Modal -->
 <div id="booking-modal" class="modal-overlay">
   <div class="modal-container">
@@ -4748,5 +4694,39 @@ function calculateJobDuration() {
 </div>
 
 
+<div id="legal-modal" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,.88);overflow-y:auto;padding:40px 20px;">
+  <div style="max-width:760px;margin:0 auto;background:#0d0d12;border:1px solid rgba(79,172,255,.15);border-radius:12px;padding:48px;position:relative;">
+    <button onclick="closeLegalModal()" style="position:absolute;top:20px;right:20px;background:none;border:1px solid #444;color:#888;width:36px;height:36px;cursor:pointer;font-size:1.1rem;border-radius:4px;line-height:1;">&#10005;</button>
+    <div style="font-size:0.62rem;letter-spacing:.35em;text-transform:uppercase;color:#4facff;margin-bottom:12px;">Legal</div>
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:#fff;margin-bottom:32px;">Privacy Policy &amp; Terms</h2>
+    <div style="color:#888;font-size:0.85rem;line-height:1.9;">
+      <h3 style="color:#fff;font-size:1rem;margin-bottom:8px;">Privacy Policy</h3>
+      <p><strong style="color:#ccc;">Last updated: January 2026</strong></p>
+      <p>VistaMount LLC operates vistamountaz.com. This Privacy Policy explains how we collect, use, and protect your personal information.</p>
+      <p><strong style="color:#ccc;">Information We Collect</strong><br>Name, phone number, email address, and service address when you book an appointment or contact us.</p>
+      <p><strong style="color:#ccc;">How We Use Your Information</strong><br>To schedule and confirm appointments; send reminders and follow-ups via SMS, phone, or email (with your consent); process payments; and improve our services.</p>
+      <p><strong style="color:#ccc;">SMS Consent</strong><br>By opting in during booking, you consent to receive transactional SMS messages. Message and data rates may apply. Reply STOP to opt out. We do not sell your phone number.</p>
+      <p><strong style="color:#ccc;">Data Sharing</strong><br>We do not sell your personal information. We may share data with service providers under confidentiality agreements.</p>
+      <p><strong style="color:#ccc;">Contact</strong><br>VistaMount LLC &bull; Phoenix, AZ &bull; <a href="mailto:info@vistamountaz.com" style="color:#4facff;">info@vistamountaz.com</a></p>
+      <h3 style="color:#fff;font-size:1rem;margin-bottom:8px;margin-top:40px;">Terms of Service</h3>
+      <p><strong style="color:#ccc;">Services</strong><br>VistaMount LLC provides TV mounting and smart home installation in Phoenix, AZ. All services are subject to a Service Agreement agreed to at booking.</p>
+      <p><strong style="color:#ccc;">Appointments</strong><br>Cancellations must be made at least 2 hours before the scheduled appointment. Same-day no-shows may incur a $50 fee.</p>
+      <p><strong style="color:#ccc;">Pricing</strong><br>Prices shown during booking are estimates. Final price confirmed on-site before work begins.</p>
+      <p><strong style="color:#ccc;">Limitation of Liability</strong><br>VistaMount LLC's liability is limited to the amount paid for services. We are not responsible for pre-existing conditions or hidden obstructions.</p>
+      <p style="margin-top:32px;font-size:0.75rem;color:#555;">&copy; 2026 VistaMount LLC. All rights reserved.</p>
+    </div>
+  </div>
+</div>
+<script>
+function openLegalModal() {
+  document.getElementById('legal-modal').style.display = 'block';
+}
+function closeLegalModal() {
+  document.getElementById('legal-modal').style.display = 'none';
+}
+document.getElementById('legal-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeLegalModal();
+});
+</script>
 </body>
 </html>
