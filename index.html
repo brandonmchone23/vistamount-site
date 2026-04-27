@@ -1694,7 +1694,8 @@ function calculatePrice() {
     
     // Discount for multiple TVs
     if (i > 0) total -= 25;
-    if (tv.mantelMount) total += 125;
+    const mantelPrices = {'mm340':580,'mm540':700,'mm700':890,'max1':1140,'mm815':1330};
+    if (tv.mantelMount && mantelPrices[tv.mantelMount]) total += mantelPrices[tv.mantelMount];
   });
   
   // Soundbars
@@ -2102,25 +2103,88 @@ function renderTVCards() {
 
       ${tv.wall === 'fireplace' ? `
       <div style="margin-top:12px;background:linear-gradient(135deg,#fff8f0,#fff3e0);border:1px solid #f59e0b;border-radius:10px;padding:16px;">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:8px;">
+        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
           <span style="font-size:1.2rem;">🔥</span>
-          <span style="font-size:0.78rem;font-weight:700;color:#b45309;letter-spacing:.06em;text-transform:uppercase;">Mantel Mount Upgrade</span>
+          <span style="font-size:0.78rem;font-weight:700;color:#b45309;letter-spacing:.06em;text-transform:uppercase;">MantelMount Pull-Down Upgrade</span>
         </div>
-        <div style="font-size:0.82rem;color:#333;line-height:1.6;margin-bottom:12px;">
-          <strong>Want your TV to pull down from above the fireplace?</strong> A Mantel Mount is a heat-activated, articulating arm that stores your TV flat against the wall and lets you pull it down to eye level when watching — keeping it safe from heat when not in use.
+        <div style="font-size:0.8rem;color:#555;line-height:1.6;margin-bottom:14px;">
+          Instead of your TV sitting high and fixed above the fireplace, a MantelMount lets you <strong>pull it down to eye level</strong> when watching and raise it back up when done. Heat sensor handles alert you if it gets too hot. We supply the mount and install everything — just pick your model below.
         </div>
-        <div style="display:flex;align-items:center;justify-content:space-between;background:#fff;border:1px solid #fcd34d;border-radius:8px;padding:12px 14px;">
-          <div>
-            <div style="font-size:0.85rem;font-weight:600;color:#0f1218;">Mantel Mount Installation</div>
-            <div style="font-size:0.75rem;color:#666;">Hardware supplied by customer · We install</div>
+
+        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:4px;">
+
+          <div onclick="setTVProp(${i}, 'mantelMount', ${tv.mantelMount === 'mm340' ? 'false' : ''mm340''})"
+            style="background:#fff;border:2px solid ${tv.mantelMount === 'mm340' ? '#2d7fe8' : '#e5e7eb'};border-radius:8px;padding:12px 14px;cursor:pointer;transition:all .2s;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-size:0.85rem;font-weight:700;color:#0f1218;">MM340 — Standard</div>
+                <div style="font-size:0.75rem;color:#666;margin-top:2px;">44"–80" TVs up to 90 lbs · 27" drop · Swivels 30° · Entry level</div>
+              </div>
+              <div style="text-align:right;flex-shrink:0;margin-left:12px;">
+                <div style="font-size:0.9rem;font-weight:700;color:#2d7fe8;">$580</div>
+                <div style="font-size:0.65rem;color:#999;">mount + install</div>
+              </div>
+            </div>
           </div>
-          <div style="display:flex;align-items:center;gap:10px;">
-            <span style="font-weight:700;color:#2d7fe8;font-size:1rem;">+$125</span>
-            <button onclick="setTVProp(${i}, 'mantelMount', ${!tv.mantelMount})" style="padding:7px 16px;border-radius:6px;border:2px solid ${tv.mantelMount ? '#2d7fe8' : '#d1d5db'};background:${tv.mantelMount ? '#2d7fe8' : '#fff'};color:${tv.mantelMount ? '#fff' : '#333'};font-size:0.78rem;font-weight:700;cursor:pointer;transition:all .2s;">
-              ${tv.mantelMount ? '✓ Added' : 'Add'}
-            </button>
+
+          <div onclick="setTVProp(${i}, 'mantelMount', ${tv.mantelMount === 'mm540' ? 'false' : ''mm540''})"
+            style="background:#fff;border:2px solid ${tv.mantelMount === 'mm540' ? '#2d7fe8' : '#e5e7eb'};border-radius:8px;padding:12px 14px;cursor:pointer;transition:all .2s;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-size:0.85rem;font-weight:700;color:#0f1218;">MM540 — Enhanced <span style="font-size:0.7rem;background:#fef3c7;color:#b45309;padding:2px 6px;border-radius:4px;margin-left:4px;">Most Popular</span></div>
+                <div style="font-size:0.75rem;color:#666;margin-top:2px;">44"–80" TVs up to 90 lbs · Heat sensor handles · Soundbar attachment · Paintable covers</div>
+              </div>
+              <div style="text-align:right;flex-shrink:0;margin-left:12px;">
+                <div style="font-size:0.9rem;font-weight:700;color:#2d7fe8;">$700</div>
+                <div style="font-size:0.65rem;color:#999;">mount + install</div>
+              </div>
+            </div>
           </div>
+
+          <div onclick="setTVProp(${i}, 'mantelMount', ${tv.mantelMount === 'mm700' ? 'false' : ''mm700''})"
+            style="background:#fff;border:2px solid ${tv.mantelMount === 'mm700' ? '#2d7fe8' : '#e5e7eb'};border-radius:8px;padding:12px 14px;cursor:pointer;transition:all .2s;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-size:0.85rem;font-weight:700;color:#0f1218;">MM700 — Premier</div>
+                <div style="font-size:0.75rem;color:#666;margin-top:2px;">50"–90" TVs up to 115 lbs · Heavy duty steel · Award-winning build · Best for large TVs</div>
+              </div>
+              <div style="text-align:right;flex-shrink:0;margin-left:12px;">
+                <div style="font-size:0.9rem;font-weight:700;color:#2d7fe8;">$890</div>
+                <div style="font-size:0.65rem;color:#999;">mount + install</div>
+              </div>
+            </div>
+          </div>
+
+          <div onclick="setTVProp(${i}, 'mantelMount', ${tv.mantelMount === 'max1' ? 'false' : ''max1''})"
+            style="background:#fff;border:2px solid ${tv.mantelMount === 'max1' ? '#2d7fe8' : '#e5e7eb'};border-radius:8px;padding:12px 14px;cursor:pointer;transition:all .2s;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-size:0.85rem;font-weight:700;color:#0f1218;">MAX1 — Full Motion <span style="font-size:0.7rem;background:#e0f2fe;color:#0369a1;padding:2px 6px;border-radius:4px;margin-left:4px;">Newest</span></div>
+                <div style="font-size:0.75rem;color:#666;margin-top:2px;">Up to 100" · Full range motion (horizontal + vertical) · Flushest to wall · Ultimate install</div>
+              </div>
+              <div style="text-align:right;flex-shrink:0;margin-left:12px;">
+                <div style="font-size:0.9rem;font-weight:700;color:#2d7fe8;">$1,140</div>
+                <div style="font-size:0.65rem;color:#999;">mount + install</div>
+              </div>
+            </div>
+          </div>
+
+          <div onclick="setTVProp(${i}, 'mantelMount', ${tv.mantelMount === 'mm815' ? 'false' : ''mm815''})"
+            style="background:#fff;border:2px solid ${tv.mantelMount === 'mm815' ? '#2d7fe8' : '#e5e7eb'};border-radius:8px;padding:12px 14px;cursor:pointer;transition:all .2s;">
+            <div style="display:flex;justify-content:space-between;align-items:center;">
+              <div>
+                <div style="font-size:0.85rem;font-weight:700;color:#0f1218;">MM815 — Motorized <span style="font-size:0.7rem;background:#f3e8ff;color:#7c3aed;padding:2px 6px;border-radius:4px;margin-left:4px;">Premium</span></div>
+                <div style="font-size:0.75rem;color:#666;margin-top:2px;">45"–90" TVs up to 115 lbs · Remote controlled drop & swivel · One-button operation</div>
+              </div>
+              <div style="text-align:right;flex-shrink:0;margin-left:12px;">
+                <div style="font-size:0.9rem;font-weight:700;color:#2d7fe8;">$1,330</div>
+                <div style="font-size:0.65rem;color:#999;">mount + install</div>
+              </div>
+            </div>
+          </div>
+
         </div>
+        ${tv.mantelMount && tv.mantelMount !== 'false' ? `<div style="font-size:0.75rem;color:#059669;font-weight:600;margin-top:6px;">✓ Full deposit required at booking — includes mount + installation</div>` : `<div style="font-size:0.75rem;color:#999;margin-top:6px;">Select a model to add to your quote · Tap again to deselect</div>`}
       </div>
       ` : ''}
 
@@ -2412,7 +2476,7 @@ async function submitBooking() {
   // Build summary
   const summary = 'TVs:' + bookingState.tvs.length + ' ' + 
     bookingState.tvs.map((tv, i) => 
-      'TV' + (i+1) + ':' + tv.size + '/' + tv.mountType + '/' + tv.cords + '/' + tv.wall + (tv.mantelMount ? '/mantel-mount' : '')
+      'TV' + (i+1) + ':' + tv.size + '/' + tv.mountType + '/' + tv.cords + '/' + tv.wall + (tv.mantelMount && tv.mantelMount !== 'false' ? '/mantel-' + tv.mantelMount : '')
     ).join(' ') +
     (bookingState.soundbars ? ' soundbars:' + bookingState.soundbars : '') +
     (bookingState.dismounts ? ' dismounts:' + bookingState.dismounts : '');
@@ -2551,7 +2615,11 @@ function initBookingStep4() {
         ${lineItem('Mount', tvMountLabel(tv.mountType), mountPrice)}
         ${lineItem('Cords', tvCordLabel(tv.cords), cordPrice)}
         ${lineItem('Wall', tvWallLabel(tv.wall), wallPrice)}
-        ${tv.mantelMount ? lineItem('Mantel Mount Install', 'Hardware by customer', 125) : ''}
+        ${(tv.mantelMount && tv.mantelMount !== 'false') ? (() => {
+          const mp = {'mm340':580,'mm540':700,'mm700':890,'max1':1140,'mm815':1330};
+          const mn = {'mm340':'MM340 Standard','mm540':'MM540 Enhanced','mm700':'MM700 Premier','max1':'MAX1 Full Motion','mm815':'MM815 Motorized'};
+          return lineItem('MantelMount ' + (mn[tv.mantelMount]||tv.mantelMount), 'Mount + Install · Deposit required', mp[tv.mantelMount]||0);
+        })() : ''}
       </div>`;
   }).join('');
 
