@@ -2305,6 +2305,31 @@ function selectSlot(slot) {
 }
 
 
+function submitBookingWithConsent() {
+  // Validate e-signature
+  const sig = document.getElementById('esignature') ? document.getElementById('esignature').value.trim() : '';
+  if (!sig) {
+    alert('Please type your full name as your electronic signature to agree to the Service Agreement.');
+    return;
+  }
+  // Validate required consent
+  const termsChecked = document.getElementById('consent-terms') ? document.getElementById('consent-terms').checked : false;
+  if (!termsChecked) {
+    alert('Please agree to the Service Agreement and Terms of Service to continue.');
+    return;
+  }
+  // Store consent data
+  window._consentData = {
+    signature: sig,
+    sms: document.getElementById('consent-sms') ? document.getElementById('consent-sms').checked : false,
+    phone: document.getElementById('consent-phone') ? document.getElementById('consent-phone').checked : false,
+    email: document.getElementById('consent-email') ? document.getElementById('consent-email').checked : false,
+    terms: true,
+    timestamp: new Date().toISOString()
+  };
+  submitBooking();
+}
+
 async function submitBooking() {
   // Validate required fields
   const fname = document.getElementById('fname').value.trim();
@@ -2551,9 +2576,57 @@ function initBookingStep4() {
       </div>
     </div>
 
+    <!-- SERVICE AGREEMENT -->
+    <div style="margin-bottom:20px;">
+      <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#2d7fe8;font-weight:700;margin-bottom:12px;">Service Agreement</div>
+      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;max-height:180px;overflow-y:auto;font-size:0.78rem;color:#444;line-height:1.7;">
+        <strong style="color:#0f1218;">VistaMount LLC — Service Agreement</strong><br><br>
+        This agreement is between VistaMount LLC ("Contractor") and the customer identified below ("Customer") for TV mounting and/or smart home installation services ("Services") at the address provided during booking.<br><br>
+        <strong>1. Scope of Work.</strong> Services are limited to those selected during booking. Any additional work requested on-site will be quoted separately before proceeding.<br><br>
+        <strong>2. Payment.</strong> Full payment is due upon completion of Services. VistaMount LLC accepts cash, card, and digital payment. Quoted prices are estimates; final price is confirmed on-site.<br><br>
+        <strong>3. Customer Responsibilities.</strong> Customer warrants they have authority to authorize installation at the service address. Customer is responsible for ensuring wall surfaces, studs, and electrical conditions are safe and suitable. VistaMount LLC is not liable for pre-existing wall damage, hidden obstructions, or structural deficiencies.<br><br>
+        <strong>4. Limitation of Liability.</strong> VistaMount LLC's total liability shall not exceed the amount paid for Services. VistaMount LLC is not liable for incidental, consequential, or indirect damages. Customer assumes all risk for TV damage, existing drywall, or equipment not installed by VistaMount LLC.<br><br>
+        <strong>5. Warranty.</strong> VistaMount LLC warrants labor for 30 days from service date. Warranty does not cover damage caused by customer, third parties, or acts of nature.<br><br>
+        <strong>6. Cancellation.</strong> Customer may cancel or reschedule with at least 2 hours notice. Same-day no-shows may be subject to a $50 cancellation fee.<br><br>
+        <strong>7. Photography.</strong> VistaMount LLC may photograph completed installations for portfolio and marketing use unless Customer opts out in writing prior to service.<br><br>
+        <strong>8. Governing Law.</strong> This agreement is governed by the laws of the State of Arizona. Disputes shall be resolved in Maricopa County, AZ.<br><br>
+        By signing below, Customer acknowledges they have read, understood, and agree to these terms.
+      </div>
+    </div>
+
+    <!-- E-SIGNATURE -->
+    <div style="margin-bottom:20px;">
+      <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">Electronic Signature *</label>
+      <input type="text" id="esignature" placeholder="Type your full name to sign" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;font-style:italic;">
+      <div style="font-size:0.72rem;color:#888;margin-top:4px;">By typing your name you are electronically signing this service agreement.</div>
+    </div>
+
+    <!-- CONSENT CHECKBOXES -->
+    <div style="margin-bottom:20px;">
+      <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#2d7fe8;font-weight:700;margin-bottom:12px;">Communication Consent</div>
+      <div style="display:flex;flex-direction:column;gap:10px;">
+        <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.82rem;color:#333;line-height:1.5;">
+          <input type="checkbox" id="consent-sms" style="margin-top:2px;width:16px;height:16px;flex-shrink:0;accent-color:#2d7fe8;">
+          <span>I consent to receive SMS/text messages from VistaMount LLC regarding my appointment, confirmations, and follow-ups. Message & data rates may apply. Reply STOP to opt out.</span>
+        </label>
+        <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.82rem;color:#333;line-height:1.5;">
+          <input type="checkbox" id="consent-phone" style="margin-top:2px;width:16px;height:16px;flex-shrink:0;accent-color:#2d7fe8;">
+          <span>I consent to receive phone calls from VistaMount LLC regarding my appointment and services.</span>
+        </label>
+        <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.82rem;color:#333;line-height:1.5;">
+          <input type="checkbox" id="consent-email" style="margin-top:2px;width:16px;height:16px;flex-shrink:0;accent-color:#2d7fe8;">
+          <span>I consent to receive emails from VistaMount LLC including booking confirmations, receipts, and occasional service updates.</span>
+        </label>
+        <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.82rem;color:#333;line-height:1.5;">
+          <input type="checkbox" id="consent-terms" required style="margin-top:2px;width:16px;height:16px;flex-shrink:0;accent-color:#2d7fe8;">
+          <span><strong>I agree to the Service Agreement above and VistaMount LLC's <a href="#privacy-policy" style="color:#2d7fe8;">Privacy Policy</a> and <a href="#terms" style="color:#2d7fe8;">Terms of Service</a>.</strong> (Required)</span>
+        </label>
+      </div>
+    </div>
+
     <div class="modal-nav">
       <button class="btn-back" onclick="goBookingStep(3)">&larr; Back</button>
-      <button class="btn-next" id="modal-submit-btn" onclick="submitBooking()">Complete Booking &rarr;</button>
+      <button class="btn-next" id="modal-submit-btn" onclick="submitBookingWithConsent()">Complete Booking &rarr;</button>
     </div>
   `;
 
@@ -4541,6 +4614,55 @@ function calculateJobDuration() {
     </div>
   </div>
 </footer>
+
+<!-- PRIVACY POLICY & TERMS -->
+<section id="privacy-policy" style="background:#09090f;border-top:1px solid rgba(255,255,255,0.06);padding:80px 52px;">
+  <div style="max-width:800px;margin:0 auto;color:#888;font-size:0.85rem;line-height:1.9;">
+    <div style="font-size:0.62rem;letter-spacing:.35em;text-transform:uppercase;color:#4facff;margin-bottom:12px;">Legal</div>
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#fff;margin-bottom:40px;">Privacy Policy &amp; Terms</h2>
+
+    <h3 style="color:#fff;font-size:1rem;margin-bottom:8px;margin-top:32px;">Privacy Policy</h3>
+    <p><strong style="color:#ccc;">Last updated: January 2026</strong></p>
+    <p>VistaMount LLC ("we," "us," or "our") operates vistamountaz.com. This Privacy Policy explains how we collect, use, and protect your personal information.</p>
+
+    <p><strong style="color:#ccc;">Information We Collect</strong><br>
+    We collect information you provide directly: name, phone number, email address, and service address when you book an appointment or contact us.</p>
+
+    <p><strong style="color:#ccc;">How We Use Your Information</strong><br>
+    We use your information to: schedule and confirm appointments; send appointment reminders and follow-ups via SMS, phone, or email (with your consent); process payments; and improve our services.</p>
+
+    <p><strong style="color:#ccc;">SMS / Text Message Consent</strong><br>
+    By opting in during booking, you consent to receive transactional SMS messages from VistaMount LLC regarding your appointment. Message frequency varies. Message and data rates may apply. Reply STOP at any time to opt out. Reply HELP for assistance. We do not sell or share your phone number with third parties for marketing purposes.</p>
+
+    <p><strong style="color:#ccc;">Data Sharing</strong><br>
+    We do not sell your personal information. We may share data with service providers who assist in operating our business (e.g., booking software, payment processors) under confidentiality agreements.</p>
+
+    <p><strong style="color:#ccc;">Data Retention</strong><br>
+    We retain your information for as long as necessary to provide services and comply with legal obligations. You may request deletion by contacting us.</p>
+
+    <p><strong style="color:#ccc;">Contact</strong><br>
+    VistaMount LLC &bull; Phoenix, AZ &bull; <a href="mailto:info@vistamountaz.com" style="color:#4facff;">info@vistamountaz.com</a></p>
+
+    <h3 id="terms" style="color:#fff;font-size:1rem;margin-bottom:8px;margin-top:48px;">Terms of Service</h3>
+
+    <p><strong style="color:#ccc;">Services</strong><br>
+    VistaMount LLC provides TV mounting and smart home installation services in the Phoenix, AZ metro area. All services are subject to a Service Agreement agreed to at the time of booking.</p>
+
+    <p><strong style="color:#ccc;">Appointments</strong><br>
+    Booking an appointment does not guarantee availability until confirmed by VistaMount LLC. We will contact you to confirm your appointment. Cancellations must be made at least 2 hours before the scheduled appointment. Same-day no-shows may be subject to a $50 cancellation fee.</p>
+
+    <p><strong style="color:#ccc;">Pricing</strong><br>
+    Prices displayed during booking are estimates. Final pricing is confirmed on-site before work begins. Customer must authorize final price before services are rendered.</p>
+
+    <p><strong style="color:#ccc;">Limitation of Liability</strong><br>
+    VistaMount LLC's liability is limited to the amount paid for services rendered. We are not responsible for pre-existing conditions, hidden obstructions, or damages caused by circumstances outside our control.</p>
+
+    <p><strong style="color:#ccc;">Changes to Terms</strong><br>
+    We reserve the right to update these terms at any time. Continued use of our services constitutes acceptance of updated terms.</p>
+
+    <p style="margin-top:32px;font-size:0.75rem;color:#555;">&copy; 2026 VistaMount LLC. All rights reserved. Phoenix, Arizona.</p>
+  </div>
+</section>
 
 <!-- Booking Modal -->
 <div id="booking-modal" class="modal-overlay">
