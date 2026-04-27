@@ -2317,11 +2317,13 @@ function checkAgreementScroll(el) {
       label.style.color = '#333';
       label.innerHTML = '<strong>I agree to the Service Agreement above and VistaMount LLC\'s <a href="#privacy-policy" style="color:#2d7fe8;">Privacy Policy</a> and <a href="#terms" style="color:#2d7fe8;">Terms of Service</a>.</strong> (Required)';
     }
-    // Hide scroll fade and hint banner
+    // Hide scroll fade and hint banner, reveal signature section
     const fade = document.getElementById('scroll-fade');
     if (fade) fade.style.display = 'none';
     const banner = document.getElementById('scroll-hint-banner');
     if (banner) banner.style.display = 'none';
+    const signSection = document.getElementById('sign-consent-section');
+    if (signSection) signSection.style.display = 'block';
     // Flash green border to draw attention
     const scrollBox = document.getElementById('agreement-scroll');
     if (scrollBox) {
@@ -2639,35 +2641,36 @@ function initBookingStep4() {
           <strong>7. Photography.</strong> VistaMount LLC may photograph completed installations for portfolio and marketing use unless Customer opts out in writing prior to service.<br><br>
           <strong>8. Governing Law.</strong> This agreement is governed by the laws of the State of Arizona. Disputes shall be resolved in Maricopa County, AZ.<br><br>
 
-          <div style="border-top:1px solid #e2e8f0;padding-top:16px;margin-top:8px;">
-            <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#2d7fe8;font-weight:700;margin-bottom:12px;">Electronic Signature</div>
-            <input type="text" id="esignature" placeholder="Type your full name to sign" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;font-style:italic;box-sizing:border-box;">
-            <div style="font-size:0.72rem;color:#888;margin-top:4px;margin-bottom:16px;">By typing your name you are electronically signing this service agreement.</div>
-
-            <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#2d7fe8;font-weight:700;margin-bottom:10px;">Communication Consent</div>
-            <div style="display:flex;flex-direction:column;gap:10px;">
-              <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.82rem;color:#333;line-height:1.5;">
-                <input type="checkbox" id="consent-sms" style="margin-top:2px;width:16px;height:16px;flex-shrink:0;accent-color:#2d7fe8;">
-                <span>I consent to receive SMS/text messages from VistaMount LLC regarding my appointment, confirmations, and follow-ups. Message &amp; data rates may apply. Reply STOP to opt out.</span>
-              </label>
-              <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.82rem;color:#333;line-height:1.5;">
-                <input type="checkbox" id="consent-phone" style="margin-top:2px;width:16px;height:16px;flex-shrink:0;accent-color:#2d7fe8;">
-                <span>I consent to receive phone calls from VistaMount LLC regarding my appointment and services.</span>
-              </label>
-              <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.82rem;color:#333;line-height:1.5;">
-                <input type="checkbox" id="consent-email" style="margin-top:2px;width:16px;height:16px;flex-shrink:0;accent-color:#2d7fe8;">
-                <span>I consent to receive emails from VistaMount LLC including booking confirmations, receipts, and occasional service updates.</span>
-              </label>
-              <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.82rem;color:#333;line-height:1.5;">
-                <input type="checkbox" id="consent-terms" required disabled style="margin-top:2px;width:16px;height:16px;flex-shrink:0;accent-color:#2d7fe8;opacity:0.4;cursor:not-allowed;">
-                <span id="consent-terms-label" style="color:#aaa;"><strong>I agree to the Service Agreement above and VistaMount LLC's Privacy Policy and Terms of Service.</strong> — <em>Scroll to unlock</em></span>
-              </label>
-            </div>
-          </div>
-
         </div>
         <div id="scroll-fade" style="position:absolute;bottom:0;left:0;right:0;height:52px;background:linear-gradient(to bottom,transparent,#f8fafc);border-radius:0 0 8px 8px;pointer-events:none;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;">
           <span style="font-size:0.7rem;color:#2d7fe8;font-weight:700;letter-spacing:.06em;text-transform:uppercase;">↓ Keep scrolling to accept</span>
+        </div>
+      </div>
+
+      <!-- SIGNATURE + CONSENT - shown after scrolling -->
+      <div id="sign-consent-section" style="display:none;margin-top:16px;padding-top:16px;border-top:2px solid #2d7fe8;">
+        <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#2d7fe8;font-weight:700;margin-bottom:8px;">Electronic Signature</div>
+        <input type="text" id="esignature" placeholder="Type your full name to sign" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;font-style:italic;box-sizing:border-box;">
+        <div style="font-size:0.72rem;color:#888;margin-top:4px;margin-bottom:16px;">By typing your name you are electronically signing this service agreement.</div>
+
+        <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#2d7fe8;font-weight:700;margin-bottom:10px;">Communication Consent</div>
+        <div style="display:flex;flex-direction:column;gap:10px;">
+          <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.82rem;color:#333;line-height:1.5;">
+            <input type="checkbox" id="consent-sms" style="margin-top:2px;width:16px;height:16px;flex-shrink:0;accent-color:#2d7fe8;">
+            <span>I consent to receive SMS/text messages from VistaMount LLC regarding my appointment, confirmations, and follow-ups. Message &amp; data rates may apply. Reply STOP to opt out.</span>
+          </label>
+          <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.82rem;color:#333;line-height:1.5;">
+            <input type="checkbox" id="consent-phone" style="margin-top:2px;width:16px;height:16px;flex-shrink:0;accent-color:#2d7fe8;">
+            <span>I consent to receive phone calls from VistaMount LLC regarding my appointment and services.</span>
+          </label>
+          <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.82rem;color:#333;line-height:1.5;">
+            <input type="checkbox" id="consent-email" style="margin-top:2px;width:16px;height:16px;flex-shrink:0;accent-color:#2d7fe8;">
+            <span>I consent to receive emails from VistaMount LLC including booking confirmations, receipts, and occasional service updates.</span>
+          </label>
+          <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.82rem;color:#333;line-height:1.5;">
+            <input type="checkbox" id="consent-terms" required disabled style="margin-top:2px;width:16px;height:16px;flex-shrink:0;accent-color:#2d7fe8;opacity:0.4;cursor:not-allowed;">
+            <span id="consent-terms-label" style="color:#aaa;"><strong>I agree to the Service Agreement above and VistaMount LLC's Privacy Policy and Terms of Service.</strong> — <em>Scroll to unlock</em></span>
+          </label>
         </div>
       </div>
     </div>
