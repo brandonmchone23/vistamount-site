@@ -2305,6 +2305,27 @@ function selectSlot(slot) {
 }
 
 
+function checkAgreementScroll(el) {
+  const atBottom = el.scrollHeight - el.scrollTop <= el.clientHeight + 10;
+  const checkbox = document.getElementById('consent-terms');
+  const label = document.getElementById('consent-terms-label');
+  if (atBottom && checkbox) {
+    checkbox.disabled = false;
+    checkbox.style.opacity = '1';
+    checkbox.style.cursor = 'pointer';
+    if (label) {
+      label.style.color = '#333';
+      label.innerHTML = '<strong>I agree to the Service Agreement above and VistaMount LLC's <a href="#privacy-policy" style="color:#2d7fe8;">Privacy Policy</a> and <a href="#terms" style="color:#2d7fe8;">Terms of Service</a>.</strong> (Required)';
+    }
+    // Flash green border to draw attention
+    const scrollBox = document.getElementById('agreement-scroll');
+    if (scrollBox) {
+      scrollBox.style.borderColor = '#16a34a';
+      scrollBox.style.boxShadow = '0 0 0 2px rgba(22,163,74,0.2)';
+    }
+  }
+}
+
 function submitBookingWithConsent() {
   // Validate e-signature
   const sig = document.getElementById('esignature') ? document.getElementById('esignature').value.trim() : '';
@@ -2588,7 +2609,7 @@ function initBookingStep4() {
     <!-- SERVICE AGREEMENT -->
     <div style="margin-bottom:20px;">
       <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#2d7fe8;font-weight:700;margin-bottom:12px;">Service Agreement</div>
-      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;max-height:180px;overflow-y:auto;font-size:0.78rem;color:#444;line-height:1.7;">
+      <div id="agreement-scroll" onscroll="checkAgreementScroll(this)" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:16px;max-height:180px;overflow-y:auto;font-size:0.78rem;color:#444;line-height:1.7;">
         <strong style="color:#0f1218;">VistaMount LLC — Service Agreement</strong><br><br>
         This agreement is between VistaMount LLC ("Contractor") and the customer identified below ("Customer") for TV mounting and/or smart home installation services ("Services") at the address provided during booking.<br><br>
         <strong>1. Scope of Work.</strong> Services are limited to those selected during booking. Any additional work requested on-site will be quoted separately before proceeding.<br><br>
@@ -2627,8 +2648,8 @@ function initBookingStep4() {
           <span>I consent to receive emails from VistaMount LLC including booking confirmations, receipts, and occasional service updates.</span>
         </label>
         <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.82rem;color:#333;line-height:1.5;">
-          <input type="checkbox" id="consent-terms" required style="margin-top:2px;width:16px;height:16px;flex-shrink:0;accent-color:#2d7fe8;">
-          <span><strong>I agree to the Service Agreement above and VistaMount LLC's <a href="#privacy-policy" style="color:#2d7fe8;">Privacy Policy</a> and <a href="#terms" style="color:#2d7fe8;">Terms of Service</a>.</strong> (Required)</span>
+          <input type="checkbox" id="consent-terms" required disabled style="margin-top:2px;width:16px;height:16px;flex-shrink:0;accent-color:#2d7fe8;opacity:0.4;cursor:not-allowed;">
+          <span id="consent-terms-label" style="color:#aaa;"><strong>I agree to the Service Agreement above and VistaMount LLC's <a href="#privacy-policy" style="color:#2d7fe8;">Privacy Policy</a> and <a href="#terms" style="color:#2d7fe8;">Terms of Service</a>.</strong> — <em>Please read the full agreement above first</em></span>
         </label>
       </div>
     </div>
