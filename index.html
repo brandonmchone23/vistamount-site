@@ -2553,12 +2553,14 @@ function submitBookingWithConsent() {
   
   const sigLower = sig.toLowerCase();
   
-  // Flexible match: signature must contain both first and last name
-  const hasFname = sigLower.includes(fname);
-  const hasLname = sigLower.includes(lname);
+  // Signature must contain both full first name and full last name as words
+  // Split signature into words and check if both names appear as complete words
+  const sigWords = sigLower.split(/\s+/);
+  const hasFname = sigWords.some(word => word === fname);
+  const hasLname = sigWords.some(word => word === lname);
   
   if (!hasFname || !hasLname) {
-    alert('Your signature must include both your first and last name.\n\nYour name: ' + fname + ' ' + lname + '\nYour signature: ' + sigLower + '\n\nPlease type your full name.');
+    alert('Your signature must include your complete first and last name.\n\nYour name: ' + fname + ' ' + lname + '\nYour signature: ' + sigLower + '\n\nPlease type your full first and last name.');
     return;
   }
   
