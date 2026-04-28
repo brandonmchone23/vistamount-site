@@ -2384,7 +2384,7 @@ function step4AdjQty(field, delta) {
   bookingState[field] = Math.max(0, (bookingState[field] ?? 0) + delta);
   initBookingStep4();
   if (window._step4Cache) {
-    ['fname','lname','phone','email','address','special-notes'].forEach(id => {
+    ['fname','lname','phone','email','address','apt-suite','special-notes'].forEach(id => {
       const el = document.getElementById(id);
       if (el && window._step4Cache[id]) el.value = window._step4Cache[id];
     });
@@ -2395,7 +2395,7 @@ function setTVPropStep4(index, prop, value) {
   bookingState.tvs[index][prop] = value;
   initBookingStep4();
   if (window._step4Cache) {
-    ['fname','lname','phone','email','address','special-notes'].forEach(id => {
+    ['fname','lname','phone','email','address','apt-suite','special-notes'].forEach(id => {
       const el = document.getElementById(id);
       if (el && window._step4Cache[id]) el.value = window._step4Cache[id];
     });
@@ -2566,7 +2566,7 @@ async function submitBooking() {
   const lname = document.getElementById('lname').value.trim();
   const phone = document.getElementById('phone').value.trim();
   const email = document.getElementById('email').value.trim();
-  const address = document.getElementById('address').value.trim();
+  const address = (document.getElementById('address').value.trim() + ' ' + (document.getElementById('apt-suite') ? document.getElementById('apt-suite').value.trim() : '')).trim();
   
   if (!fname || !lname || !phone || !email || !address) {
     alert('Please fill in all required fields');
@@ -2693,7 +2693,7 @@ function initAddressAutocomplete() {
 function updateContractPreview() {
   const fname = document.getElementById('fname') ? document.getElementById('fname').value.trim() : '';
   const lname = document.getElementById('lname') ? document.getElementById('lname').value.trim() : '';
-  const address = document.getElementById('address') ? document.getElementById('address').value.trim() : '';
+  const address = (document.getElementById('address') ? document.getElementById('address').value.trim() : '') + ' ' + (document.getElementById('apt-suite') ? document.getElementById('apt-suite').value.trim() : '');
   const agreementBox = document.querySelector('[style*="background:#eef4ff"]');
   
   if (agreementBox) {
@@ -2703,7 +2703,7 @@ function updateContractPreview() {
     
     agreementBox.innerHTML = `
       <strong>Customer:</strong> ${fname && lname ? (fname + ' ' + lname) : '[Your Name]'}<br>
-      <strong>Service Address:</strong> ${address || '[Your Address]'}<br>
+      <strong>Service Address:</strong> ${address.trim() || '[Your Address]'}<br>
       <strong>Appointment:</strong> ${serviceDate} at ${serviceTime}<br>
       <strong>Services:</strong> ${servicesList}<br>
       <strong>Quoted Price:</strong> $${calculatePrice ? calculatePrice() : '0'}
@@ -2728,7 +2728,7 @@ function initBookingStep4() {
 
   // Cache any already-typed contact info before re-render
   window._step4Cache = {};
-  ['fname','lname','phone','email','address','special-notes'].forEach(id => {
+  ['fname','lname','phone','email','address','apt-suite','special-notes'].forEach(id => {
     const el = document.getElementById(id);
     if (el) window._step4Cache[id] = el.value;
   });
@@ -2901,6 +2901,10 @@ function initBookingStep4() {
         <input type="text" id="address" placeholder="123 Main St, Phoenix AZ 85001" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;">
       </div>
       <div style="margin-bottom:12px;">
+        <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">Apt / Suite / Unit (Optional)</label>
+        <input type="text" id="apt-suite" placeholder="e.g. Apt 1523, Suite 200, Unit 5B" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;">
+      </div>
+      <div style="margin-bottom:12px;">
         <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">Gate Code / Special Instructions</label>
         <textarea id="special-notes" placeholder="e.g. Gate code #1234, ring doorbell twice, park in driveway, dog in backyard..." style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:15px;min-height:80px;resize:vertical;font-family:inherit;"></textarea>
       </div>
@@ -2979,7 +2983,7 @@ function initBookingStep4() {
 
   // Restore any cached contact info
   if (window._step4Cache) {
-    ['fname','lname','phone','email','address','special-notes'].forEach(id => {
+    ['fname','lname','phone','email','address','apt-suite','special-notes'].forEach(id => {
       const el = document.getElementById(id);
       if (el && window._step4Cache[id]) el.value = window._step4Cache[id];
     });
