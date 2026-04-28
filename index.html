@@ -4005,22 +4005,16 @@ function drawFixed(ctx, W, H, p) {
   ctx.fillStyle='rgba(60,65,80,0.8)';
   ctx.fillRect(W/2-12, ty+th*0.3, 24, th*0.4);
   // Label
-    // VistaMount watermark
-  ctx.save();ctx.globalAlpha=0.18;ctx.fillStyle='#fff';
-  ctx.font=`600 ${Math.round(W*0.045)}px 'Bebas Neue',Montserrat,sans-serif`;
-  ctx.textAlign='center';ctx.textBaseline='middle';
-  ctx.fillText('VISTAMOUNT',W/2,H*0.12);
-  ctx.restore();
-  mountLabel(ctx, W, H, 'FIXED', p);
+    mountLabel(ctx, W, H, 'FIXED', p);
 }
 
 function drawTilting(ctx, W, H, p) {
   var tw=W*0.70, th=tw*0.565;
   var tx=(W-tw)/2, ty=(H-th)/2-H*0.06;
-  // Tilt angle
-  var tilt = Math.sin(p * Math.PI * 2) * 0.12;
+  // Tilt angle - more extreme
+  var tilt = Math.sin(p * Math.PI * 2) * 0.28;
   ctx.save(); ctx.translate(tx+tw/2, ty+th*0.1);
-  ctx.transform(1,0,0,Math.cos(tilt+0.15),0,0);
+  ctx.transform(1,0,0,Math.cos(tilt+0.08),0,0);
   ctx.translate(-(tx+tw/2), -(ty+th*0.1));
   ctx.fillStyle='#1a1c22'; ctx.beginPath(); rr(ctx,tx,ty,tw,th,6); ctx.fill();
   ctx.strokeStyle='rgba(79,172,255,0.3)'; ctx.lineWidth=1.5; ctx.stroke();
@@ -4033,13 +4027,7 @@ function drawTilting(ctx, W, H, p) {
   // Tilt arm
   ctx.strokeStyle='rgba(100,110,130,0.7)'; ctx.lineWidth=3; ctx.lineCap='round';
   ctx.beginPath(); ctx.moveTo(W/2,ty+th*0.42); ctx.lineTo(W/2,ty+th*0.55); ctx.stroke();
-    // VistaMount watermark
-  ctx.save();ctx.globalAlpha=0.18;ctx.fillStyle='#fff';
-  ctx.font=`600 ${Math.round(W*0.045)}px 'Bebas Neue',Montserrat,sans-serif`;
-  ctx.textAlign='center';ctx.textBaseline='middle';
-  ctx.fillText('VISTAMOUNT',W/2,H*0.12);
-  ctx.restore();
-  mountLabel(ctx, W, H, 'TILTING', p);
+    mountLabel(ctx, W, H, 'TILTING', p);
 }
 
 function drawFullMotion(ctx, W, H, p) {
@@ -4067,13 +4055,7 @@ function drawFullMotion(ctx, W, H, p) {
   var sg=ctx.createLinearGradient(tx,ty,tx,ty+th);
   sg.addColorStop(0,'#060a12'); sg.addColorStop(1,'#030608');
   ctx.fillStyle=sg; ctx.beginPath(); rr(ctx,tx+tw*0.015,ty+tw*0.01,tw*0.97,th*0.92,3); ctx.fill();
-    // VistaMount watermark
-  ctx.save();ctx.globalAlpha=0.18;ctx.fillStyle='#fff';
-  ctx.font=`600 ${Math.round(W*0.045)}px 'Bebas Neue',Montserrat,sans-serif`;
-  ctx.textAlign='center';ctx.textBaseline='middle';
-  ctx.fillText('VISTAMOUNT',W/2,H*0.12);
-  ctx.restore();
-  mountLabel(ctx, W, H, 'FULL MOTION', p);
+    mountLabel(ctx, W, H, 'FULL MOTION', p);
 }
 
 function drawMantelShowcase(ctx, W, H, p) {
@@ -4095,9 +4077,9 @@ function drawMantelShowcase(ctx, W, H, p) {
   fg.addColorStop(1,'rgba(0,0,0,0)');
   ctx.fillStyle=fg; ctx.fillRect(fbX,fbY,fbW,fbH);
   // TV drops from above
-  var storedY=mY-th-4, droppedY=mY+mH+6;
+  var storedY=mY-th-4, droppedY=mY+mH+8;
   var ease=p<0.5?2*p*p:-1+(4-2*p)*p;
-  var tvY2=storedY+(droppedY-storedY)*ease;
+  var tvY2=storedY+(droppedY-storedY)*ease; tvY2=Math.min(tvY2,H*0.50);
   var tvX=(W-tw)/2;
   // Arm
   var plateY=H*0.08;
@@ -4117,13 +4099,7 @@ function drawMantelShowcase(ctx, W, H, p) {
     ctx.fillText('Eye level ✓', W/2, tvY2+th+16);
     ctx.restore();
   }
-    // VistaMount watermark
-  ctx.save();ctx.globalAlpha=0.18;ctx.fillStyle='#fff';
-  ctx.font=`600 ${Math.round(W*0.045)}px 'Bebas Neue',Montserrat,sans-serif`;
-  ctx.textAlign='center';ctx.textBaseline='middle';
-  ctx.fillText('VISTAMOUNT',W/2,H*0.12);
-  ctx.restore();
-  mountLabel(ctx, W, H, 'MANTELMOUNT', p);
+    mountLabel(ctx, W, H, 'MANTELMOUNT', p);
 }
 
 function drawMotorized(ctx, W, H, p) {
@@ -4179,12 +4155,6 @@ function drawMotorized(ctx, W, H, p) {
   sg3.addColorStop(0,'#070b14'); sg3.addColorStop(1,'#040709');
   ctx.fillStyle=sg3; ctx.beginPath(); rr(ctx,tvLeft+tw*0.015,tvY2+tw*0.01,tw*0.97,th*0.92,3); ctx.fill();
 
-  // VistaMount watermark
-  ctx.save();ctx.globalAlpha=0.18;ctx.fillStyle='#fff';
-  ctx.font=`600 ${Math.round(W*0.045)}px 'Bebas Neue',Montserrat,sans-serif`;
-  ctx.textAlign='center';ctx.textBaseline='middle';
-  ctx.fillText('VISTAMOUNT',W/2,H*0.12);
-  ctx.restore();
   mountLabel(ctx, W, H, 'MOTORIZED CEILING', p);
 }
 
@@ -4195,7 +4165,7 @@ function mountLabel(ctx, W, H, name, p) {
   ctx.save();
   ctx.globalAlpha = alpha * 0.9;
   // Pill background
-  var lW=220, lH=44, lX=(W-lW)/2, lY=H*0.76;
+  var lW=220, lH=44, lX=(W-lW)/2, lY=H*0.68;
   ctx.fillStyle='rgba(8,10,18,0.75)';
   ctx.beginPath(); rr(ctx,lX,lY,lW,lH,22); ctx.fill();
   ctx.strokeStyle='rgba(79,172,255,0.25)'; ctx.lineWidth=1; ctx.stroke();
@@ -4210,7 +4180,7 @@ function mountLabel(ctx, W, H, name, p) {
   ctx.letterSpacing='1px';
   ctx.fillText(showcase.sub, W/2, lY+30);
   // Dot indicators
-  var dY=lY+lH+10, dotR=3, gap=10;
+  var dY=lY-12, dotR=3, gap=10;
   var total=mountShowcase.length, startX=W/2-(total-1)*gap/2;
   for(var d=0;d<total;d++){
     ctx.fillStyle = d===mountIdx ? '#4facff' : 'rgba(79,172,255,0.25)';
@@ -4236,17 +4206,17 @@ function heroFrame(ts){
   if(!W||!H){resizeHero();requestAnimationFrame(heroFrame);return;}
   hctx.clearRect(0,0,W,H);
   var TY=H*.15,BY=H*.87;
-  hLine(TY,eOC(hpg(t,.1,.9)),t>.9?hPulse(t):1);
-  hLine(BY,eOC(hpg(t,1.5,2.1)),t>2.1?hPulse(t+.8):1);
-  if(t>.9){
-    hctx.save();hctx.globalAlpha=eO(hpg(t,.9,1.4))*.18;
-    hctx.strokeStyle=HBL;hctx.lineWidth=.5;hctx.setLineDash([2,8]);
-    hctx.beginPath();hctx.moveTo(W/2,TY);hctx.lineTo(W/2,BY);hctx.stroke();
-    hctx.setLineDash([]);hctx.restore();
-  }
-  if(t>2.1)hCorners(eO(hpg(t,2.1,2.6))*(t>2.6?hPulse(t*.5+1):1));
-
   if(t < 2.8){
+    // Intro only: scan lines and corners
+    hLine(TY,eOC(hpg(t,.1,.9)),t>.9?hPulse(t):1);
+    hLine(BY,eOC(hpg(t,1.5,2.1)),t>2.1?hPulse(t+.8):1);
+    if(t>.9){
+      hctx.save();hctx.globalAlpha=eO(hpg(t,.9,1.4))*.18;
+      hctx.strokeStyle=HBL;hctx.lineWidth=.5;hctx.setLineDash([2,8]);
+      hctx.beginPath();hctx.moveTo(W/2,TY);hctx.lineTo(W/2,BY);hctx.stroke();
+      hctx.setLineDash([]);hctx.restore();
+    }
+    if(t>2.1)hCorners(eO(hpg(t,2.1,2.6))*(t>2.6?hPulse(t*.5+1):1));
     // Intro: branded boot screen
     var a=eO(hpg(t,0.3,1.2));
     if(a>0){
