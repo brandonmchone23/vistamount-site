@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Custom Quote Request - VistaMount</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    
+    body {
+      font-family: 'Montserrat', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+    }
+    
+    .container {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+      max-width: 600px;
+      width: 100%;
+      padding: 40px;
+    }
+    
+    .header {
+      margin-bottom: 32px;
+      text-align: center;
+    }
+    
+    .logo {
+      font-size: 1.4rem;
+      font-weight: 700;
+      color: #1a1a2e;
+      margin-bottom: 12px;
+      letter-spacing: 0.05em;
+    }
+    
+    h1 {
+      font-size: 1.8rem;
+      color: #1a1a2e;
+      margin-bottom: 8px;
+      font-weight: 600;
+    }
+    
+    .subtitle {
+      font-size: 0.95rem;
+      color: #666;
+      line-height: 1.6;
+    }
+    
+    .form-group {
+      margin-bottom: 24px;
+    }
+    
+    label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      color: #333;
+      margin-bottom: 8px;
+      text-transform: uppercase;
+      letter-spacing: 0.02em;
+    }
+    
+    input[type="text"],
+    input[type="email"],
+    input[type="tel"],
+    textarea,
+    select {
+      width: 100%;
+      padding: 12px 14px;
+      border: 1px solid #d0d7e0;
+      border-radius: 6px;
+      font-family: 'Montserrat', sans-serif;
+      font-size: 0.95rem;
+      color: #333;
+      transition: all 0.3s ease;
+    }
+    
+    input[type="text"]:focus,
+    input[type="email"]:focus,
+    input[type="tel"]:focus,
+    textarea:focus,
+    select:focus {
+      outline: none;
+      border-color: #2563eb;
+      box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+    }
+    
+    textarea {
+      resize: vertical;
+      min-height: 120px;
+      font-size: 0.9rem;
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 16px;
+    }
+    
+    @media (max-width: 600px) {
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+    }
+    
+    .checkbox-group {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+    
+    .checkbox-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+    
+    input[type="checkbox"] {
+      width: 18px;
+      height: 18px;
+      cursor: pointer;
+      accent-color: #2563eb;
+    }
+    
+    .checkbox-item label {
+      margin: 0;
+      font-weight: 400;
+      text-transform: none;
+      letter-spacing: 0;
+      font-size: 0.9rem;
+      cursor: pointer;
+    }
+    
+    .button-group {
+      display: flex;
+      gap: 12px;
+      margin-top: 32px;
+    }
+    
+    button {
+      flex: 1;
+      padding: 14px 24px;
+      border: none;
+      border-radius: 6px;
+      font-size: 0.95rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      letter-spacing: 0.05em;
+      text-transform: uppercase;
+    }
+    
+    .btn-submit {
+      background: #2563eb;
+      color: #fff;
+    }
+    
+    .btn-submit:hover {
+      background: #1d4ed8;
+      box-shadow: 0 10px 25px rgba(37, 99, 235, 0.2);
+    }
+    
+    .btn-cancel {
+      background: #f0f4f8;
+      color: #333;
+    }
+    
+    .btn-cancel:hover {
+      background: #e5ecf1;
+    }
+    
+    .success-message {
+      display: none;
+      background: #d1fae5;
+      border: 1px solid #6ee7b7;
+      color: #065f46;
+      padding: 16px;
+      border-radius: 6px;
+      margin-bottom: 24px;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+    
+    .error-message {
+      display: none;
+      background: #fee2e2;
+      border: 1px solid #fca5a5;
+      color: #991b1b;
+      padding: 16px;
+      border-radius: 6px;
+      margin-bottom: 24px;
+      text-align: center;
+      font-size: 0.95rem;
+    }
+    
+    .loading {
+      display: none;
+      text-align: center;
+      padding: 20px;
+    }
+    
+    .spinner {
+      display: inline-block;
+      width: 24px;
+      height: 24px;
+      border: 3px solid #f3f4f6;
+      border-top-color: #2563eb;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+    }
+    
+    @keyframes spin {
+      to { transform: rotate(360deg); }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">
+      <div class="logo">VISTAMOUNT</div>
+      <h1>Custom Quote Request</h1>
+      <p class="subtitle">Tell us about your unique installation needs. We'll review your request and get back to you with a personalized quote.</p>
+    </div>
+    
+    <div id="success-message" class="success-message">
+      ✓ Your quote request has been submitted! We'll contact you shortly.
+    </div>
+    
+    <div id="error-message" class="error-message">
+      Something went wrong. Please try again or email us directly.
+    </div>
+    
+    <div id="loading" class="loading">
+      <div class="spinner"></div>
+      <p style="margin-top: 12px; color: #666;">Submitting your request...</p>
+    </div>
+    
+    <form id="quote-form">
+      <!-- Contact Info -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="fname">First Name *</label>
+          <input type="text" id="fname" name="fname" required>
+        </div>
+        <div class="form-group">
+          <label for="lname">Last Name *</label>
+          <input type="text" id="lname" name="lname" required>
+        </div>
+      </div>
+      
+      <div class="form-row">
+        <div class="form-group">
+          <label for="email">Email *</label>
+          <input type="email" id="email" name="email" required>
+        </div>
+        <div class="form-group">
+          <label for="phone">Phone *</label>
+          <input type="tel" id="phone" name="phone" required>
+        </div>
+      </div>
+      
+      <!-- Project Details -->
+      <div class="form-group">
+        <label for="address">Service Address *</label>
+        <input type="text" id="address" name="address" placeholder="123 Main St, Phoenix, AZ 85001" required>
+      </div>
+      
+      <div class="form-group">
+        <label for="project-type">Project Type *</label>
+        <select id="project-type" name="projectType" required>
+          <option value="">Select a project type...</option>
+          <option value="outdoor-tv">Outdoor TV Installation</option>
+          <option value="commercial">Commercial Installation</option>
+          <option value="smart-home">Smart Home Integration</option>
+          <option value="av-system">AV System Setup</option>
+          <option value="multi-room">Multi-Room Setup</option>
+          <option value="other">Other (describe below)</option>
+        </select>
+      </div>
+      
+      <div class="form-group">
+        <label for="description">Project Description *</label>
+        <textarea id="description" name="description" placeholder="Tell us about your project. What are you looking to install? Any special requirements or challenges?" required></textarea>
+      </div>
+      
+      <!-- Timeline & Budget -->
+      <div class="form-row">
+        <div class="form-group">
+          <label for="timeline">Desired Timeline</label>
+          <select id="timeline" name="timeline">
+            <option value="">Select timeline...</option>
+            <option value="asap">ASAP</option>
+            <option value="1-2-weeks">1-2 weeks</option>
+            <option value="1-month">Within 1 month</option>
+            <option value="flexible">Flexible</option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="budget">Estimated Budget</label>
+          <select id="budget" name="budget">
+            <option value="">Select budget...</option>
+            <option value="under-500">Under $500</option>
+            <option value="500-1000">$500 - $1,000</option>
+            <option value="1000-2500">$1,000 - $2,500</option>
+            <option value="2500-5000">$2,500 - $5,000</option>
+            <option value="5000-plus">$5,000+</option>
+          </select>
+        </div>
+      </div>
+      
+      <!-- Preferences -->
+      <div class="form-group">
+        <label>Preferred Contact Method</label>
+        <div class="checkbox-group">
+          <div class="checkbox-item">
+            <input type="checkbox" id="contact-phone" name="contactPhone" checked>
+            <label for="contact-phone">Phone Call</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="contact-email" name="contactEmail" checked>
+            <label for="contact-email">Email</label>
+          </div>
+          <div class="checkbox-item">
+            <input type="checkbox" id="contact-sms" name="contactSMS">
+            <label for="contact-sms">Text Message</label>
+          </div>
+        </div>
+      </div>
+      
+      <!-- Buttons -->
+      <div class="button-group">
+        <button type="button" class="btn-cancel" onclick="window.history.back()">Cancel</button>
+        <button type="submit" class="btn-submit">Submit Quote Request</button>
+      </div>
+    </form>
+  </div>
+  
+  <script>
+    const form = document.getElementById('quote-form');
+    const successMsg = document.getElementById('success-message');
+    const errorMsg = document.getElementById('error-message');
+    const loadingDiv = document.getElementById('loading');
+    
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      
+      // Hide messages
+      successMsg.style.display = 'none';
+      errorMsg.style.display = 'none';
+      loadingDiv.style.display = 'block';
+      form.style.display = 'none';
+      
+      const formData = {
+        fname: document.getElementById('fname').value,
+        lname: document.getElementById('lname').value,
+        email: document.getElementById('email').value,
+        phone: document.getElementById('phone').value,
+        address: document.getElementById('address').value,
+        projectType: document.getElementById('project-type').value,
+        description: document.getElementById('description').value,
+        timeline: document.getElementById('timeline').value,
+        budget: document.getElementById('budget').value,
+        contactPreferences: {
+          phone: document.getElementById('contact-phone').checked,
+          email: document.getElementById('contact-email').checked,
+          sms: document.getElementById('contact-sms').checked
+        },
+        timestamp: new Date().toISOString()
+      };
+      
+      try {
+        // Send to Supabase or email service
+        const response = await fetch('/api/quote', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(formData)
+        });
+        
+        if (response.ok) {
+          loadingDiv.style.display = 'none';
+          successMsg.style.display = 'block';
+          form.reset();
+          setTimeout(() => {
+            form.style.display = 'block';
+          }, 3000);
+        } else {
+          throw new Error('Submission failed');
+        }
+      } catch (error) {
+        console.error('Error:', error);
+        loadingDiv.style.display = 'none';
+        errorMsg.style.display = 'block';
+        form.style.display = 'block';
+      }
+    });
+  </script>
+</body>
+</html>
