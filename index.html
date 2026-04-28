@@ -4527,85 +4527,88 @@ function calculateJobDuration() {
       ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
     }
 
-    // ── MantelMount: large 65"+ TV drops straight down on parallel arms ──
+    // ── MantelMount: single center arm from wall plate high above fireplace ──
     tvY += (tvTargetY - tvY) * 0.04;
     const ease = tvY < 0.5 ? 2*tvY*tvY : -1+(4-2*tvY)*tvY;
 
-    // Large TV — 65"+ spans most of fireplace width
+    // TV: large 65"+ size
     const tvW2 = fpW * 1.0;
     const tvH2 = tvW2 * 0.565;
     const tvLeft = (w - tvW2) / 2;
+    const tvCenterX = w / 2;
 
-    // Stored: TV sits just above mantel flush to wall
-    // Extended: TV drops straight down to just below mantel
-    const storedTop  = mY - tvH2 - 2;
-    const dropDist   = tvH2 + mH + 10;
-    const tvTop      = storedTop + dropDist * ease;
+    // Wall plate: high on wall, roughly 1/3 down from top of canvas
+    const wallPlateY = h * 0.08;
+    const wallPlateX = tvCenterX;
 
-    // Wall plate (behind TV, on the wall above mantel)
-    const plateX1 = tvLeft + tvW2*0.3;
-    const plateX2 = tvLeft + tvW2*0.7;
-    const plateY  = mY - 4;
+    // TV stored position: flush to wall just above the mantel
+    const tvStoredTop = mY - tvH2 - 4;
+    // TV dropped position: hanging below mantel at eye level
+    const tvDroppedTop = mY + mH + 6;
+    const tvTop = tvStoredTop + (tvDroppedTop - tvStoredTop) * ease;
 
-    // ── Parallel drop arms (left and right) ──
-    // Each arm goes from wall plate straight down to back of TV
-    const armTopY  = plateY;
-    const armBotY  = tvTop + tvH2 * 0.15; // attaches near top-back of TV
+    // Single center arm: goes from wall plate straight down to back-center of TV
+    const armTopY = wallPlateY;
+    const armBotY = tvTop + tvH2 * 0.12; // connects near top-center of TV back
 
+    // ── Draw arm BEFORE TV so TV sits in front ──
     ctx.save();
     ctx.lineCap = 'round';
-    ctx.lineWidth = 3;
 
-    // Left arm
-    ctx.strokeStyle = '#606570';
+    // Arm body
+    const armGrad = ctx.createLinearGradient(wallPlateX, armTopY, wallPlateX, armBotY);
+    armGrad.addColorStop(0, '#888e9e');
+    armGrad.addColorStop(1, '#555a66');
+    ctx.strokeStyle = armGrad;
+    ctx.lineWidth = 5;
     ctx.beginPath();
-    ctx.moveTo(plateX1, armTopY);
-    ctx.lineTo(plateX1, armBotY);
+    ctx.moveTo(wallPlateX, armTopY);
+    ctx.lineTo(wallPlateX, armBotY);
     ctx.stroke();
 
-    // Right arm
+    // Arm highlight (left edge gleam)
+    ctx.strokeStyle = 'rgba(220,225,235,0.25)';
+    ctx.lineWidth = 1.5;
     ctx.beginPath();
-    ctx.moveTo(plateX2, armTopY);
-    ctx.lineTo(plateX2, armBotY);
+    ctx.moveTo(wallPlateX - 1.5, armTopY);
+    ctx.lineTo(wallPlateX - 1.5, armBotY);
     ctx.stroke();
 
-    // Horizontal cross bar at wall (behind TV when stored)
-    ctx.lineWidth = 4;
-    ctx.strokeStyle = '#505560';
-    ctx.beginPath();
-    ctx.moveTo(plateX1 - 6, plateY);
-    ctx.lineTo(plateX2 + 6, plateY);
-    ctx.stroke();
+    // Wall plate (rectangular bracket bolted to wall)
+    ctx.fillStyle = '#606672';
+    roundRect(ctx, wallPlateX - 14, wallPlateY - 8, 28, 16, 3);
+    ctx.fill();
+    ctx.strokeStyle = 'rgba(200,205,215,0.3)'; ctx.lineWidth = 1; ctx.stroke();
 
-    // Pivot joints at wall
-    ctx.fillStyle = '#7a808e';
-    ctx.beginPath(); ctx.arc(plateX1, plateY, 4, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(plateX2, plateY, 4, 0, Math.PI*2); ctx.fill();
+    // Bolt holes on wall plate
+    ctx.fillStyle = 'rgba(30,32,38,0.7)';
+    ctx.beginPath(); ctx.arc(wallPlateX - 7, wallPlateY, 2, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(wallPlateX + 7, wallPlateY, 2, 0, Math.PI*2); ctx.fill();
 
-    // Pivot joints at TV
-    ctx.fillStyle = '#606570';
-    ctx.beginPath(); ctx.arc(plateX1, armBotY, 3, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(plateX2, armBotY, 3, 0, Math.PI*2); ctx.fill();
+    // TV bracket clip (where arm meets TV back)
+    ctx.fillStyle = '#505560';
+    ctx.fillRect(wallPlateX - 10, armBotY - 4, 20, 8);
+    ctx.strokeStyle = 'rgba(160,165,175,0.3)'; ctx.lineWidth = 1; ctx.stroke();
 
     ctx.restore();
 
-    // ── TV shadow on mantel when lowered ──
+    // ── TV shadow ──
     if(ease > 0.1){
-      ctx.save(); ctx.globalAlpha = ease * 0.18;
-      const tsh = ctx.createLinearGradient(tvLeft, tvTop+tvH2, tvLeft, tvTop+tvH2+20);
+      ctx.save(); ctx.globalAlpha = ease * 0.2;
+      const tsh = ctx.createLinearGradient(tvLeft, tvTop+tvH2, tvLeft, tvTop+tvH2+22);
       tsh.addColorStop(0,'rgba(0,0,0,0.5)'); tsh.addColorStop(1,'rgba(0,0,0,0)');
-      ctx.fillStyle = tsh; ctx.fillRect(tvLeft, tvTop+tvH2, tvW2, 20);
+      ctx.fillStyle = tsh; ctx.fillRect(tvLeft, tvTop+tvH2, tvW2, 22);
       ctx.restore();
     }
 
     // ── TV bezel ──
     ctx.save();
     const bezelGrad = ctx.createLinearGradient(tvLeft, tvTop, tvLeft, tvTop+tvH2);
-    bezelGrad.addColorStop(0,'#262629');
-    bezelGrad.addColorStop(1,'#141416');
+    bezelGrad.addColorStop(0,'#252528');
+    bezelGrad.addColorStop(1,'#131315');
     ctx.fillStyle = bezelGrad;
     ctx.beginPath(); roundRect(ctx, tvLeft, tvTop, tvW2, tvH2, 5); ctx.fill();
-    ctx.strokeStyle = 'rgba(155,158,168,0.4)'; ctx.lineWidth = 1.5; ctx.stroke();
+    ctx.strokeStyle = 'rgba(150,153,163,0.4)'; ctx.lineWidth = 1.5; ctx.stroke();
 
     // ── TV screen ──
     const scrPad = tvW2 * 0.018;
@@ -4614,15 +4617,15 @@ function calculateJobDuration() {
     ctx.beginPath(); roundRect(ctx, scrX, scrY, scrW, scrH, 3); ctx.clip();
 
     if(ease > 0.4){
-      // Screen on — dark with fire glow
       const scrBg = ctx.createLinearGradient(scrX,scrY,scrX,scrY+scrH);
       scrBg.addColorStop(0,'#070c15'); scrBg.addColorStop(1,'#040709');
       ctx.fillStyle = scrBg; ctx.fillRect(scrX,scrY,scrW,scrH);
+      // Fire glow reflected at screen bottom
       const fireRef = ctx.createRadialGradient(scrX+scrW/2,scrY+scrH,0,scrX+scrW/2,scrY+scrH,scrW*0.55);
       fireRef.addColorStop(0,`rgba(255,95,15,${0.13*flicker*ease})`);
       fireRef.addColorStop(1,'rgba(0,0,0,0)');
       ctx.fillStyle = fireRef; ctx.fillRect(scrX,scrY,scrW,scrH);
-      const logoAlpha = Math.max(0,(ease-0.65)*2.8)*0.45;
+      const logoAlpha = Math.max(0,(ease-0.65)*2.8)*0.4;
       if(logoAlpha > 0.02){
         ctx.globalAlpha = logoAlpha;
         ctx.fillStyle = '#fff';
@@ -4641,13 +4644,13 @@ function calculateJobDuration() {
     ctx.font = 'bold 8px -apple-system,sans-serif';
     ctx.textAlign = 'center';
     if(ease < 0.2){
-      ctx.globalAlpha = (1 - ease/0.2) * 0.7;
+      ctx.globalAlpha = (1-ease/0.2)*0.7;
       ctx.fillStyle = 'rgba(185,190,205,0.85)';
-      ctx.fillText('▲ Stored above fireplace', w/2, storedTop - 8);
+      ctx.fillText('▲ Stored above fireplace', tvCenterX, tvStoredTop - 8);
     } else if(ease > 0.8){
-      ctx.globalAlpha = ((ease-0.8)/0.2) * 0.85;
+      ctx.globalAlpha = ((ease-0.8)/0.2)*0.85;
       ctx.fillStyle = 'rgba(65,205,105,0.9)';
-      ctx.fillText('Eye level ✓', w/2, tvTop + tvH2 + 14);
+      ctx.fillText('Eye level ✓', tvCenterX, tvDroppedTop + tvH2 + 14);
     }
     ctx.restore();
 
