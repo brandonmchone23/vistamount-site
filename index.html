@@ -3203,7 +3203,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </svg>
 
     <!-- Content that appears INSIDE the TV screen -->
-    <canvas id="hero-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:3;border-radius:12px;"></canvas>
+    <canvas id="hero-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:3;"></canvas>
     
   </div><!-- /hero-tv-wrap -->
 
@@ -3991,7 +3991,6 @@ var mountShowcase = [
 var mountIdx = 0, mountT = 0, mountCycleSec = 3.5;
 
 function drawFixed(ctx, W, H, p) {
-  ctx.fillStyle='#060810'; ctx.fillRect(0,0,W,H);
   var tw=W*0.70, th=tw*0.565, tx=(W-tw)/2, ty=(H-th)/2-H*0.06;
   // Wall
   ctx.fillStyle='rgba(20,22,34,0.95)'; ctx.fillRect(tx-20,ty-20,tw+40,th+40);
@@ -4006,11 +4005,16 @@ function drawFixed(ctx, W, H, p) {
   ctx.fillStyle='rgba(60,65,80,0.8)';
   ctx.fillRect(W/2-12, ty+th*0.3, 24, th*0.4);
   // Label
+    // VistaMount watermark
+  ctx.save();ctx.globalAlpha=0.18;ctx.fillStyle='#fff';
+  ctx.font=`600 ${Math.round(W*0.045)}px 'Bebas Neue',Montserrat,sans-serif`;
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('VISTAMOUNT',W/2,H*0.12);
+  ctx.restore();
   mountLabel(ctx, W, H, 'FIXED', p);
 }
 
 function drawTilting(ctx, W, H, p) {
-  ctx.fillStyle='#060810'; ctx.fillRect(0,0,W,H);
   var tw=W*0.70, th=tw*0.565;
   var tx=(W-tw)/2, ty=(H-th)/2-H*0.06;
   // Tilt angle
@@ -4029,11 +4033,17 @@ function drawTilting(ctx, W, H, p) {
   // Tilt arm
   ctx.strokeStyle='rgba(100,110,130,0.7)'; ctx.lineWidth=3; ctx.lineCap='round';
   ctx.beginPath(); ctx.moveTo(W/2,ty+th*0.42); ctx.lineTo(W/2,ty+th*0.55); ctx.stroke();
+    // VistaMount watermark
+  ctx.save();ctx.globalAlpha=0.18;ctx.fillStyle='#fff';
+  ctx.font=`600 ${Math.round(W*0.045)}px 'Bebas Neue',Montserrat,sans-serif`;
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('VISTAMOUNT',W/2,H*0.12);
+  ctx.restore();
   mountLabel(ctx, W, H, 'TILTING', p);
 }
 
 function drawFullMotion(ctx, W, H, p) {
-  ctx.fillStyle='#060810'; ctx.fillRect(0,0,W,H);
+
   var tw=W*0.65, th=tw*0.565;
   // TV swings out on arm
   var swing = Math.sin(p * Math.PI * 2) * 0.3;
@@ -4057,11 +4067,17 @@ function drawFullMotion(ctx, W, H, p) {
   var sg=ctx.createLinearGradient(tx,ty,tx,ty+th);
   sg.addColorStop(0,'#060a12'); sg.addColorStop(1,'#030608');
   ctx.fillStyle=sg; ctx.beginPath(); rr(ctx,tx+tw*0.015,ty+tw*0.01,tw*0.97,th*0.92,3); ctx.fill();
+    // VistaMount watermark
+  ctx.save();ctx.globalAlpha=0.18;ctx.fillStyle='#fff';
+  ctx.font=`600 ${Math.round(W*0.045)}px 'Bebas Neue',Montserrat,sans-serif`;
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('VISTAMOUNT',W/2,H*0.12);
+  ctx.restore();
   mountLabel(ctx, W, H, 'FULL MOTION', p);
 }
 
 function drawMantelShowcase(ctx, W, H, p) {
-  ctx.fillStyle='#060810'; ctx.fillRect(0,0,W,H);
+
   var tw=W*0.72, th=tw*0.565;
   // Mantel
   var mY=H*0.62, mW=W*0.7, mH=H*0.032;
@@ -4101,11 +4117,17 @@ function drawMantelShowcase(ctx, W, H, p) {
     ctx.fillText('Eye level ✓', W/2, tvY2+th+16);
     ctx.restore();
   }
+    // VistaMount watermark
+  ctx.save();ctx.globalAlpha=0.18;ctx.fillStyle='#fff';
+  ctx.font=`600 ${Math.round(W*0.045)}px 'Bebas Neue',Montserrat,sans-serif`;
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('VISTAMOUNT',W/2,H*0.12);
+  ctx.restore();
   mountLabel(ctx, W, H, 'MANTELMOUNT', p);
 }
 
 function drawMotorized(ctx, W, H, p) {
-  ctx.fillStyle='#060810'; ctx.fillRect(0,0,W,H);
+
   var tw=W*0.65, th=tw*0.565;
   var ease2=p<0.5?2*p*p:-1+(4-2*p)*p;
 
@@ -4167,6 +4189,12 @@ function drawMotorized(ctx, W, H, p) {
     ctx.restore();
   }
   ctx.restore();
+    // VistaMount watermark
+  ctx.save();ctx.globalAlpha=0.18;ctx.fillStyle='#fff';
+  ctx.font=`600 ${Math.round(W*0.045)}px 'Bebas Neue',Montserrat,sans-serif`;
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('VISTAMOUNT',W/2,H*0.12);
+  ctx.restore();
   mountLabel(ctx, W, H, 'MOTORIZED CEILING', p);
 }
 
@@ -4216,9 +4244,7 @@ function heroFrame(ts){
   var t=(ts-ht0)/1000;
   var W=hc.width,H=hc.height;
   if(!W||!H){resizeHero();requestAnimationFrame(heroFrame);return;}
-  hctx.fillStyle=HBG;hctx.fillRect(0,0,W,H);
-  // Rounded corners clip
-  hctx.save();hctx.beginPath();hctx.roundRect(0,0,W,H,12);hctx.clip();
+  hctx.clearRect(0,0,W,H);
   var TY=H*.15,BY=H*.87;
   hLine(TY,eOC(hpg(t,.1,.9)),t>.9?hPulse(t):1);
   hLine(BY,eOC(hpg(t,1.5,2.1)),t>2.1?hPulse(t+.8):1);
@@ -4259,7 +4285,11 @@ function heroFrame(ts){
     // No CTA on screen during showcase — it's in the nav
   }
 
-  hctx.restore();
+  // Edge vignette to blend into dark background
+  var vg=hctx.createRadialGradient(W/2,H/2,W*0.28,W/2,H/2,W*0.72);
+  vg.addColorStop(0,'rgba(0,0,0,0)');
+  vg.addColorStop(1,'rgba(0,0,0,0.82)');
+  hctx.fillStyle=vg;hctx.fillRect(0,0,W,H);
   requestAnimationFrame(heroFrame);
 }
 requestAnimationFrame(heroFrame);
