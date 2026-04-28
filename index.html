@@ -153,7 +153,7 @@ nav.scrolled-light .nav-book{color:#fff!important;}
 
 /* TV composition — wall-mounted flat panel */
 #hero-tv-wrap{position:relative;z-index:2;width:min(720px,68vw);aspect-ratio:1600/1020;display:flex;align-items:center;justify-content:center}
-#hero-tv-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible}
+#hero-tv-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;z-index:2}
 
 /* TV body group — fades in as a placed unit (no bezel-drawing) */
 #tv-body-group{opacity:0;transform-origin:center;transform:scale(.97);animation:tvPlace 1.1s cubic-bezier(.22,1,.36,1) 1.1s forwards}
@@ -2967,9 +2967,9 @@ document.addEventListener('DOMContentLoaded', function() {
           <stop offset="100%" stop-color="#4facff" stop-opacity="0"/>
         </radialGradient>
         <radialGradient id="screenVignette" cx="50%" cy="45%" r="75%">
-          <stop offset="0%" stop-color="#0d1424" stop-opacity="1"/>
-          <stop offset="65%" stop-color="#060912" stop-opacity="1"/>
-          <stop offset="100%" stop-color="#02040a" stop-opacity="1"/>
+          <stop offset="0%" stop-color="#0d1424" stop-opacity="0"/>
+          <stop offset="65%" stop-color="#060912" stop-opacity="0"/>
+          <stop offset="100%" stop-color="#02040a" stop-opacity="0"/>
         </radialGradient>
         <linearGradient id="bezelBody" x1="0%" y1="0%" x2="0%" y2="100%">
           <stop offset="0%" stop-color="#1a1a1f"/>
@@ -3008,7 +3008,7 @@ document.addEventListener('DOMContentLoaded', function() {
         <rect id="tv-screen-edge" x="54" y="54" width="1492" height="762" rx="2" ry="2" fill="none" stroke="url(#screenEdge)" stroke-width="1" opacity="0.8"/>
         
         <!-- Phoenix skyline backdrop - subtle silhouette at bottom of screen -->
-        <g id="tv-skyline" opacity="0">
+        <g id="tv-skyline" opacity="0" style="display:none">
           <!-- Warm horizon glow behind distant mountain line -->
           <defs>
             <linearGradient id="skyDuskGrad" x1="0" y1="0" x2="0" y2="1">
@@ -3203,7 +3203,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </svg>
 
     <!-- Content that appears INSIDE the TV screen -->
-    <canvas id="hero-canvas" style="position:absolute;left:3.375%;top:5.294%;width:93.25%;height:74.706%;z-index:5;border-radius:3px;"></canvas>
+    <canvas id="hero-canvas" style="position:absolute;left:3.375%;top:5.294%;width:93.25%;height:74.706%;z-index:1;border-radius:2px;"></canvas>
     
   </div><!-- /hero-tv-wrap -->
 
