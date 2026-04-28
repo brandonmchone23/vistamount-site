@@ -5,6 +5,43 @@
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBvfafyvdpfEkU61BxP04xWq7U7GE0w8g0&libraries=places"></script>
+<script>
+// Fix Google Places autocomplete styling
+function fixPlacesDropdown() {
+  const style = document.createElement('style');
+  style.textContent = `
+    .pac-container {
+      background-color: #fff !important;
+      z-index: 1000 !important;
+      border: 1px solid #d0d7e0 !important;
+      border-radius: 6px !important;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
+      font-family: inherit !important;
+    }
+    .pac-item {
+      padding: 12px 14px !important;
+      border-bottom: 1px solid #f1f5f9 !important;
+      color: #000 !important;
+      font-size: 14px !important;
+      cursor: pointer !important;
+    }
+    .pac-item:hover,
+    .pac-item-selected {
+      background-color: #f0f4f8 !important;
+    }
+    .pac-item-query {
+      color: #0f1218 !important;
+      font-weight: 500 !important;
+    }
+    .pac-matched {
+      font-weight: 600 !important;
+      color: #2d7fe8 !important;
+    }
+  `;
+  document.head.appendChild(style);
+}
+fixPlacesDropdown();
+</script>
 <title>VistaMount - Premium TV Mounting & Smart Home | Phoenix, AZ</title>
 <meta name="description" content="Phoenix premier TV mounting and smart home installation. Same-day available. Book online and get an instant quote."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
