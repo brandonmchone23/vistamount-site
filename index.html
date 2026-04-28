@@ -2663,20 +2663,30 @@ function showSuccessScreen(confirmationNumber) {
 // Google Places Autocomplete for Address
 function initAddressAutocomplete() {
   const addressInput = document.getElementById('address');
-  if (!addressInput || !window.google || !window.google.maps) return;
+  if (!addressInput || !window.google || !window.google.maps || !window.google.maps.places) return;
   
-  const autocomplete = new google.maps.places.Autocomplete(addressInput, {
-    componentRestrictions: { country: "us" },
-    fields: ["formatted_address", "geometry"]
-  });
-  
-  autocomplete.addListener('place_changed', () => {
-    const place = autocomplete.getPlace();
-    if (place && place.formatted_address) {
-      addressInput.value = place.formatted_address;
-      updateContractPreview();
-    }
-  });
+  try {
+    // Use the new PlaceAutocompleteElement API
+    const autocompleteElement = new google.maps.places.PlaceAutocompleteElement({
+      componentRestrictions: { country: ['us'] }
+    });
+    
+    // Insert before the address input
+    addressInput.parentElement.insertBefore(autocompleteElement, addressInput);
+    addressInput.style.display = 'none';
+    
+    // Listen for place selection
+    autocompleteElement.addEventListener('gmp-placeselect', () => {
+      const place = autocompleteElement.value;
+      if (place && place.formattedAddress) {
+        document.getElementById('address').value = place.formattedAddress;
+        updateContractPreview();
+      }
+    });
+  } catch (e) {
+    console.log('PlaceAutocompleteElement not available, falling back to basic input');
+    // Fallback: just use the input as-is if new API isn't available
+  }
 }
 
 // Real-time contract preview updates
