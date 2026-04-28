@@ -4419,15 +4419,15 @@ function calculateJobDuration() {
     // Floor — warm hardwood planks
     const floorY = h*0.88;
     const floorGrad = ctx.createLinearGradient(0, floorY, 0, h);
-    floorGrad.addColorStop(0,'rgba(55,35,18,0.9)');
-    floorGrad.addColorStop(1,'rgba(30,18,8,0.95)');
+    floorGrad.addColorStop(0,'rgba(12,12,18,0.95)');
+    floorGrad.addColorStop(1,'rgba(6,6,10,0.98)');
     ctx.fillStyle = floorGrad;
     ctx.beginPath();
     ctx.moveTo(0,floorY); ctx.lineTo(w,floorY); ctx.lineTo(w,h); ctx.lineTo(0,h);
     ctx.fill();
 
     // Floor plank lines
-    ctx.strokeStyle='rgba(80,50,20,0.25)'; ctx.lineWidth=1;
+    ctx.strokeStyle='rgba(40,42,55,0.4)'; ctx.lineWidth=1;
     for(let i=0;i<6;i++){
       const py = floorY + (h-floorY)*i/5;
       ctx.beginPath(); ctx.moveTo(0,py); ctx.lineTo(w,py); ctx.stroke();
@@ -4439,9 +4439,9 @@ function calculateJobDuration() {
 
     // Outer surround (marble-ish, cream/warm white)
     const surroundGrad = ctx.createLinearGradient(fpX,fpY,fpX+fpW,fpY+fpH);
-    surroundGrad.addColorStop(0,'rgba(220,205,185,0.92)');
-    surroundGrad.addColorStop(0.5,'rgba(200,185,165,0.95)');
-    surroundGrad.addColorStop(1,'rgba(185,168,148,0.9)');
+    surroundGrad.addColorStop(0,'rgba(38,38,48,0.97)');
+    surroundGrad.addColorStop(0.5,'rgba(28,28,36,0.98)');
+    surroundGrad.addColorStop(1,'rgba(20,20,28,0.97)');
     ctx.fillStyle = surroundGrad;
     const r=8;
     ctx.beginPath();
@@ -4451,10 +4451,10 @@ function calculateJobDuration() {
     ctx.lineTo(fpX,fpY+r);
     ctx.quadraticCurveTo(fpX,fpY,fpX+r,fpY);
     ctx.fill();
-    ctx.strokeStyle='rgba(160,140,115,0.6)'; ctx.lineWidth=1.5; ctx.stroke();
+    ctx.strokeStyle='rgba(79,172,255,0.12)'; ctx.lineWidth=1.5; ctx.stroke();
 
     // Marble vein lines
-    ctx.save(); ctx.globalAlpha=0.12; ctx.strokeStyle='#8a7560'; ctx.lineWidth=1;
+    ctx.save(); ctx.globalAlpha=0.06; ctx.strokeStyle='#6080a0'; ctx.lineWidth=1;
     for(let i=0;i<4;i++){
       ctx.beginPath();
       ctx.moveTo(fpX+fpW*0.1*i, fpY);
@@ -4467,17 +4467,17 @@ function calculateJobDuration() {
     const mW = fpW*1.12, mH = h*0.035;
     const mX = (w-mW)/2, mY = fpY - mH;
     const mantelGrad = ctx.createLinearGradient(mX,mY,mX,mY+mH);
-    mantelGrad.addColorStop(0,'rgba(215,198,175,0.98)');
-    mantelGrad.addColorStop(1,'rgba(185,165,138,0.98)');
+    mantelGrad.addColorStop(0,'rgba(50,52,65,0.98)');
+    mantelGrad.addColorStop(1,'rgba(30,32,42,0.98)');
     ctx.fillStyle = mantelGrad;
     ctx.beginPath();
     ctx.moveTo(mX,mY); ctx.lineTo(mX+mW,mY); ctx.lineTo(mX+mW,mY+mH+4); ctx.lineTo(mX,mY+mH+4);
     ctx.fill();
-    ctx.strokeStyle='rgba(150,130,105,0.5)'; ctx.lineWidth=1; ctx.stroke();
+    ctx.strokeStyle='rgba(79,172,255,0.15)'; ctx.lineWidth=1; ctx.stroke();
 
     // Mantel shadow underside
     const shadowGrad = ctx.createLinearGradient(mX,mY+mH,mX,mY+mH+12);
-    shadowGrad.addColorStop(0,'rgba(0,0,0,0.35)');
+    shadowGrad.addColorStop(0,'rgba(0,0,0,0.5)');
     shadowGrad.addColorStop(1,'rgba(0,0,0,0)');
     ctx.fillStyle=shadowGrad;
     ctx.fillRect(mX,mY+mH,mW,12);
@@ -4557,7 +4557,7 @@ function calculateJobDuration() {
 
     // Outer rail (fixed, always full length from wall plate to mantel)
     const outerRailBot = mY + 2;
-    ctx.strokeStyle = '#3a3d48';
+    ctx.strokeStyle = '#1e2030';
     ctx.lineWidth = 8;
     ctx.beginPath();
     ctx.moveTo(wallPlateX, armTopY + 10);
@@ -4575,7 +4575,7 @@ function calculateJobDuration() {
     const innerTopY = Math.min(armBotY - 8, outerRailBot);
     const innerBotY = armBotY;
     if(innerBotY > innerTopY){
-      ctx.strokeStyle = '#606875';
+      ctx.strokeStyle = '#4a5060';
       ctx.lineWidth = 5;
       ctx.beginPath();
       ctx.moveTo(wallPlateX, innerTopY);
@@ -4591,7 +4591,7 @@ function calculateJobDuration() {
     }
 
     // Wall plate
-    ctx.fillStyle = '#52565f';
+    ctx.fillStyle = '#2a2d3a';
     roundRect(ctx, wallPlateX - 15, armTopY - 6, 30, 16, 3);
     ctx.fill();
     ctx.strokeStyle = 'rgba(180,185,200,0.25)'; ctx.lineWidth = 1; ctx.stroke();
@@ -4601,7 +4601,7 @@ function calculateJobDuration() {
     ctx.beginPath(); ctx.arc(wallPlateX + 8, armTopY + 2, 2, 0, Math.PI*2); ctx.fill();
 
     // Horizontal TV bracket at bottom of arm
-    ctx.fillStyle = '#484c58';
+    ctx.fillStyle = '#2a2e3e';
     ctx.fillRect(wallPlateX - tvW2*0.18, armBotY - 3, tvW2*0.36, 6);
     ctx.strokeStyle = 'rgba(160,165,180,0.2)'; ctx.lineWidth = 1; ctx.stroke();
 
@@ -4673,14 +4673,16 @@ function calculateJobDuration() {
 
     // ── Mantel decor: small framed art pieces ──
     // Left frame
-    ctx.fillStyle='rgba(80,65,50,0.8)';
+    ctx.fillStyle='rgba(30,32,45,0.9)';
     ctx.fillRect(mX+mW*0.06, mY-18, 14, 18);
-    ctx.fillStyle='rgba(100,130,100,0.5)';
+    ctx.strokeStyle='rgba(79,172,255,0.2)'; ctx.lineWidth=1; ctx.strokeRect(mX+mW*0.06, mY-18, 14, 18);
+    ctx.fillStyle='rgba(15,18,30,0.8)';
     ctx.fillRect(mX+mW*0.06+2, mY-16, 10, 13);
     // Right frame
-    ctx.fillStyle='rgba(80,65,50,0.8)';
+    ctx.fillStyle='rgba(30,32,45,0.9)';
     ctx.fillRect(mX+mW*0.88, mY-18, 14, 18);
-    ctx.fillStyle='rgba(100,110,130,0.5)';
+    ctx.strokeStyle='rgba(79,172,255,0.2)'; ctx.lineWidth=1; ctx.strokeRect(mX+mW*0.88, mY-18, 14, 18);
+    ctx.fillStyle='rgba(15,18,30,0.8)';
     ctx.fillRect(mX+mW*0.88+2, mY-16, 10, 13);
 
     frame++;
