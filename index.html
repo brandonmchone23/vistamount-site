@@ -3203,7 +3203,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </svg>
 
     <!-- Content that appears INSIDE the TV screen -->
-    <canvas id="hero-canvas" style="position:absolute;left:3.375%;top:5.29%;width:93.25%;height:74.71%;z-index:3;border-radius:2px;pointer-events:none;"></canvas>
+    <canvas id="hero-canvas" style="position:absolute;left:3.375%;top:5.294%;width:93.25%;height:74.706%;z-index:5;border-radius:2px;"></canvas>
     
   </div><!-- /hero-tv-wrap -->
 
@@ -3981,7 +3981,7 @@ var mountShowcase = [
   { label: 'Tilting Mount',     sub: 'Perfect angle from anywhere.',       draw: drawTilting },
   { label: 'Full Motion',       sub: 'Extend, swivel, position anywhere.', draw: drawFullMotion },
   { label: 'MantelMount',       sub: 'Above fireplace. Pulls to eye level.',draw: drawMantelShowcase },
-  { label: 'Motorized Flip',    sub: 'Electric. One button. Disappears.',   draw: drawMotorized },
+  { label: 'Motorized Ceiling', sub: 'Electric. Folds down. One button.',   draw: drawMotorized },
 ];
 var mountIdx = 0, mountT = 0, mountCycleSec = 3.5;
 
@@ -4097,42 +4097,70 @@ function drawMantelShowcase(ctx, W, H, p) {
 
 function drawMotorized(ctx, W, H, p) {
   var tw=W*0.65, th=tw*0.565;
-  // Furniture piece (TV cabinet/console)
-  var furW=W*0.65, furH=H*0.12, furX=(W-furW)/2, furY=H*0.72;
-  var fg2=ctx.createLinearGradient(furX,furY,furX,furY+furH);
-  fg2.addColorStop(0,'rgba(30,32,42,0.95)'); fg2.addColorStop(1,'rgba(18,20,28,0.95)');
-  ctx.fillStyle=fg2; ctx.beginPath(); rr(ctx,furX,furY,furW,furH,6); ctx.fill();
-  ctx.strokeStyle='rgba(79,172,255,0.1)'; ctx.lineWidth=1; ctx.stroke();
-  // Lift mechanism — TV flips up from inside cabinet
   var ease2=p<0.5?2*p*p:-1+(4-2*p)*p;
-  // TV rises and rotates up from lying flat in cabinet
-  var angle = -Math.PI*0.5*(1-ease2); // -90deg (flat) to 0deg (upright)
-  var tvCX=W/2, tvCY=furY-(th/2)*ease2;
+
+  // Ceiling track (top of frame)
+  var trackY = H*0.04;
+  ctx.fillStyle='rgba(50,55,70,0.9)';
+  ctx.fillRect(W*0.25, trackY, W*0.5, 8);
+  ctx.strokeStyle='rgba(79,172,255,0.15)'; ctx.lineWidth=1;
+  ctx.strokeRect(W*0.25, trackY, W*0.5, 8);
+
+  // Ceiling mount bracket / motor housing
+  var motorW=60, motorH=24, motorX=W/2-motorW/2, motorY=trackY+8;
+  ctx.fillStyle='rgba(40,44,58,0.95)';
+  ctx.beginPath(); rr(ctx,motorX,motorY,motorW,motorH,4); ctx.fill();
+  ctx.strokeStyle='rgba(79,172,255,0.2)'; ctx.lineWidth=1; ctx.stroke();
+  // Motor power LED
+  var mPulse=0.4+0.4*Math.sin(p*15);
+  ctx.fillStyle=`rgba(79,172,255,${mPulse})`;
+  ctx.beginPath(); ctx.arc(motorX+motorW-10, motorY+motorH/2, 3, 0, Math.PI*2); ctx.fill();
+
+  // Folding arm — rotates from flat against ceiling to hanging down
+  // Stored: arm horizontal (against ceiling), TV folded up
+  // Extended: arm vertical, TV hanging at eye level
+  var armLen = H*0.32;
+  var armAngle = -Math.PI*0.5 + ease2*Math.PI*0.5; // -90deg(horizontal) to 0deg(vertical)
+  var pivotX = W/2, pivotY = motorY+motorH;
+  var armEndX = pivotX + Math.cos(armAngle)*armLen;
+  var armEndY = pivotY + Math.sin(armAngle)*armLen;
+
+  // Draw arm
+  ctx.strokeStyle='rgba(90,98,118,0.9)'; ctx.lineWidth=5; ctx.lineCap='round';
+  ctx.beginPath(); ctx.moveTo(pivotX, pivotY); ctx.lineTo(armEndX, armEndY); ctx.stroke();
+  // Arm highlight
+  ctx.strokeStyle='rgba(255,255,255,0.08)'; ctx.lineWidth=1.5;
+  ctx.beginPath(); ctx.moveTo(pivotX-1.5, pivotY); ctx.lineTo(armEndX-1.5, armEndY); ctx.stroke();
+  // Pivot joint
+  ctx.fillStyle='rgba(70,76,95,0.95)';
+  ctx.beginPath(); ctx.arc(pivotX, pivotY, 7, 0, Math.PI*2); ctx.fill();
+  ctx.strokeStyle='rgba(79,172,255,0.2)'; ctx.lineWidth=1; ctx.stroke();
+
+  // TV rotates to stay facing viewer as arm swings
+  var tvAngle = -armAngle; // counter-rotates to stay level
+  var tvCX = armEndX, tvCY = armEndY;
   ctx.save();
   ctx.translate(tvCX, tvCY);
-  ctx.rotate(angle);
+  ctx.rotate(tvAngle);
+  // TV bezel
   ctx.fillStyle='#1a1c22'; ctx.beginPath(); rr(ctx,-tw/2,-th/2,tw,th,5); ctx.fill();
-  ctx.strokeStyle=`rgba(79,172,255,${0.2+0.2*ease2})`; ctx.lineWidth=1.5; ctx.stroke();
+  ctx.strokeStyle=`rgba(79,172,255,${0.15+0.2*ease2})`; ctx.lineWidth=1.5; ctx.stroke();
+  // Screen
   var sg3=ctx.createLinearGradient(-tw/2,-th/2,-tw/2,th/2);
   sg3.addColorStop(0,'#060a12'); sg3.addColorStop(1,'#030608');
-  ctx.fillStyle=sg3; ctx.beginPath(); rr(ctx,-tw/2+tw*0.015,-th/2+tw*0.01,tw*0.97,th*0.92,3); ctx.fill();
-  if(ease2>0.85){
-    ctx.save(); ctx.globalAlpha=(ease2-0.85)*6*0.4;
-    ctx.fillStyle='#4facff'; ctx.font=`500 ${Math.round(tw*0.06)}px Montserrat,sans-serif`;
+  ctx.fillStyle=sg3; ctx.beginPath(); rr(ctx,-tw/2+tw*0.015,-th/2+tw*0.012,tw*0.97,th*0.92,3); ctx.fill();
+  if(ease2>0.8){
+    ctx.save(); ctx.globalAlpha=(ease2-0.8)*4*0.4;
+    ctx.fillStyle='#4facff'; ctx.font=`500 ${Math.round(tw*0.055)}px Montserrat,sans-serif`;
     ctx.textAlign='center'; ctx.textBaseline='middle';
     ctx.fillText('VISTAMOUNT', 0, 0);
     ctx.restore();
   }
   ctx.restore();
-  // Power indicator on cabinet
-  var pulse=0.5+0.5*Math.sin(p*20);
-  ctx.fillStyle=`rgba(79,172,255,${pulse})`;
-  ctx.beginPath(); ctx.arc(furX+20,furY+furH/2,3,0,Math.PI*2); ctx.fill();
-  mountLabel(ctx, W, H, 'MOTORIZED LIFT', p);
+  mountLabel(ctx, W, H, 'MOTORIZED CEILING', p);
 }
 
 function mountLabel(ctx, W, H, name, p) {
-  var idx = mountShowcase.findIndex(function(m){ return m.label.toUpperCase().indexOf(name.split(' ')[0])===0; });
   var showcase = mountShowcase[mountIdx];
   // Fade in label
   var alpha = p < 0.15 ? p/0.15 : p > 0.85 ? (1-p)/0.15 : 1;
