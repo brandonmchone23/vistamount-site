@@ -2591,8 +2591,7 @@ async function submitBooking() {
   const lname = document.getElementById('lname').value.trim();
   const phone = document.getElementById('phone').value.trim();
   const email = document.getElementById('email').value.trim();
-  const addressField = (document.getElementById('address-store') ? document.getElementById('address-store').value.trim() : '') ||
-                       (document.getElementById('address') ? document.getElementById('address').value.trim() : '');
+  const addressField = document.getElementById('address') ? document.getElementById('address').value.trim() : '';
   const aptField = document.getElementById('apt-suite') ? document.getElementById('apt-suite').value.trim() : '';
   const address = aptField ? (addressField + ' ' + aptField) : addressField;
   
@@ -2697,48 +2696,32 @@ function initAddressAutocomplete() {
   }
   
   try {
-    console.log('Initializing PlaceAutocompleteElement...');
+    console.log('Initializing Autocomplete on existing input...');
     
-    // Create hidden input to store the selected address
-    let addressStore = document.getElementById('address-store');
-    if (!addressStore) {
-      addressStore = document.createElement('input');
-      addressStore.type = 'hidden';
-      addressStore.id = 'address-store';
-      addressInput.parentElement.appendChild(addressStore);
-    }
-    
-    // Create the new PlaceAutocompleteElement
-    const autocompleteElement = new window.google.maps.places.PlaceAutocompleteElement({
-      componentRestrictions: { country: ['us'] }
+    // Use Autocomplete on the existing input element (not replacing it)
+    const autocomplete = new window.google.maps.places.Autocomplete(addressInput, {
+      componentRestrictions: { country: 'us' },
+      fields: ['formatted_address', 'geometry']
     });
     
-    // Replace the input with the autocomplete element
-    addressInput.parentElement.replaceChild(autocompleteElement, addressInput);
-    
-    // Listen for place selection
-    autocompleteElement.addEventListener('gmp-placeselect', () => {
-      // Get the text that's displayed in the element
-      const displayedText = autocompleteElement.textContent || autocompleteElement.innerText || '';
-      console.log('PlaceAutocompleteElement text:', displayedText);
+    // When user selects a place, update the input value
+    autocomplete.addListener('place_changed', () => {
+      const place = autocomplete.getPlace();
+      console.log('Place selected:', place);
       
-      // Also try to get from the value object
-      const place = autocompleteElement.value;
-      if (place) {
-        console.log('Place object:', place);
-        const address = place.formattedAddress || place.formatted_address || displayedText;
-        console.log('Extracted address:', address);
-        addressStore.value = address;
-      } else if (displayedText) {
-        addressStore.value = displayedText;
+      if (place && place.formatted_address) {
+        console.log('Setting address input to:', place.formatted_address);
+        addressInput.value = place.formatted_address;
+        updateContractPreview();
       }
-      
-      updateContractPreview();
     });
     
-    console.log('PlaceAutocompleteElement initialized successfully');
+    // Also update contract when they manually type/change the address
+    addressInput.addEventListener('input', updateContractPreview);
+    
+    console.log('Autocomplete initialized on address input');
   } catch (e) {
-    console.error('PlaceAutocompleteElement failed:', e);
+    console.error('Autocomplete initialization failed:', e);
   }
 }
 
@@ -2746,11 +2729,7 @@ function initAddressAutocomplete() {
 function updateContractPreview() {
   const fname = document.getElementById('fname') ? document.getElementById('fname').value.trim() : '';
   const lname = document.getElementById('lname') ? document.getElementById('lname').value.trim() : '';
-  
-  // Get address from the store (where PlaceAutocompleteElement puts it)
-  const addressField = (document.getElementById('address-store') ? document.getElementById('address-store').value.trim() : '') ||
-                       (document.getElementById('address') ? document.getElementById('address').value.trim() : '');
-  
+  const addressField = document.getElementById('address') ? document.getElementById('address').value.trim() : '';
   const aptField = document.getElementById('apt-suite') ? document.getElementById('apt-suite').value.trim() : '';
   
   // Combine address and apt properly
