@@ -2469,6 +2469,15 @@ function submitBookingWithConsent() {
     alert('Please type your full name as your electronic signature to agree to the Service Agreement.');
     return;
   }
+  // Validate signature matches customer name
+  const fname = (document.getElementById('fname') ? document.getElementById('fname').value.trim() : '').toLowerCase();
+  const lname = (document.getElementById('lname') ? document.getElementById('lname').value.trim() : '').toLowerCase();
+  const fullName = (fname + ' ' + lname).trim().toLowerCase();
+  const sigLower = sig.toLowerCase();
+  if (sigLower !== fullName && sigLower !== fname && sigLower !== lname) {
+    alert('Your signature must match the name you entered above (\"' + fname + ' ' + lname + '\"). Please type your full name exactly as entered.');
+    return;
+  }
   // Validate required consent
   const termsChecked = document.getElementById('consent-terms') ? document.getElementById('consent-terms').checked : false;
   if (!termsChecked) {
