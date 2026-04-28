@@ -4541,21 +4541,7 @@ function calculateJobDuration() {
     const eyeLevelY = mY + mH + h * 0.04;
     const tvYPos = mountedY + (eyeLevelY - mountedY) * tvY;
 
-    // Draw wall bracket line connecting TV to wall when mounted
-    if(tvY < 0.8){
-      const bracketAlpha = (1 - tvY) * 0.6;
-      ctx.save();
-      ctx.globalAlpha = bracketAlpha;
-      ctx.strokeStyle = 'rgba(150,150,170,0.8)';
-      ctx.lineWidth = 2;
-      ctx.setLineDash([3,3]);
-      ctx.beginPath();
-      ctx.moveTo(tvXPos + tvW2/2, tvYPos + tvH2/2);
-      ctx.lineTo(tvXPos + tvW2/2, mY - 4);
-      ctx.stroke();
-      ctx.setLineDash([]);
-      ctx.restore();
-    }
+    // Bracket arms drawn with bezel above
 
     // Annotation: mounted vs eye level
     ctx.save();
@@ -4590,12 +4576,40 @@ function calculateJobDuration() {
     ctx.rect(0, 0, w, h);
     ctx.clip();
 
-    // TV bezel
-    ctx.fillStyle='#111115';
+    // TV bezel - visible dark gray with silver trim
+    const bezelGrad = ctx.createLinearGradient(tvXPos, tvYPos, tvXPos, tvYPos+tvH2);
+    bezelGrad.addColorStop(0,'#2a2a32');
+    bezelGrad.addColorStop(1,'#1a1a20');
+    ctx.fillStyle = bezelGrad;
     ctx.beginPath();
-    roundRect(ctx, tvXPos, tvYPos, tvW2, tvH2, 5);
+    roundRect(ctx, tvXPos, tvYPos, tvW2, tvH2, 6);
     ctx.fill();
-    ctx.strokeStyle='rgba(60,60,70,0.8)'; ctx.lineWidth=1.5; ctx.stroke();
+    ctx.strokeStyle='rgba(140,140,160,0.6)'; ctx.lineWidth=1.5; ctx.stroke();
+
+    // Wall mount bracket arms (two arms from back of TV down to mantel)
+    if(tvY < 0.95){
+      ctx.save();
+      ctx.strokeStyle='rgba(120,130,150,0.7)';
+      ctx.lineWidth=3;
+      ctx.lineCap='round';
+      // Left arm
+      ctx.beginPath();
+      ctx.moveTo(tvXPos + tvW2*0.25, tvYPos + tvH2);
+      ctx.lineTo(tvXPos + tvW2*0.25, mY + mH*0.5);
+      ctx.stroke();
+      // Right arm
+      ctx.beginPath();
+      ctx.moveTo(tvXPos + tvW2*0.75, tvYPos + tvH2);
+      ctx.lineTo(tvXPos + tvW2*0.75, mY + mH*0.5);
+      ctx.stroke();
+      // Horizontal bar connecting arms at mantel
+      ctx.lineWidth=4;
+      ctx.beginPath();
+      ctx.moveTo(tvXPos + tvW2*0.2, mY + mH*0.5);
+      ctx.lineTo(tvXPos + tvW2*0.8, mY + mH*0.5);
+      ctx.stroke();
+      ctx.restore();
+    }
 
     // TV screen
     const scrPad=tvW2*0.02;
@@ -4633,46 +4647,28 @@ function calculateJobDuration() {
       ctx.beginPath(); roundRect(ctx,scrX,scrY,scrW,scrH,3); ctx.fill();
     }
 
-    // TV base / feet (subtle)
-    ctx.fillStyle='rgba(30,30,35,0.9)';
-    ctx.fillRect(tvXPos+tvW2*0.35, tvYPos+tvH2-3, tvW2*0.3, tvH2*0.06);
+    // No feet - wall mounted TV
 
     ctx.restore(); // end clip
 
-    // ── Arm / mechanism hint (thin line from mantel to TV) ──
-    if(tvY > 0.1 && tvY < 0.95){
-      ctx.save(); ctx.globalAlpha = Math.min(tvY*2, 1)*0.4;
-      ctx.strokeStyle='rgba(79,172,255,0.7)'; ctx.lineWidth=1; ctx.setLineDash([3,4]);
-      ctx.beginPath();
-      ctx.moveTo(w/2, mY);
-      ctx.lineTo(w/2, tvYPos+tvH2*0.1);
-      ctx.stroke();
-      ctx.restore();
-    }
 
-    // ── Mantel decor ──
-    // Left candle
-    drawCandle(ctx, mX+mW*0.1, mY, mH, flicker);
-    // Right candle
-    drawCandle(ctx, mX+mW*0.9, mY, mH, flicker*0.9+0.1);
+
+    // ── Mantel decor: small framed art pieces ──
+    // Left frame
+    ctx.fillStyle='rgba(80,65,50,0.8)';
+    ctx.fillRect(mX+mW*0.06, mY-18, 14, 18);
+    ctx.fillStyle='rgba(100,130,100,0.5)';
+    ctx.fillRect(mX+mW*0.06+2, mY-16, 10, 13);
+    // Right frame
+    ctx.fillStyle='rgba(80,65,50,0.8)';
+    ctx.fillRect(mX+mW*0.88, mY-18, 14, 18);
+    ctx.fillStyle='rgba(100,110,130,0.5)';
+    ctx.fillRect(mX+mW*0.88+2, mY-16, 10, 13);
 
     frame++;
   }
 
-  function drawCandle(ctx, x, topY, mH, flicker){
-    // Candle body
-    ctx.fillStyle='rgba(245,235,215,0.9)';
-    ctx.fillRect(x-4, topY-20, 8, 20);
-    // Flame
-    ctx.save(); ctx.globalAlpha=0.9;
-    const fgrad = ctx.createRadialGradient(x,topY-22,0,x,topY-22,7);
-    fgrad.addColorStop(0,`rgba(255,200,80,${0.95*flicker})`);
-    fgrad.addColorStop(0.5,`rgba(255,100,20,${0.7*flicker})`);
-    fgrad.addColorStop(1,'rgba(0,0,0,0)');
-    ctx.fillStyle=fgrad;
-    ctx.beginPath(); ctx.arc(x,topY-22,7,0,Math.PI*2); ctx.fill();
-    ctx.restore();
-  }
+  // drawCandle removed
 
   function roundRect(ctx, x, y, w, h, r){
     ctx.moveTo(x+r,y); ctx.lineTo(x+w-r,y);
