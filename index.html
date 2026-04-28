@@ -171,9 +171,9 @@ nav.scrolled-light .nav-book{color:#fff!important;}
 #sb-txt-hdmi{animation:sbTxtOn 0.2s ease 3.7s forwards, sbTxtOff 0.1s ease 4.1s forwards}
 #sb-txt-arc{animation:sbTxtOn 0.3s ease 4.1s forwards}
 /* Skyline fades in as screen powers on */
-#tv-skyline{animation:skylineFadeIn 1.2s cubic-bezier(.22,1,.36,1) 2.2s forwards}
+#tv-skyline{display:none!important;}
 /* V-shield logo bloom reveal - same premium treatment as the old wordmark */
-#tv-logo{transform-origin:center center;animation:logoReveal 1.1s cubic-bezier(.22,1,.36,1) 2.7s forwards}
+#tv-logo{display:none!important;}
 /* Tagline below TV fades in after main composition */
 #hero-tagline-below{
   position:relative;margin:clamp(14px,2vh,28px) auto 0;
@@ -188,7 +188,7 @@ nav.scrolled-light .nav-book{color:#fff!important;}
 }
 
 /* Content inside the TV "screen" */
-#hero-tv-content{position:relative;z-index:4;text-align:center;padding:0 8%;opacity:0;animation:contentFadeIn .7s cubic-bezier(.22,1,.36,1) 2.4s forwards}
+#hero-tv-content{display:none!important;}
 .hero-eyebrow{font-size:clamp(10px,1.1vw,13px);letter-spacing:.32em;color:#4facff;font-weight:500;margin-bottom:clamp(10px,2vw,22px);text-transform:uppercase}
 .hero-wordmark{opacity:0;animation:wordmarkReveal 1.0s cubic-bezier(.22,1,.36,1) 2.9s forwards;font-family:'Bebas Neue',sans-serif;font-size:clamp(48px,8.5vw,124px);font-weight:400;color:#fff;line-height:.95;margin:0 0 clamp(10px,1.5vw,16px);letter-spacing:.02em;text-shadow:0 0 40px rgba(79,172,255,.25);background:linear-gradient(180deg,#fff 0%,#d9e8ff 100%);-webkit-background-clip:text;background-clip:text;-webkit-text-fill-color:transparent}
 .hero-tagline{font-size:clamp(13px,1.4vw,17px);color:rgba(255,255,255,.72);margin:0;font-weight:300;letter-spacing:.01em;max-width:520px;margin-left:auto;margin-right:auto}
@@ -3203,7 +3203,7 @@ document.addEventListener('DOMContentLoaded', function() {
     </svg>
 
     <!-- Content that appears INSIDE the TV screen -->
-    <canvas id="hero-canvas" style="position:absolute;left:3.375%;top:5.294%;width:93.25%;height:74.706%;z-index:5;border-radius:2px;"></canvas>
+    <canvas id="hero-canvas" style="position:absolute;left:3.375%;top:5.294%;width:93.25%;height:74.706%;z-index:5;border-radius:3px;"></canvas>
     
   </div><!-- /hero-tv-wrap -->
 
@@ -3899,7 +3899,7 @@ function resizeHero(){
 window.addEventListener('resize',resizeHero);
 // Defer resize until layout is complete
 requestAnimationFrame(function(){ requestAnimationFrame(resizeHero); });
-var HBL='#3d7fff',HBG='#000000',HWH='#ffffff';
+var HBL='#4facff',HBG='#06080f',HWH='#ffffff';
 function eO(t){return 1-(1-t)*(1-t);}
 function eOC(t){return 1-Math.pow(1-t,3);}
 function hclamp(v,a,b){return Math.max(a,Math.min(b,v));}
@@ -4229,9 +4229,22 @@ function heroFrame(ts){
   if(t>2.1)hCorners(eO(hpg(t,2.1,2.6))*(t>2.6?hPulse(t*.5+1):1));
 
   if(t < 2.8){
-    // Intro: show VISTAMOUNT logo and CTA
-    if(t>.6){var a=eO(hpg(t,.6,1.3));hText(a,(1-a)*18);}
-    if(t>2.3)hCTA(eO(hpg(t,2.3,2.9)));
+    // Intro: branded boot screen
+    var a=eO(hpg(t,0.3,1.2));
+    if(a>0){
+      hctx.save();
+      hctx.globalAlpha=a;
+      hctx.fillStyle='#4facff';
+      hctx.font='700 '+Math.round(W*0.06)+'px Bebas Neue,sans-serif';
+      hctx.textAlign='center';hctx.textBaseline='middle';
+      hctx.letterSpacing='4px';
+      hctx.fillText('VISTAMOUNT',W/2,H*0.42);
+      hctx.fillStyle='rgba(255,255,255,0.4)';
+      hctx.font='400 '+Math.round(W*0.022)+'px -apple-system,sans-serif';
+      hctx.letterSpacing='3px';
+      hctx.fillText('PREMIUM TV MOUNTING · PHOENIX AZ',W/2,H*0.58);
+      hctx.restore();
+    }
   } else {
     // Showcase: cycle through mount types
     var st = t - 2.8;
