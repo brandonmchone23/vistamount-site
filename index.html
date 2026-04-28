@@ -2736,7 +2736,7 @@ function updateContractPreview() {
 
 // Add real-time listeners to contact form
 function attachContactFormListeners() {
-  ['fname', 'lname', 'address'].forEach(id => {
+  ['fname', 'lname', 'address', 'apt-suite'].forEach(id => {
     const el = document.getElementById(id);
     if (el) {
       el.addEventListener('input', updateContractPreview);
