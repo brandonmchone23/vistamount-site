@@ -2589,17 +2589,7 @@ async function submitBooking() {
   const lname = document.getElementById('lname').value.trim();
   const phone = document.getElementById('phone').value.trim();
   const email = document.getElementById('email').value.trim();
-  
-  // Get address from PlaceAutocompleteElement or fallback to input
-  let addressField = '';
-  const placeElement = document.querySelector('gmp-place-autocomplete');
-  if (placeElement && placeElement.value && placeElement.value.formattedAddress) {
-    addressField = placeElement.value.formattedAddress;
-  } else {
-    const addressInput = document.getElementById('address');
-    addressField = addressInput ? addressInput.value.trim() : '';
-  }
-  
+  const addressField = document.getElementById('address-selected') ? document.getElementById('address-selected').value.trim() : '';
   const aptField = document.getElementById('apt-suite') ? document.getElementById('apt-suite').value.trim() : '';
   const address = aptField ? (addressField + ' ' + aptField) : addressField;
   
@@ -2718,38 +2708,37 @@ function initAddressAutocomplete() {
     
     console.log('PlaceAutocompleteElement created');
     
+    // Create hidden input to store the address
+    let addressStore = document.getElementById('address-selected');
+    if (!addressStore) {
+      addressStore = document.createElement('input');
+      addressStore.type = 'hidden';
+      addressStore.id = 'address-selected';
+      addressInput.parentElement.appendChild(addressStore);
+    }
+    
     // Insert it before the original input
     addressInput.parentElement.insertBefore(autocompleteElement, addressInput);
     
-    // Hide the original input but keep it in DOM for form submission
+    // Hide the original input but keep it in DOM
     addressInput.style.display = 'none';
     
     // Listen for place selection
     autocompleteElement.addEventListener('gmp-placeselect', () => {
-      console.log('Place selected');
+      console.log('Place selected event');
       const place = autocompleteElement.value;
-      console.log('Place object:', place);
+      console.log('Place value:', place);
       
-      if (place) {
-        const address = place.formattedAddress || place.formatted_address || '';
-        console.log('Setting address to:', address);
-        addressInput.value = address;
+      if (place && place.formattedAddress) {
+        console.log('Storing address:', place.formattedAddress);
+        addressStore.value = place.formattedAddress;
         updateContractPreview();
       }
-    });
-    
-    // Also listen for text input changes (as user types before selecting)
-    autocompleteElement.addEventListener('input', () => {
-      const text = autocompleteElement.getAttribute('data-input-value') || '';
-      console.log('Input text:', text);
-      updateContractPreview();
     });
     
     console.log('PlaceAutocompleteElement initialized');
   } catch (e) {
     console.error('PlaceAutocompleteElement failed:', e);
-    // Fallback: just let the input work as normal text field
-    addressInput.addEventListener('input', updateContractPreview);
   }
 }
 
@@ -2758,15 +2747,8 @@ function updateContractPreview() {
   const fname = document.getElementById('fname') ? document.getElementById('fname').value.trim() : '';
   const lname = document.getElementById('lname') ? document.getElementById('lname').value.trim() : '';
   
-  // Get address from PlaceAutocompleteElement or fallback to regular input
-  let addressField = '';
-  const placeElement = document.querySelector('gmp-place-autocomplete');
-  if (placeElement && placeElement.value && placeElement.value.formattedAddress) {
-    addressField = placeElement.value.formattedAddress;
-  } else {
-    addressField = document.getElementById('address') ? document.getElementById('address').value.trim() : '';
-  }
-  
+  // Get address from hidden field (where PlaceAutocompleteElement stores it)
+  const addressField = document.getElementById('address-selected') ? document.getElementById('address-selected').value.trim() : '';
   const aptField = document.getElementById('apt-suite') ? document.getElementById('apt-suite').value.trim() : '';
   
   // Combine address and apt properly
