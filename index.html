@@ -2551,12 +2551,14 @@ function submitBookingWithConsent() {
     return;
   }
   
-  const fullName = (fname + ' ' + lname).trim();
   const sigLower = sig.toLowerCase();
   
-  // Strict match: signature must be "firstname lastname"
-  if (sigLower !== fullName) {
-    alert('Your signature must match your full name exactly.\n\nYour name: ' + fname + ' ' + lname + '\nYour signature: ' + sigLower + '\n\nPlease type your full name exactly as entered above.');
+  // Flexible match: signature must contain both first and last name
+  const hasFname = sigLower.includes(fname);
+  const hasLname = sigLower.includes(lname);
+  
+  if (!hasFname || !hasLname) {
+    alert('Your signature must include both your first and last name.\n\nYour name: ' + fname + ' ' + lname + '\nYour signature: ' + sigLower + '\n\nPlease type your full name.');
     return;
   }
   
