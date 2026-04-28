@@ -2690,26 +2690,40 @@ function showSuccessScreen(confirmationNumber) {
 // Google Places Autocomplete for Address
 function initAddressAutocomplete() {
   const addressInput = document.getElementById('address');
-  if (!addressInput || !window.google || !window.google.maps || !window.google.maps.places) return;
+  if (!addressInput) {
+    console.log('Address input not found');
+    return;
+  }
+  
+  if (!window.google || !window.google.maps || !window.google.maps.places) {
+    console.log('Google Maps API not loaded yet');
+    return;
+  }
   
   try {
-    // Use the classic Autocomplete API (still works, just deprecated)
-    const autocomplete = new google.maps.places.Autocomplete(addressInput, {
+    console.log('Initializing Google Places Autocomplete...');
+    
+    // Use the classic Autocomplete API
+    const autocomplete = new window.google.maps.places.Autocomplete(addressInput, {
       componentRestrictions: { country: 'us' },
-      fields: ['formatted_address', 'geometry']
+      fields: ['formatted_address', 'geometry', 'address_components']
     });
+    
+    console.log('Autocomplete initialized successfully');
     
     // Listen for place selection
     autocomplete.addListener('place_changed', () => {
       const place = autocomplete.getPlace();
+      console.log('Place selected:', place);
+      
       if (place && place.formatted_address) {
+        console.log('Setting address to:', place.formatted_address);
         addressInput.value = place.formatted_address;
         updateContractPreview();
       }
     });
   } catch (e) {
-    console.log('Autocomplete initialization failed:', e);
-    // Fallback: just use the input as-is if API fails
+    console.error('Autocomplete initialization failed:', e);
   }
 }
 
