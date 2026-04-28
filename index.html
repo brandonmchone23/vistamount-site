@@ -2589,7 +2589,9 @@ async function submitBooking() {
   const lname = document.getElementById('lname').value.trim();
   const phone = document.getElementById('phone').value.trim();
   const email = document.getElementById('email').value.trim();
-  const address = (document.getElementById('address').value.trim() + ' ' + (document.getElementById('apt-suite') ? document.getElementById('apt-suite').value.trim() : '')).trim();
+  const addressField = document.getElementById('address').value.trim();
+  const aptField = document.getElementById('apt-suite') ? document.getElementById('apt-suite').value.trim() : '';
+  const address = aptField ? (addressField + ' ' + aptField) : addressField;
   
   if (!fname || !lname || !phone || !email || !address) {
     alert('Please fill in all required fields');
@@ -2713,7 +2715,15 @@ function initAddressAutocomplete() {
 function updateContractPreview() {
   const fname = document.getElementById('fname') ? document.getElementById('fname').value.trim() : '';
   const lname = document.getElementById('lname') ? document.getElementById('lname').value.trim() : '';
-  const address = (document.getElementById('address') ? document.getElementById('address').value.trim() : '') + ' ' + (document.getElementById('apt-suite') ? document.getElementById('apt-suite').value.trim() : '');
+  const addressField = document.getElementById('address') ? document.getElementById('address').value.trim() : '';
+  const aptField = document.getElementById('apt-suite') ? document.getElementById('apt-suite').value.trim() : '';
+  
+  // Combine address and apt properly
+  let address = addressField;
+  if (aptField) {
+    address = address ? address + ' ' + aptField : aptField;
+  }
+  
   const agreementBox = document.querySelector('[style*="background:#eef4ff"]');
   
   if (agreementBox) {
@@ -2723,7 +2733,7 @@ function updateContractPreview() {
     
     agreementBox.innerHTML = `
       <strong>Customer:</strong> ${fname && lname ? (fname + ' ' + lname) : '[Your Name]'}<br>
-      <strong>Service Address:</strong> ${address.trim() || '[Your Address]'}<br>
+      <strong>Service Address:</strong> ${address || '[Your Address]'}<br>
       <strong>Appointment:</strong> ${serviceDate} at ${serviceTime}<br>
       <strong>Services:</strong> ${servicesList}<br>
       <strong>Quoted Price:</strong> $${calculatePrice ? calculatePrice() : '0'}
