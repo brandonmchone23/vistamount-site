@@ -4527,143 +4527,127 @@ function calculateJobDuration() {
       ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
     }
 
-    // ── MantelMount: large 65"+ TV with scissor arm mechanism ──
+    // ── MantelMount: large 65"+ TV drops straight down on parallel arms ──
     tvY += (tvTargetY - tvY) * 0.04;
     const ease = tvY < 0.5 ? 2*tvY*tvY : -1+(4-2*tvY)*tvY;
 
-    // Large TV — 65"+ covers most of fireplace width
+    // Large TV — 65"+ spans most of fireplace width
     const tvW2 = fpW * 1.0;
     const tvH2 = tvW2 * 0.565;
-    const tvCenterX = w / 2;
+    const tvLeft = (w - tvW2) / 2;
 
-    // Wall plate on mantel (mount attaches here)
-    const plateY = mY - 4;
+    // Stored: TV sits just above mantel flush to wall
+    // Extended: TV drops straight down to just below mantel
+    const storedTop  = mY - tvH2 - 2;
+    const dropDist   = tvH2 + mH + 10;
+    const tvTop      = storedTop + dropDist * ease;
 
-    // Scissor arm: when folded (ease=0) TV sits flush on wall above mantel
-    // When extended (ease=1) arm swings TV down and slightly forward
-    const armLen = h * 0.26;
-    // Angle: stored = pointing straight up (-90deg), extended = pointing down-forward
-    const storedAngle  = -Math.PI / 2;           // straight up (TV above plate)
-    const extendedAngle = Math.PI * 0.55;         // swings down and forward
-    const armAngle = storedAngle + (extendedAngle - storedAngle) * ease;
+    // Wall plate (behind TV, on the wall above mantel)
+    const plateX1 = tvLeft + tvW2*0.3;
+    const plateX2 = tvLeft + tvW2*0.7;
+    const plateY  = mY - 4;
 
-    // TV center follows arm tip
-    const tvCX = tvCenterX + Math.cos(armAngle) * armLen * 0.5;
-    const tvCY = plateY + Math.sin(armAngle) * armLen;
-    const tvLeft = tvCX - tvW2/2;
-    const tvTop  = tvCY - tvH2/2;
+    // ── Parallel drop arms (left and right) ──
+    // Each arm goes from wall plate straight down to back of TV
+    const armTopY  = plateY;
+    const armBotY  = tvTop + tvH2 * 0.15; // attaches near top-back of TV
 
-    // ── Scissor arms ──
     ctx.save();
     ctx.lineCap = 'round';
-
-    // Arm shadow
-    ctx.globalAlpha = 0.25;
-    ctx.strokeStyle = '#000';
-    ctx.lineWidth = 5;
-    ctx.beginPath();
-    ctx.moveTo(tvCenterX+2, plateY+2);
-    ctx.lineTo(tvCX+2, tvCY+2);
-    ctx.stroke();
-
-    ctx.globalAlpha = 1;
-
-    // Main arm (upper bar)
-    const armGrad = ctx.createLinearGradient(tvCenterX, plateY, tvCX, tvCY);
-    armGrad.addColorStop(0,'#7a8090');
-    armGrad.addColorStop(1,'#555a68');
-    ctx.strokeStyle = armGrad;
-    ctx.lineWidth = 4;
-    ctx.beginPath();
-    ctx.moveTo(tvCenterX, plateY);
-    ctx.lineTo(tvCX, tvCY);
-    ctx.stroke();
-
-    // Parallel lower arm (offset for parallelogram look)
-    ctx.globalAlpha = 0.6;
     ctx.lineWidth = 3;
+
+    // Left arm
+    ctx.strokeStyle = '#606570';
     ctx.beginPath();
-    ctx.moveTo(tvCenterX + 14, plateY + 2);
-    ctx.lineTo(tvCX + 14, tvCY + 2);
+    ctx.moveTo(plateX1, armTopY);
+    ctx.lineTo(plateX1, armBotY);
     ctx.stroke();
-    ctx.globalAlpha = 1;
 
-    // Wall plate
-    ctx.fillStyle = '#5a606e';
-    roundRect(ctx, tvCenterX-20, plateY-6, 40, 12, 3);
-    ctx.fill();
-    ctx.strokeStyle='rgba(200,205,215,0.4)'; ctx.lineWidth=1; ctx.stroke();
+    // Right arm
+    ctx.beginPath();
+    ctx.moveTo(plateX2, armTopY);
+    ctx.lineTo(plateX2, armBotY);
+    ctx.stroke();
 
-    // Arm pivot at wall
-    ctx.fillStyle='#8a909e';
-    ctx.beginPath(); ctx.arc(tvCenterX, plateY, 5, 0, Math.PI*2); ctx.fill();
+    // Horizontal cross bar at wall (behind TV when stored)
+    ctx.lineWidth = 4;
+    ctx.strokeStyle = '#505560';
+    ctx.beginPath();
+    ctx.moveTo(plateX1 - 6, plateY);
+    ctx.lineTo(plateX2 + 6, plateY);
+    ctx.stroke();
 
-    // Arm joint at TV
-    ctx.fillStyle='#6a7080';
-    ctx.beginPath(); ctx.arc(tvCX, tvCY, 4, 0, Math.PI*2); ctx.fill();
+    // Pivot joints at wall
+    ctx.fillStyle = '#7a808e';
+    ctx.beginPath(); ctx.arc(plateX1, plateY, 4, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(plateX2, plateY, 4, 0, Math.PI*2); ctx.fill();
+
+    // Pivot joints at TV
+    ctx.fillStyle = '#606570';
+    ctx.beginPath(); ctx.arc(plateX1, armBotY, 3, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(plateX2, armBotY, 3, 0, Math.PI*2); ctx.fill();
 
     ctx.restore();
 
-    // ── TV shadow ──
+    // ── TV shadow on mantel when lowered ──
     if(ease > 0.1){
-      ctx.save(); ctx.globalAlpha = ease * 0.2;
-      const tsh = ctx.createLinearGradient(tvLeft, tvTop+tvH2, tvLeft, tvTop+tvH2+24);
+      ctx.save(); ctx.globalAlpha = ease * 0.18;
+      const tsh = ctx.createLinearGradient(tvLeft, tvTop+tvH2, tvLeft, tvTop+tvH2+20);
       tsh.addColorStop(0,'rgba(0,0,0,0.5)'); tsh.addColorStop(1,'rgba(0,0,0,0)');
-      ctx.fillStyle=tsh; ctx.fillRect(tvLeft-8, tvTop+tvH2, tvW2+16, 24);
+      ctx.fillStyle = tsh; ctx.fillRect(tvLeft, tvTop+tvH2, tvW2, 20);
       ctx.restore();
     }
 
     // ── TV bezel ──
     ctx.save();
     const bezelGrad = ctx.createLinearGradient(tvLeft, tvTop, tvLeft, tvTop+tvH2);
-    bezelGrad.addColorStop(0,'#28282e');
-    bezelGrad.addColorStop(1,'#161618');
+    bezelGrad.addColorStop(0,'#262629');
+    bezelGrad.addColorStop(1,'#141416');
     ctx.fillStyle = bezelGrad;
-    ctx.beginPath(); roundRect(ctx, tvLeft, tvTop, tvW2, tvH2, 6); ctx.fill();
-    ctx.strokeStyle='rgba(160,162,170,0.45)'; ctx.lineWidth=1.5; ctx.stroke();
+    ctx.beginPath(); roundRect(ctx, tvLeft, tvTop, tvW2, tvH2, 5); ctx.fill();
+    ctx.strokeStyle = 'rgba(155,158,168,0.4)'; ctx.lineWidth = 1.5; ctx.stroke();
 
     // ── TV screen ──
-    const scrPad = tvW2*0.018;
-    const scrX=tvLeft+scrPad, scrY=tvTop+scrPad;
-    const scrW=tvW2-scrPad*2, scrH=tvH2-scrPad*2-tvH2*0.05;
-    ctx.beginPath(); roundRect(ctx,scrX,scrY,scrW,scrH,3); ctx.clip();
+    const scrPad = tvW2 * 0.018;
+    const scrX = tvLeft+scrPad, scrY = tvTop+scrPad;
+    const scrW = tvW2-scrPad*2, scrH = tvH2-scrPad*2-tvH2*0.05;
+    ctx.beginPath(); roundRect(ctx, scrX, scrY, scrW, scrH, 3); ctx.clip();
 
-    if(ease > 0.45){
+    if(ease > 0.4){
+      // Screen on — dark with fire glow
       const scrBg = ctx.createLinearGradient(scrX,scrY,scrX,scrY+scrH);
-      scrBg.addColorStop(0,'#080d16'); scrBg.addColorStop(1,'#050810');
-      ctx.fillStyle=scrBg; ctx.fillRect(scrX,scrY,scrW,scrH);
-      // Fire glow on screen bottom
-      const fireRef = ctx.createRadialGradient(scrX+scrW/2,scrY+scrH,0,scrX+scrW/2,scrY+scrH,scrW*0.6);
-      fireRef.addColorStop(0,`rgba(255,100,20,${0.15*flicker*ease})`);
+      scrBg.addColorStop(0,'#070c15'); scrBg.addColorStop(1,'#040709');
+      ctx.fillStyle = scrBg; ctx.fillRect(scrX,scrY,scrW,scrH);
+      const fireRef = ctx.createRadialGradient(scrX+scrW/2,scrY+scrH,0,scrX+scrW/2,scrY+scrH,scrW*0.55);
+      fireRef.addColorStop(0,`rgba(255,95,15,${0.13*flicker*ease})`);
       fireRef.addColorStop(1,'rgba(0,0,0,0)');
-      ctx.fillStyle=fireRef; ctx.fillRect(scrX,scrY,scrW,scrH);
-      // VistaMount
-      const logoAlpha = Math.max(0,(ease-0.65)*2.8)*0.5;
+      ctx.fillStyle = fireRef; ctx.fillRect(scrX,scrY,scrW,scrH);
+      const logoAlpha = Math.max(0,(ease-0.65)*2.8)*0.45;
       if(logoAlpha > 0.02){
-        ctx.globalAlpha=logoAlpha;
-        ctx.fillStyle='#fff';
-        ctx.font=`600 ${Math.round(scrW*0.06)}px 'Montserrat',sans-serif`;
-        ctx.textAlign='center'; ctx.textBaseline='middle';
+        ctx.globalAlpha = logoAlpha;
+        ctx.fillStyle = '#fff';
+        ctx.font = `600 ${Math.round(scrW*0.055)}px 'Montserrat',sans-serif`;
+        ctx.textAlign = 'center'; ctx.textBaseline = 'middle';
         ctx.fillText('VISTAMOUNT', scrX+scrW/2, scrY+scrH*0.5);
-        ctx.globalAlpha=1;
+        ctx.globalAlpha = 1;
       }
     } else {
-      ctx.fillStyle='#040507'; ctx.fillRect(scrX,scrY,scrW,scrH);
+      ctx.fillStyle = '#030405'; ctx.fillRect(scrX,scrY,scrW,scrH);
     }
     ctx.restore();
 
-    // ── State label ──
+    // ── Labels ──
     ctx.save();
-    ctx.font='bold 8px -apple-system,sans-serif';
-    ctx.textAlign='center';
-    if(ease < 0.18){
-      ctx.globalAlpha=(1-ease/0.18)*0.7;
-      ctx.fillStyle='rgba(190,195,210,0.85)';
-      ctx.fillText('▲ Stored above fireplace', tvCenterX, tvTop - 10);
-    } else if(ease > 0.82){
-      ctx.globalAlpha=((ease-0.82)/0.18)*0.85;
-      ctx.fillStyle='rgba(70,210,110,0.9)';
-      ctx.fillText('Eye level ✓', tvCenterX, tvTop+tvH2+15);
+    ctx.font = 'bold 8px -apple-system,sans-serif';
+    ctx.textAlign = 'center';
+    if(ease < 0.2){
+      ctx.globalAlpha = (1 - ease/0.2) * 0.7;
+      ctx.fillStyle = 'rgba(185,190,205,0.85)';
+      ctx.fillText('▲ Stored above fireplace', w/2, storedTop - 8);
+    } else if(ease > 0.8){
+      ctx.globalAlpha = ((ease-0.8)/0.2) * 0.85;
+      ctx.fillStyle = 'rgba(65,205,105,0.9)';
+      ctx.fillText('Eye level ✓', w/2, tvTop + tvH2 + 14);
     }
     ctx.restore();
 
