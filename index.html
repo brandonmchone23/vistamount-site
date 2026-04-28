@@ -4531,14 +4531,14 @@ function calculateJobDuration() {
     // Ease tvY toward tvTargetY
     tvY += (tvTargetY - tvY) * 0.04;
 
-    // TV dimensions: mounted above fireplace on wall
-    const tvW2 = mW * 0.72;
-    const tvH2 = tvW2 * 0.56;
+    // TV dimensions: realistic flat-screen above fireplace
+    const tvW2 = fpW * 0.70;          // proportional to fireplace, not mantel
+    const tvH2 = tvW2 * 0.58;         // 16:9 ish with thin bezel
     const tvXPos = (w - tvW2) / 2;
-    // Mounted position: TV sits on wall ABOVE the mantel (high up, hard to watch)
-    const mountedY = mY - tvH2 - h * 0.04; // wall-mounted above mantel
-    // Eye level position: TV pulled DOWN in front of fireplace, below mantel
-    const eyeLevelY = mY + mH + h * 0.02; // pulled down to comfortable viewing height
+    // Mounted: flush to wall just above mantel shelf, at the top of the firebox
+    const mountedY = mY - tvH2 - 6;   // sitting right on top of mantel
+    // Eye level: pulled down in front of firebox to comfortable viewing height
+    const eyeLevelY = mY + mH + h * 0.04;
     const tvYPos = mountedY + (eyeLevelY - mountedY) * tvY;
 
     // Draw wall bracket line connecting TV to wall when mounted
