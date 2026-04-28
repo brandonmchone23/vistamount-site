@@ -2591,7 +2591,9 @@ async function submitBooking() {
   const lname = document.getElementById('lname').value.trim();
   const phone = document.getElementById('phone').value.trim();
   const email = document.getElementById('email').value.trim();
-  const addressField = document.getElementById('address').value.trim();
+  const addressField = (document.getElementById('address-value') && document.getElementById('address-value').value)
+    ? document.getElementById('address-value').value.trim()
+    : (document.getElementById('address') ? document.getElementById('address').value.trim() : '');
   const aptField = document.getElementById('apt-suite') ? document.getElementById('apt-suite').value.trim() : '';
   const address = aptField ? (addressField + ' ' + aptField) : addressField;
   
@@ -2690,40 +2692,45 @@ function showSuccessScreen(confirmationNumber) {
 // Google Places Autocomplete for Address
 function initAddressAutocomplete() {
   const addressInput = document.getElementById('address');
-  if (!addressInput) {
-    console.log('Address input not found');
-    return;
-  }
-  
-  if (!window.google || !window.google.maps || !window.google.maps.places) {
-    console.log('Google Maps API not loaded yet');
+  if (!addressInput || !window.google || !window.google.maps || !window.google.maps.places) {
+    console.log('Address input or Google Maps not ready');
     return;
   }
   
   try {
-    console.log('Initializing Google Places Autocomplete...');
+    console.log('Initializing PlaceAutocompleteElement...');
     
-    // Use the classic Autocomplete API
-    const autocomplete = new window.google.maps.places.Autocomplete(addressInput, {
-      componentRestrictions: { country: 'us' },
-      fields: ['formatted_address', 'geometry', 'address_components']
+    // Create the new PlaceAutocompleteElement
+    const autocompleteElement = new window.google.maps.places.PlaceAutocompleteElement({
+      componentRestrictions: { country: ['us'] }
     });
     
-    console.log('Autocomplete initialized successfully');
+    // Replace the input with the autocomplete element
+    addressInput.parentElement.replaceChild(autocompleteElement, addressInput);
     
     // Listen for place selection
-    autocomplete.addListener('place_changed', () => {
-      const place = autocomplete.getPlace();
+    autocompleteElement.addEventListener('gmp-placeselect', () => {
+      const place = autocompleteElement.value;
       console.log('Place selected:', place);
       
-      if (place && place.formatted_address) {
-        console.log('Setting address to:', place.formatted_address);
-        addressInput.value = place.formatted_address;
+      if (place && place.formattedAddress) {
+        console.log('Setting address to:', place.formattedAddress);
+        // Store in hidden input for form submission
+        let hiddenInput = document.getElementById('address-value');
+        if (!hiddenInput) {
+          hiddenInput = document.createElement('input');
+          hiddenInput.type = 'hidden';
+          hiddenInput.id = 'address-value';
+          autocompleteElement.parentElement.appendChild(hiddenInput);
+        }
+        hiddenInput.value = place.formattedAddress;
         updateContractPreview();
       }
     });
+    
+    console.log('PlaceAutocompleteElement initialized successfully');
   } catch (e) {
-    console.error('Autocomplete initialization failed:', e);
+    console.error('PlaceAutocompleteElement failed:', e);
   }
 }
 
@@ -2731,7 +2738,12 @@ function initAddressAutocomplete() {
 function updateContractPreview() {
   const fname = document.getElementById('fname') ? document.getElementById('fname').value.trim() : '';
   const lname = document.getElementById('lname') ? document.getElementById('lname').value.trim() : '';
-  const addressField = document.getElementById('address') ? document.getElementById('address').value.trim() : '';
+  
+  // Check both regular input and hidden input for address
+  const addressField = (document.getElementById('address-value') && document.getElementById('address-value').value) 
+    ? document.getElementById('address-value').value.trim()
+    : (document.getElementById('address') ? document.getElementById('address').value.trim() : '');
+  
   const aptField = document.getElementById('apt-suite') ? document.getElementById('apt-suite').value.trim() : '';
   
   // Combine address and apt properly
