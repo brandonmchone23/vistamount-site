@@ -5294,6 +5294,20 @@ function calculateJobDuration() {
     ctx.closePath();
   }
 
+  // Legal modal functions
+  window.openLegalModal = function() {
+    document.getElementById('legal-modal').style.display = 'block';
+  };
+  window.closeLegalModal = function() {
+    document.getElementById('legal-modal').style.display = 'none';
+  };
+  const legalModal = document.getElementById('legal-modal');
+  if (legalModal) {
+    legalModal.addEventListener('click', function(e) {
+      if (e.target === this) closeLegalModal();
+    });
+  }
+
 })();
 </script>
 
@@ -5372,16 +5386,6 @@ function calculateJobDuration() {
     </div>
   </div>
 </div>
-<script>
-function openLegalModal() {
-  document.getElementById('legal-modal').style.display = 'block';
-}
-function closeLegalModal() {
-  document.getElementById('legal-modal').style.display = 'none';
-}
-document.getElementById('legal-modal').addEventListener('click', function(e) {
-  if (e.target === this) closeLegalModal();
-});
-</script>
+
 </body>
 </html>
