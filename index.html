@@ -4538,7 +4538,7 @@ function calculateJobDuration() {
     // Mounted: flush to wall just above mantel shelf, at the top of the firebox
     const mountedY = mY - tvH2 - 6;   // sitting right on top of mantel
     // Eye level: pulled down in front of firebox to comfortable viewing height
-    const eyeLevelY = mY + mH + h * 0.04;
+    const eyeLevelY = mY + mH + 10;  // just below mantel shelf
     const tvYPos = mountedY + (eyeLevelY - mountedY) * tvY;
 
     // Bracket arms drawn with bezel above
