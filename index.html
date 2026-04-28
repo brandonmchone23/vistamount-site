@@ -12,18 +12,16 @@ function fixPlacesDropdown() {
   style.textContent = `
     .pac-container {
       background-color: #fff !important;
-      z-index: 99999 !important;
+      z-index: 10001 !important;
       border: 1px solid #d0d7e0 !important;
       border-radius: 6px !important;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.15) !important;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
       font-family: inherit !important;
       position: absolute !important;
       left: 0 !important;
       top: 100% !important;
-      width: auto !important;
+      width: 100% !important;
       margin-top: 4px !important;
-      visibility: visible !important;
-      display: block !important;
     }
     #address {
       position: relative !important;
@@ -2591,9 +2589,7 @@ async function submitBooking() {
   const lname = document.getElementById('lname').value.trim();
   const phone = document.getElementById('phone').value.trim();
   const email = document.getElementById('email').value.trim();
-  const addressField = document.getElementById('address') ? document.getElementById('address').value.trim() : '';
-  const aptField = document.getElementById('apt-suite') ? document.getElementById('apt-suite').value.trim() : '';
-  const address = aptField ? (addressField + ' ' + aptField) : addressField;
+  const address = (document.getElementById('address').value.trim() + ' ' + (document.getElementById('apt-suite') ? document.getElementById('apt-suite').value.trim() : '')).trim();
   
   if (!fname || !lname || !phone || !email || !address) {
     alert('Please fill in all required fields');
@@ -2690,46 +2686,26 @@ function showSuccessScreen(confirmationNumber) {
 // Google Places Autocomplete for Address
 function initAddressAutocomplete() {
   const addressInput = document.getElementById('address');
-  if (!addressInput || !window.google || !window.google.maps || !window.google.maps.places) {
-    console.log('Address input or Google Maps not ready');
-    return;
-  }
+  if (!addressInput || !window.google || !window.google.maps || !window.google.maps.places) return;
   
   try {
-    console.log('Initializing Autocomplete on existing input...');
-    
-    // Use Autocomplete on the existing input element (not replacing it)
-    const autocomplete = new window.google.maps.places.Autocomplete(addressInput, {
+    // Use the classic Autocomplete API (still works, just deprecated)
+    const autocomplete = new google.maps.places.Autocomplete(addressInput, {
       componentRestrictions: { country: 'us' },
       fields: ['formatted_address', 'geometry']
     });
     
-    // When user selects a place, update the input value
+    // Listen for place selection
     autocomplete.addListener('place_changed', () => {
-      console.log('place_changed event fired');
       const place = autocomplete.getPlace();
-      console.log('Full place object:', place);
-      console.log('formatted_address:', place.formatted_address);
-      
       if (place && place.formatted_address) {
-        console.log('Setting address input to:', place.formatted_address);
         addressInput.value = place.formatted_address;
-        console.log('Address input value is now:', addressInput.value);
         updateContractPreview();
-      } else {
-        console.log('No formatted_address in place object');
       }
     });
-    
-    // Also update contract when they manually type/change the address
-    addressInput.addEventListener('input', (e) => {
-      console.log('Address input changed to:', e.target.value);
-      updateContractPreview();
-    });
-    
-    console.log('Autocomplete initialized on address input');
   } catch (e) {
-    console.error('Autocomplete initialization failed:', e);
+    console.log('Autocomplete initialization failed:', e);
+    // Fallback: just use the input as-is if API fails
   }
 }
 
@@ -2737,15 +2713,7 @@ function initAddressAutocomplete() {
 function updateContractPreview() {
   const fname = document.getElementById('fname') ? document.getElementById('fname').value.trim() : '';
   const lname = document.getElementById('lname') ? document.getElementById('lname').value.trim() : '';
-  const addressField = document.getElementById('address') ? document.getElementById('address').value.trim() : '';
-  const aptField = document.getElementById('apt-suite') ? document.getElementById('apt-suite').value.trim() : '';
-  
-  // Combine address and apt properly
-  let address = addressField;
-  if (aptField) {
-    address = address ? address + ' ' + aptField : aptField;
-  }
-  
+  const address = (document.getElementById('address') ? document.getElementById('address').value.trim() : '') + ' ' + (document.getElementById('apt-suite') ? document.getElementById('apt-suite').value.trim() : '');
   const agreementBox = document.querySelector('[style*="background:#eef4ff"]');
   
   if (agreementBox) {
@@ -2755,7 +2723,7 @@ function updateContractPreview() {
     
     agreementBox.innerHTML = `
       <strong>Customer:</strong> ${fname && lname ? (fname + ' ' + lname) : '[Your Name]'}<br>
-      <strong>Service Address:</strong> ${address || '[Your Address]'}<br>
+      <strong>Service Address:</strong> ${address.trim() || '[Your Address]'}<br>
       <strong>Appointment:</strong> ${serviceDate} at ${serviceTime}<br>
       <strong>Services:</strong> ${servicesList}<br>
       <strong>Quoted Price:</strong> $${calculatePrice ? calculatePrice() : '0'}
