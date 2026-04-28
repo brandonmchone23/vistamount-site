@@ -2589,7 +2589,17 @@ async function submitBooking() {
   const lname = document.getElementById('lname').value.trim();
   const phone = document.getElementById('phone').value.trim();
   const email = document.getElementById('email').value.trim();
-  const addressField = document.getElementById('address').value.trim();
+  
+  // Get address from PlaceAutocompleteElement or fallback to input
+  let addressField = '';
+  const placeElement = document.querySelector('gmp-place-autocomplete');
+  if (placeElement && placeElement.value && placeElement.value.formattedAddress) {
+    addressField = placeElement.value.formattedAddress;
+  } else {
+    const addressInput = document.getElementById('address');
+    addressField = addressInput ? addressInput.value.trim() : '';
+  }
+  
   const aptField = document.getElementById('apt-suite') ? document.getElementById('apt-suite').value.trim() : '';
   const address = aptField ? (addressField + ' ' + aptField) : addressField;
   
@@ -2747,10 +2757,19 @@ function initAddressAutocomplete() {
 function updateContractPreview() {
   const fname = document.getElementById('fname') ? document.getElementById('fname').value.trim() : '';
   const lname = document.getElementById('lname') ? document.getElementById('lname').value.trim() : '';
-  const addressField = document.getElementById('address') ? document.getElementById('address').value.trim() : '';
+  
+  // Get address from PlaceAutocompleteElement or fallback to regular input
+  let addressField = '';
+  const placeElement = document.querySelector('gmp-place-autocomplete');
+  if (placeElement && placeElement.value && placeElement.value.formattedAddress) {
+    addressField = placeElement.value.formattedAddress;
+  } else {
+    addressField = document.getElementById('address') ? document.getElementById('address').value.trim() : '';
+  }
+  
   const aptField = document.getElementById('apt-suite') ? document.getElementById('apt-suite').value.trim() : '';
   
-  // Combine address and apt properly (only add space if both exist)
+  // Combine address and apt properly
   let address = addressField;
   if (aptField) {
     address = address ? address + ' ' + aptField : aptField;
