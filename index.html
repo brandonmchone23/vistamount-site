@@ -2570,13 +2570,15 @@ function showSuccessScreen(confirmationNumber) {
       <div style="font-size:4rem;margin-bottom:20px;">&#10003;</div>
       <h2 style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--bl);margin-bottom:12px;">Booking Confirmed!</h2>
       <div style="font-size:1rem;color:#666;margin-bottom:30px;">Confirmation #: <strong style="color:var(--w)">${confirmationNumber}</strong></div>
-      <div style="background:#f0f4f8;padding:20px;border-radius:6px;margin-bottom:30px;">
+      <div style="background:#f0f4f8;padding:20px;border-radius:6px;margin-bottom:20px;">
         <div style="font-size:0.85rem;color:#666;line-height:1.6;">
           You'll receive a calendar invite at your email.<br/>
           We'll call to confirm details before your appointment.
         </div>
       </div>
-      <button class="btn-next" style="width:auto;margin:0 auto;" onclick="closeBookingModal()">Done</button>
+      <a href="https://portal.vistamountaz.com" target="_blank" style="display:inline-block;background:#2563eb;color:#fff;font-family:var(--font);font-size:0.85rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:14px 28px;border-radius:4px;text-decoration:none;margin-bottom:16px;">View Your Portal →</a>
+      <br/>
+      <button class="btn-next" style="width:auto;margin:0 auto;background:transparent;border:1px solid rgba(255,255,255,.2);color:#666;" onclick="closeBookingModal()">Close</button>
     </div>
   `;
   
