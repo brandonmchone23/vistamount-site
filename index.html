@@ -2706,18 +2706,26 @@ function initAddressAutocomplete() {
     
     // When user selects a place, update the input value
     autocomplete.addListener('place_changed', () => {
+      console.log('place_changed event fired');
       const place = autocomplete.getPlace();
-      console.log('Place selected:', place);
+      console.log('Full place object:', place);
+      console.log('formatted_address:', place.formatted_address);
       
       if (place && place.formatted_address) {
         console.log('Setting address input to:', place.formatted_address);
         addressInput.value = place.formatted_address;
+        console.log('Address input value is now:', addressInput.value);
         updateContractPreview();
+      } else {
+        console.log('No formatted_address in place object');
       }
     });
     
     // Also update contract when they manually type/change the address
-    addressInput.addEventListener('input', updateContractPreview);
+    addressInput.addEventListener('input', (e) => {
+      console.log('Address input changed to:', e.target.value);
+      updateContractPreview();
+    });
     
     console.log('Autocomplete initialized on address input');
   } catch (e) {
