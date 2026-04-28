@@ -4551,44 +4551,59 @@ function calculateJobDuration() {
     const armTopY = wallPlateY;
     const armBotY = tvTop + tvH2 * 0.12; // connects near top-center of TV back
 
-    // ── Draw arm BEFORE TV so TV sits in front ──
+    // ── Telescoping arm — outer rail + inner sliding tube ──
     ctx.save();
     ctx.lineCap = 'round';
 
-    // Arm body
-    const armGrad = ctx.createLinearGradient(wallPlateX, armTopY, wallPlateX, armBotY);
-    armGrad.addColorStop(0, '#888e9e');
-    armGrad.addColorStop(1, '#555a66');
-    ctx.strokeStyle = armGrad;
-    ctx.lineWidth = 5;
+    // Outer rail (fixed, always full length from wall plate to mantel)
+    const outerRailBot = mY + 2;
+    ctx.strokeStyle = '#3a3d48';
+    ctx.lineWidth = 8;
     ctx.beginPath();
-    ctx.moveTo(wallPlateX, armTopY);
-    ctx.lineTo(wallPlateX, armBotY);
+    ctx.moveTo(wallPlateX, armTopY + 10);
+    ctx.lineTo(wallPlateX, outerRailBot);
+    ctx.stroke();
+    // Rail highlight
+    ctx.strokeStyle = 'rgba(255,255,255,0.07)';
+    ctx.lineWidth = 2;
+    ctx.beginPath();
+    ctx.moveTo(wallPlateX - 2, armTopY + 10);
+    ctx.lineTo(wallPlateX - 2, outerRailBot);
     ctx.stroke();
 
-    // Arm highlight (left edge gleam)
-    ctx.strokeStyle = 'rgba(220,225,235,0.25)';
-    ctx.lineWidth = 1.5;
-    ctx.beginPath();
-    ctx.moveTo(wallPlateX - 1.5, armTopY);
-    ctx.lineTo(wallPlateX - 1.5, armBotY);
-    ctx.stroke();
+    // Inner sliding tube (extends from rail bottom down to TV)
+    const innerTopY = Math.min(armBotY - 8, outerRailBot);
+    const innerBotY = armBotY;
+    if(innerBotY > innerTopY){
+      ctx.strokeStyle = '#606875';
+      ctx.lineWidth = 5;
+      ctx.beginPath();
+      ctx.moveTo(wallPlateX, innerTopY);
+      ctx.lineTo(wallPlateX, innerBotY);
+      ctx.stroke();
+      // Inner tube highlight
+      ctx.strokeStyle = 'rgba(255,255,255,0.12)';
+      ctx.lineWidth = 1.5;
+      ctx.beginPath();
+      ctx.moveTo(wallPlateX - 1.5, innerTopY);
+      ctx.lineTo(wallPlateX - 1.5, innerBotY);
+      ctx.stroke();
+    }
 
-    // Wall plate (rectangular bracket bolted to wall)
-    ctx.fillStyle = '#606672';
-    roundRect(ctx, wallPlateX - 14, wallPlateY - 8, 28, 16, 3);
+    // Wall plate
+    ctx.fillStyle = '#52565f';
+    roundRect(ctx, wallPlateX - 15, armTopY - 6, 30, 16, 3);
     ctx.fill();
-    ctx.strokeStyle = 'rgba(200,205,215,0.3)'; ctx.lineWidth = 1; ctx.stroke();
+    ctx.strokeStyle = 'rgba(180,185,200,0.25)'; ctx.lineWidth = 1; ctx.stroke();
+    // Bolt holes
+    ctx.fillStyle = 'rgba(20,22,28,0.8)';
+    ctx.beginPath(); ctx.arc(wallPlateX - 8, armTopY + 2, 2, 0, Math.PI*2); ctx.fill();
+    ctx.beginPath(); ctx.arc(wallPlateX + 8, armTopY + 2, 2, 0, Math.PI*2); ctx.fill();
 
-    // Bolt holes on wall plate
-    ctx.fillStyle = 'rgba(30,32,38,0.7)';
-    ctx.beginPath(); ctx.arc(wallPlateX - 7, wallPlateY, 2, 0, Math.PI*2); ctx.fill();
-    ctx.beginPath(); ctx.arc(wallPlateX + 7, wallPlateY, 2, 0, Math.PI*2); ctx.fill();
-
-    // TV bracket clip (where arm meets TV back)
-    ctx.fillStyle = '#505560';
-    ctx.fillRect(wallPlateX - 10, armBotY - 4, 20, 8);
-    ctx.strokeStyle = 'rgba(160,165,175,0.3)'; ctx.lineWidth = 1; ctx.stroke();
+    // Horizontal TV bracket at bottom of arm
+    ctx.fillStyle = '#484c58';
+    ctx.fillRect(wallPlateX - tvW2*0.18, armBotY - 3, tvW2*0.36, 6);
+    ctx.strokeStyle = 'rgba(160,165,180,0.2)'; ctx.lineWidth = 1; ctx.stroke();
 
     ctx.restore();
 
