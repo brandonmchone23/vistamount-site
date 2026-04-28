@@ -2699,36 +2699,48 @@ function initAddressAutocomplete() {
   }
   
   try {
-    console.log('Initializing Autocomplete...');
-    // Use the classic Autocomplete API
-    const autocomplete = new window.google.maps.places.Autocomplete(addressInput, {
-      componentRestrictions: { country: 'us' },
-      fields: ['formatted_address', 'geometry']
+    console.log('Initializing PlaceAutocompleteElement...');
+    
+    // Create the PlaceAutocompleteElement
+    const autocompleteElement = new window.google.maps.places.PlaceAutocompleteElement({
+      componentRestrictions: { country: ['us'] }
     });
     
-    console.log('Autocomplete created');
+    console.log('PlaceAutocompleteElement created');
+    
+    // Insert it before the original input
+    addressInput.parentElement.insertBefore(autocompleteElement, addressInput);
+    
+    // Hide the original input but keep it in DOM for form submission
+    addressInput.style.display = 'none';
     
     // Listen for place selection
-    autocomplete.addListener('place_changed', () => {
-      console.log('Place changed');
-      const place = autocomplete.getPlace();
-      console.log('Place:', place);
-      if (place && place.formatted_address) {
-        console.log('Setting address to:', place.formatted_address);
-        addressInput.value = place.formatted_address;
+    autocompleteElement.addEventListener('gmp-placeselect', () => {
+      console.log('Place selected');
+      const place = autocompleteElement.value;
+      console.log('Place object:', place);
+      
+      if (place) {
+        const address = place.formattedAddress || place.formatted_address || '';
+        console.log('Setting address to:', address);
+        addressInput.value = address;
         updateContractPreview();
       }
     });
     
-    console.log('Autocomplete initialized');
+    // Also listen for text input changes (as user types before selecting)
+    autocompleteElement.addEventListener('input', () => {
+      const text = autocompleteElement.getAttribute('data-input-value') || '';
+      console.log('Input text:', text);
+      updateContractPreview();
+    });
+    
+    console.log('PlaceAutocompleteElement initialized');
   } catch (e) {
-    console.error('Autocomplete failed:', e);
+    console.error('PlaceAutocompleteElement failed:', e);
+    // Fallback: just let the input work as normal text field
+    addressInput.addEventListener('input', updateContractPreview);
   }
-  
-  // Also listen to manual typing to update contract in real-time
-  addressInput.addEventListener('input', () => {
-    updateContractPreview();
-  });
 }
 
 // Real-time contract preview updates
