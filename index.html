@@ -4,6 +4,7 @@
 <!-- Cache bust: 1776468199 -->
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<script src="https://maps.googleapis.com/maps/api/js?key=YOUR_API_KEY&libraries=places"></script>
 <title>VistaMount - Premium TV Mounting & Smart Home | Phoenix, AZ</title>
 <meta name="description" content="Phoenix premier TV mounting and smart home installation. Same-day available. Book online and get an instant quote."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -1837,7 +1838,14 @@ function goBookingStep(n) {
   if (n === 1) initBookingStep1();
   if (n === 2) initBookingStep2();
   if (n === 3) initBookingStep3();
-  if (n === 4) initBookingStep4();
+  if (n === 4) {
+    initBookingStep4();
+    setTimeout(() => {
+      initAddressAutocomplete();
+      attachContactFormListeners();
+      updateContractPreview();
+    }, 100);
+  }
 }
 
 function initBookingStep1() {
@@ -2595,6 +2603,59 @@ function showSuccessScreen(confirmationNumber) {
   const footer = document.querySelector('.modal-footer');
   if (footer) footer.style.display = 'none';
 }
+
+// Google Places Autocomplete for Address
+function initAddressAutocomplete() {
+  const addressInput = document.getElementById('address');
+  if (!addressInput || !window.google || !window.google.maps) return;
+  
+  const autocomplete = new google.maps.places.Autocomplete(addressInput, {
+    componentRestrictions: { country: "us" },
+    fields: ["formatted_address", "geometry"]
+  });
+  
+  autocomplete.addListener('place_changed', () => {
+    const place = autocomplete.getPlace();
+    if (place && place.formatted_address) {
+      addressInput.value = place.formatted_address;
+      updateContractPreview();
+    }
+  });
+}
+
+// Real-time contract preview updates
+function updateContractPreview() {
+  const fname = document.getElementById('fname') ? document.getElementById('fname').value.trim() : '';
+  const lname = document.getElementById('lname') ? document.getElementById('lname').value.trim() : '';
+  const address = document.getElementById('address') ? document.getElementById('address').value.trim() : '';
+  const agreementBox = document.querySelector('[style*="background:#eef4ff"]');
+  
+  if (agreementBox) {
+    const serviceDate = bookingState.selectedDate ? new Date(bookingState.selectedDate).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}) : '[Selected Date]';
+    const serviceTime = bookingState.selectedSlot ? bookingState.selectedSlot.time : '[Time]';
+    const servicesList = bookingState.tvs ? bookingState.tvs.length + ' TV' + (bookingState.tvs.length > 1 ? 's' : '') : '[Services]';
+    
+    agreementBox.innerHTML = `
+      <strong>Customer:</strong> ${fname && lname ? (fname + ' ' + lname) : '[Your Name]'}<br>
+      <strong>Service Address:</strong> ${address || '[Your Address]'}<br>
+      <strong>Appointment:</strong> ${serviceDate} at ${serviceTime}<br>
+      <strong>Services:</strong> ${servicesList}<br>
+      <strong>Quoted Price:</strong> $${calculatePrice ? calculatePrice() : '0'}
+    `;
+  }
+}
+
+// Add real-time listeners to contact form
+function attachContactFormListeners() {
+  ['fname', 'lname', 'address'].forEach(id => {
+    const el = document.getElementById(id);
+    if (el) {
+      el.addEventListener('input', updateContractPreview);
+      el.addEventListener('change', updateContractPreview);
+    }
+  });
+}
+
 
 function initBookingStep4() {
   const container = document.getElementById('step-4');
