@@ -4527,129 +4527,145 @@ function calculateJobDuration() {
       ctx.beginPath(); ctx.arc(p.x,p.y,p.r,0,Math.PI*2); ctx.fill();
     }
 
-    // ── Mantel TV (pulls down from inside shelf) ──
-    // Ease tvY toward tvTargetY
+    // ── MantelMount: large 65"+ TV with scissor arm mechanism ──
     tvY += (tvTargetY - tvY) * 0.04;
+    const ease = tvY < 0.5 ? 2*tvY*tvY : -1+(4-2*tvY)*tvY;
 
-    // TV dimensions: realistic flat-screen above fireplace
-    const tvW2 = fpW * 0.70;          // proportional to fireplace, not mantel
-    const tvH2 = tvW2 * 0.58;         // 16:9 ish with thin bezel
-    const tvXPos = (w - tvW2) / 2;
-    // Mounted: flush to wall just above mantel shelf, at the top of the firebox
-    const mountedY = mY - tvH2 - 6;   // sitting right on top of mantel
-    // Eye level: pulled down in front of firebox to comfortable viewing height
-    const eyeLevelY = mY + mH + 10;  // just below mantel shelf
-    const tvYPos = mountedY + (eyeLevelY - mountedY) * tvY;
+    // Large TV — 65"+ covers most of fireplace width
+    const tvW2 = fpW * 1.0;
+    const tvH2 = tvW2 * 0.565;
+    const tvCenterX = w / 2;
 
-    // Bracket arms drawn with bezel above
+    // Wall plate on mantel (mount attaches here)
+    const plateY = mY - 4;
 
-    // Annotation: mounted vs eye level
+    // Scissor arm: when folded (ease=0) TV sits flush on wall above mantel
+    // When extended (ease=1) arm swings TV down and slightly forward
+    const armLen = h * 0.26;
+    // Angle: stored = pointing straight up (-90deg), extended = pointing down-forward
+    const storedAngle  = -Math.PI / 2;           // straight up (TV above plate)
+    const extendedAngle = Math.PI * 0.55;         // swings down and forward
+    const armAngle = storedAngle + (extendedAngle - storedAngle) * ease;
+
+    // TV center follows arm tip
+    const tvCX = tvCenterX + Math.cos(armAngle) * armLen * 0.5;
+    const tvCY = plateY + Math.sin(armAngle) * armLen;
+    const tvLeft = tvCX - tvW2/2;
+    const tvTop  = tvCY - tvH2/2;
+
+    // ── Scissor arms ──
     ctx.save();
-    ctx.font = 'bold 9px -apple-system,sans-serif';
-    ctx.textAlign = 'center';
-    if(tvY < 0.3){
-      // Show "Wall mounted" label above TV
-      ctx.globalAlpha = (1 - tvY * 3) * 0.8;
-      ctx.fillStyle = 'rgba(255,255,255,0.7)';
-      ctx.fillText('▲ Wall mounted', tvXPos + tvW2/2, tvYPos - 6);
-    } else if(tvY > 0.75){
-      // Show "Eye level" label below TV
-      ctx.globalAlpha = (tvY - 0.75) * 4 * 0.8;
-      ctx.fillStyle = 'rgba(80,200,120,0.9)';
-      ctx.fillText('Eye level ✓', tvXPos + tvW2/2, tvYPos + tvH2 + 14);
+    ctx.lineCap = 'round';
+
+    // Arm shadow
+    ctx.globalAlpha = 0.25;
+    ctx.strokeStyle = '#000';
+    ctx.lineWidth = 5;
+    ctx.beginPath();
+    ctx.moveTo(tvCenterX+2, plateY+2);
+    ctx.lineTo(tvCX+2, tvCY+2);
+    ctx.stroke();
+
+    ctx.globalAlpha = 1;
+
+    // Main arm (upper bar)
+    const armGrad = ctx.createLinearGradient(tvCenterX, plateY, tvCX, tvCY);
+    armGrad.addColorStop(0,'#7a8090');
+    armGrad.addColorStop(1,'#555a68');
+    ctx.strokeStyle = armGrad;
+    ctx.lineWidth = 4;
+    ctx.beginPath();
+    ctx.moveTo(tvCenterX, plateY);
+    ctx.lineTo(tvCX, tvCY);
+    ctx.stroke();
+
+    // Parallel lower arm (offset for parallelogram look)
+    ctx.globalAlpha = 0.6;
+    ctx.lineWidth = 3;
+    ctx.beginPath();
+    ctx.moveTo(tvCenterX + 14, plateY + 2);
+    ctx.lineTo(tvCX + 14, tvCY + 2);
+    ctx.stroke();
+    ctx.globalAlpha = 1;
+
+    // Wall plate
+    ctx.fillStyle = '#5a606e';
+    roundRect(ctx, tvCenterX-20, plateY-6, 40, 12, 3);
+    ctx.fill();
+    ctx.strokeStyle='rgba(200,205,215,0.4)'; ctx.lineWidth=1; ctx.stroke();
+
+    // Arm pivot at wall
+    ctx.fillStyle='#8a909e';
+    ctx.beginPath(); ctx.arc(tvCenterX, plateY, 5, 0, Math.PI*2); ctx.fill();
+
+    // Arm joint at TV
+    ctx.fillStyle='#6a7080';
+    ctx.beginPath(); ctx.arc(tvCX, tvCY, 4, 0, Math.PI*2); ctx.fill();
+
+    ctx.restore();
+
+    // ── TV shadow ──
+    if(ease > 0.1){
+      ctx.save(); ctx.globalAlpha = ease * 0.2;
+      const tsh = ctx.createLinearGradient(tvLeft, tvTop+tvH2, tvLeft, tvTop+tvH2+24);
+      tsh.addColorStop(0,'rgba(0,0,0,0.5)'); tsh.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=tsh; ctx.fillRect(tvLeft-8, tvTop+tvH2, tvW2+16, 24);
+      ctx.restore();
+    }
+
+    // ── TV bezel ──
+    ctx.save();
+    const bezelGrad = ctx.createLinearGradient(tvLeft, tvTop, tvLeft, tvTop+tvH2);
+    bezelGrad.addColorStop(0,'#28282e');
+    bezelGrad.addColorStop(1,'#161618');
+    ctx.fillStyle = bezelGrad;
+    ctx.beginPath(); roundRect(ctx, tvLeft, tvTop, tvW2, tvH2, 6); ctx.fill();
+    ctx.strokeStyle='rgba(160,162,170,0.45)'; ctx.lineWidth=1.5; ctx.stroke();
+
+    // ── TV screen ──
+    const scrPad = tvW2*0.018;
+    const scrX=tvLeft+scrPad, scrY=tvTop+scrPad;
+    const scrW=tvW2-scrPad*2, scrH=tvH2-scrPad*2-tvH2*0.05;
+    ctx.beginPath(); roundRect(ctx,scrX,scrY,scrW,scrH,3); ctx.clip();
+
+    if(ease > 0.45){
+      const scrBg = ctx.createLinearGradient(scrX,scrY,scrX,scrY+scrH);
+      scrBg.addColorStop(0,'#080d16'); scrBg.addColorStop(1,'#050810');
+      ctx.fillStyle=scrBg; ctx.fillRect(scrX,scrY,scrW,scrH);
+      // Fire glow on screen bottom
+      const fireRef = ctx.createRadialGradient(scrX+scrW/2,scrY+scrH,0,scrX+scrW/2,scrY+scrH,scrW*0.6);
+      fireRef.addColorStop(0,`rgba(255,100,20,${0.15*flicker*ease})`);
+      fireRef.addColorStop(1,'rgba(0,0,0,0)');
+      ctx.fillStyle=fireRef; ctx.fillRect(scrX,scrY,scrW,scrH);
+      // VistaMount
+      const logoAlpha = Math.max(0,(ease-0.65)*2.8)*0.5;
+      if(logoAlpha > 0.02){
+        ctx.globalAlpha=logoAlpha;
+        ctx.fillStyle='#fff';
+        ctx.font=`600 ${Math.round(scrW*0.06)}px 'Montserrat',sans-serif`;
+        ctx.textAlign='center'; ctx.textBaseline='middle';
+        ctx.fillText('VISTAMOUNT', scrX+scrW/2, scrY+scrH*0.5);
+        ctx.globalAlpha=1;
+      }
+    } else {
+      ctx.fillStyle='#040507'; ctx.fillRect(scrX,scrY,scrW,scrH);
     }
     ctx.restore();
 
-    // TV shadow on mantel/wall when extended
-    if(tvY > 0.05){
-      ctx.save(); ctx.globalAlpha=tvY*0.3;
-      const tsh = ctx.createLinearGradient(tvXPos,tvYPos+tvH2,tvXPos,tvYPos+tvH2+20);
-      tsh.addColorStop(0,'rgba(0,0,0,0.4)'); tsh.addColorStop(1,'rgba(0,0,0,0)');
-      ctx.fillStyle=tsh; ctx.fillRect(tvXPos,tvYPos+tvH2,tvW2,20);
-      ctx.restore();
-    }
-
-    // Draw TV (clip to below mantel top when retracting)
+    // ── State label ──
     ctx.save();
-    // No clip - TV visible above and below mantel
-    ctx.beginPath();
-    ctx.rect(0, 0, w, h);
-    ctx.clip();
-
-    // TV bezel - visible dark gray with silver trim
-    const bezelGrad = ctx.createLinearGradient(tvXPos, tvYPos, tvXPos, tvYPos+tvH2);
-    bezelGrad.addColorStop(0,'#2a2a32');
-    bezelGrad.addColorStop(1,'#1a1a20');
-    ctx.fillStyle = bezelGrad;
-    ctx.beginPath();
-    roundRect(ctx, tvXPos, tvYPos, tvW2, tvH2, 6);
-    ctx.fill();
-    ctx.strokeStyle='rgba(140,140,160,0.6)'; ctx.lineWidth=1.5; ctx.stroke();
-
-    // Wall mount bracket arms (two arms from back of TV down to mantel)
-    if(tvY < 0.95){
-      ctx.save();
-      ctx.strokeStyle='rgba(120,130,150,0.7)';
-      ctx.lineWidth=3;
-      ctx.lineCap='round';
-      // Left arm
-      ctx.beginPath();
-      ctx.moveTo(tvXPos + tvW2*0.25, tvYPos + tvH2);
-      ctx.lineTo(tvXPos + tvW2*0.25, mY + mH*0.5);
-      ctx.stroke();
-      // Right arm
-      ctx.beginPath();
-      ctx.moveTo(tvXPos + tvW2*0.75, tvYPos + tvH2);
-      ctx.lineTo(tvXPos + tvW2*0.75, mY + mH*0.5);
-      ctx.stroke();
-      // Horizontal bar connecting arms at mantel
-      ctx.lineWidth=4;
-      ctx.beginPath();
-      ctx.moveTo(tvXPos + tvW2*0.2, mY + mH*0.5);
-      ctx.lineTo(tvXPos + tvW2*0.8, mY + mH*0.5);
-      ctx.stroke();
-      ctx.restore();
+    ctx.font='bold 8px -apple-system,sans-serif';
+    ctx.textAlign='center';
+    if(ease < 0.18){
+      ctx.globalAlpha=(1-ease/0.18)*0.7;
+      ctx.fillStyle='rgba(190,195,210,0.85)';
+      ctx.fillText('▲ Stored above fireplace', tvCenterX, tvTop - 10);
+    } else if(ease > 0.82){
+      ctx.globalAlpha=((ease-0.82)/0.18)*0.85;
+      ctx.fillStyle='rgba(70,210,110,0.9)';
+      ctx.fillText('Eye level ✓', tvCenterX, tvTop+tvH2+15);
     }
-
-    // TV screen
-    const scrPad=tvW2*0.02;
-    const scrX=tvXPos+scrPad, scrY=tvYPos+scrPad;
-    const scrW=tvW2-scrPad*2, scrH=tvH2-scrPad*2-tvH2*0.06;
-    const scrGrad = ctx.createLinearGradient(scrX,scrY,scrX,scrY+scrH);
-    // Screen shows warm living room reflection when extended
-    if(tvY > 0.5){
-      scrGrad.addColorStop(0,'#0d1520');
-      scrGrad.addColorStop(0.4,'#0a1018');
-      scrGrad.addColorStop(1,'#060c12');
-      ctx.fillStyle=scrGrad;
-      ctx.beginPath(); roundRect(ctx,scrX,scrY,scrW,scrH,3); ctx.fill();
-
-      // Fire reflection on screen (subtle)
-      const refGlow=ctx.createRadialGradient(scrX+scrW/2,scrY+scrH,0,scrX+scrW/2,scrY+scrH,scrW*0.7);
-      refGlow.addColorStop(0,`rgba(255,80,20,${0.08*flicker})`);
-      refGlow.addColorStop(1,'rgba(0,0,0,0)');
-      ctx.fillStyle=refGlow;
-      ctx.beginPath(); roundRect(ctx,scrX,scrY,scrW,scrH,3); ctx.fill();
-
-      // VistaMount logo on screen
-      ctx.save(); ctx.globalAlpha=0.55*(tvY>0.9?1:(tvY-0.5)*2.5);
-      ctx.fillStyle='#fff';
-      ctx.font=`bold ${scrW*0.07}px 'Montserrat','Arial',sans-serif`;
-      ctx.textAlign='center'; ctx.textBaseline='middle';
-      ctx.fillText('VISTA', scrX+scrW/2, scrY+scrH*0.46);
-      ctx.fillStyle='#4facff';
-      ctx.fillText('MOUNT', scrX+scrW/2, scrY+scrH*0.58);
-      ctx.restore();
-    } else {
-      // Screen off (dark)
-      scrGrad.addColorStop(0,'#05080e'); scrGrad.addColorStop(1,'#020408');
-      ctx.fillStyle=scrGrad;
-      ctx.beginPath(); roundRect(ctx,scrX,scrY,scrW,scrH,3); ctx.fill();
-    }
-
-    // No feet - wall mounted TV
-
-    ctx.restore(); // end clip
+    ctx.restore();
 
 
 
