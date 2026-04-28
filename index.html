@@ -3986,9 +3986,10 @@ var mountShowcase = [
 var mountIdx = 0, mountT = 0, mountCycleSec = 3.5;
 
 function drawFixed(ctx, W, H, p) {
+  ctx.fillStyle='#060810'; ctx.fillRect(0,0,W,H);
   var tw=W*0.70, th=tw*0.565, tx=(W-tw)/2, ty=(H-th)/2-H*0.06;
   // Wall
-  ctx.fillStyle='rgba(20,22,30,0.6)'; ctx.fillRect(tx-20,ty-20,tw+40,th+40);
+  ctx.fillStyle='rgba(20,22,34,0.95)'; ctx.fillRect(tx-20,ty-20,tw+40,th+40);
   // Bezel
   ctx.fillStyle='#1a1c22'; ctx.beginPath(); rr(ctx,tx,ty,tw,th,6); ctx.fill();
   ctx.strokeStyle='rgba(79,172,255,0.3)'; ctx.lineWidth=1.5; ctx.stroke();
@@ -4004,6 +4005,7 @@ function drawFixed(ctx, W, H, p) {
 }
 
 function drawTilting(ctx, W, H, p) {
+  ctx.fillStyle='#060810'; ctx.fillRect(0,0,W,H);
   var tw=W*0.70, th=tw*0.565;
   var tx=(W-tw)/2, ty=(H-th)/2-H*0.06;
   // Tilt angle
@@ -4026,6 +4028,7 @@ function drawTilting(ctx, W, H, p) {
 }
 
 function drawFullMotion(ctx, W, H, p) {
+  ctx.fillStyle='#060810'; ctx.fillRect(0,0,W,H);
   var tw=W*0.65, th=tw*0.565;
   // TV swings out on arm
   var swing = Math.sin(p * Math.PI * 2) * 0.3;
@@ -4053,6 +4056,7 @@ function drawFullMotion(ctx, W, H, p) {
 }
 
 function drawMantelShowcase(ctx, W, H, p) {
+  ctx.fillStyle='#060810'; ctx.fillRect(0,0,W,H);
   var tw=W*0.72, th=tw*0.565;
   // Mantel
   var mY=H*0.62, mW=W*0.7, mH=H*0.032;
@@ -4096,6 +4100,7 @@ function drawMantelShowcase(ctx, W, H, p) {
 }
 
 function drawMotorized(ctx, W, H, p) {
+  ctx.fillStyle='#060810'; ctx.fillRect(0,0,W,H);
   var tw=W*0.65, th=tw*0.565;
   var ease2=p<0.5?2*p*p:-1+(4-2*p)*p;
 
@@ -4217,13 +4222,13 @@ function heroFrame(ts){
   }
   if(t>2.1)hCorners(eO(hpg(t,2.1,2.6))*(t>2.6?hPulse(t*.5+1):1));
 
-  if(t < 3.5){
+  if(t < 2.8){
     // Intro: show VISTAMOUNT logo and CTA
     if(t>.6){var a=eO(hpg(t,.6,1.3));hText(a,(1-a)*18);}
     if(t>2.3)hCTA(eO(hpg(t,2.3,2.9)));
   } else {
     // Showcase: cycle through mount types
-    var st = t - 3.5;
+    var st = t - 2.8;
     mountT = (st % mountCycleSec) / mountCycleSec;
     mountIdx = Math.floor(st / mountCycleSec) % mountShowcase.length;
     var showcase = mountShowcase[mountIdx];
