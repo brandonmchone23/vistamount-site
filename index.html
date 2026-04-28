@@ -2712,9 +2712,13 @@ function initAddressAutocomplete() {
     autocompleteElement.addEventListener('gmp-placeselect', () => {
       const place = autocompleteElement.value;
       console.log('Place selected:', place);
+      console.log('Place keys:', place ? Object.keys(place) : 'no place');
       
-      if (place && place.formattedAddress) {
-        console.log('Setting address to:', place.formattedAddress);
+      // Try different property names
+      const address = place?.formattedAddress || place?.formatted_address || (place?.address_components ? place.address_components.map(c => c.long_name).join(', ') : null);
+      
+      if (address) {
+        console.log('Setting address to:', address);
         // Store in hidden input for form submission
         let hiddenInput = document.getElementById('address-value');
         if (!hiddenInput) {
@@ -2723,8 +2727,11 @@ function initAddressAutocomplete() {
           hiddenInput.id = 'address-value';
           autocompleteElement.parentElement.appendChild(hiddenInput);
         }
-        hiddenInput.value = place.formattedAddress;
+        hiddenInput.value = address;
+        console.log('Hidden input value set to:', hiddenInput.value);
         updateContractPreview();
+      } else {
+        console.log('No address found in place object');
       }
     });
     
