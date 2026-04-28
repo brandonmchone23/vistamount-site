@@ -2734,6 +2734,65 @@ function updateContractPreview() {
   }
 }
 
+// Real-time signature validation
+function validateSignature() {
+  const sig = document.getElementById('esignature') ? document.getElementById('esignature').value.trim() : '';
+  const fnameEl = document.getElementById('fname');
+  const lnameEl = document.getElementById('lname');
+  const submitBtn = document.getElementById('modal-submit-btn');
+  const sigError = document.getElementById('signature-error');
+  
+  if (!fnameEl || !lnameEl || !submitBtn) return;
+  
+  const fname = fnameEl.value.trim().toLowerCase();
+  const lname = lnameEl.value.trim().toLowerCase();
+  
+  // Check if signature matches
+  let isValid = false;
+  let errorMsg = '';
+  
+  if (!sig) {
+    errorMsg = 'Please type your full name';
+  } else if (!fname || !lname) {
+    errorMsg = 'Please enter your first and last name above';
+  } else {
+    const sigWords = sig.toLowerCase().split(/\s+/);
+    const hasFname = sigWords.some(word => word === fname);
+    const hasLname = sigWords.some(word => word === lname);
+    
+    if (!hasFname || !hasLname) {
+      errorMsg = `Must include "${fname}" and "${lname}"`;
+    } else {
+      isValid = true;
+    }
+  }
+  
+  // Update error display
+  if (sigError) {
+    if (errorMsg) {
+      sigError.style.display = 'block';
+      sigError.textContent = errorMsg;
+    } else {
+      sigError.style.display = 'none';
+    }
+  }
+  
+  // Disable/enable submit button
+  if (submitBtn) {
+    if (isValid && document.getElementById('consent-terms')?.checked) {
+      submitBtn.disabled = false;
+      submitBtn.style.opacity = '1';
+      submitBtn.style.pointerEvents = 'auto';
+      submitBtn.style.cursor = 'pointer';
+    } else {
+      submitBtn.disabled = true;
+      submitBtn.style.opacity = '0.5';
+      submitBtn.style.pointerEvents = 'none';
+      submitBtn.style.cursor = 'not-allowed';
+    }
+  }
+}
+
 // Add real-time listeners to contact form
 function attachContactFormListeners() {
   ['fname', 'lname', 'address', 'apt-suite'].forEach(id => {
@@ -2743,6 +2802,17 @@ function attachContactFormListeners() {
       el.addEventListener('change', updateContractPreview);
     }
   });
+  
+  // Add signature validation listeners
+  const esig = document.getElementById('esignature');
+  const fname = document.getElementById('fname');
+  const lname = document.getElementById('lname');
+  const terms = document.getElementById('consent-terms');
+  
+  if (esig) esig.addEventListener('input', validateSignature);
+  if (fname) fname.addEventListener('input', validateSignature);
+  if (lname) lname.addEventListener('input', validateSignature);
+  if (terms) terms.addEventListener('change', validateSignature);
 }
 
 
@@ -2971,6 +3041,7 @@ function initBookingStep4() {
       <div id="sign-consent-section" style="display:none;margin-top:16px;padding-top:16px;border-top:2px solid #2d7fe8;">
         <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#2d7fe8;font-weight:700;margin-bottom:8px;">Electronic Signature</div>
         <input type="text" id="esignature" placeholder="Type your full name to sign" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;font-style:italic;box-sizing:border-box;">
+        <div id="signature-error" style="display:none;background:#fee;border:1px solid #fcc;color:#c33;padding:10px;border-radius:4px;margin-top:8px;font-size:0.8rem;font-weight:500;"></div>
         <div style="font-size:0.72rem;color:#888;margin-top:4px;margin-bottom:16px;">By typing your name you are electronically signing this service agreement.</div>
 
         <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#2d7fe8;font-weight:700;margin-bottom:10px;">Communication Consent</div>
@@ -2997,7 +3068,7 @@ function initBookingStep4() {
 
     <div class="modal-nav">
       <button class="btn-back" onclick="goBookingStep(3)">&larr; Back</button>
-      <button class="btn-next" id="modal-submit-btn" onclick="submitBookingWithConsent()">Complete Booking &rarr;</button>
+      <button class="btn-next" id="modal-submit-btn" onclick="submitBookingWithConsent()" disabled style="opacity:0.5;cursor:not-allowed;">Complete Booking &rarr;</button>
     </div>
   `;
 
