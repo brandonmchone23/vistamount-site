@@ -2946,13 +2946,13 @@ document.addEventListener('DOMContentLoaded', function() {
   <!-- 3-column hero stage -->
   <div id="hero-stage">
 
-    <!-- LEFT CHANNEL: Mantel mount fireplace scene -->
+    <!-- LEFT CHANNEL: Left speaker -->
     <div id="hero-left-channel" aria-hidden="true">
-      <canvas id="fireplace-canvas"></canvas>
+      <canvas id="speaker-canvas-left"></canvas>
       <div id="mantel-label">
-        <div id="mantel-label-icon">↕</div>
-        <div id="mantel-label-text">MantelMount</div>
-        <div id="mantel-label-sub">Mounted above · Pulls to eye level</div>
+        <div id="mantel-label-icon">♫</div>
+        <div id="mantel-label-text">In-Wall Audio</div>
+        <div id="mantel-label-sub">Surround. No clutter.</div>
       </div>
     </div>
 
@@ -4722,32 +4722,38 @@ function calculateJobDuration() {
 
 // ─── SPEAKER / RIGHT CHANNEL ───────────────────────────────────────────────
 (function(){
-  const canvas = document.getElementById('speaker-canvas');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
+  // Draw speaker on both left and right canvases
+  const speakerCanvases = [
+    document.getElementById('speaker-canvas-left'),
+    document.getElementById('speaker-canvas')
+  ].filter(Boolean);
+  if(!speakerCanvases.length) return;
 
-  function resize(){
+  speakerCanvases.forEach(canvas => {
     canvas.width = canvas.offsetWidth * devicePixelRatio;
     canvas.height = canvas.offsetHeight * devicePixelRatio;
-    ctx.scale(devicePixelRatio, devicePixelRatio);
-  }
-  resize();
-  window.addEventListener('resize', ()=>{ resize(); });
-
-  const W = ()=>canvas.offsetWidth;
-  const H = ()=>canvas.offsetHeight;
+    canvas.getContext('2d').scale(devicePixelRatio, devicePixelRatio);
+  });
+  window.addEventListener('resize', ()=>{
+    speakerCanvases.forEach(canvas => {
+      canvas.width = canvas.offsetWidth * devicePixelRatio;
+      canvas.height = canvas.offsetHeight * devicePixelRatio;
+      canvas.getContext('2d').scale(devicePixelRatio, devicePixelRatio);
+    });
+  });
 
   let frame = 0;
-  // Sound wave rings state
   const rings = [];
   let nextRing = 0;
 
   function spawnRing(){
-    rings.push({ r: 0, maxR: W()*0.55, life: 1, speed: 1.4 + Math.random()*0.6 });
+    rings.push({ r: 0, maxR: w*0.55, life: 1, speed: 1.4 + Math.random()*0.6 });
   }
 
   function drawScene(){
-    const w=W(), h=H();
+    speakerCanvases.forEach(canvas => {
+    const ctx = canvas.getContext('2d');
+    const w=canvas.offsetWidth, h=canvas.offsetHeight;
     ctx.clearRect(0,0,w,h);
 
     // Room wall — dark, same tone as hero bg
@@ -4844,7 +4850,20 @@ function calculateJobDuration() {
       ctx.fillRect(bStartX+b*barW+1, bY-bH, barW-2, bH);
     }
 
+    // ── Power indicator (top right of panel) ──
+    const pX = spX + spW - 14, pY = spY + 10;
+    const pulseAlpha = 0.5 + 0.5 * Math.sin(frame * 0.04);
+    ctx.fillStyle = `rgba(79,172,255,${pulseAlpha})`;
+    ctx.beginPath(); ctx.arc(pX, pY, 3.5, 0, Math.PI*2); ctx.fill();
+    // Glow around dot
+    const dotGlow = ctx.createRadialGradient(pX, pY, 0, pX, pY, 10);
+    dotGlow.addColorStop(0, `rgba(79,172,255,${pulseAlpha * 0.4})`);
+    dotGlow.addColorStop(1, 'rgba(0,0,0,0)');
+    ctx.fillStyle = dotGlow;
+    ctx.beginPath(); ctx.arc(pX, pY, 10, 0, Math.PI*2); ctx.fill();
+
     frame++;
+    }); // end speakerCanvases.forEach
     requestAnimationFrame(drawScene);
   }
 
