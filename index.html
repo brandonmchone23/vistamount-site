@@ -2950,9 +2950,9 @@ document.addEventListener('DOMContentLoaded', function() {
     <div id="hero-left-channel" aria-hidden="true">
       <canvas id="fireplace-canvas"></canvas>
       <div id="mantel-label">
-        <div id="mantel-label-icon">▼</div>
-        <div id="mantel-label-text">Mantel Mount</div>
-        <div id="mantel-label-sub">TV pulls down on demand</div>
+        <div id="mantel-label-icon">↕</div>
+        <div id="mantel-label-text">MantelMount</div>
+        <div id="mantel-label-sub">Mounted above · Pulls to eye level</div>
       </div>
     </div>
 
@@ -4401,10 +4401,10 @@ function calculateJobDuration() {
   let tvAnimPhase = 0; // cycles through: wait→extend→wait→retract
   let phaseTimer = 0;
   const phases = [
-    { target:0, duration:240 },  // retracted — wait
-    { target:1, duration:180 },  // extend down
-    { target:1, duration:300 },  // extended — wait (watching)
-    { target:0, duration:180 },  // retract up
+    { target:0, duration:200 },  // mounted high — wait (show wall position)
+    { target:1, duration:160 },  // pull down to eye level
+    { target:1, duration:280 },  // eye level — wait (watching position)
+    { target:0, duration:160 },  // retract back up to wall
   ];
 
   let frame = 0;
@@ -4531,14 +4531,48 @@ function calculateJobDuration() {
     // Ease tvY toward tvTargetY
     tvY += (tvTargetY - tvY) * 0.04;
 
-    // TV dimensions: compact above-mantel TV
-    const tvW2 = mW * 0.78;
+    // TV dimensions: mounted above fireplace on wall
+    const tvW2 = mW * 0.72;
     const tvH2 = tvW2 * 0.56;
     const tvXPos = (w - tvW2) / 2;
-    // Retracted: top of TV sits at mantel shelf top; Extended: TV hangs below
-    const retractedY = mY - tvH2 * 0.08; // mostly hidden above shelf
-    const extendedY  = mY - tvH2 * 1.05; // hangs below mantel
-    const tvYPos = retractedY + (extendedY - retractedY) * tvY;
+    // Mounted position: TV sits on wall ABOVE the mantel (high up, hard to watch)
+    const mountedY = mY - tvH2 - h * 0.04; // wall-mounted above mantel
+    // Eye level position: TV pulled DOWN in front of fireplace, below mantel
+    const eyeLevelY = mY + mH + h * 0.02; // pulled down to comfortable viewing height
+    const tvYPos = mountedY + (eyeLevelY - mountedY) * tvY;
+
+    // Draw wall bracket line connecting TV to wall when mounted
+    if(tvY < 0.8){
+      const bracketAlpha = (1 - tvY) * 0.6;
+      ctx.save();
+      ctx.globalAlpha = bracketAlpha;
+      ctx.strokeStyle = 'rgba(150,150,170,0.8)';
+      ctx.lineWidth = 2;
+      ctx.setLineDash([3,3]);
+      ctx.beginPath();
+      ctx.moveTo(tvXPos + tvW2/2, tvYPos + tvH2/2);
+      ctx.lineTo(tvXPos + tvW2/2, mY - 4);
+      ctx.stroke();
+      ctx.setLineDash([]);
+      ctx.restore();
+    }
+
+    // Annotation: mounted vs eye level
+    ctx.save();
+    ctx.font = 'bold 9px -apple-system,sans-serif';
+    ctx.textAlign = 'center';
+    if(tvY < 0.3){
+      // Show "Wall mounted" label above TV
+      ctx.globalAlpha = (1 - tvY * 3) * 0.8;
+      ctx.fillStyle = 'rgba(255,255,255,0.7)';
+      ctx.fillText('▲ Wall mounted', tvXPos + tvW2/2, tvYPos - 6);
+    } else if(tvY > 0.75){
+      // Show "Eye level" label below TV
+      ctx.globalAlpha = (tvY - 0.75) * 4 * 0.8;
+      ctx.fillStyle = 'rgba(80,200,120,0.9)';
+      ctx.fillText('Eye level ✓', tvXPos + tvW2/2, tvYPos + tvH2 + 14);
+    }
+    ctx.restore();
 
     // TV shadow on mantel/wall when extended
     if(tvY > 0.05){
@@ -4551,9 +4585,9 @@ function calculateJobDuration() {
 
     // Draw TV (clip to below mantel top when retracting)
     ctx.save();
-    // Clip: only show TV below the mantel shelf top
+    // No clip - TV visible above and below mantel
     ctx.beginPath();
-    ctx.rect(tvXPos-4, mY-4, tvW2+8, h);
+    ctx.rect(0, 0, w, h);
     ctx.clip();
 
     // TV bezel
