@@ -1792,8 +1792,15 @@ function openBookingModal() {
     `;
   }
   
-  // Initialize step 1
-  setTimeout(() => initBookingStep1(), 100);
+  // Initialize step 1 - longer delay to ensure DOM is ready
+  setTimeout(() => {
+    const s1 = document.getElementById('step-1');
+    if (s1) {
+      initBookingStep1();
+    } else {
+      console.error('Step 1 container not found after delay');
+    }
+  }, 200);
 }
 
 function closeBookingModal() {
