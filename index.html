@@ -2923,7 +2923,16 @@ document.addEventListener('DOMContentLoaded', function() {
   #site-header .sh-portal{display:inline-flex;align-items:center;padding:8px 16px;border:1px solid rgba(255,255,255,0.2);border-radius:6px;color:rgba(255,255,255,0.7);font-size:11px;letter-spacing:2px;text-decoration:none;font-weight:500;transition:all 0.2s;margin-right:12px;}.sh-portal:hover{border-color:rgba(255,255,255,0.5);color:#fff;}
 .sh-book{flex:1;padding:10px 14px;font-size:0.82rem;letter-spacing:0.04em;}
 }
-.sh-spacer{height:60px;} @media(max-width:640px){.sh-spacer{height:108px;}}
+.sh-spacer{height:60px;}
+@media(max-width:640px){
+  .sh-spacer{height:56px;}
+  #site-header .sh-inner{flex-direction:row!important;padding:0 16px!important;gap:8px!important;}
+  #site-header .sh-logo{font-size:1.2rem!important;}
+  #site-header .sh-actions{gap:8px!important;}
+  #site-header .sh-phone{display:none!important;}
+  #site-header .sh-portal{font-size:10px!important;letter-spacing:1px!important;padding:8px 10px!important;margin-right:0!important;}
+  .sh-book{padding:8px 14px!important;font-size:0.78rem!important;letter-spacing:0.03em!important;}
+}
 
 /* Hero speaker removal overrides */
 #hero-wall { display:none !important; }
