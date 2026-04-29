@@ -106,7 +106,7 @@ nav.scrolled-light .nav-book{color:#fff!important;}
 }
 
 /* Left & right channels */
-#hero-left-channel, #hero-right-channel{
+#hero-left-channel, #hero-right-channel{display:none!important;/*
   position:relative;
   height:min(460px,44vw);
   display:flex;
@@ -116,7 +116,7 @@ nav.scrolled-light .nav-book{color:#fff!important;}
   padding-bottom:20px;
   opacity:0;
   animation:ctaRiseIn 1s cubic-bezier(.22,1,.36,1) 2.8s forwards;
-}
+*/}
 #speaker-canvas-left, #speaker-canvas{
   position:absolute;
   inset:0;
@@ -2950,7 +2950,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <div id="hero-stage">
 
     <!-- LEFT CHANNEL: Left speaker -->
-    <div id="hero-left-channel" aria-hidden="true">
+    <div id="hero-left-channel" style="display:none" aria-hidden="true">
       <canvas id="speaker-canvas-left" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
       <div id="mantel-label">
         <div id="mantel-label-icon">♫</div>
@@ -3211,7 +3211,7 @@ document.addEventListener('DOMContentLoaded', function() {
   </div><!-- /hero-tv-wrap -->
 
     <!-- RIGHT CHANNEL: Room ambiance / speaker columns -->
-    <div id="hero-right-channel" aria-hidden="true">
+    <div id="hero-right-channel" style="display:none" aria-hidden="true">
       <canvas id="speaker-canvas"></canvas>
       <div id="speaker-label">
         <div id="speaker-label-icon">♫</div>
