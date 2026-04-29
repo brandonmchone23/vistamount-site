@@ -2943,430 +2943,55 @@ document.addEventListener('DOMContentLoaded', function() {
 </nav>
 
 <!-- HERO -->
-<section id="hero">
-  <!-- Warm plaster wall background (full-bleed, fades in) -->
-  <div id="hero-wall" aria-hidden="true"></div>
+<section id="hero" style="background:#06080f;padding:100px 24px 64px;text-align:center;position:relative;overflow:hidden;">
+  <!-- Background glow -->
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 30%,rgba(37,99,235,0.1) 0%,transparent 70%);pointer-events:none;"></div>
 
-  <!-- HEADLINE above TV -->
-  <div id="hero-headline" aria-label="Phoenix's premier TV mounting service">
-    <div id="hero-hl-top">Phoenix's Premier</div>
-    <div id="hero-hl-cycle-wrap">
-      <span id="hero-hl-cycle">TV Mounting</span><span id="hero-hl-cursor">|</span>
-    </div>
-    <div id="hero-hl-sub">Service — Done Right. Done Clean.</div>
-  </div>
+  <div style="position:relative;z-index:2;max-width:800px;margin:0 auto;">
 
-  <!-- 3-column hero stage -->
-  <div id="hero-stage">
+    <!-- Eyebrow -->
+    <div style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#2563eb;font-weight:700;margin-bottom:16px;">Phoenix's #1 TV Mounting Service</div>
 
-    <!-- LEFT CHANNEL: Left speaker -->
-    <div id="hero-left-channel" style="display:none" aria-hidden="true">
-      <canvas id="speaker-canvas-left" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
-      <div id="mantel-label">
-        <div id="mantel-label-icon">♫</div>
-        <div id="mantel-label-text">In-Wall Audio</div>
-        <div id="mantel-label-sub">Surround. No clutter.</div>
-      </div>
-    </div>
+    <!-- Headline -->
+    <h1 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(56px,10vw,120px);line-height:0.92;color:#fff;margin:0 0 24px;letter-spacing:1px;">TV MOUNTING<br><span style="color:#2563eb;">DONE RIGHT.</span></h1>
 
-    <!-- CENTER: TV composition -->
-    <div id="hero-tv-wrap">
-    <!-- TV bezel (SVG drawn-in lines) -->
-    <svg id="hero-tv-svg" viewBox="0 0 1600 1020" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
-      <defs>
-        <radialGradient id="flashGrad" cx="50%" cy="50%" r="60%">
-          <stop offset="0%" stop-color="#ffffff" stop-opacity="1"/>
-          <stop offset="35%" stop-color="#bcdcff" stop-opacity="0.9"/>
-          <stop offset="100%" stop-color="#4facff" stop-opacity="0"/>
-        </radialGradient>
-        <radialGradient id="screenVignette" cx="50%" cy="45%" r="75%">
-          <stop offset="0%" stop-color="#0d1424" stop-opacity="0"/>
-          <stop offset="65%" stop-color="#060912" stop-opacity="0"/>
-          <stop offset="100%" stop-color="#02040a" stop-opacity="0"/>
-        </radialGradient>
-        <linearGradient id="bezelBody" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stop-color="#1a1a1f"/>
-          <stop offset="50%" stop-color="#0f0f13"/>
-          <stop offset="100%" stop-color="#07070a"/>
-        </linearGradient>
-        <linearGradient id="screenEdge" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stop-color="#2a3040" stop-opacity="0.8"/>
-          <stop offset="100%" stop-color="#0a0e18" stop-opacity="0.9"/>
-        </linearGradient>
-        <linearGradient id="soundbarBody" x1="0%" y1="0%" x2="0%" y2="100%">
-          <stop offset="0%" stop-color="#161619"/>
-          <stop offset="50%" stop-color="#0c0c0f"/>
-          <stop offset="100%" stop-color="#050507"/>
-        </linearGradient>
-        <pattern id="grillePattern" x="0" y="0" width="6" height="6" patternUnits="userSpaceOnUse">
-          <circle cx="3" cy="3" r="1" fill="#050507" opacity="0.7"/>
-        </pattern>
-        <filter id="tvShadow" x="-20%" y="-20%" width="140%" height="160%">
-          <feGaussianBlur in="SourceAlpha" stdDeviation="22"/>
-          <feOffset dx="0" dy="28" result="offsetblur"/>
-          <feComponentTransfer><feFuncA type="linear" slope="0.75"/></feComponentTransfer>
-          <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
-        <filter id="sbShadow" x="-20%" y="-40%" width="140%" height="220%">
-          <feGaussianBlur in="SourceAlpha" stdDeviation="10"/>
-          <feOffset dx="0" dy="10" result="offsetblur"/>
-          <feComponentTransfer><feFuncA type="linear" slope="0.6"/></feComponentTransfer>
-          <feMerge><feMergeNode/><feMergeNode in="SourceGraphic"/></feMerge>
-        </filter>
-      </defs>
+    <!-- Subheadline -->
+    <p style="font-size:clamp(16px,2vw,20px);color:rgba(255,255,255,0.65);margin:0 0 16px;font-weight:300;line-height:1.5;">Clean installs. Hidden wires. Same-day service.<br>Starting at <strong style="color:#fff;">$100</strong> &mdash; exact price before you confirm.</p>
 
-      <g id="tv-body-group">
-        <rect id="tv-body" x="40" y="40" width="1520" height="820" rx="10" ry="10" fill="url(#bezelBody)" filter="url(#tvShadow)"/>
-        <rect id="tv-screen" x="54" y="54" width="1492" height="762" rx="2" ry="2" fill="url(#screenVignette)"/>
-        <rect id="tv-screen-edge" x="54" y="54" width="1492" height="762" rx="2" ry="2" fill="none" stroke="url(#screenEdge)" stroke-width="1" opacity="0.8"/>
-        
-        <!-- Phoenix skyline backdrop - subtle silhouette at bottom of screen -->
-        <g id="tv-skyline" opacity="0" style="display:none">
-          <!-- Warm horizon glow behind distant mountain line -->
-          <defs>
-            <linearGradient id="skyDuskGrad" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#0b1530"/>
-              <stop offset="55%" stop-color="#1a1838"/>
-              <stop offset="78%" stop-color="#6b3a2e" stop-opacity=".55"/>
-              <stop offset="92%" stop-color="#8a4a28" stop-opacity=".35"/>
-              <stop offset="100%" stop-color="#0c0a18"/>
-            </linearGradient>
-            <linearGradient id="horizonGlow" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#e67a3a" stop-opacity="0"/>
-              <stop offset="60%" stop-color="#e67a3a" stop-opacity=".18"/>
-              <stop offset="100%" stop-color="#e67a3a" stop-opacity="0"/>
-            </linearGradient>
-          </defs>
-          <!-- Sky (dusk gradient) already painted by screen bg; add dusk band low on screen -->
-          <rect x="54" y="640" width="1492" height="180" fill="url(#horizonGlow)" opacity=".9"/>
-
-          <!-- Stars (subtle, only upper half of screen) -->
-          <g id="tv-stars" fill="#cfd9ff" opacity=".55">
-            <circle cx="180" cy="220" r="1.2"/><circle cx="310" cy="310" r="1"/>
-            <circle cx="430" cy="190" r="1.3"/><circle cx="520" cy="360" r="1"/>
-            <circle cx="640" cy="150" r="1.1"/><circle cx="720" cy="290" r="1"/>
-            <circle cx="880" cy="210" r="1.2"/><circle cx="970" cy="340" r="1"/>
-            <circle cx="1080" cy="170" r="1.1"/><circle cx="1180" cy="280" r="1"/>
-            <circle cx="1290" cy="200" r="1.3"/><circle cx="1400" cy="330" r="1"/>
-            <circle cx="240" cy="420" r="1"/><circle cx="1460" cy="420" r="1.2"/>
-          </g>
-
-          <!-- Distant mountain layer (South Mountain silhouette, far, blue-grey) -->
-          <path d="M 54 760
-                   L 120 740 L 180 750 L 240 725 L 310 745 L 380 720 L 450 738
-                   L 520 715 L 600 735 L 680 712 L 760 730 L 850 710 L 940 728
-                   L 1020 708 L 1100 725 L 1180 705 L 1270 722 L 1360 700 L 1440 718
-                   L 1500 708 L 1546 714 L 1546 816 L 54 816 Z"
-                fill="#171f3a" opacity=".95"/>
-
-          <!-- Camelback Mountain silhouette (recognizable hump-and-head profile, right-of-center foreground) -->
-          <!-- Two humps: the Camel's Head (taller, left) and Camel's Hump (lower, right), with notch between -->
-          <path d="M 880 780
-                   L 940 760
-                   L 980 742
-                   L 1010 728
-                   L 1035 710
-                   L 1055 692
-                   L 1070 678
-                   L 1082 668
-                   L 1092 660
-                   L 1100 656
-                   L 1106 658
-                   L 1110 664
-                   L 1112 672
-                   L 1114 684
-                   L 1116 696
-                   L 1122 704
-                   L 1130 706
-                   L 1140 702
-                   L 1152 692
-                   L 1168 678
-                   L 1188 672
-                   L 1208 676
-                   L 1228 682
-                   L 1252 694
-                   L 1278 708
-                   L 1306 722
-                   L 1336 736
-                   L 1368 748
-                   L 1400 758
-                   L 1440 768
-                   L 1490 776
-                   L 1546 782
-                   L 1546 820
-                   L 880 820 Z"
-                fill="#0c1224"/>
-
-          <!-- Downtown Phoenix skyline (left-of-center, rectangular towers with window lights) -->
-          <!-- Buildings grouped; heights roughly match real downtown profile:
-               Chase Tower (tallest ~40 floors), BMO Tower, One Renaissance Square twins, US Bank Center -->
-          <g id="tv-downtown">
-            <!-- Base platform shadow -->
-            <rect x="280" y="780" width="620" height="40" fill="#05070f"/>
-
-            <!-- Far left short building (Luhrs / older stock) -->
-            <rect x="300" y="748" width="38" height="72" fill="#0a0f1c"/>
-            <!-- Mid-height block -->
-            <rect x="348" y="724" width="44" height="96" fill="#0b1020"/>
-            <!-- Residential tower -->
-            <rect x="402" y="708" width="42" height="112" fill="#0a0f1e"/>
-            <!-- US Bank Center (stepped top) -->
-            <rect x="454" y="688" width="56" height="132" fill="#0c1326"/>
-            <rect x="466" y="674" width="32" height="20" fill="#0c1326"/>
-            <rect x="478" y="666" width="8" height="12" fill="#0c1326"/>
-            <!-- One Renaissance Square I -->
-            <rect x="522" y="700" width="44" height="120" fill="#0b1122"/>
-            <!-- One Renaissance Square II (shorter twin) -->
-            <rect x="572" y="712" width="40" height="108" fill="#0b1020"/>
-            <!-- BMO Tower (modern, tallest box, crown) -->
-            <rect x="620" y="652" width="58" height="168" fill="#0d1528"/>
-            <rect x="634" y="640" width="30" height="14" fill="#0d1528"/>
-            <rect x="646" y="628" width="6" height="14" fill="#0d1528"/>
-            <!-- Chase Tower (tallest in Phoenix, white-ish but silhouette dark) -->
-            <rect x="690" y="620" width="62" height="200" fill="#0e1629"/>
-            <rect x="702" y="606" width="38" height="16" fill="#0e1629"/>
-            <rect x="716" y="592" width="10" height="16" fill="#0e1629"/>
-            <!-- 44 Monroe residential -->
-            <rect x="762" y="680" width="36" height="140" fill="#0a0f1e"/>
-            <!-- Hyatt Regency cylinder approximation -->
-            <rect x="806" y="702" width="32" height="118" fill="#0b1022"/>
-            <rect x="810" y="696" width="24" height="8" fill="#0b1022"/>
-            <!-- Collier Center -->
-            <rect x="846" y="720" width="34" height="100" fill="#0a0f1c"/>
-
-            <!-- Warm window lights (amber pinpricks, clustered) -->
-            <g fill="#ffb56b" opacity=".85">
-              <!-- Chase -->
-              <rect x="696" y="640" width="3" height="3"/><rect x="706" y="648" width="3" height="3"/>
-              <rect x="718" y="660" width="3" height="3"/><rect x="730" y="668" width="3" height="3"/>
-              <rect x="742" y="678" width="3" height="3"/><rect x="700" y="688" width="3" height="3"/>
-              <rect x="712" y="700" width="3" height="3"/><rect x="724" y="712" width="3" height="3"/>
-              <rect x="736" y="724" width="3" height="3"/><rect x="706" y="740" width="3" height="3"/>
-              <rect x="720" y="752" width="3" height="3"/><rect x="734" y="766" width="3" height="3"/>
-              <rect x="696" y="780" width="3" height="3"/><rect x="740" y="796" width="3" height="3"/>
-              <!-- BMO -->
-              <rect x="628" y="670" width="3" height="3"/><rect x="644" y="682" width="3" height="3"/>
-              <rect x="658" y="696" width="3" height="3"/><rect x="668" y="712" width="3" height="3"/>
-              <rect x="632" y="726" width="3" height="3"/><rect x="650" y="740" width="3" height="3"/>
-              <rect x="664" y="756" width="3" height="3"/><rect x="636" y="774" width="3" height="3"/>
-              <!-- Renaissance -->
-              <rect x="530" y="720" width="3" height="3"/><rect x="548" y="736" width="3" height="3"/>
-              <rect x="558" y="756" width="3" height="3"/><rect x="540" y="776" width="3" height="3"/>
-              <rect x="580" y="728" width="3" height="3"/><rect x="596" y="744" width="3" height="3"/>
-              <rect x="588" y="766" width="3" height="3"/><rect x="602" y="790" width="3" height="3"/>
-              <!-- US Bank -->
-              <rect x="462" y="708" width="3" height="3"/><rect x="478" y="724" width="3" height="3"/>
-              <rect x="492" y="742" width="3" height="3"/><rect x="466" y="762" width="3" height="3"/>
-              <rect x="482" y="780" width="3" height="3"/><rect x="496" y="798" width="3" height="3"/>
-              <!-- Residential / smaller -->
-              <rect x="408" y="730" width="3" height="3"/><rect x="418" y="750" width="3" height="3"/>
-              <rect x="428" y="772" width="3" height="3"/><rect x="412" y="790" width="3" height="3"/>
-              <rect x="358" y="744" width="3" height="3"/><rect x="372" y="768" width="3" height="3"/>
-              <rect x="382" y="790" width="3" height="3"/>
-              <rect x="306" y="762" width="3" height="3"/><rect x="320" y="784" width="3" height="3"/>
-              <rect x="770" y="702" width="3" height="3"/><rect x="780" y="722" width="3" height="3"/>
-              <rect x="788" y="748" width="3" height="3"/><rect x="774" y="772" width="3" height="3"/>
-              <rect x="790" y="796" width="3" height="3"/>
-              <rect x="814" y="724" width="3" height="3"/><rect x="822" y="748" width="3" height="3"/>
-              <rect x="812" y="772" width="3" height="3"/><rect x="826" y="796" width="3" height="3"/>
-              <rect x="856" y="740" width="3" height="3"/><rect x="866" y="768" width="3" height="3"/>
-              <rect x="854" y="798" width="3" height="3"/>
-            </g>
-
-            <!-- Aircraft warning lights (red, atop tallest towers) -->
-            <circle cx="721" cy="620" r="1.8" fill="#ff5b5b" opacity=".9"/>
-            <circle cx="649" cy="652" r="1.6" fill="#ff5b5b" opacity=".9"/>
-          </g>
-
-          <!-- Thin ground haze line -->
-          <rect x="54" y="808" width="1492" height="8" fill="#20243a" opacity=".6"/>
-        </g>
-
-        <!-- V-shield logo PNG (boot splash centered on screen) -->
-        <defs>
-<clipPath id="logo-shield-clip"><rect x="660" y="275" width="280" height="200"/></clipPath>
-<linearGradient id="wordmark-grad" x1="0%" y1="0%" x2="0%" y2="100%">
-<stop offset="0%" stop-color="#ffffff"/><stop offset="100%" stop-color="#cfd8e3"/>
-</linearGradient>
-</defs>
-<image id="tv-logo" href="/images/logo-final.png" x="660" y="275" width="280" height="240" preserveAspectRatio="xMidYMin meet" clip-path="url(#logo-shield-clip)"/>
-<text id="tv-wordmark" x="800" y="525" text-anchor="middle" font-family="'Inter','Helvetica Neue',Arial,sans-serif" font-weight="800" font-size="46" letter-spacing="8" fill="url(#wordmark-grad)" style="paint-order:stroke;">VISTAMOUNT</text>
-        <text id="tv-chin-brand" x="800" y="842" text-anchor="middle" font-family="'Bebas Neue',sans-serif" font-size="13" letter-spacing="3" fill="#2e2e36" opacity="0.85">VISTAMOUNT</text>
-        <circle id="tv-power-led" cx="80" cy="838" r="2.2" fill="#4facff" opacity="0"/>
-        <rect id="tv-flash" x="54" y="54" width="1492" height="762" rx="2" ry="2" fill="url(#flashGrad)" opacity="0" style="mix-blend-mode:screen"/>
-      </g>
-
-      <g id="soundbar-group">
-        <!-- Soundbar body with shadow -->
-        <rect id="sb-body" x="330" y="900" width="940" height="68" rx="6" ry="6" fill="url(#soundbarBody)" filter="url(#sbShadow)"/>
-        <!-- Speaker grille (perforated pattern) on the left half -->
-        <rect id="sb-grille" x="350" y="916" width="660" height="36" rx="2" ry="2" fill="url(#grillePattern)"/>
-        <!-- Tiny power LED on far left -->
-        <circle id="sb-power-led" cx="352" cy="934" r="1.8" fill="#4facff" opacity="0"/>
-        <!-- Display panel on the right (dark recessed) -->
-        <rect id="sb-display-panel" x="1060" y="918" width="180" height="32" rx="3" ry="3" fill="#0a0a0c" stroke="#1a1a1f" stroke-width="1"/>
-        <!-- Display text (amber VFD-style) -->
-        <g id="sb-display-group" style="filter:drop-shadow(0 0 4px rgba(255,179,71,0.55))">
-          <text class="sb-txt" id="sb-txt-dash" x="1150" y="940" text-anchor="middle" font-family="'Courier New',monospace" font-size="16" font-weight="700" letter-spacing="4" fill="#ffb347" opacity="0">- - -</text>
-          <text class="sb-txt" id="sb-txt-hello" x="1150" y="940" text-anchor="middle" font-family="'Courier New',monospace" font-size="16" font-weight="700" letter-spacing="3" fill="#ffb347" opacity="0">HELLO</text>
-          <text class="sb-txt" id="sb-txt-hdmi" x="1150" y="940" text-anchor="middle" font-family="'Courier New',monospace" font-size="16" font-weight="700" letter-spacing="2" fill="#ffb347" opacity="0">HDMI</text>
-          <text class="sb-txt" id="sb-txt-arc" x="1150" y="940" text-anchor="middle" font-family="'Courier New',monospace" font-size="16" font-weight="700" letter-spacing="2" fill="#ffb347" opacity="0">HDMI ARC</text>
-        </g>
-      </g>
-    </svg>
-
-    <!-- Content that appears INSIDE the TV screen -->
-    <canvas id="hero-canvas" style="position:absolute;inset:0;width:100%;height:100%;z-index:3;"></canvas>
-    
-  </div><!-- /hero-tv-wrap -->
-
-    <!-- RIGHT CHANNEL: Room ambiance / speaker columns -->
-    <div id="hero-right-channel" style="display:none" aria-hidden="true">
-      <canvas id="speaker-canvas"></canvas>
-      <div id="speaker-label">
-        <div id="speaker-label-icon">♫</div>
-        <div id="speaker-label-text">In-Wall Audio</div>
-        <div id="speaker-label-sub">Surround. No clutter.</div>
-      </div>
+    <!-- Social proof strip -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:6px 20px;flex-wrap:wrap;margin-bottom:40px;font-size:14px;color:rgba(255,255,255,0.55);">
+      <span style="color:#f59e0b;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+      <span style="color:#fff;font-weight:600;">4.9</span>
+      <span>200+ Reviews</span>
+      <span style="color:rgba(255,255,255,0.2);">|</span>
+      <span>800+ Installs</span>
+      <span style="color:rgba(255,255,255,0.2);">|</span>
+      <span>$1M Insured</span>
     </div>
 
-  </div><!-- /hero-stage -->
-
-
-
-  <!-- CTA + trust bar below TV (slide up) -->
-  <p id="hero-tagline-below">Clean installs. Hidden wires available. Done right the first time.</p>
-  <div id="hero-insurance-badge-wrap" style="text-align:center;width:100%;position:relative;z-index:6;">
-  <div id="hero-insurance-badge" aria-label="One Million Dollar liability insured">
-    <svg width="14" height="14" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-      <path d="M12 2L4 5v7c0 5 3.5 9.2 8 10 4.5-.8 8-5 8-10V5l-8-3z" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"/>
-      <path d="M8.5 12l2.6 2.6L15.5 10" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
-    </svg>
-    <span><strong>$1M</strong> Liability Insured</span>
-    <span class="badge-divider" aria-hidden="true"></span>
-    <span>AZ Law Compliant</span>
-    <span class="badge-divider" aria-hidden="true"></span>
-    <span>Same-Day Available</span>
-  </div>
-  </div>
-  <div id="hero-cta-wrap">
-    <button id="hero-cta" onclick="openBookingModal(); return false;">
-      <span>Book Your Install</span>
-      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
-    </button>
-    <div id="hero-trust">
-      <span class="trust-stars">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-      <span class="trust-text">4.9/5</span>
-      <span class="trust-dot">&middot;</span>
-      <span class="trust-text">800+ Installs</span>
-      <span class="trust-dot">&middot;</span>
-      <span class="trust-text">Same-day often available</span>
-      <span class="trust-dot">&middot;</span>
-      <span class="trust-text">Insured &amp; Guaranteed</span>
+    <!-- CTAs -->
+    <div style="display:flex;align-items:center;justify-content:center;gap:16px;flex-wrap:wrap;">
+      <button onclick="openBookingModal()" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:none;padding:18px 40px;border-radius:999px;font-size:16px;font-weight:700;letter-spacing:0.5px;cursor:pointer;box-shadow:0 8px 32px rgba(37,99,235,0.45);transition:all 0.2s;" onmouseover="this.style.transform='translateY(-2px)';this.style.boxShadow='0 12px 40px rgba(37,99,235,0.6)'" onmouseout="this.style.transform='none';this.style.boxShadow='0 8px 32px rgba(37,99,235,0.45)'">
+        Book Online &rarr;
+      </button>
+      <a href="tel:4809034769" style="display:inline-flex;align-items:center;gap:10px;color:#fff;text-decoration:none;font-size:18px;font-weight:700;padding:18px 32px;border:2px solid rgba(255,255,255,0.2);border-radius:999px;transition:all 0.2s;" onmouseover="this.style.borderColor='rgba(255,255,255,0.6)'" onmouseout="this.style.borderColor='rgba(255,255,255,0.2)'">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6.09 6.09l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        (480) 903-4769
+      </a>
     </div>
-  </div>
 
-  <!-- Scroll hint -->
-  <div class="hero-scroll-hint" aria-hidden="true">
-    <span>Scroll</span>
-    <span class="hero-scroll-dot"></span>
+    <!-- Mount types -->
+    <div style="display:flex;flex-wrap:wrap;justify-content:center;gap:10px;margin-top:40px;">
+      <span style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);padding:6px 16px;border-radius:999px;font-size:12px;letter-spacing:1px;text-transform:uppercase;">Fixed</span>
+      <span style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);padding:6px 16px;border-radius:999px;font-size:12px;letter-spacing:1px;text-transform:uppercase;">Tilting</span>
+      <span style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);padding:6px 16px;border-radius:999px;font-size:12px;letter-spacing:1px;text-transform:uppercase;">Full Motion</span>
+      <span style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);padding:6px 16px;border-radius:999px;font-size:12px;letter-spacing:1px;text-transform:uppercase;">Fireplace</span>
+      <span style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);padding:6px 16px;border-radius:999px;font-size:12px;letter-spacing:1px;text-transform:uppercase;">MantelMount</span>
+      <span style="background:rgba(255,255,255,0.05);border:1px solid rgba(255,255,255,0.1);color:rgba(255,255,255,0.6);padding:6px 16px;border-radius:999px;font-size:12px;letter-spacing:1px;text-transform:uppercase;">All Wall Types</span>
+    </div>
+
   </div>
 </section>
-
-<!-- STATS - WHITE -->
-<div style="background:#f8f9fa;padding:60px 52px 48px;border-bottom:1px solid rgba(0,0,0,.06);min-height:400px;">
-  <div style="max-width:1200px;margin:0 auto;display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:start;" class="stats-main-grid">
-    <div class="fade-up" style="text-align:center;min-height:250px;">
-      <div style="position:relative;width:280px;height:155px;margin:0 auto;">
-        <canvas id="vm-gauge" width="280" height="155"></canvas>
-        <div style="position:absolute;bottom:0;left:50%;transform:translateX(-50%);text-align:center;white-space:nowrap;">
-          <div id="vm-gauge-num" style="font-size:60px;font-weight:900;color:var(--dark-text);line-height:1;letter-spacing:-.03em;">0</div>
-          <div style="font-size:.48rem;letter-spacing:.28em;text-transform:uppercase;color:var(--mid-text);margin-top:4px;">TVs Installed</div>
-        </div>
-      </div>
-      <div id="vm-gauge-label" style="font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;margin-top:18px;min-height:18px;font-weight:700;transition:color .6s;"></div>
-      <div id="vm-gauge-sub" style="font-size:.58rem;letter-spacing:.12em;text-transform:uppercase;margin-top:6px;min-height:16px;color:var(--mid-text);transition:opacity .5s;opacity:0;"></div>
-    </div>
-    <div style="display:flex;flex-direction:column;gap:20px;">
-      <div class="fade-up d1" style="padding:22px 28px;border:1px solid rgba(0,0,0,.08);">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:var(--dark-text);line-height:1;margin-bottom:4px;">4.9 &#9733;</div>
-        <div style="font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mid-text);">Rating &middot; 200+ Reviews</div>
-      </div>
-      <div class="fade-up d2" style="padding:22px 28px;border:1px solid rgba(0,0,0,.08);">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--dark-text);line-height:1;margin-bottom:4px;">Same-Day Available</div>
-        <div style="font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mid-text);">Book Online &middot; Instant Quote</div>
-      </div>
-      <div class="fade-up d3" style="padding:22px 28px;border:1px solid rgba(0,0,0,.08);">
-        <div style="font-family:'Bebas Neue',sans-serif;font-size:1.8rem;color:var(--dark-text);line-height:1;margin-bottom:4px;">Fireplace & Tile</div>
-        <div style="font-size:.62rem;letter-spacing:.18em;text-transform:uppercase;color:var(--mid-text);">Specialists &middot; All Wall Types</div>
-      </div>
-    </div>
-  </div>
-</div>
-
-<script>
-(function(){
-  var c=document.getElementById('vm-gauge');
-  if(!c)return;
-  var ctx=c.getContext('2d'),W=280,H=155,cx=W/2,cy=H+12,R=132,MAX=800,cur=0,going=false;
-  var S=Math.PI,E=2*Math.PI;
-  var stops=[{p:0,r:210,g:30,b:60},{p:.5,r:255,g:105,b:0},{p:1,r:30,g:120,b:255}];
-  function getCol(p){for(var i=0;i<stops.length-1;i++){var a=stops[i],b=stops[i+1];if(p>=a.p&&p<=b.p){var t=(p-a.p)/(b.p-a.p);return{r:Math.round(a.r+(b.r-a.r)*t),g:Math.round(a.g+(b.g-a.g)*t),b:Math.round(a.b+(b.b-a.b)*t)};}}return stops[stops.length-1];}
-  function rgba(c,a){return'rgba('+c.r+','+c.g+','+c.b+','+(a==null?1:a)+')';}
-  function draw(val){
-    ctx.clearRect(0,0,W,H);var p=val/MAX;
-    ctx.beginPath();ctx.arc(cx,cy,R,S,E);ctx.strokeStyle='rgba(0,0,0,.07)';ctx.lineWidth=18;ctx.lineCap='round';ctx.stroke();
-    if(p<=0)return;
-    var segs=160;
-    for(var s=0;s<segs;s++){
-      var p0=(s/segs)*p,p1=Math.min(((s+1)/segs)*p,p);if(p0>=p)break;
-      var a0=S+p0*Math.PI,a1=S+p1*Math.PI;
-      var c0=getCol(p0),c1=getCol(p1);
-      var cm={r:Math.round((c0.r+c1.r)/2),g:Math.round((c0.g+c1.g)/2),b:Math.round((c0.b+c1.b)/2)};
-      ctx.beginPath();ctx.arc(cx,cy,R,a0,a1);ctx.strokeStyle=rgba(cm,.13);ctx.lineWidth=28;ctx.lineCap='butt';ctx.stroke();
-      ctx.beginPath();ctx.arc(cx,cy,R,a0,a1);ctx.strokeStyle=rgba(cm,1);ctx.lineWidth=18;ctx.stroke();
-      ctx.beginPath();ctx.arc(cx,cy,R-5,a0,a1);ctx.strokeStyle='rgba(255,255,255,.48)';ctx.lineWidth=5;ctx.stroke();
-      ctx.beginPath();ctx.arc(cx,cy,R+5,a0,a1);ctx.strokeStyle='rgba(0,0,0,.1)';ctx.lineWidth=4;ctx.stroke();
-    }
-    var tipA=S+p*Math.PI,tx=cx+Math.cos(tipA)*R,ty=cy+Math.sin(tipA)*R,tc=getCol(p);
-    var gr=ctx.createRadialGradient(tx,ty,0,tx,ty,16);gr.addColorStop(0,rgba(tc,.45));gr.addColorStop(1,rgba(tc,0));
-    ctx.beginPath();ctx.arc(tx,ty,16,0,2*Math.PI);ctx.fillStyle=gr;ctx.fill();
-    ctx.beginPath();ctx.arc(tx,ty,9,0,2*Math.PI);ctx.fillStyle=rgba(tc,1);ctx.fill();
-    ctx.beginPath();ctx.arc(tx-2,ty-2,4,0,2*Math.PI);ctx.fillStyle='rgba(255,255,255,.6)';ctx.fill();
-    var sx=cx+Math.cos(S)*R,sy=cy+Math.sin(S)*R,sc=getCol(0);
-    ctx.beginPath();ctx.arc(sx,sy,9,0,2*Math.PI);ctx.fillStyle=rgba(sc,1);ctx.fill();
-    ctx.beginPath();ctx.arc(sx-2,sy-2,4,0,2*Math.PI);ctx.fillStyle='rgba(255,255,255,.5)';ctx.fill();
-  }
-  var lbls=[{v:0,t:''},{v:120,t:'Getting started'},{v:280,t:'Building momentum'},{v:450,t:'Well established'},{v:620,t:'Phoenix trusted'},{v:750,t:'Phoenix leader'},{v:800,t:"Phoenix's #1 choice"}];
-  function getLbl(v){var t='';for(var l of lbls){if(v>=l.v)t=l.t;}return t;}
-  var ne=document.getElementById('vm-gauge-num'),le=document.getElementById('vm-gauge-label'),ls=document.getElementById('vm-gauge-sub');
-  function step(){
-    if(cur>=MAX)return;
-    cur=Math.min(MAX,cur+(cur<450?7:cur<680?4:cur<790?2:1));
-    draw(cur);ne.textContent=cur>=MAX?'800+':cur;
-    var lbl=getLbl(cur);
-    if(lbl){var cc=getCol(cur/MAX);le.textContent=lbl;le.style.color=rgba(cc,1);}
-    if(cur>=MAX&&ls){ls.textContent='800+ installs · 4.9· · Same-day available';ls.style.opacity='1';}
-    requestAnimationFrame(step);
-  }
-  draw(0);
-  new IntersectionObserver(function(e){if(e[0].isIntersecting&&!going){going=true;setTimeout(step,400);}},{threshold:.3}).observe(c);
-})();
-</script>
-
-<!-- MARQUEE -->
-<div class="marquee-wrap">
-  <div class="marquee-track">
-    <div class="marquee-item">TV Mounting</div><div class="marquee-item">Cable Concealment</div><div class="marquee-item">Smart Home</div><div class="marquee-item">AV Systems</div><div class="marquee-item">Projector Install</div><div class="marquee-item">Same-Day Service</div><div class="marquee-item">Phoenix Metro</div>
-    <div class="marquee-item">TV Mounting</div><div class="marquee-item">Cable Concealment</div><div class="marquee-item">Smart Home</div><div class="marquee-item">AV Systems</div><div class="marquee-item">Projector Install</div><div class="marquee-item">Same-Day Service</div><div class="marquee-item">Phoenix Metro</div>
-  </div>
-</div>
-
-
-<!-- SERVICES -->
-<div style="border-top:1px solid rgba(0,0,0,.08);">
-<!-- GALLERY -->
-</div></div><!-- end tools accordion -->
 
 <!-- TRUST BAR -->
 <div class="trust-bar">
@@ -3378,39 +3003,28 @@ document.addEventListener('DOMContentLoaded', function() {
   </div>
 </div>
 <!-- services -->
-<!-- process -->
-<section class="process-section" id="process-section">
-  <div class="process-inner">
-    <div class="section-eyebrow fade-up">How It Works</div>
-    <h2 class="section-title-light clip-text" style="margin-bottom:0;"><span class="inner">Simple.<br><em>Fast. Done.</em></span></h2>
-    <div class="process-grid">
-      <div class="process-line"><div class="process-line-fill fade-line"></div></div>
-      <div class="step fade-up d1"><div class="step-dot"><span class="step-num">01</span></div><div class="step-title">Book Online</div><p class="step-desc">Join 800+ Phoenix homeowners who've trusted VistaMount. Get an instant quote and pick a real available slot.</p></div>
-      <div class="step fade-up d2"><div class="step-dot"><span class="step-num">02</span></div><div class="step-title">We Confirm</div><p class="step-desc">A member of the VistaMount team will call within 2 hours to confirm details and answer any questions.</p></div>
-      <div class="step fade-up d3"><div class="step-dot"><span class="step-num">03</span></div><div class="step-title">Precision Install</div><p class="step-desc">Arrive on time, install clean, test everything, leave zero mess.</p></div>
-      <div class="step fade-up d4" style="transition-delay:.19s;"><div class="step-dot"><span class="step-num">04</span></div><div class="step-title">Enjoy It</div><p class="step-desc">Your setup looks exactly how it should. Pay when done.</p></div>
+<!-- REVIEWS - moved up for social proof -->
+<section style="background:#fff;padding:80px 52px;">
+  <div style="max-width:1200px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:40px;">
+      <div style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#2563eb;font-weight:700;margin-bottom:12px;">Real Reviews</div>
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(36px,5vw,56px);color:#0a1628;margin:0;">4.9&#9733; &mdash; 200+ Happy Customers</h2>
+    </div>
+    <div class="elfsight-app-9fe1bb53-e8e9-45d0-a43a-0d8a17a63a0f" data-elfsight-app-lazy></div>
+    <div style="text-align:center;margin-top:40px;">
+      <button onclick="openBookingModal()" style="background:#2563eb;color:#fff;border:none;padding:16px 40px;border-radius:999px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(37,99,235,0.3);">Book Your Install &rarr;</button>
     </div>
   </div>
 </section>
-<!-- why -->
-<section class="why-section-compact" style="padding:clamp(28px,4vh,44px) 24px;background:var(--light3,#f8f9fc);border-top:1px solid rgba(0,0,0,0.04);border-bottom:1px solid rgba(0,0,0,0.04);">
-  <div class="inner" style="max-width:1120px;margin:0 auto;">
-    <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:20px 36px;align-items:start;text-align:center;">
-      <div>
-        <div style="font-size:1.1rem;font-weight:800;color:#0f1218;margin-bottom:4px;">One Installer.</div>
-        <div style="font-size:.87rem;color:#6b7280;line-height:1.5;">No subcontractors. No handoffs. The person who answers the phone is the person installing your TV.</div>
-      </div>
-      <div>
-        <div style="font-size:1.1rem;font-weight:800;color:#0f1218;margin-bottom:4px;">Every Wall Type.</div>
-        <div style="font-size:.87rem;color:#6b7280;line-height:1.5;">Drywall, stucco, brick, tile, stone, concrete. Fireplaces and high-end installs a specialty.</div>
-      </div>
-      <div>
-        <div style="font-size:1.1rem;font-weight:800;color:#0f1218;margin-bottom:4px;">Quality Hardware.</div>
-        <div style="font-size:.87rem;color:#6b7280;line-height:1.5;">Sanus and ONN mounts only. No cheap brackets. Done right the first time.</div>
-      </div>
-    </div>
+
+<!-- MARQUEE -->
+<div class="marquee-wrap">
+  <div class="marquee-track">
+    <div class="marquee-item">TV Mounting</div><div class="marquee-item">Cable Concealment</div><div class="marquee-item">Smart Home</div><div class="marquee-item">AV Systems</div><div class="marquee-item">Projector Install</div><div class="marquee-item">Same-Day Service</div><div class="marquee-item">Phoenix Metro</div>
+    <div class="marquee-item">TV Mounting</div><div class="marquee-item">Cable Concealment</div><div class="marquee-item">Smart Home</div><div class="marquee-item">AV Systems</div><div class="marquee-item">Projector Install</div><div class="marquee-item">Same-Day Service</div><div class="marquee-item">Phoenix Metro</div>
   </div>
-</section>
+</div>
+
 
 <!-- PRICING -->
 <section class="pricing-section" id="pricing">
@@ -3686,50 +3300,20 @@ function closeLightbox(){
 }
 </script>
 
-<!-- REVIEWS -->
-</section>
-
-<section style="background:var(--light);padding:100px 52px;">
-  <div style="max-width:1200px;margin:0 auto;">
-    <div class="section-eyebrow fade-up">Real Reviews</div>
-    <h2 class="section-title-light clip-text" style="margin-bottom:16px;"><span class="inner">4.9&#9733; across<br><em>every platform.</em></span></h2>
-    <p class="fade-up" style="color:var(--mid-text);font-size:.9rem;margin-bottom:40px;">Google. Facebook. Thumbtack. Customers rate us the same everywhere &mdash; because the quality never changes.</p>
-    <div class="fade-up d1">
-      <div class="elfsight-app-9fe1bb53-e8e9-45d0-a43a-0d8a17a63a0f" data-elfsight-app-lazy></div>
-    </div>
-  </div>
-
-
-</section>
-<section style="background:#0a0a0a;padding:60px 52px;">
-  <div style="max-width:1200px;margin:0 auto;">
-    <div class="accordion-wrap accordion-wrap-dark" style="background:transparent;border:1px solid rgba(59,130,246,0.15);border-radius:12px;overflow:hidden;">
-      <div class="acc-header" onclick="toggleAcc(this)" id="acc-equipment" style="background:rgba(255,255,255,0.02);">
-        <div class="acc-left">
-          <div class="acc-title" style="color:#fff;">Professional Equipment</div>
-          <div class="acc-sub" style="color:#94a3b8;">Milwaukee tools, laser levels, Walabot scanner, thermal camera & more — tap to see what we bring</div>
-        </div>
-        <div class="acc-icon"><span class="acc-chevron">&#9660;</span></div>
-      </div>
-      <div class="acc-body">
-        <div style="padding:24px 0 8px;">
-          <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:rgba(255,255,255,.06);" class="tools-grid">
-      <div class="fade-up d1" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Drilling & Driving</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee M18 FUEL</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Drill & impact driver. Maximum torque for any wall type &mdash; drywall, tile, concrete, brick.</div></div>
-      <div class="fade-up d2" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Leveling</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee + Bosch Laser</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Laser levels for perfect alignment every time. No eyeballing &mdash; your TV is always straight.</div></div>
-      <div class="fade-up d3" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Wall Scanning</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Walabot Advanced Stud Finder</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Sees studs, pipes, and live wires behind the wall before we drill. Zero surprises.</div></div>
-      <div class="fade-up d4" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Inspection</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Borescope + Thermal Camera</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">See inside walls before cutting. Thermal camera detects heat signatures and hidden wiring.</div></div>
-      <div class="fade-up d1" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Electrical Safety</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Voltmeter + Safety Kit</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Full electrical safety equipment and voltmeter on every job involving outlet work.</div></div>
-      <div class="fade-up d2" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Cutting & Finishing</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee Multi-Tool</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Precise cuts for outlet boxes, cable access, and in-wall work. Clean edges, no mess left behind.</div></div>
-      <div class="fade-up d3" style="background:#0a0a0a;padding:28px 24px;"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">Cleanup</div><div style="font-size:.95rem;font-weight:500;color:#fff;margin-bottom:6px;">Milwaukee Vacuum</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">We clean up after ourselves. Drywall dust, debris &mdash; gone before we leave.</div></div>
-      <div class="fade-up d4" style="background:#0a0a0a;padding:28px 24px;display:flex;flex-direction:column;justify-content:center;border:1px solid rgba(45,127,232,.25);"><div style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:#4facff;margin-bottom:10px;">The result</div><div style="font-size:1.1rem;font-weight:500;color:#fff;margin-bottom:6px;line-height:1.4;">Done right.<br>The first time.</div><div style="font-size:.75rem;color:rgba(255,255,255,.35);line-height:1.7;">Professional tools mean fewer holes, cleaner installs, and zero damage to your home.</div></div>
-    </div>
-        </div>
-      </div>
+<!-- process -->
+<section class="process-section" id="process-section">
+  <div class="process-inner">
+    <div class="section-eyebrow fade-up">How It Works</div>
+    <h2 class="section-title-light clip-text" style="margin-bottom:0;"><span class="inner">Simple.<br><em>Fast. Done.</em></span></h2>
+    <div class="process-grid">
+      <div class="process-line"><div class="process-line-fill fade-line"></div></div>
+      <div class="step fade-up d1"><div class="step-dot"><span class="step-num">01</span></div><div class="step-title">Book Online</div><p class="step-desc">Join 800+ Phoenix homeowners who've trusted VistaMount. Get an instant quote and pick a real available slot.</p></div>
+      <div class="step fade-up d2"><div class="step-dot"><span class="step-num">02</span></div><div class="step-title">We Confirm</div><p class="step-desc">A member of the VistaMount team will call within 2 hours to confirm details and answer any questions.</p></div>
+      <div class="step fade-up d3"><div class="step-dot"><span class="step-num">03</span></div><div class="step-title">Precision Install</div><p class="step-desc">Arrive on time, install clean, test everything, leave zero mess.</p></div>
+      <div class="step fade-up d4" style="transition-delay:.19s;"><div class="step-dot"><span class="step-num">04</span></div><div class="step-title">Enjoy It</div><p class="step-desc">Your setup looks exactly how it should. Pay when done.</p></div>
     </div>
   </div>
 </section>
-
-
 <!-- FAQ -->
 <section style="background:#0a0a0a;padding:80px 52px 20px;">
   <div style="max-width:920px;margin:0 auto;">
