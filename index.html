@@ -4,63 +4,6 @@
 <!-- Cache bust: 1776468199 -->
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDhgwbuhjiXWMN_bwp6fUjdZ6k9qWM_Ic&libraries=places"></script>
-<script>
-// Fix Google Places autocomplete styling
-function fixPlacesDropdown() {
-  const style = document.createElement('style');
-  style.textContent = `
-    .pac-container {
-      background-color: #fff !important;
-      z-index: 10001 !important;
-      border: 1px solid #d0d7e0 !important;
-      border-radius: 6px !important;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
-      font-family: inherit !important;
-      position: absolute !important;
-      left: 0 !important;
-      top: 100% !important;
-      width: 100% !important;
-      margin-top: 4px !important;
-    }
-    #address {
-      position: relative !important;
-    }
-    .pac-item {
-      padding: 12px 14px !important;
-      border-bottom: 1px solid #f1f5f9 !important;
-      color: #000 !important;
-      font-size: 14px !important;
-      cursor: pointer !important;
-      display: block !important;
-      white-space: normal !important;
-    }
-    .pac-item:hover,
-    .pac-item-selected {
-      background-color: #f0f4f8 !important;
-    }
-    .pac-icon,
-    .pac-icon-pin,
-    .pac-matched {
-      display: none !important;
-    }
-    .pac-item:hover,
-    .pac-item-selected {
-      background-color: #f0f4f8 !important;
-    }
-    .pac-item-query {
-      color: #0f1218 !important;
-      font-weight: 500 !important;
-    }
-    .pac-matched {
-      font-weight: 600 !important;
-      color: #2d7fe8 !important;
-    }
-  `;
-  document.head.appendChild(style);
-}
-fixPlacesDropdown();
-</script>
 <title>VistaMount - Premium TV Mounting & Smart Home | Phoenix, AZ</title>
 <meta name="description" content="Phoenix premier TV mounting and smart home installation. Same-day available. Book online and get an instant quote."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -1894,14 +1837,7 @@ function goBookingStep(n) {
   if (n === 1) initBookingStep1();
   if (n === 2) initBookingStep2();
   if (n === 3) initBookingStep3();
-  if (n === 4) {
-    initBookingStep4();
-    setTimeout(() => {
-      initAddressAutocomplete();
-      attachContactFormListeners();
-      updateContractPreview();
-    }, 100);
-  }
+  if (n === 4) initBookingStep4();
 }
 
 function initBookingStep1() {
@@ -1939,18 +1875,6 @@ function initBookingStep1() {
     <div style="background:#e8f4ff;padding:20px;border-radius:8px;border:1px solid #b8daff;margin-top:24px;text-align:center;">
       <div style="font-size:0.85rem;color:#666;margin-bottom:8px;">Estimated Total</div>
       <div class="price-display" style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#2d7fe8;">$0</div><div style="font-size:0.75rem;color:#666;margin-top:4px;">Final price confirmed on-site</div>
-    </div>
-    
-    <div style="background:linear-gradient(135deg,#fff8f0,#fff3e0);padding:20px;border-radius:8px;border:1px solid #f59e0b;margin-top:24px;">
-      <div style="display:flex;align-items:flex-start;gap:12px;">
-        <span style="font-size:1.4rem;flex-shrink:0;">✨</span>
-        <div>
-          <div style="font-size:0.85rem;color:#333;margin-bottom:6px;line-height:1.6;">
-            While not common, if you're not seeing the service you're looking for listed, feel free to <strong>submit a request for quote</strong> detailing your unique needs!
-          </div>
-          <a href="/quote.html" style="display:inline-block;background:#f59e0b;color:#fff;padding:8px 14px;border-radius:4px;font-size:0.8rem;font-weight:600;text-decoration:none;margin-top:8px;">Get a Custom Quote</a>
-        </div>
-      </div>
     </div>
     
     </div>
@@ -2396,7 +2320,7 @@ function step4AdjQty(field, delta) {
   bookingState[field] = Math.max(0, (bookingState[field] ?? 0) + delta);
   initBookingStep4();
   if (window._step4Cache) {
-    ['fname','lname','phone','email','address','apt-suite','special-notes'].forEach(id => {
+    ['fname','lname','phone','email','address','special-notes'].forEach(id => {
       const el = document.getElementById(id);
       if (el && window._step4Cache[id]) el.value = window._step4Cache[id];
     });
@@ -2407,7 +2331,7 @@ function setTVPropStep4(index, prop, value) {
   bookingState.tvs[index][prop] = value;
   initBookingStep4();
   if (window._step4Cache) {
-    ['fname','lname','phone','email','address','apt-suite','special-notes'].forEach(id => {
+    ['fname','lname','phone','email','address','special-notes'].forEach(id => {
       const el = document.getElementById(id);
       if (el && window._step4Cache[id]) el.value = window._step4Cache[id];
     });
@@ -2545,44 +2469,12 @@ function submitBookingWithConsent() {
     alert('Please type your full name as your electronic signature to agree to the Service Agreement.');
     return;
   }
-  
-  // Get name fields
-  const fnameEl = document.getElementById('fname');
-  const lnameEl = document.getElementById('lname');
-  
-  if (!fnameEl || !lnameEl) {
-    alert('Error: Could not find name fields. Please refresh and try again.');
-    return;
-  }
-  
-  const fname = fnameEl.value.trim().toLowerCase();
-  const lname = lnameEl.value.trim().toLowerCase();
-  
-  if (!fname || !lname) {
-    alert('Please fill in both first and last name.');
-    return;
-  }
-  
-  const sigLower = sig.toLowerCase();
-  
-  // Signature must contain both full first name and full last name as words
-  // Split signature into words and check if both names appear as complete words
-  const sigWords = sigLower.split(/\s+/);
-  const hasFname = sigWords.some(word => word === fname);
-  const hasLname = sigWords.some(word => word === lname);
-  
-  if (!hasFname || !hasLname) {
-    alert('Your signature must include your complete first and last name.\n\nYour name: ' + fname + ' ' + lname + '\nYour signature: ' + sigLower + '\n\nPlease type your full first and last name.');
-    return;
-  }
-  
   // Validate required consent
   const termsChecked = document.getElementById('consent-terms') ? document.getElementById('consent-terms').checked : false;
   if (!termsChecked) {
     alert('Please agree to the Service Agreement and Terms of Service to continue.');
     return;
   }
-  
   // Store consent data
   window._consentData = {
     signature: sig,
@@ -2601,9 +2493,7 @@ async function submitBooking() {
   const lname = document.getElementById('lname').value.trim();
   const phone = document.getElementById('phone').value.trim();
   const email = document.getElementById('email').value.trim();
-  const addressField = document.getElementById('address-selected') ? document.getElementById('address-selected').value.trim() : '';
-  const aptField = document.getElementById('apt-suite') ? document.getElementById('apt-suite').value.trim() : '';
-  const address = aptField ? (addressField + ' ' + aptField) : addressField;
+  const address = document.getElementById('address').value.trim();
   
   if (!fname || !lname || !phone || !email || !address) {
     alert('Please fill in all required fields');
@@ -2680,15 +2570,13 @@ function showSuccessScreen(confirmationNumber) {
       <div style="font-size:4rem;margin-bottom:20px;">&#10003;</div>
       <h2 style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--bl);margin-bottom:12px;">Booking Confirmed!</h2>
       <div style="font-size:1rem;color:#666;margin-bottom:30px;">Confirmation #: <strong style="color:var(--w)">${confirmationNumber}</strong></div>
-      <div style="background:#f0f4f8;padding:20px;border-radius:6px;margin-bottom:20px;">
+      <div style="background:#f0f4f8;padding:20px;border-radius:6px;margin-bottom:30px;">
         <div style="font-size:0.85rem;color:#666;line-height:1.6;">
           You'll receive a calendar invite at your email.<br/>
           We'll call to confirm details before your appointment.
         </div>
       </div>
-      <a href="https://portal.vistamountaz.com" target="_blank" style="display:inline-block;background:#2563eb;color:#fff;font-family:var(--font);font-size:0.85rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:14px 28px;border-radius:4px;text-decoration:none;margin-bottom:16px;">View Your Portal →</a>
-      <br/>
-      <button class="btn-next" style="width:auto;margin:0 auto;background:transparent;border:1px solid rgba(255,255,255,.2);color:#666;" onclick="closeBookingModal()">Close</button>
+      <button class="btn-next" style="width:auto;margin:0 auto;" onclick="closeBookingModal()">Done</button>
     </div>
   `;
   
@@ -2697,183 +2585,12 @@ function showSuccessScreen(confirmationNumber) {
   if (footer) footer.style.display = 'none';
 }
 
-// Google Places Autocomplete for Address
-function initAddressAutocomplete() {
-  const addressInput = document.getElementById('address');
-  if (!addressInput) {
-    console.log('Address input not found');
-    return;
-  }
-  
-  if (!window.google || !window.google.maps || !window.google.maps.places) {
-    console.log('Google Maps Places API not loaded');
-    return;
-  }
-  
-  try {
-    console.log('Initializing PlaceAutocompleteElement...');
-    
-    // Create the PlaceAutocompleteElement
-    const autocompleteElement = new window.google.maps.places.PlaceAutocompleteElement({
-      componentRestrictions: { country: ['us'] }
-    });
-    
-    console.log('PlaceAutocompleteElement created');
-    
-    // Create hidden input to store the address
-    let addressStore = document.getElementById('address-selected');
-    if (!addressStore) {
-      addressStore = document.createElement('input');
-      addressStore.type = 'hidden';
-      addressStore.id = 'address-selected';
-      addressInput.parentElement.appendChild(addressStore);
-    }
-    
-    // Insert it before the original input
-    addressInput.parentElement.insertBefore(autocompleteElement, addressInput);
-    
-    // Hide the original input but keep it in DOM
-    addressInput.style.display = 'none';
-    
-    // Listen for place selection
-    autocompleteElement.addEventListener('gmp-placeselect', () => {
-      console.log('Place selected event');
-      const place = autocompleteElement.value;
-      console.log('Place value:', place);
-      
-      if (place && place.formattedAddress) {
-        console.log('Storing address:', place.formattedAddress);
-        addressStore.value = place.formattedAddress;
-        updateContractPreview();
-      }
-    });
-    
-    console.log('PlaceAutocompleteElement initialized');
-  } catch (e) {
-    console.error('PlaceAutocompleteElement failed:', e);
-  }
-}
-
-// Real-time contract preview updates
-function updateContractPreview() {
-  const fname = document.getElementById('fname') ? document.getElementById('fname').value.trim() : '';
-  const lname = document.getElementById('lname') ? document.getElementById('lname').value.trim() : '';
-  
-  // Get address from hidden field (where PlaceAutocompleteElement stores it)
-  const addressField = document.getElementById('address-selected') ? document.getElementById('address-selected').value.trim() : '';
-  const aptField = document.getElementById('apt-suite') ? document.getElementById('apt-suite').value.trim() : '';
-  
-  // Combine address and apt properly
-  let address = addressField;
-  if (aptField) {
-    address = address ? address + ' ' + aptField : aptField;
-  }
-  
-  const agreementBox = document.querySelector('[style*="background:#eef4ff"]');
-  
-  if (agreementBox) {
-    const serviceDate = bookingState.selectedDate ? new Date(bookingState.selectedDate).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}) : '[Selected Date]';
-    const serviceTime = bookingState.selectedSlot ? bookingState.selectedSlot.time : '[Time]';
-    const servicesList = bookingState.tvs ? bookingState.tvs.length + ' TV' + (bookingState.tvs.length > 1 ? 's' : '') : '[Services]';
-    
-    agreementBox.innerHTML = `
-      <strong>Customer:</strong> ${fname && lname ? (fname + ' ' + lname) : '[Your Name]'}<br>
-      <strong>Service Address:</strong> ${address || '[Your Address]'}<br>
-      <strong>Appointment:</strong> ${serviceDate} at ${serviceTime}<br>
-      <strong>Services:</strong> ${servicesList}<br>
-      <strong>Quoted Price:</strong> $${calculatePrice ? calculatePrice() : '0'}
-    `;
-  }
-}
-
-// Real-time signature validation
-function validateSignature() {
-  const sig = document.getElementById('esignature') ? document.getElementById('esignature').value.trim() : '';
-  const fnameEl = document.getElementById('fname');
-  const lnameEl = document.getElementById('lname');
-  const submitBtn = document.getElementById('modal-submit-btn');
-  const sigError = document.getElementById('signature-error');
-  
-  if (!fnameEl || !lnameEl || !submitBtn) return;
-  
-  const fname = fnameEl.value.trim().toLowerCase();
-  const lname = lnameEl.value.trim().toLowerCase();
-  
-  // Check if signature matches
-  let isValid = false;
-  let errorMsg = '';
-  
-  if (!sig) {
-    errorMsg = 'Please type your full name';
-  } else if (!fname || !lname) {
-    errorMsg = 'Please enter your first and last name above';
-  } else {
-    const sigWords = sig.toLowerCase().split(/\s+/);
-    const hasFname = sigWords.some(word => word === fname);
-    const hasLname = sigWords.some(word => word === lname);
-    
-    if (!hasFname || !hasLname) {
-      errorMsg = `Must include "${fname}" and "${lname}"`;
-    } else {
-      isValid = true;
-    }
-  }
-  
-  // Update error display
-  if (sigError) {
-    if (errorMsg) {
-      sigError.style.display = 'block';
-      sigError.textContent = errorMsg;
-    } else {
-      sigError.style.display = 'none';
-    }
-  }
-  
-  // Disable/enable submit button
-  if (submitBtn) {
-    if (isValid && document.getElementById('consent-terms')?.checked) {
-      submitBtn.disabled = false;
-      submitBtn.style.opacity = '1';
-      submitBtn.style.pointerEvents = 'auto';
-      submitBtn.style.cursor = 'pointer';
-    } else {
-      submitBtn.disabled = true;
-      submitBtn.style.opacity = '0.5';
-      submitBtn.style.pointerEvents = 'none';
-      submitBtn.style.cursor = 'not-allowed';
-    }
-  }
-}
-
-// Add real-time listeners to contact form
-function attachContactFormListeners() {
-  ['fname', 'lname', 'address', 'apt-suite'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.addEventListener('input', updateContractPreview);
-      el.addEventListener('change', updateContractPreview);
-    }
-  });
-  
-  // Add signature validation listeners
-  const esig = document.getElementById('esignature');
-  const fname = document.getElementById('fname');
-  const lname = document.getElementById('lname');
-  const terms = document.getElementById('consent-terms');
-  
-  if (esig) esig.addEventListener('input', validateSignature);
-  if (fname) fname.addEventListener('input', validateSignature);
-  if (lname) lname.addEventListener('input', validateSignature);
-  if (terms) terms.addEventListener('change', validateSignature);
-}
-
-
 function initBookingStep4() {
   const container = document.getElementById('step-4');
 
   // Cache any already-typed contact info before re-render
   window._step4Cache = {};
-  ['fname','lname','phone','email','address','apt-suite','special-notes'].forEach(id => {
+  ['fname','lname','phone','email','address','special-notes'].forEach(id => {
     const el = document.getElementById(id);
     if (el) window._step4Cache[id] = el.value;
   });
@@ -3046,10 +2763,6 @@ function initBookingStep4() {
         <input type="text" id="address" placeholder="123 Main St, Phoenix AZ 85001" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;">
       </div>
       <div style="margin-bottom:12px;">
-        <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">Apt / Suite / Unit (Optional)</label>
-        <input type="text" id="apt-suite" placeholder="e.g. Apt 1523, Suite 200, Unit 5B" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;">
-      </div>
-      <div style="margin-bottom:12px;">
         <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">Gate Code / Special Instructions</label>
         <textarea id="special-notes" placeholder="e.g. Gate code #1234, ring doorbell twice, park in driveway, dog in backyard..." style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:15px;min-height:80px;resize:vertical;font-family:inherit;"></textarea>
       </div>
@@ -3068,7 +2781,7 @@ function initBookingStep4() {
           <strong style="color:#0f1218;font-size:0.85rem;">VistaMount LLC — Service Agreement</strong><br><br>
           <div style="background:#eef4ff;border:1px solid #b8daff;border-radius:6px;padding:12px;margin-bottom:12px;font-size:0.78rem;line-height:1.8;">
             <strong>Customer:</strong> ${(window._step4Cache && (window._step4Cache.fname || window._step4Cache.lname)) ? (window._step4Cache.fname + ' ' + window._step4Cache.lname).trim() : '[Your Name]'}<br>
-            <strong>Service Address:</strong> ${(window._step4Cache && window._step4Cache.address) ? window._step4Cache.address : (document.getElementById('address') ? document.getElementById('address').value : '[Your Address]')}<br>
+            <strong>Service Address:</strong> ${(window._step4Cache && window._step4Cache.address) ? window._step4Cache.address : '[Your Address]'}<br>
             <strong>Appointment:</strong> ${bookingState.selectedDate ? new Date(bookingState.selectedDate).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}) + (bookingState.selectedSlot ? ' at ' + bookingState.selectedSlot.time : '') : '[Selected Date & Time]'}<br>
             <strong>Services:</strong> ${bookingState.tvs ? bookingState.tvs.length + ' TV' + (bookingState.tvs.length > 1 ? 's' : '') + ' — ' + bookingState.tvs.map((tv,i) => {const sizes={'<32':'Under 32"','32-64':'32"–64"','65-84':'65"–84"','85+':'85"+'};const mounts={fixed:'Fixed Mount',tilting:'Tilting Mount',fullmotion:'Full-Motion',own:'Customer Mount'};return 'TV'+(i+1)+': '+( sizes[tv.size]||tv.size)+' / '+(mounts[tv.mountType]||tv.mountType);}).join(', ') : '[Services Selected]'}<br>
             <strong>Quoted Price:</strong> $${calculatePrice()}
@@ -3093,7 +2806,6 @@ function initBookingStep4() {
       <div id="sign-consent-section" style="display:none;margin-top:16px;padding-top:16px;border-top:2px solid #2d7fe8;">
         <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#2d7fe8;font-weight:700;margin-bottom:8px;">Electronic Signature</div>
         <input type="text" id="esignature" placeholder="Type your full name to sign" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;font-style:italic;box-sizing:border-box;">
-        <div id="signature-error" style="display:none;background:#fee;border:1px solid #fcc;color:#c33;padding:10px;border-radius:4px;margin-top:8px;font-size:0.8rem;font-weight:500;"></div>
         <div style="font-size:0.72rem;color:#888;margin-top:4px;margin-bottom:16px;">By typing your name you are electronically signing this service agreement.</div>
 
         <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#2d7fe8;font-weight:700;margin-bottom:10px;">Communication Consent</div>
@@ -3120,7 +2832,7 @@ function initBookingStep4() {
 
     <div class="modal-nav">
       <button class="btn-back" onclick="goBookingStep(3)">&larr; Back</button>
-      <button class="btn-next" id="modal-submit-btn" onclick="submitBookingWithConsent()" disabled style="opacity:0.5;cursor:not-allowed;">Complete Booking &rarr;</button>
+      <button class="btn-next" id="modal-submit-btn" onclick="submitBookingWithConsent()">Complete Booking &rarr;</button>
     </div>
   `;
 
@@ -3129,7 +2841,7 @@ function initBookingStep4() {
 
   // Restore any cached contact info
   if (window._step4Cache) {
-    ['fname','lname','phone','email','address','apt-suite','special-notes'].forEach(id => {
+    ['fname','lname','phone','email','address','special-notes'].forEach(id => {
       const el = document.getElementById(id);
       if (el && window._step4Cache[id]) el.value = window._step4Cache[id];
     });
