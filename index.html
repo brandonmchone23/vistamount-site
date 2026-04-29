@@ -4838,5 +4838,71 @@ document.getElementById('legal-modal').addEventListener('click', function(e) {
   if (e.target === this) closeLegalModal();
 });
 </script>
+
+<!-- Exit Intent Popup -->
+<div id="exit-popup" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(0,0,0,0.8);backdrop-filter:blur(6px);align-items:center;justify-content:center;padding:20px;">
+  <div style="background:#06080f;border:1px solid rgba(37,99,235,0.4);border-radius:16px;max-width:480px;width:100%;padding:48px 40px;text-align:center;position:relative;box-shadow:0 0 80px rgba(37,99,235,0.2);">
+    <button onclick="closeExitPopup()" style="position:absolute;top:16px;right:20px;background:none;border:none;color:#666;font-size:1.4rem;cursor:pointer;line-height:1;">&#10005;</button>
+    <div style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#2563eb;font-weight:700;margin-bottom:12px;">Wait &mdash; Before You Go</div>
+    <h2 style="font-family:'Bebas Neue',sans-serif;font-size:2.8rem;color:#fff;line-height:1;margin:0 0 12px;">Same-Day<br><span style="color:#2563eb;">Still Available</span></h2>
+    <p style="color:rgba(255,255,255,0.6);font-size:15px;line-height:1.6;margin:0 0 28px;">Most jobs booked today are done today. Takes 60 seconds to check your slot.</p>
+    <div style="display:flex;flex-direction:column;gap:12px;">
+      <button onclick="closeExitPopup();openBookingModal();" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:none;padding:16px 32px;border-radius:999px;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(37,99,235,0.4);">Check Availability &rarr;</button>
+      <a href="tel:4809034769" style="display:block;color:#fff;text-decoration:none;font-size:17px;font-weight:700;padding:14px 32px;border:2px solid rgba(255,255,255,0.2);border-radius:999px;">&#128222; (480) 903-4769</a>
+    </div>
+    <p style="color:rgba(255,255,255,0.3);font-size:12px;margin-top:16px;cursor:pointer;" onclick="closeExitPopup()">No thanks, I'll figure it out myself</p>
+  </div>
+</div>
+
+<script>
+(function(){
+  var shown = false;
+  var dismissed = false;
+
+  function showExitPopup(){
+    if(shown || dismissed) return;
+    // Don't show if they've already booked or seen it this session
+    if(sessionStorage.getItem('exit_popup_seen')) return;
+    shown = true;
+    sessionStorage.setItem('exit_popup_seen', '1');
+    var popup = document.getElementById('exit-popup');
+    popup.style.display = 'flex';
+    document.body.style.overflow = 'hidden';
+  }
+
+  window.closeExitPopup = function(){
+    dismissed = true;
+    var popup = document.getElementById('exit-popup');
+    popup.style.display = 'none';
+    document.body.style.overflow = '';
+  };
+
+  // Fire on mouse leaving toward top of page (exit intent)
+  document.addEventListener('mouseleave', function(e){
+    if(e.clientY <= 10){
+      setTimeout(showExitPopup, 200);
+    }
+  });
+
+  // Mobile: fire on back button / page hide after 30 seconds
+  var timeOnPage = 0;
+  var timer = setInterval(function(){
+    timeOnPage++;
+    if(timeOnPage >= 45){
+      clearInterval(timer);
+    }
+  }, 1000);
+
+  window.addEventListener('pagehide', function(){
+    if(timeOnPage >= 30) showExitPopup();
+  });
+
+  // Close on background click
+  document.getElementById('exit-popup').addEventListener('click', function(e){
+    if(e.target === this) closeExitPopup();
+  });
+})();
+</script>
+
 </body>
 </html>
