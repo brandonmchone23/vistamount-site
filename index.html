@@ -2447,7 +2447,7 @@ function checkAgreementScroll(el) {
     checkbox.style.cursor = 'pointer';
     if (label) {
       label.style.color = '#333';
-      label.innerHTML = '<strong>I agree to the Service Agreement above and VistaMount LLC\'s <a href="#privacy-policy" style="color:#2d7fe8;">Privacy Policy</a> and <a href="#terms" style="color:#2d7fe8;">Terms of Service</a>.</strong> (Required)';
+      label.innerHTML = '<strong>I agree to the Service Agreement above and VistaMount LLC\'s <a href="javascript:void(0)" onclick="openLegalModal()" style="color:#2d7fe8;">Privacy Policy</a> and <a href="javascript:void(0)" onclick="openLegalModal()" style="color:#2d7fe8;">Terms of Service</a>.</strong> (Required)';
     }
     // Hide scroll fade and hint banner, reveal signature section
     const fade = document.getElementById('scroll-fade');
@@ -2860,10 +2860,10 @@ document.addEventListener('DOMContentLoaded', function() {
   const formContainer = document.getElementById('modal-form-container');
   if (formContainer) {
     formContainer.innerHTML = `
-      <div class="modal-step active" id="step-1"></div>
-      <div class="modal-step" id="step-2"></div>
-      <div class="modal-step" id="step-3"></div>
-      <div class="modal-step" id="step-4"></div>
+      <div class="modal-step active" id="modal-step-1"></div>
+      <div class="modal-step" id="modal-step-2"></div>
+      <div class="modal-step" id="modal-step-3"></div>
+      <div class="modal-step" id="modal-step-4"></div>
     `;
   }
 });
@@ -3027,6 +3027,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 <!-- PRICING -->
+<div id="services-section"></div>
 <section class="pricing-section" id="pricing">
   <div class="pricing-inner">
     <div class="pricing-header fade-up">
@@ -4764,6 +4765,7 @@ function calculateJobDuration() {
   </div>
 </footer>
 
+<div id="booking"></div>
 <!-- Booking Modal -->
 <div id="booking-modal" class="modal-overlay">
   <div class="modal-container">
