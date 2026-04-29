@@ -4,63 +4,6 @@
 <!-- Cache bust: 1776468199 -->
 <meta charset="UTF-8"/>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
-<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyDDhgwbuhjiXWMN_bwp6fUjdZ6k9qWM_Ic&libraries=places"></script>
-<script>
-// Fix Google Places autocomplete styling
-function fixPlacesDropdown() {
-  const style = document.createElement('style');
-  style.textContent = `
-    .pac-container {
-      background-color: #fff !important;
-      z-index: 10001 !important;
-      border: 1px solid #d0d7e0 !important;
-      border-radius: 6px !important;
-      box-shadow: 0 4px 6px rgba(0,0,0,0.1) !important;
-      font-family: inherit !important;
-      position: absolute !important;
-      left: 0 !important;
-      top: 100% !important;
-      width: 100% !important;
-      margin-top: 4px !important;
-    }
-    #address {
-      position: relative !important;
-    }
-    .pac-item {
-      padding: 12px 14px !important;
-      border-bottom: 1px solid #f1f5f9 !important;
-      color: #000 !important;
-      font-size: 14px !important;
-      cursor: pointer !important;
-      display: block !important;
-      white-space: normal !important;
-    }
-    .pac-item:hover,
-    .pac-item-selected {
-      background-color: #f0f4f8 !important;
-    }
-    .pac-icon,
-    .pac-icon-pin,
-    .pac-matched {
-      display: none !important;
-    }
-    .pac-item:hover,
-    .pac-item-selected {
-      background-color: #f0f4f8 !important;
-    }
-    .pac-item-query {
-      color: #0f1218 !important;
-      font-weight: 500 !important;
-    }
-    .pac-matched {
-      font-weight: 600 !important;
-      color: #2d7fe8 !important;
-    }
-  `;
-  document.head.appendChild(style);
-}
-fixPlacesDropdown();
-</script>
 <title>VistaMount - Premium TV Mounting & Smart Home | Phoenix, AZ</title>
 <meta name="description" content="Phoenix premier TV mounting and smart home installation. Same-day available. Book online and get an instant quote."/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
@@ -151,9 +94,9 @@ nav.scrolled-light .nav-book{color:#fff!important;}
   }
 
 /* 3-column hero stage */
-#hero-stage{
+#hero-stage{justify-content:center;
   display:grid;
-  grid-template-columns:1fr min(720px,68vw) 1fr;
+  grid-template-columns:min(720px,90vw);
   align-items:center;
   gap:0;
   width:100%;
@@ -163,7 +106,7 @@ nav.scrolled-light .nav-book{color:#fff!important;}
 }
 
 /* Left & right channels */
-#hero-left-channel, #hero-right-channel{
+#hero-left-channel, #hero-right-channel{display:none!important;/*
   position:relative;
   height:min(460px,44vw);
   display:flex;
@@ -173,7 +116,7 @@ nav.scrolled-light .nav-book{color:#fff!important;}
   padding-bottom:20px;
   opacity:0;
   animation:ctaRiseIn 1s cubic-bezier(.22,1,.36,1) 2.8s forwards;
-}
+*/}
 #speaker-canvas-left, #speaker-canvas{
   position:absolute;
   inset:0;
@@ -203,7 +146,7 @@ nav.scrolled-light .nav-book{color:#fff!important;}
 
 /* Hide channels on mobile */
 @media(max-width:900px){
-  #hero-stage{grid-template-columns:1fr;}
+  #hero-stage{justify-content:center;grid-template-columns:1fr;}
   #hero-left-channel,#hero-right-channel{display:none;}
   #hero-tv-wrap{width:min(96vw,560px) !important;}
 }
@@ -1894,14 +1837,7 @@ function goBookingStep(n) {
   if (n === 1) initBookingStep1();
   if (n === 2) initBookingStep2();
   if (n === 3) initBookingStep3();
-  if (n === 4) {
-    initBookingStep4();
-    setTimeout(() => {
-      initAddressAutocomplete();
-      attachContactFormListeners();
-      updateContractPreview();
-    }, 100);
-  }
+  if (n === 4) initBookingStep4();
 }
 
 function initBookingStep1() {
@@ -1939,18 +1875,6 @@ function initBookingStep1() {
     <div style="background:#e8f4ff;padding:20px;border-radius:8px;border:1px solid #b8daff;margin-top:24px;text-align:center;">
       <div style="font-size:0.85rem;color:#666;margin-bottom:8px;">Estimated Total</div>
       <div class="price-display" style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#2d7fe8;">$0</div><div style="font-size:0.75rem;color:#666;margin-top:4px;">Final price confirmed on-site</div>
-    </div>
-    
-    <div style="background:linear-gradient(135deg,#fff8f0,#fff3e0);padding:20px;border-radius:8px;border:1px solid #f59e0b;margin-top:24px;">
-      <div style="display:flex;align-items:flex-start;gap:12px;">
-        <span style="font-size:1.4rem;flex-shrink:0;">✨</span>
-        <div>
-          <div style="font-size:0.85rem;color:#333;margin-bottom:6px;line-height:1.6;">
-            While not common, if you're not seeing the service you're looking for listed, feel free to <strong>submit a request for quote</strong> detailing your unique needs!
-          </div>
-          <a href="/quote.html" style="display:inline-block;background:#f59e0b;color:#fff;padding:8px 14px;border-radius:4px;font-size:0.8rem;font-weight:600;text-decoration:none;margin-top:8px;">Get a Custom Quote</a>
-        </div>
-      </div>
     </div>
     
     </div>
@@ -2396,7 +2320,7 @@ function step4AdjQty(field, delta) {
   bookingState[field] = Math.max(0, (bookingState[field] ?? 0) + delta);
   initBookingStep4();
   if (window._step4Cache) {
-    ['fname','lname','phone','email','address','apt-suite','special-notes'].forEach(id => {
+    ['fname','lname','phone','email','address','special-notes'].forEach(id => {
       const el = document.getElementById(id);
       if (el && window._step4Cache[id]) el.value = window._step4Cache[id];
     });
@@ -2407,7 +2331,7 @@ function setTVPropStep4(index, prop, value) {
   bookingState.tvs[index][prop] = value;
   initBookingStep4();
   if (window._step4Cache) {
-    ['fname','lname','phone','email','address','apt-suite','special-notes'].forEach(id => {
+    ['fname','lname','phone','email','address','special-notes'].forEach(id => {
       const el = document.getElementById(id);
       if (el && window._step4Cache[id]) el.value = window._step4Cache[id];
     });
@@ -2545,44 +2469,12 @@ function submitBookingWithConsent() {
     alert('Please type your full name as your electronic signature to agree to the Service Agreement.');
     return;
   }
-  
-  // Get name fields
-  const fnameEl = document.getElementById('fname');
-  const lnameEl = document.getElementById('lname');
-  
-  if (!fnameEl || !lnameEl) {
-    alert('Error: Could not find name fields. Please refresh and try again.');
-    return;
-  }
-  
-  const fname = fnameEl.value.trim().toLowerCase();
-  const lname = lnameEl.value.trim().toLowerCase();
-  
-  if (!fname || !lname) {
-    alert('Please fill in both first and last name.');
-    return;
-  }
-  
-  const sigLower = sig.toLowerCase();
-  
-  // Signature must contain both full first name and full last name as words
-  // Split signature into words and check if both names appear as complete words
-  const sigWords = sigLower.split(/\s+/);
-  const hasFname = sigWords.some(word => word === fname);
-  const hasLname = sigWords.some(word => word === lname);
-  
-  if (!hasFname || !hasLname) {
-    alert('Your signature must include your complete first and last name.\n\nYour name: ' + fname + ' ' + lname + '\nYour signature: ' + sigLower + '\n\nPlease type your full first and last name.');
-    return;
-  }
-  
   // Validate required consent
   const termsChecked = document.getElementById('consent-terms') ? document.getElementById('consent-terms').checked : false;
   if (!termsChecked) {
     alert('Please agree to the Service Agreement and Terms of Service to continue.');
     return;
   }
-  
   // Store consent data
   window._consentData = {
     signature: sig,
@@ -2601,9 +2493,7 @@ async function submitBooking() {
   const lname = document.getElementById('lname').value.trim();
   const phone = document.getElementById('phone').value.trim();
   const email = document.getElementById('email').value.trim();
-  const addressField = document.getElementById('address-selected') ? document.getElementById('address-selected').value.trim() : '';
-  const aptField = document.getElementById('apt-suite') ? document.getElementById('apt-suite').value.trim() : '';
-  const address = aptField ? (addressField + ' ' + aptField) : addressField;
+  const address = document.getElementById('address').value.trim();
   
   if (!fname || !lname || !phone || !email || !address) {
     alert('Please fill in all required fields');
@@ -2680,15 +2570,13 @@ function showSuccessScreen(confirmationNumber) {
       <div style="font-size:4rem;margin-bottom:20px;">&#10003;</div>
       <h2 style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--bl);margin-bottom:12px;">Booking Confirmed!</h2>
       <div style="font-size:1rem;color:#666;margin-bottom:30px;">Confirmation #: <strong style="color:var(--w)">${confirmationNumber}</strong></div>
-      <div style="background:#f0f4f8;padding:20px;border-radius:6px;margin-bottom:20px;">
+      <div style="background:#f0f4f8;padding:20px;border-radius:6px;margin-bottom:30px;">
         <div style="font-size:0.85rem;color:#666;line-height:1.6;">
           You'll receive a calendar invite at your email.<br/>
           We'll call to confirm details before your appointment.
         </div>
       </div>
-      <a href="https://portal.vistamountaz.com" target="_blank" style="display:inline-block;background:#2563eb;color:#fff;font-family:var(--font);font-size:0.85rem;font-weight:600;letter-spacing:.08em;text-transform:uppercase;padding:14px 28px;border-radius:4px;text-decoration:none;margin-bottom:16px;">View Your Portal →</a>
-      <br/>
-      <button class="btn-next" style="width:auto;margin:0 auto;background:transparent;border:1px solid rgba(255,255,255,.2);color:#666;" onclick="closeBookingModal()">Close</button>
+      <button class="btn-next" style="width:auto;margin:0 auto;" onclick="closeBookingModal()">Done</button>
     </div>
   `;
   
@@ -2697,183 +2585,12 @@ function showSuccessScreen(confirmationNumber) {
   if (footer) footer.style.display = 'none';
 }
 
-// Google Places Autocomplete for Address
-function initAddressAutocomplete() {
-  const addressInput = document.getElementById('address');
-  if (!addressInput) {
-    console.log('Address input not found');
-    return;
-  }
-  
-  if (!window.google || !window.google.maps || !window.google.maps.places) {
-    console.log('Google Maps Places API not loaded');
-    return;
-  }
-  
-  try {
-    console.log('Initializing PlaceAutocompleteElement...');
-    
-    // Create the PlaceAutocompleteElement
-    const autocompleteElement = new window.google.maps.places.PlaceAutocompleteElement({
-      componentRestrictions: { country: ['us'] }
-    });
-    
-    console.log('PlaceAutocompleteElement created');
-    
-    // Create hidden input to store the address
-    let addressStore = document.getElementById('address-selected');
-    if (!addressStore) {
-      addressStore = document.createElement('input');
-      addressStore.type = 'hidden';
-      addressStore.id = 'address-selected';
-      addressInput.parentElement.appendChild(addressStore);
-    }
-    
-    // Insert it before the original input
-    addressInput.parentElement.insertBefore(autocompleteElement, addressInput);
-    
-    // Hide the original input but keep it in DOM
-    addressInput.style.display = 'none';
-    
-    // Listen for place selection
-    autocompleteElement.addEventListener('gmp-placeselect', () => {
-      console.log('Place selected event');
-      const place = autocompleteElement.value;
-      console.log('Place value:', place);
-      
-      if (place && place.formattedAddress) {
-        console.log('Storing address:', place.formattedAddress);
-        addressStore.value = place.formattedAddress;
-        updateContractPreview();
-      }
-    });
-    
-    console.log('PlaceAutocompleteElement initialized');
-  } catch (e) {
-    console.error('PlaceAutocompleteElement failed:', e);
-  }
-}
-
-// Real-time contract preview updates
-function updateContractPreview() {
-  const fname = document.getElementById('fname') ? document.getElementById('fname').value.trim() : '';
-  const lname = document.getElementById('lname') ? document.getElementById('lname').value.trim() : '';
-  
-  // Get address from hidden field (where PlaceAutocompleteElement stores it)
-  const addressField = document.getElementById('address-selected') ? document.getElementById('address-selected').value.trim() : '';
-  const aptField = document.getElementById('apt-suite') ? document.getElementById('apt-suite').value.trim() : '';
-  
-  // Combine address and apt properly
-  let address = addressField;
-  if (aptField) {
-    address = address ? address + ' ' + aptField : aptField;
-  }
-  
-  const agreementBox = document.querySelector('[style*="background:#eef4ff"]');
-  
-  if (agreementBox) {
-    const serviceDate = bookingState.selectedDate ? new Date(bookingState.selectedDate).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}) : '[Selected Date]';
-    const serviceTime = bookingState.selectedSlot ? bookingState.selectedSlot.time : '[Time]';
-    const servicesList = bookingState.tvs ? bookingState.tvs.length + ' TV' + (bookingState.tvs.length > 1 ? 's' : '') : '[Services]';
-    
-    agreementBox.innerHTML = `
-      <strong>Customer:</strong> ${fname && lname ? (fname + ' ' + lname) : '[Your Name]'}<br>
-      <strong>Service Address:</strong> ${address || '[Your Address]'}<br>
-      <strong>Appointment:</strong> ${serviceDate} at ${serviceTime}<br>
-      <strong>Services:</strong> ${servicesList}<br>
-      <strong>Quoted Price:</strong> $${calculatePrice ? calculatePrice() : '0'}
-    `;
-  }
-}
-
-// Real-time signature validation
-function validateSignature() {
-  const sig = document.getElementById('esignature') ? document.getElementById('esignature').value.trim() : '';
-  const fnameEl = document.getElementById('fname');
-  const lnameEl = document.getElementById('lname');
-  const submitBtn = document.getElementById('modal-submit-btn');
-  const sigError = document.getElementById('signature-error');
-  
-  if (!fnameEl || !lnameEl || !submitBtn) return;
-  
-  const fname = fnameEl.value.trim().toLowerCase();
-  const lname = lnameEl.value.trim().toLowerCase();
-  
-  // Check if signature matches
-  let isValid = false;
-  let errorMsg = '';
-  
-  if (!sig) {
-    errorMsg = 'Please type your full name';
-  } else if (!fname || !lname) {
-    errorMsg = 'Please enter your first and last name above';
-  } else {
-    const sigWords = sig.toLowerCase().split(/\s+/);
-    const hasFname = sigWords.some(word => word === fname);
-    const hasLname = sigWords.some(word => word === lname);
-    
-    if (!hasFname || !hasLname) {
-      errorMsg = `Must include "${fname}" and "${lname}"`;
-    } else {
-      isValid = true;
-    }
-  }
-  
-  // Update error display
-  if (sigError) {
-    if (errorMsg) {
-      sigError.style.display = 'block';
-      sigError.textContent = errorMsg;
-    } else {
-      sigError.style.display = 'none';
-    }
-  }
-  
-  // Disable/enable submit button
-  if (submitBtn) {
-    if (isValid && document.getElementById('consent-terms')?.checked) {
-      submitBtn.disabled = false;
-      submitBtn.style.opacity = '1';
-      submitBtn.style.pointerEvents = 'auto';
-      submitBtn.style.cursor = 'pointer';
-    } else {
-      submitBtn.disabled = true;
-      submitBtn.style.opacity = '0.5';
-      submitBtn.style.pointerEvents = 'none';
-      submitBtn.style.cursor = 'not-allowed';
-    }
-  }
-}
-
-// Add real-time listeners to contact form
-function attachContactFormListeners() {
-  ['fname', 'lname', 'address', 'apt-suite'].forEach(id => {
-    const el = document.getElementById(id);
-    if (el) {
-      el.addEventListener('input', updateContractPreview);
-      el.addEventListener('change', updateContractPreview);
-    }
-  });
-  
-  // Add signature validation listeners
-  const esig = document.getElementById('esignature');
-  const fname = document.getElementById('fname');
-  const lname = document.getElementById('lname');
-  const terms = document.getElementById('consent-terms');
-  
-  if (esig) esig.addEventListener('input', validateSignature);
-  if (fname) fname.addEventListener('input', validateSignature);
-  if (lname) lname.addEventListener('input', validateSignature);
-  if (terms) terms.addEventListener('change', validateSignature);
-}
-
-
 function initBookingStep4() {
   const container = document.getElementById('step-4');
 
   // Cache any already-typed contact info before re-render
   window._step4Cache = {};
-  ['fname','lname','phone','email','address','apt-suite','special-notes'].forEach(id => {
+  ['fname','lname','phone','email','address','special-notes'].forEach(id => {
     const el = document.getElementById(id);
     if (el) window._step4Cache[id] = el.value;
   });
@@ -3046,10 +2763,6 @@ function initBookingStep4() {
         <input type="text" id="address" placeholder="123 Main St, Phoenix AZ 85001" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;">
       </div>
       <div style="margin-bottom:12px;">
-        <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">Apt / Suite / Unit (Optional)</label>
-        <input type="text" id="apt-suite" placeholder="e.g. Apt 1523, Suite 200, Unit 5B" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;">
-      </div>
-      <div style="margin-bottom:12px;">
         <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">Gate Code / Special Instructions</label>
         <textarea id="special-notes" placeholder="e.g. Gate code #1234, ring doorbell twice, park in driveway, dog in backyard..." style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:15px;min-height:80px;resize:vertical;font-family:inherit;"></textarea>
       </div>
@@ -3068,7 +2781,7 @@ function initBookingStep4() {
           <strong style="color:#0f1218;font-size:0.85rem;">VistaMount LLC — Service Agreement</strong><br><br>
           <div style="background:#eef4ff;border:1px solid #b8daff;border-radius:6px;padding:12px;margin-bottom:12px;font-size:0.78rem;line-height:1.8;">
             <strong>Customer:</strong> ${(window._step4Cache && (window._step4Cache.fname || window._step4Cache.lname)) ? (window._step4Cache.fname + ' ' + window._step4Cache.lname).trim() : '[Your Name]'}<br>
-            <strong>Service Address:</strong> ${(window._step4Cache && window._step4Cache.address) ? window._step4Cache.address : (document.getElementById('address') ? document.getElementById('address').value : '[Your Address]')}<br>
+            <strong>Service Address:</strong> ${(window._step4Cache && window._step4Cache.address) ? window._step4Cache.address : '[Your Address]'}<br>
             <strong>Appointment:</strong> ${bookingState.selectedDate ? new Date(bookingState.selectedDate).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}) + (bookingState.selectedSlot ? ' at ' + bookingState.selectedSlot.time : '') : '[Selected Date & Time]'}<br>
             <strong>Services:</strong> ${bookingState.tvs ? bookingState.tvs.length + ' TV' + (bookingState.tvs.length > 1 ? 's' : '') + ' — ' + bookingState.tvs.map((tv,i) => {const sizes={'<32':'Under 32"','32-64':'32"–64"','65-84':'65"–84"','85+':'85"+'};const mounts={fixed:'Fixed Mount',tilting:'Tilting Mount',fullmotion:'Full-Motion',own:'Customer Mount'};return 'TV'+(i+1)+': '+( sizes[tv.size]||tv.size)+' / '+(mounts[tv.mountType]||tv.mountType);}).join(', ') : '[Services Selected]'}<br>
             <strong>Quoted Price:</strong> $${calculatePrice()}
@@ -3093,7 +2806,6 @@ function initBookingStep4() {
       <div id="sign-consent-section" style="display:none;margin-top:16px;padding-top:16px;border-top:2px solid #2d7fe8;">
         <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#2d7fe8;font-weight:700;margin-bottom:8px;">Electronic Signature</div>
         <input type="text" id="esignature" placeholder="Type your full name to sign" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;font-style:italic;box-sizing:border-box;">
-        <div id="signature-error" style="display:none;background:#fee;border:1px solid #fcc;color:#c33;padding:10px;border-radius:4px;margin-top:8px;font-size:0.8rem;font-weight:500;"></div>
         <div style="font-size:0.72rem;color:#888;margin-top:4px;margin-bottom:16px;">By typing your name you are electronically signing this service agreement.</div>
 
         <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#2d7fe8;font-weight:700;margin-bottom:10px;">Communication Consent</div>
@@ -3120,7 +2832,7 @@ function initBookingStep4() {
 
     <div class="modal-nav">
       <button class="btn-back" onclick="goBookingStep(3)">&larr; Back</button>
-      <button class="btn-next" id="modal-submit-btn" onclick="submitBookingWithConsent()" disabled style="opacity:0.5;cursor:not-allowed;">Complete Booking &rarr;</button>
+      <button class="btn-next" id="modal-submit-btn" onclick="submitBookingWithConsent()">Complete Booking &rarr;</button>
     </div>
   `;
 
@@ -3129,7 +2841,7 @@ function initBookingStep4() {
 
   // Restore any cached contact info
   if (window._step4Cache) {
-    ['fname','lname','phone','email','address','apt-suite','special-notes'].forEach(id => {
+    ['fname','lname','phone','email','address','special-notes'].forEach(id => {
       const el = document.getElementById(id);
       if (el && window._step4Cache[id]) el.value = window._step4Cache[id];
     });
@@ -3173,7 +2885,8 @@ document.addEventListener('DOMContentLoaded', function() {
 #site-header .sh-logo .mt{color:#4facff;}
 #site-header .sh-actions{display:flex;align-items:center;gap:14px;}
 #site-header .sh-phone{color:#ffffff;text-decoration:none;font-weight:700;font-size:1rem;font-family:'DM Sans',sans-serif;letter-spacing:0.02em;white-space:nowrap;}
-#site-header .sh-book{background:#2d7fe8;color:#ffffff;border:none;padding:12px 24px;border-radius:6px;font-weight:600;font-size:0.9rem;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;white-space:nowrap;}
+#site-header .sh-portal{display:inline-flex;align-items:center;padding:8px 16px;border:1px solid rgba(255,255,255,0.2);border-radius:6px;color:rgba(255,255,255,0.7);font-size:11px;letter-spacing:2px;text-decoration:none;font-weight:500;transition:all 0.2s;margin-right:12px;}.sh-portal:hover{border-color:rgba(255,255,255,0.5);color:#fff;}
+.sh-book{background:#2d7fe8;color:#ffffff;border:none;padding:12px 24px;border-radius:6px;font-weight:600;font-size:0.9rem;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;white-space:nowrap;}
 #site-header .sh-book:hover{background:#1a6ad4;}
 @media (max-width:640px){
   #site-header{padding:10px 0;}
@@ -3181,15 +2894,24 @@ document.addEventListener('DOMContentLoaded', function() {
   #site-header .sh-logo{text-align:center;font-size:1.35rem;}
   #site-header .sh-actions{justify-content:center;gap:10px;}
   #site-header .sh-phone{font-size:0.95rem;flex:1;text-align:center;padding:9px 6px;border:1px solid rgba(79,172,255,0.35);border-radius:6px;}
-  #site-header .sh-book{flex:1;padding:10px 14px;font-size:0.82rem;letter-spacing:0.04em;}
+  #site-header .sh-portal{display:inline-flex;align-items:center;padding:8px 16px;border:1px solid rgba(255,255,255,0.2);border-radius:6px;color:rgba(255,255,255,0.7);font-size:11px;letter-spacing:2px;text-decoration:none;font-weight:500;transition:all 0.2s;margin-right:12px;}.sh-portal:hover{border-color:rgba(255,255,255,0.5);color:#fff;}
+.sh-book{flex:1;padding:10px 14px;font-size:0.82rem;letter-spacing:0.04em;}
 }
 .sh-spacer{height:60px;} @media(max-width:640px){.sh-spacer{height:108px;}}
+
+/* Hero speaker removal overrides */
+#hero-wall { display:none !important; }
+#hero-tv-shadow, #tv-shadow, .tv-shadow { display:none !important; }
+#hero-stage { display:flex !important; justify-content:center !important; align-items:center !important; }
+#hero-center { width:min(800px,92vw) !important; max-width:800px !important; margin:0 auto !important; }
+#hero-showcase { width:100% !important; }
 </style>
 <header id="site-header">
   <div class="sh-inner">
     <div class="sh-logo">Vista<span class="mt">Mount</span></div>
     <div class="sh-actions">
       <a href="tel:4809034769" class="sh-phone">(480) 903-4769</a>
+      <a href="https://portal.vistamountaz.com" class="sh-portal" target="_blank">CLIENT PORTAL</a>
       <button onclick="openBookingModal()" class="sh-book">BOOK NOW</button>
     </div>
   </div>
@@ -3235,7 +2957,7 @@ document.addEventListener('DOMContentLoaded', function() {
   <div id="hero-stage">
 
     <!-- LEFT CHANNEL: Left speaker -->
-    <div id="hero-left-channel" aria-hidden="true">
+    <div id="hero-left-channel" style="display:none" aria-hidden="true">
       <canvas id="speaker-canvas-left" style="position:absolute;inset:0;width:100%;height:100%;"></canvas>
       <div id="mantel-label">
         <div id="mantel-label-icon">♫</div>
@@ -3496,7 +3218,7 @@ document.addEventListener('DOMContentLoaded', function() {
   </div><!-- /hero-tv-wrap -->
 
     <!-- RIGHT CHANNEL: Room ambiance / speaker columns -->
-    <div id="hero-right-channel" aria-hidden="true">
+    <div id="hero-right-channel" style="display:none" aria-hidden="true">
       <canvas id="speaker-canvas"></canvas>
       <div id="speaker-label">
         <div id="speaker-label-icon">♫</div>
@@ -4293,16 +4015,22 @@ function drawFixed(ctx, W, H, p) {
   ctx.fillStyle='rgba(60,65,80,0.8)';
   ctx.fillRect(W/2-12, ty+th*0.3, 24, th*0.4);
   // Label
-    mountLabel(ctx, W, H, 'FIXED', p);
+    // VistaMount watermark
+  ctx.save();ctx.globalAlpha=0.18;ctx.fillStyle='#fff';
+  ctx.font=`600 ${Math.round(W*0.045)}px 'Bebas Neue',Montserrat,sans-serif`;
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('VISTAMOUNT',W/2,H*0.12);
+  ctx.restore();
+  mountLabel(ctx, W, H, 'FIXED', p);
 }
 
 function drawTilting(ctx, W, H, p) {
   var tw=W*0.70, th=tw*0.565;
   var tx=(W-tw)/2, ty=(H-th)/2-H*0.06;
-  // Tilt angle - more extreme
-  var tilt = Math.sin(p * Math.PI * 2) * 0.28;
+  // Tilt angle
+  var tilt = Math.sin(p * Math.PI * 2) * 0.12;
   ctx.save(); ctx.translate(tx+tw/2, ty+th*0.1);
-  ctx.transform(1,0,0,Math.cos(tilt+0.08),0,0);
+  ctx.transform(1,0,0,Math.cos(tilt+0.15),0,0);
   ctx.translate(-(tx+tw/2), -(ty+th*0.1));
   ctx.fillStyle='#1a1c22'; ctx.beginPath(); rr(ctx,tx,ty,tw,th,6); ctx.fill();
   ctx.strokeStyle='rgba(79,172,255,0.3)'; ctx.lineWidth=1.5; ctx.stroke();
@@ -4315,7 +4043,13 @@ function drawTilting(ctx, W, H, p) {
   // Tilt arm
   ctx.strokeStyle='rgba(100,110,130,0.7)'; ctx.lineWidth=3; ctx.lineCap='round';
   ctx.beginPath(); ctx.moveTo(W/2,ty+th*0.42); ctx.lineTo(W/2,ty+th*0.55); ctx.stroke();
-    mountLabel(ctx, W, H, 'TILTING', p);
+    // VistaMount watermark
+  ctx.save();ctx.globalAlpha=0.18;ctx.fillStyle='#fff';
+  ctx.font=`600 ${Math.round(W*0.045)}px 'Bebas Neue',Montserrat,sans-serif`;
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('VISTAMOUNT',W/2,H*0.12);
+  ctx.restore();
+  mountLabel(ctx, W, H, 'TILTING', p);
 }
 
 function drawFullMotion(ctx, W, H, p) {
@@ -4343,7 +4077,13 @@ function drawFullMotion(ctx, W, H, p) {
   var sg=ctx.createLinearGradient(tx,ty,tx,ty+th);
   sg.addColorStop(0,'#060a12'); sg.addColorStop(1,'#030608');
   ctx.fillStyle=sg; ctx.beginPath(); rr(ctx,tx+tw*0.015,ty+tw*0.01,tw*0.97,th*0.92,3); ctx.fill();
-    mountLabel(ctx, W, H, 'FULL MOTION', p);
+    // VistaMount watermark
+  ctx.save();ctx.globalAlpha=0.18;ctx.fillStyle='#fff';
+  ctx.font=`600 ${Math.round(W*0.045)}px 'Bebas Neue',Montserrat,sans-serif`;
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('VISTAMOUNT',W/2,H*0.12);
+  ctx.restore();
+  mountLabel(ctx, W, H, 'FULL MOTION', p);
 }
 
 function drawMantelShowcase(ctx, W, H, p) {
@@ -4365,9 +4105,9 @@ function drawMantelShowcase(ctx, W, H, p) {
   fg.addColorStop(1,'rgba(0,0,0,0)');
   ctx.fillStyle=fg; ctx.fillRect(fbX,fbY,fbW,fbH);
   // TV drops from above
-  var storedY=mY-th-4, droppedY=mY+mH+8;
+  var storedY=mY-th-4, droppedY=mY+mH+6;
   var ease=p<0.5?2*p*p:-1+(4-2*p)*p;
-  var tvY2=storedY+(droppedY-storedY)*ease; tvY2=Math.min(tvY2,H*0.50);
+  var tvY2=storedY+(droppedY-storedY)*ease;
   var tvX=(W-tw)/2;
   // Arm
   var plateY=H*0.08;
@@ -4387,7 +4127,13 @@ function drawMantelShowcase(ctx, W, H, p) {
     ctx.fillText('Eye level ✓', W/2, tvY2+th+16);
     ctx.restore();
   }
-    mountLabel(ctx, W, H, 'MANTELMOUNT', p);
+    // VistaMount watermark
+  ctx.save();ctx.globalAlpha=0.18;ctx.fillStyle='#fff';
+  ctx.font=`600 ${Math.round(W*0.045)}px 'Bebas Neue',Montserrat,sans-serif`;
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('VISTAMOUNT',W/2,H*0.12);
+  ctx.restore();
+  mountLabel(ctx, W, H, 'MANTELMOUNT', p);
 }
 
 function drawMotorized(ctx, W, H, p) {
@@ -4443,6 +4189,12 @@ function drawMotorized(ctx, W, H, p) {
   sg3.addColorStop(0,'#070b14'); sg3.addColorStop(1,'#040709');
   ctx.fillStyle=sg3; ctx.beginPath(); rr(ctx,tvLeft+tw*0.015,tvY2+tw*0.01,tw*0.97,th*0.92,3); ctx.fill();
 
+  // VistaMount watermark
+  ctx.save();ctx.globalAlpha=0.18;ctx.fillStyle='#fff';
+  ctx.font=`600 ${Math.round(W*0.045)}px 'Bebas Neue',Montserrat,sans-serif`;
+  ctx.textAlign='center';ctx.textBaseline='middle';
+  ctx.fillText('VISTAMOUNT',W/2,H*0.12);
+  ctx.restore();
   mountLabel(ctx, W, H, 'MOTORIZED CEILING', p);
 }
 
@@ -4453,7 +4205,7 @@ function mountLabel(ctx, W, H, name, p) {
   ctx.save();
   ctx.globalAlpha = alpha * 0.9;
   // Pill background
-  var lW=220, lH=44, lX=(W-lW)/2, lY=H*0.68;
+  var lW=220, lH=44, lX=(W-lW)/2, lY=H*0.76;
   ctx.fillStyle='rgba(8,10,18,0.75)';
   ctx.beginPath(); rr(ctx,lX,lY,lW,lH,22); ctx.fill();
   ctx.strokeStyle='rgba(79,172,255,0.25)'; ctx.lineWidth=1; ctx.stroke();
@@ -4468,7 +4220,7 @@ function mountLabel(ctx, W, H, name, p) {
   ctx.letterSpacing='1px';
   ctx.fillText(showcase.sub, W/2, lY+30);
   // Dot indicators
-  var dY=lY-12, dotR=3, gap=10;
+  var dY=lY+lH+10, dotR=3, gap=10;
   var total=mountShowcase.length, startX=W/2-(total-1)*gap/2;
   for(var d=0;d<total;d++){
     ctx.fillStyle = d===mountIdx ? '#4facff' : 'rgba(79,172,255,0.25)';
@@ -4494,17 +4246,17 @@ function heroFrame(ts){
   if(!W||!H){resizeHero();requestAnimationFrame(heroFrame);return;}
   hctx.clearRect(0,0,W,H);
   var TY=H*.15,BY=H*.87;
+  hLine(TY,eOC(hpg(t,.1,.9)),t>.9?hPulse(t):1);
+  hLine(BY,eOC(hpg(t,1.5,2.1)),t>2.1?hPulse(t+.8):1);
+  if(t>.9){
+    hctx.save();hctx.globalAlpha=eO(hpg(t,.9,1.4))*.18;
+    hctx.strokeStyle=HBL;hctx.lineWidth=.5;hctx.setLineDash([2,8]);
+    hctx.beginPath();hctx.moveTo(W/2,TY);hctx.lineTo(W/2,BY);hctx.stroke();
+    hctx.setLineDash([]);hctx.restore();
+  }
+  if(t>2.1)hCorners(eO(hpg(t,2.1,2.6))*(t>2.6?hPulse(t*.5+1):1));
+
   if(t < 2.8){
-    // Intro only: scan lines and corners
-    hLine(TY,eOC(hpg(t,.1,.9)),t>.9?hPulse(t):1);
-    hLine(BY,eOC(hpg(t,1.5,2.1)),t>2.1?hPulse(t+.8):1);
-    if(t>.9){
-      hctx.save();hctx.globalAlpha=eO(hpg(t,.9,1.4))*.18;
-      hctx.strokeStyle=HBL;hctx.lineWidth=.5;hctx.setLineDash([2,8]);
-      hctx.beginPath();hctx.moveTo(W/2,TY);hctx.lineTo(W/2,BY);hctx.stroke();
-      hctx.setLineDash([]);hctx.restore();
-    }
-    if(t>2.1)hCorners(eO(hpg(t,2.1,2.6))*(t>2.6?hPulse(t*.5+1):1));
     // Intro: branded boot screen
     var a=eO(hpg(t,0.3,1.2));
     if(a>0){
@@ -5416,20 +5168,6 @@ function calculateJobDuration() {
     ctx.closePath();
   }
 
-  // Legal modal functions
-  window.openLegalModal = function() {
-    document.getElementById('legal-modal').style.display = 'block';
-  };
-  window.closeLegalModal = function() {
-    document.getElementById('legal-modal').style.display = 'none';
-  };
-  const legalModal = document.getElementById('legal-modal');
-  if (legalModal) {
-    legalModal.addEventListener('click', function(e) {
-      if (e.target === this) closeLegalModal();
-    });
-  }
-
 })();
 </script>
 
@@ -5508,6 +5246,16 @@ function calculateJobDuration() {
     </div>
   </div>
 </div>
-
+<script>
+function openLegalModal() {
+  document.getElementById('legal-modal').style.display = 'block';
+}
+function closeLegalModal() {
+  document.getElementById('legal-modal').style.display = 'none';
+}
+document.getElementById('legal-modal').addEventListener('click', function(e) {
+  if (e.target === this) closeLegalModal();
+});
+</script>
 </body>
 </html>
