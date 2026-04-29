@@ -94,7 +94,7 @@ nav.scrolled-light .nav-book{color:#fff!important;}
   }
 
 /* 3-column hero stage */
-#hero-stage{
+#hero-stage{justify-content:center;
   display:grid;
   grid-template-columns:1fr min(720px,68vw) 1fr;
   align-items:center;
@@ -146,7 +146,7 @@ nav.scrolled-light .nav-book{color:#fff!important;}
 
 /* Hide channels on mobile */
 @media(max-width:900px){
-  #hero-stage{grid-template-columns:1fr;}
+  #hero-stage{justify-content:center;grid-template-columns:1fr;}
   #hero-left-channel,#hero-right-channel{display:none;}
   #hero-tv-wrap{width:min(96vw,560px) !important;}
 }
