@@ -24,6 +24,89 @@
 <meta name="twitter:image" content="https://vistamountaz.com/images/og-image.png?v=2"/>
 <meta name="twitter:image:alt" content="VistaMount - Premium TV Mounting in Phoenix, AZ"/>
 <meta name="description" content="Phoenix premier TV mounting and smart home installation. Same-day available. Book online and get an instant quote."/>
+
+<!-- Schema.org LocalBusiness -->
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "LocalBusiness",
+  "@id": "https://vistamountaz.com/#business",
+  "name": "VistaMount",
+  "legalName": "VistaMount LLC",
+  "image": "https://vistamountaz.com/images/og-image.png",
+  "logo": "https://vistamountaz.com/images/logo-shield.png",
+  "url": "https://vistamountaz.com",
+  "telephone": "+14809034769",
+  "priceRange": "$100-$1500",
+  "description": "Phoenix's owner-operated TV mounting and smart home installation service. Same-day available, fully insured, 800+ installs.",
+  "address": {
+    "@type": "PostalAddress",
+    "addressLocality": "Phoenix",
+    "addressRegion": "AZ",
+    "addressCountry": "US"
+  },
+  "areaServed": [
+    {"@type": "City", "name": "Phoenix"},
+    {"@type": "City", "name": "Scottsdale"},
+    {"@type": "City", "name": "Chandler"},
+    {"@type": "City", "name": "Tempe"},
+    {"@type": "City", "name": "Mesa"},
+    {"@type": "City", "name": "Gilbert"},
+    {"@type": "City", "name": "Glendale"},
+    {"@type": "City", "name": "Peoria"}
+  ],
+  "geo": {
+    "@type": "GeoCoordinates",
+    "latitude": 33.4484,
+    "longitude": -112.0740
+  },
+  "openingHoursSpecification": [{
+    "@type": "OpeningHoursSpecification",
+    "dayOfWeek": ["Monday","Tuesday","Wednesday","Thursday","Friday","Saturday","Sunday"],
+    "opens": "08:00",
+    "closes": "20:00"
+  }],
+  "aggregateRating": {
+    "@type": "AggregateRating",
+    "ratingValue": "4.9",
+    "reviewCount": "150"
+  },
+  "sameAs": [
+    "https://www.thumbtack.com/az/phoenix/tv-mounting/vistamount/"
+  ],
+  "hasOfferCatalog": {
+    "@type": "OfferCatalog",
+    "name": "TV Mounting Services",
+    "itemListElement": [
+      {
+        "@type": "Offer",
+        "itemOffered": {"@type": "Service", "name": "TV Mounting", "url": "https://vistamountaz.com/"}
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {"@type": "Service", "name": "MantelMount Pull-Down Installation", "url": "https://vistamountaz.com/services/mantel-mount-installer-phoenix"}
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {"@type": "Service", "name": "Stone Fireplace TV Mounting", "url": "https://vistamountaz.com/services/stone-fireplace-tv-mounting-phoenix"}
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {"@type": "Service", "name": "Outdoor TV Installation", "url": "https://vistamountaz.com/services/outdoor-tv-installation-phoenix"}
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {"@type": "Service", "name": "In-Wall Cord Concealment", "url": "https://vistamountaz.com/services/in-wall-cord-concealment-phoenix"}
+      },
+      {
+        "@type": "Offer",
+        "itemOffered": {"@type": "Service", "name": "Large TV Mounting (85-inch+)", "url": "https://vistamountaz.com/services/large-tv-mounting-phoenix"}
+      }
+    ]
+  }
+}
+</script>
+
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
 <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
@@ -1260,6 +1343,105 @@ section.who-section-premium .who-grid > div:hover {
 }
 @media (max-width: 520px) {
   .why-local-grid { grid-template-columns: 1fr; }
+}
+
+/* SPECIALIZED SERVICES — link cards to service pages */
+.spec-services {
+  background: #0a1628;
+  padding: 80px 52px 90px;
+  border-top: 1px solid rgba(255,255,255,.06);
+}
+.spec-services-inner {
+  max-width: 1200px; margin: 0 auto;
+}
+.spec-services-head {
+  text-align: center;
+  margin-bottom: 48px;
+}
+.spec-eyebrow {
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #4facff;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.spec-h2 {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(34px, 5.2vw, 60px);
+  line-height: 1;
+  color: #fff;
+  margin: 0 0 16px;
+  letter-spacing: 1px;
+}
+.spec-sub {
+  font-size: 16px;
+  color: rgba(255,255,255,.6);
+  max-width: 620px;
+  margin: 0 auto;
+  line-height: 1.6;
+}
+.spec-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 18px;
+}
+.spec-card {
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(79,172,255,.15);
+  border-radius: 16px;
+  padding: 28px 24px;
+  display: flex;
+  flex-direction: column;
+  transition: border-color .25s ease, transform .25s ease, background .25s ease;
+  text-decoration: none;
+  color: inherit;
+}
+.spec-card:hover {
+  border-color: rgba(79,172,255,.5);
+  background: rgba(79,172,255,.05);
+  transform: translateY(-4px);
+}
+.spec-card-eyebrow {
+  font-size: 10px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: #4facff;
+  font-weight: 700;
+  margin-bottom: 10px;
+}
+.spec-card-h {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.7rem;
+  letter-spacing: .02em;
+  color: #fff;
+  margin-bottom: 12px;
+  line-height: 1;
+}
+.spec-card-p {
+  font-size: .92rem;
+  color: rgba(255,255,255,.6);
+  line-height: 1.6;
+  margin: 0 0 18px;
+  flex: 1;
+}
+.spec-card-cta {
+  font-size: 13px;
+  font-weight: 700;
+  color: #4facff;
+  letter-spacing: .04em;
+}
+.spec-card-cta-tile {
+  background: linear-gradient(135deg, rgba(37,99,235,.12), rgba(79,172,255,.05));
+  border-color: rgba(79,172,255,.35);
+}
+@media (max-width: 960px) {
+  .spec-grid { grid-template-columns: repeat(2, 1fr); gap: 14px; }
+  .spec-services { padding: 60px 24px 70px; }
+  .spec-card { padding: 22px 20px; }
+}
+@media (max-width: 520px) {
+  .spec-grid { grid-template-columns: 1fr; }
 }
 
 /* REVIEWS ENHANCED */
@@ -3152,6 +3334,55 @@ document.addEventListener('DOMContentLoaded', function() {
         <div class="why-local-h">Same-week availability.</div>
         <div class="why-local-p">No 2-week scheduling windows. I run my own calendar &mdash; I know when I'm free.</div>
       </div>
+    </div>
+  </div>
+</section>
+
+<!-- SPECIALIZED SERVICES -->
+<section class="spec-services">
+  <div class="spec-services-inner">
+    <div class="spec-services-head">
+      <div class="spec-eyebrow">Specialized Installs</div>
+      <h2 class="spec-h2">The jobs other installers won't take.</h2>
+      <p class="spec-sub">Stone fireplaces, pull-down mounts, 85-inch TVs, outdoor patios. The trickier the install, the more reason to hire someone who's done hundreds.</p>
+    </div>
+    <div class="spec-grid">
+      <a href="/services/mantel-mount-installer-phoenix" class="spec-card">
+        <div class="spec-card-eyebrow">Pull-Down Mounts</div>
+        <div class="spec-card-h">MantelMount Installer</div>
+        <div class="spec-card-p">MM340, MM540, MM700, Max1 &mdash; properly bridged, clearance-checked, counterbalance tuned.</div>
+        <div class="spec-card-cta">Learn more &rarr;</div>
+      </a>
+      <a href="/services/stone-fireplace-tv-mounting-phoenix" class="spec-card">
+        <div class="spec-card-eyebrow">Stone &amp; Brick</div>
+        <div class="spec-card-h">Stone Fireplace TV</div>
+        <div class="spec-card-p">Tapcons, sleeve anchors, toggle bolts. The right anchor for stone, brick, or tile &mdash; no cracked surfaces.</div>
+        <div class="spec-card-cta">Learn more &rarr;</div>
+      </a>
+      <a href="/services/outdoor-tv-installation-phoenix" class="spec-card">
+        <div class="spec-card-eyebrow">Patio &amp; Pool</div>
+        <div class="spec-card-h">Outdoor TV Install</div>
+        <div class="spec-card-p">Weather-rated mounts, sun-glare-aware placement, sealed cable runs. Phoenix-tough setups.</div>
+        <div class="spec-card-cta">Learn more &rarr;</div>
+      </a>
+      <a href="/services/in-wall-cord-concealment-phoenix" class="spec-card">
+        <div class="spec-card-eyebrow">Hidden Cables</div>
+        <div class="spec-card-h">In-Wall Concealment</div>
+        <div class="spec-card-p">Code-compliant power relocation kits, signal cable fishing, fire blocking respected.</div>
+        <div class="spec-card-cta">Learn more &rarr;</div>
+      </a>
+      <a href="/services/large-tv-mounting-phoenix" class="spec-card">
+        <div class="spec-card-eyebrow">85&Prime;+ TVs</div>
+        <div class="spec-card-h">Large TV Mounting</div>
+        <div class="spec-card-p">Stud bridging, two-person handling, heavy-duty mounts. 85&Prime;, 90&Prime;, 98&Prime; done right.</div>
+        <div class="spec-card-cta">Learn more &rarr;</div>
+      </a>
+      <a href="/?book=1" class="spec-card spec-card-cta-tile">
+        <div class="spec-card-eyebrow">Don't see your job?</div>
+        <div class="spec-card-h">Get a Quote</div>
+        <div class="spec-card-p">Standard mounts, soundbars, smart home installs. Same-week availability across Phoenix metro.</div>
+        <div class="spec-card-cta">Book online &rarr;</div>
+      </a>
     </div>
   </div>
 </section>
@@ -5107,6 +5338,25 @@ document.getElementById('legal-modal').addEventListener('click', function(e) {
   document.getElementById('exit-popup').addEventListener('click', function(e){
     if(e.target === this) closeExitPopup();
   });
+})();
+</script>
+
+<!-- Deep link from service pages: /?book=1 auto-opens booking modal -->
+<script>
+(function(){
+  try {
+    var params = new URLSearchParams(window.location.search);
+    if (params.get('book') === '1') {
+      // Wait for modal to be ready, then open
+      window.addEventListener('load', function(){
+        setTimeout(function(){
+          if (typeof openBookingModal === 'function') {
+            openBookingModal();
+          }
+        }, 300);
+      });
+    }
+  } catch(e){}
 })();
 </script>
 
