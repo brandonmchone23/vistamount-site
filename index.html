@@ -1902,6 +1902,11 @@ function initBookingStep1() {
       <div style="font-size:0.85rem;color:#666;margin-bottom:8px;">Estimated Total</div>
       <div class="price-display" style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#2d7fe8;">$0</div><div style="font-size:0.75rem;color:#666;margin-top:4px;">Final price confirmed on-site</div>
     </div>
+
+    <div style="margin-top:18px;padding:14px 16px;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:8px;text-align:center;">
+      <div style="font-size:0.78rem;color:#475569;margin-bottom:6px;">Have something more complex? Brick fireplace, in-wall wiring, smart home, multi-room AV?</div>
+      <a href="/quote.html" style="display:inline-block;font-size:0.85rem;font-weight:600;color:#2d7fe8;text-decoration:none;border-bottom:1px solid #2d7fe8;">Request a Custom Quote &rarr;</a>
+    </div>
     
     </div>
     
@@ -2910,28 +2915,25 @@ document.addEventListener('DOMContentLoaded', function() {
 #site-header .sh-logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:#e8edf5;}
 #site-header .sh-logo .mt{color:#4facff;}
 #site-header .sh-actions{display:flex;align-items:center;gap:14px;}
-#site-header .sh-phone{color:#ffffff;text-decoration:none;font-weight:700;font-size:1rem;font-family:'DM Sans',sans-serif;letter-spacing:0.02em;white-space:nowrap;}
-#site-header .sh-portal{display:inline-flex;align-items:center;padding:8px 16px;border:1px solid rgba(255,255,255,0.2);border-radius:6px;color:rgba(255,255,255,0.7);font-size:11px;letter-spacing:2px;text-decoration:none;font-weight:500;transition:all 0.2s;margin-right:12px;}.sh-portal:hover{border-color:rgba(255,255,255,0.5);color:#fff;}
+#site-header .sh-phone{display:inline-flex;align-items:center;gap:6px;color:#ffffff;text-decoration:none;font-weight:700;font-size:1rem;font-family:'DM Sans',sans-serif;letter-spacing:0.02em;white-space:nowrap;}
+#site-header .sh-phone svg{flex-shrink:0;}
+#site-header .sh-portal{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:1px solid rgba(255,255,255,0.2);border-radius:50%;color:rgba(255,255,255,0.75);text-decoration:none;transition:all 0.2s;}
+#site-header .sh-portal:hover{border-color:rgba(79,172,255,0.6);color:#4facff;background:rgba(79,172,255,0.08);}
+#site-header .sh-portal svg{width:18px;height:18px;}
 .sh-book{background:#2d7fe8;color:#ffffff;border:none;padding:12px 24px;border-radius:6px;font-weight:600;font-size:0.9rem;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;white-space:nowrap;}
 #site-header .sh-book:hover{background:#1a6ad4;}
-@media (max-width:640px){
-  #site-header{padding:10px 0;}
-  #site-header .sh-inner{flex-direction:column;align-items:stretch;gap:8px;padding:0 16px;}
-  #site-header .sh-logo{text-align:center;font-size:1.35rem;}
-  #site-header .sh-actions{justify-content:center;gap:10px;}
-  #site-header .sh-phone{font-size:0.95rem;flex:1;text-align:center;padding:9px 6px;border:1px solid rgba(79,172,255,0.35);border-radius:6px;}
-  #site-header .sh-portal{display:inline-flex;align-items:center;padding:8px 16px;border:1px solid rgba(255,255,255,0.2);border-radius:6px;color:rgba(255,255,255,0.7);font-size:11px;letter-spacing:2px;text-decoration:none;font-weight:500;transition:all 0.2s;margin-right:12px;}.sh-portal:hover{border-color:rgba(255,255,255,0.5);color:#fff;}
-.sh-book{flex:1;padding:10px 14px;font-size:0.82rem;letter-spacing:0.04em;}
-}
 .sh-spacer{height:60px;}
 @media(max-width:640px){
   .sh-spacer{height:56px;}
-  #site-header .sh-inner{flex-direction:row!important;padding:0 16px!important;gap:8px!important;}
-  #site-header .sh-logo{font-size:1.2rem!important;}
-  #site-header .sh-actions{gap:8px!important;}
-  #site-header .sh-phone{display:none!important;}
-  #site-header .sh-portal{font-size:10px!important;letter-spacing:1px!important;padding:8px 10px!important;margin-right:0!important;}
-  .sh-book{padding:8px 14px!important;font-size:0.78rem!important;letter-spacing:0.03em!important;}
+  #site-header{padding:10px 0;}
+  #site-header .sh-inner{flex-direction:row;align-items:center;padding:0 14px;gap:10px;}
+  #site-header .sh-logo{font-size:1.15rem;}
+  #site-header .sh-actions{gap:8px;}
+  #site-header .sh-phone{font-size:0;padding:8px;border:1px solid rgba(79,172,255,0.35);border-radius:50%;width:38px;height:38px;justify-content:center;gap:0;}
+  #site-header .sh-phone svg{width:18px;height:18px;}
+  #site-header .sh-portal{width:38px;height:38px;}
+  #site-header .sh-portal svg{width:17px;height:17px;}
+  .sh-book{padding:9px 14px;font-size:0.8rem;letter-spacing:0.02em;}
 }
 
 /* Hero speaker removal overrides */
@@ -2945,8 +2947,13 @@ document.addEventListener('DOMContentLoaded', function() {
   <div class="sh-inner">
     <div class="sh-logo">Vista<span class="mt">Mount</span></div>
     <div class="sh-actions">
-      <a href="tel:4809034769" class="sh-phone">(480) 903-4769</a>
-      <a href="https://portal.vistamountaz.com" class="sh-portal" target="_blank">CLIENT PORTAL</a>
+      <a href="tel:4809034769" class="sh-phone" aria-label="Call (480) 903-4769">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6.09 6.09l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <span>(480) 903-4769</span>
+      </a>
+      <a href="https://portal.vistamountaz.com" class="sh-portal" target="_blank" aria-label="Client Portal" title="Client Portal">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+      </a>
       <button onclick="openBookingModal()" class="sh-book">BOOK NOW</button>
     </div>
   </div>
@@ -3150,6 +3157,9 @@ document.addEventListener('DOMContentLoaded', function() {
     <div class="pricing-cta-row">
       <a href="#booking-modal" onclick="openBookingModal();return false;" class="pricing-btn-primary">Get Instant Quote &rarr;</a>
       <div class="pricing-cta-note">Takes 60 seconds &middot; Exact quote before you confirm</div>
+      <div style="margin-top:14px;font-size:0.82rem;color:#64748b;">
+        Have a custom job? <a href="/quote.html" style="color:#2d7fe8;font-weight:600;text-decoration:none;border-bottom:1px solid rgba(45,127,232,0.4);">Request a custom quote &rarr;</a>
+      </div>
     </div>
   </div>
 
