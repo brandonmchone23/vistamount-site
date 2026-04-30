@@ -1174,6 +1174,94 @@ section.who-section-premium .who-grid > div:hover {
   .trust-bar { padding: 22px 20px; }
 }
 
+/* WHY LOCAL — dark section between hero and trust bar */
+.why-local {
+  background: #06080f;
+  padding: 80px 52px 90px;
+  border-top: 1px solid rgba(255,255,255,.04);
+  position: relative;
+  overflow: hidden;
+}
+.why-local::before {
+  content: '';
+  position: absolute; inset: 0;
+  background: radial-gradient(ellipse 60% 40% at 50% 0%, rgba(37,99,235,0.08) 0%, transparent 70%);
+  pointer-events: none;
+}
+.why-local-inner {
+  max-width: 1200px; margin: 0 auto;
+  position: relative; z-index: 2;
+}
+.why-local-head {
+  text-align: center;
+  margin-bottom: 56px;
+}
+.why-local-eyebrow {
+  font-size: 11px;
+  letter-spacing: 4px;
+  text-transform: uppercase;
+  color: #2563eb;
+  font-weight: 700;
+  margin-bottom: 14px;
+}
+.why-local-title {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: clamp(34px, 5.2vw, 60px);
+  line-height: 1;
+  color: #fff;
+  margin: 0;
+  letter-spacing: 1px;
+  background: linear-gradient(180deg, #fff 0%, #b8d4ff 100%);
+  -webkit-background-clip: text; background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.why-local-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 20px;
+}
+.why-local-card {
+  background: rgba(255,255,255,.025);
+  border: 1px solid rgba(79,172,255,.12);
+  border-radius: 14px;
+  padding: 28px 24px;
+  transition: border-color .25s ease, transform .25s ease, background .25s ease;
+}
+.why-local-card:hover {
+  border-color: rgba(79,172,255,.4);
+  background: rgba(79,172,255,.04);
+  transform: translateY(-3px);
+}
+.why-local-num {
+  font-family: 'Bebas Neue', sans-serif;
+  font-size: 1.05rem;
+  letter-spacing: .12em;
+  color: #4facff;
+  margin-bottom: 14px;
+}
+.why-local-h {
+  font-size: 1.05rem;
+  font-weight: 700;
+  color: #fff;
+  margin-bottom: 10px;
+  line-height: 1.3;
+}
+.why-local-p {
+  font-size: .92rem;
+  color: rgba(255,255,255,.6);
+  line-height: 1.55;
+  margin: 0;
+}
+@media (max-width: 960px) {
+  .why-local-grid { grid-template-columns: repeat(2, 1fr); gap: 16px; }
+  .why-local { padding: 60px 24px 70px; }
+  .why-local-head { margin-bottom: 40px; }
+  .why-local-card { padding: 24px 20px; }
+}
+@media (max-width: 520px) {
+  .why-local-grid { grid-template-columns: 1fr; }
+}
+
 /* REVIEWS ENHANCED */
 .reviews-cards {
   display: grid;
@@ -3002,13 +3090,13 @@ document.addEventListener('DOMContentLoaded', function() {
     </div>
 
     <!-- Eyebrow -->
-    <div style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#2563eb;font-weight:700;margin-bottom:20px;">Phoenix's Highest-Rated TV Mounting Company</div>
+    <div style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#2563eb;font-weight:700;margin-bottom:20px;">Phoenix's Highest-Rated &middot; Owner-Operated</div>
 
     <!-- Headline -->
     <h1 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,10vw,120px);line-height:0.92;color:#fff;margin:0 0 20px;letter-spacing:1px;">800+ TVs Mounted.<br><span style="color:#2563eb;">Done Clean. Done Right.</span></h1>
 
     <!-- Subheadline -->
-    <p style="font-size:clamp(15px,2vw,18px);color:rgba(255,255,255,0.65);margin:0 auto 36px;line-height:1.6;max-width:540px;">This isn't a handyman job &mdash; professional install, clean wires, zero damage. Done right the first time.</p>
+    <p style="font-size:clamp(15px,2vw,18px);color:rgba(255,255,255,0.65);margin:0 auto 36px;line-height:1.6;max-width:540px;">This isn't a handyman job &mdash; professional install, clean wires, zero damage. Owner-operated, locally based in Phoenix.</p>
 
     <!-- CTAs -->
     <div style="display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;max-width:420px;margin:0 auto 24px;">
@@ -3033,6 +3121,38 @@ document.addEventListener('DOMContentLoaded', function() {
       <span>$1M Insured</span>
     </div>
 
+  </div>
+</section>
+
+<!-- WHY LOCAL -->
+<section class="why-local">
+  <div class="why-local-inner">
+    <div class="why-local-head">
+      <div class="why-local-eyebrow">Why hire local</div>
+      <h2 class="why-local-title">The difference is the person at your door.</h2>
+    </div>
+    <div class="why-local-grid">
+      <div class="why-local-card">
+        <div class="why-local-num">01</div>
+        <div class="why-local-h">You'll meet me at the door.</div>
+        <div class="why-local-p">Not a stranger from a 1-800 number. Brandon, owner of VistaMount.</div>
+      </div>
+      <div class="why-local-card">
+        <div class="why-local-num">02</div>
+        <div class="why-local-h">No subcontractors.</div>
+        <div class="why-local-p">I don't farm out jobs. The person you booked is the person who shows up.</div>
+      </div>
+      <div class="why-local-card">
+        <div class="why-local-num">03</div>
+        <div class="why-local-h">My name, my reputation.</div>
+        <div class="why-local-p">I live and work in Phoenix. Every install reflects on me directly.</div>
+      </div>
+      <div class="why-local-card">
+        <div class="why-local-num">04</div>
+        <div class="why-local-h">Same-week availability.</div>
+        <div class="why-local-p">No 2-week scheduling windows. I run my own calendar &mdash; I know when I'm free.</div>
+      </div>
+    </div>
   </div>
 </section>
 
