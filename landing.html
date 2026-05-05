@@ -718,7 +718,13 @@ async function submitForm(){
       document.getElementById('form-body').style.display='none';
       document.getElementById('f-success').classList.add('show');
       window.dataLayer=window.dataLayer||[];
-      window.dataLayer.push({event:'booking_complete',page:'landing'});
+      var bookingValue = parseInt((document.getElementById('est').textContent||'0').replace(/[^0-9]/g,''),10) || 0;
+      window.dataLayer.push({
+        event:'booking_complete',
+        page:'landing',
+        value: bookingValue,
+        currency:'USD'
+      });
     }else{
       btn.textContent='Confirm Booking ✓';btn.disabled=false;
       alert('Booking failed. Please call (480) 903-4769.');
