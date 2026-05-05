@@ -2862,6 +2862,15 @@ async function submitBooking() {
     const data = await response.json();
     
     if (data.success) {
+      // Push conversion event to dataLayer (for GTM → Google Ads + GA4)
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'booking_complete',
+        page: 'main',
+        value: calculatePrice(),
+        currency: 'USD',
+        transaction_id: confirmationNumber
+      });
       // Show success message
       showSuccessScreen(confirmationNumber);
     } else {
@@ -4511,6 +4520,7 @@ async function submitForm(){
     btn.disabled = true;
     
     try {
+      const sameDayConfirmation = 'VM-' + Math.random().toString(36).substring(2, 6).toUpperCase();
       const summary = 'TVs:'+mainState.tvcount+' '+mainState.tvs.map(function(tv,i){return 'TV'+(i+1)+':'+tv.size+'/'+tv.mount+'/'+tv.cords+'/'+tv.wall;}).join(' ')+(mainState.soundbars?' soundbars:'+mainState.soundbars:'')+(mainState.dismounts?' dismounts:'+mainState.dismounts:'');
       
       const res = await fetch('https://vistamount-booking.billowing-recipe-0ae7.workers.dev/book', {
@@ -4525,7 +4535,8 @@ async function submitForm(){
           slotEnd: selectedSlot.end,
           summary: summary,
           notes: '',
-          sourceId: null
+          sourceId: null,
+          confirmationNumber: sameDayConfirmation
         })
       });
       
@@ -4539,7 +4550,8 @@ async function submitForm(){
           event: 'booking_complete',
           page: 'main',
           value: calculatePrice(),
-          currency: 'USD'
+          currency: 'USD',
+          transaction_id: sameDayConfirmation
         });
       } else {
         throw new Error(data.error || 'Booking failed');
