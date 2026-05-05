@@ -140,10 +140,51 @@
 }
 </script>
 
-<link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
-<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" media="print" onload="this.media='all'"/>
-<noscript><link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet"/></noscript>
+<!-- Self-hosted fonts: preload critical font (Bebas Neue for hero LCP) -->
+<link rel="preload" href="/fonts/bebas-neue-v16-latin.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/dm-sans-v17-latin.woff2" as="font" type="font/woff2" crossorigin>
+<style>
+@font-face {
+  font-family: 'Bebas Neue';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/bebas-neue-v16-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 300;
+  font-display: swap;
+  src: url('/fonts/dm-sans-v17-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url('/fonts/dm-sans-v17-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 500;
+  font-display: swap;
+  src: url('/fonts/dm-sans-v17-latin.woff2') format('woff2');
+  unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD;
+}
+@font-face {
+  font-family: 'DM Sans';
+  font-style: normal;
+  font-weight: 300 500;
+  font-display: swap;
+  src: url('/fonts/dm-sans-v17-latin-ext.woff2') format('woff2');
+  unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C0, U+2113, U+2C60-2C7F, U+A720-A7FF;
+}
+</style>
 <style>
 /* === v9 responsive safety === */
 html,body{overflow-x:hidden;max-width:100vw}
@@ -1944,9 +1985,9 @@ section.why-section [id*="counter"] { color: #1e5fc4 !important; }
 #soundbar-group{display:none!important;}
 #hero-trust{display:none!important;}
 </style>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=AW-18018755852"></script>
+<!-- Google tag (gtag.js) - deferred for mobile LCP performance -->
 <script>
+  // Initialize dataLayer immediately so booking events queue properly
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
@@ -1955,6 +1996,25 @@ section.why-section [id*="counter"] { color: #1e5fc4 !important; }
   // TODO: verify correct measurement ID in GA4 admin (Admin > Data Streams)
   // and re-enable this line. GA4 events still flow via GTM container GTM-KL3RS6P8.
   // gtag('config', 'G-J8415SKQ5Y');
+
+  // Defer gtag.js load until after LCP paints
+  // Loads on first user interaction OR after 2.5s, whichever comes first
+  (function(){
+    var loaded = false;
+    function loadGtag() {
+      if (loaded) return;
+      loaded = true;
+      var s = document.createElement('script');
+      s.async = true;
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=AW-18018755852';
+      document.head.appendChild(s);
+    }
+    var events = ['scroll','mousemove','touchstart','keydown','click'];
+    events.forEach(function(e){
+      window.addEventListener(e, loadGtag, {once:true, passive:true});
+    });
+    setTimeout(loadGtag, 2500);
+  })();
 </script>
 <script>
 // ==================== BOOKING MODAL ====================
@@ -3239,8 +3299,29 @@ document.addEventListener('DOMContentLoaded', function() {
 
 
 </script>
-<!-- Google Tag Manager -->
-<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src='https://www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);})(window,document,'script','dataLayer','GTM-KL3RS6P8');</script>
+<!-- Google Tag Manager - deferred for mobile LCP performance -->
+<script>
+(function(){
+  // Initialize gtm.start immediately so dataLayer events queue properly
+  window.dataLayer = window.dataLayer || [];
+  window.dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
+
+  var loaded = false;
+  function loadGTM() {
+    if (loaded) return;
+    loaded = true;
+    var s = document.createElement('script');
+    s.async = true;
+    s.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-KL3RS6P8';
+    document.head.appendChild(s);
+  }
+  var events = ['scroll','mousemove','touchstart','keydown','click'];
+  events.forEach(function(e){
+    window.addEventListener(e, loadGTM, {once:true, passive:true});
+  });
+  setTimeout(loadGTM, 2500);
+})();
+</script>
 <!-- End Google Tag Manager -->
 <script defer src="/_vercel/insights/script.js"></script>
 <script src="https://elfsightcdn.com/platform.js" async></script>
