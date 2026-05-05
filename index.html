@@ -4535,7 +4535,12 @@ async function submitForm(){
         document.getElementById('success').classList.add('show');
         document.getElementById('booking-header').style.display = 'none';
         window.dataLayer = window.dataLayer || [];
-        window.dataLayer.push({event: 'booking_complete', page: 'main'});
+        window.dataLayer.push({
+          event: 'booking_complete',
+          page: 'main',
+          value: calculatePrice(),
+          currency: 'USD'
+        });
       } else {
         throw new Error(data.error || 'Booking failed');
       }
