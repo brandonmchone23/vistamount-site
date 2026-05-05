@@ -1997,8 +1997,8 @@ section.why-section [id*="counter"] { color: #1e5fc4 !important; }
   // and re-enable this line. GA4 events still flow via GTM container GTM-KL3RS6P8.
   // gtag('config', 'G-J8415SKQ5Y');
 
-  // Defer gtag.js load until after LCP paints
-  // Loads on first user interaction OR after 2.5s, whichever comes first
+  // Defer gtag.js load until browser is idle (after LCP paints)
+  // Loads on first user interaction OR when browser idle (>= 4s after load)
   (function(){
     var loaded = false;
     function loadGtag() {
@@ -2013,7 +2013,14 @@ section.why-section [id*="counter"] { color: #1e5fc4 !important; }
     events.forEach(function(e){
       window.addEventListener(e, loadGtag, {once:true, passive:true});
     });
-    setTimeout(loadGtag, 2500);
+    // Wait until after window load, then idle, with hard 6s ceiling
+    window.addEventListener('load', function() {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(loadGtag, {timeout: 6000});
+      } else {
+        setTimeout(loadGtag, 4000);
+      }
+    });
   })();
 </script>
 <script>
@@ -3319,7 +3326,14 @@ document.addEventListener('DOMContentLoaded', function() {
   events.forEach(function(e){
     window.addEventListener(e, loadGTM, {once:true, passive:true});
   });
-  setTimeout(loadGTM, 2500);
+  // Wait for window load, then browser idle (with 6s timeout ceiling)
+  window.addEventListener('load', function() {
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(loadGTM, {timeout: 6000});
+    } else {
+      setTimeout(loadGTM, 4000);
+    }
+  });
 })();
 </script>
 <!-- End Google Tag Manager -->

@@ -310,7 +310,13 @@ footer{background:#02030a;border-top:1px solid rgba(79,172,255,.08);padding:24px
     }
     var events = ['scroll','mousemove','touchstart','keydown','click'];
     events.forEach(function(e){ window.addEventListener(e, loadGtag, {once:true, passive:true}); });
-    setTimeout(loadGtag, 2500);
+    window.addEventListener('load', function() {
+      if ('requestIdleCallback' in window) {
+        requestIdleCallback(loadGtag, {timeout: 6000});
+      } else {
+        setTimeout(loadGtag, 4000);
+      }
+    });
   })();
 </script>
 <!-- Google Tag Manager - deferred for mobile LCP -->
@@ -329,7 +335,13 @@ footer{background:#02030a;border-top:1px solid rgba(79,172,255,.08);padding:24px
   }
   var events = ['scroll','mousemove','touchstart','keydown','click'];
   events.forEach(function(e){ window.addEventListener(e, loadGTM, {once:true, passive:true}); });
-  setTimeout(loadGTM, 2500);
+  window.addEventListener('load', function() {
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(loadGTM, {timeout: 6000});
+    } else {
+      setTimeout(loadGTM, 4000);
+    }
+  });
 })();
 </script>
 <!-- End Google Tag Manager -->
