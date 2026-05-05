@@ -702,6 +702,7 @@ async function submitForm(){
   var btn=document.getElementById('f-submit');
   btn.textContent='Booking...';btn.disabled=true;
   var summary='TVs:'+st.tvcount+' '+st.tvs.map(function(tv,i){return 'TV'+(i+1)+':'+tv.size+'/'+tv.mount+'/'+tv.cords+'/'+tv.wall;}).join(' ')+(st.soundbars?' soundbars:'+st.soundbars:'')+(st.dismounts?' dismounts:'+st.dismounts:'');
+  var landingConfirmation='VM-'+Math.random().toString(36).substring(2,6).toUpperCase();
   try{
     var res=await fetch(WORKER+'/book',{
       method:'POST',headers:{'Content-Type':'application/json'},
@@ -710,7 +711,8 @@ async function submitForm(){
         phone:phone,email:document.getElementById('f-email').value,
         address:document.getElementById('f-address').value,
         slotStart:selSlot.start,slotEnd:selSlot.end,
-        summary:summary,notes:document.getElementById('f-notes').value
+        summary:summary,notes:document.getElementById('f-notes').value,
+        confirmationNumber:landingConfirmation
       })
     });
     var data=await res.json();
@@ -723,7 +725,8 @@ async function submitForm(){
         event:'booking_complete',
         page:'landing',
         value: bookingValue,
-        currency:'USD'
+        currency:'USD',
+        transaction_id: landingConfirmation
       });
     }else{
       btn.textContent='Confirm Booking ✓';btn.disabled=false;
