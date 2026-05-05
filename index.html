@@ -2138,11 +2138,15 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 function goBookingStep(n) {
-  // Validate step 3 - require date selection
+  // Validate step 3 - require date AND slot selection
   if (bookingState.currentStep === 3 && n === 4) {
     const dateInput = document.getElementById('booking-date');
     if (!dateInput || !dateInput.value) {
       alert('Please select a date to continue.');
+      return;
+    }
+    if (!bookingState.selectedSlot) {
+      alert('Please select a time slot to continue.');
       return;
     }
     bookingState.selectedDate = dateInput.value;
@@ -2684,6 +2688,9 @@ function initBookingStep3() {
   const container = document.getElementById('step-3');
   const total = calculatePrice();
   
+  // Reset slot selection when entering step 3
+  bookingState.selectedSlot = null;
+  
   container.innerHTML = `
     <div style="margin-bottom:24px;">
       <label style="display:block;font-size:0.85rem;color:#333;margin-bottom:12px;font-weight:500;">Select Date</label>
@@ -2702,7 +2709,7 @@ function initBookingStep3() {
     
     <div class="modal-nav">
       <button class="btn-back" onclick="goBookingStep(2)">&larr; Back</button>
-      <button class="btn-next" onclick="goBookingStep(4)">Next &rarr;</button>
+      <button class="btn-next" onclick="goBookingStep(4)" disabled style="opacity:0.5;cursor:not-allowed;">Next &rarr;</button>
     </div>
   `;
   
@@ -2717,6 +2724,15 @@ async function loadBookingSlots() {
   const selectedDate = dateInput.value;
   
   if (!selectedDate) return;
+
+  // Reset slot selection — picking a new date invalidates any previous selection
+  bookingState.selectedSlot = null;
+  const nextBtn = document.querySelector('#step-3 .btn-next');
+  if (nextBtn) {
+    nextBtn.disabled = true;
+    nextBtn.style.opacity = '0.5';
+    nextBtn.style.cursor = 'not-allowed';
+  }
 
   // Reject past dates
   const today = new Date().toISOString().split('T')[0];
@@ -2766,8 +2782,8 @@ function selectSlot(slot) {
   });
   event.target.classList.add('selected');
   
-  // Enable next button
-  const nextBtn = document.querySelector('.modal-footer .btn-next');
+  // Enable Step 3's Next button (lives inside #step-3, not .modal-footer)
+  const nextBtn = document.querySelector('#step-3 .btn-next');
   if (nextBtn) {
     nextBtn.disabled = false;
     nextBtn.style.opacity = '1';
