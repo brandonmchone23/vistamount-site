@@ -1803,7 +1803,7 @@ section.why-section [id*="counter"] { color: #1e5fc4 !important; }
   box-shadow: 0 16px 40px rgba(30,95,196,.5);
 }
 .pricing-cta-note {
-  color: #94a3b8; font-size: .88rem; margin-top: 18px;
+  color: #64748b; font-size: .88rem; margin-top: 18px;
   letter-spacing: .3px;
 }
 
@@ -3328,8 +3328,9 @@ document.addEventListener('DOMContentLoaded', function() {
     <!-- Logo in hero -->
     <div style="margin-bottom:24px;">
       <picture>
-        <source srcset="/images/logo-shield.webp" type="image/webp">
-        <img src="/images/logo-shield.png" alt="VistaMount" width="162" height="140" style="height:140px;width:auto;margin:0 auto;display:block;"/>
+        <source type="image/webp" srcset="/images/logo-shield-1x.webp 1x, /images/logo-shield.webp 2x">
+        <source type="image/png" srcset="/images/logo-shield-1x.png 1x, /images/logo-shield.png 2x">
+        <img src="/images/logo-shield-1x.png" alt="VistaMount" width="162" height="140" style="height:140px;width:auto;margin:0 auto;display:block;"/>
       </picture>
     </div>
 
