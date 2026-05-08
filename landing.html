@@ -830,17 +830,8 @@ async function submitForm(){
     if(data.success){
       document.getElementById('form-body').style.display='none';
       document.getElementById('f-success').classList.add('show');
-      var bookingValue = parseInt((document.getElementById('est').textContent||'0').replace(/[^0-9]/g,''),10) || 0;
-      // Fire Google Ads conversion (Booking Complete) to AW-17950543580
-      if (typeof gtag === 'function') {
-        gtag('event', 'conversion', {
-          'send_to': 'AW-17950543580/ywoZCJeElKgcENydvu9C',
-          'value': bookingValue || 1.0,
-          'currency': 'USD',
-          'transaction_id': landingConfirmation
-        });
-      }
       window.dataLayer=window.dataLayer||[];
+      var bookingValue = parseInt((document.getElementById('est').textContent||'0').replace(/[^0-9]/g,''),10) || 0;
       window.dataLayer.push({
         event:'booking_complete',
         page:'landing',
@@ -872,20 +863,6 @@ function closeInfoModal(){
 
 buildTVCards();
 calcEst();
-</script>
-<script>
-(function() {
-  document.addEventListener('click', function(e) {
-    var link = e.target.closest('a[href^="tel:"]');
-    if (!link) return;
-    if (typeof gtag !== 'function') return;
-    gtag('event', 'conversion', {
-      'send_to': 'AW-17950543580/qiU6CLSQ_6ccENydvu9C',
-      'value': 50.0,
-      'currency': 'USD'
-    });
-  }, true);
-})();
 </script>
 </body>
 </html>
