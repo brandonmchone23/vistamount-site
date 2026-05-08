@@ -1904,6 +1904,21 @@ section.why-section [id*="counter"] { color: #1e5fc4 !important; }
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
   gtag('config', 'AW-18018755852');
+  gtag('config', 'AW-17950543580');
+  // Conversion event helper - fires conversion to AW-17950543580 (real Ads account)
+  // and supports optional callback URL (for tel: links so the call still goes through)
+  window.gtag_report_conversion = function(send_to, value, url) {
+    var callback = function () {
+      if (typeof(url) != 'undefined') { window.location = url; }
+    };
+    gtag('event', 'conversion', {
+      'send_to': send_to,
+      'value': value || 1.0,
+      'currency': 'USD',
+      'event_callback': callback
+    });
+    return false;
+  };
   // GA4 ID G-J8415SKQ5Y was returning 404 from Google's servers.
   // TODO: verify correct measurement ID in GA4 admin (Admin > Data Streams)
   // and re-enable this line. GA4 events still flow via GTM container GTM-KL3RS6P8.
@@ -1918,7 +1933,7 @@ section.why-section [id*="counter"] { color: #1e5fc4 !important; }
       loaded = true;
       var s = document.createElement('script');
       s.async = true;
-      s.src = 'https://www.googletagmanager.com/gtag/js?id=AW-18018755852';
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=AW-17950543580';
       document.head.appendChild(s);
     }
     var events = ['scroll','mousemove','touchstart','keydown','click'];
@@ -2894,6 +2909,15 @@ async function submitBooking() {
     const data = await response.json();
     
     if (data.success) {
+      // Fire Google Ads conversion (Booking Complete) to AW-17950543580
+      if (typeof gtag === 'function') {
+        gtag('event', 'conversion', {
+          'send_to': 'AW-17950543580/ywoZCJeElKgcENydvu9C',
+          'value': calculatePrice(),
+          'currency': 'USD',
+          'transaction_id': confirmationNumber
+        });
+      }
       // Push conversion event to dataLayer (for GTM → Google Ads + GA4)
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
@@ -5407,6 +5431,22 @@ document.getElementById('legal-modal').addEventListener('click', function(e) {
       });
     }
   } catch(e){}
+})();
+</script>
+
+<!-- Phone Click conversion tracking (delegated, catches all tel: links) -->
+<script>
+(function() {
+  document.addEventListener('click', function(e) {
+    var link = e.target.closest('a[href^="tel:"]');
+    if (!link) return;
+    if (typeof gtag !== 'function') return;
+    gtag('event', 'conversion', {
+      'send_to': 'AW-17950543580/qiU6CLSQ_6ccENydvu9C',
+      'value': 50.0,
+      'currency': 'USD'
+    });
+  }, true);
 })();
 </script>
 
