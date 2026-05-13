@@ -2755,7 +2755,7 @@ async function loadBookingSlots() {
   
   try {
     // Call your existing availability API
-    const response = await fetch(`https://vistamount-booking.billowing-recipe-0ae7.workers.dev/availability?date=${selectedDate}`);
+    const response = await fetch(`https://vistamount-worker.billowing-recipe-0ae7.workers.dev/availability?date=${selectedDate}&duration=120`);
     const data = await response.json();
     
     if (data.slots && data.slots.length > 0) {
@@ -2889,7 +2889,7 @@ async function submitBooking() {
 
   // Submit to worker
   try {
-    const response = await fetch('https://vistamount-booking.billowing-recipe-0ae7.workers.dev/book', {
+    const response = await fetch('https://vistamount-worker.billowing-recipe-0ae7.workers.dev/book', {
       method: 'POST',
       headers: {'Content-Type': 'application/json'},
       body: JSON.stringify({
@@ -4458,7 +4458,7 @@ document.querySelectorAll('.count').forEach(function(el){co.observe(el);});
 // ==================== BOOKING FORM ====================
 var mainState={tvs:[{size:'32-64',mount:'own',cords:'none',wall:'drywall'}],soundbars:0,dismounts:0,tvcount:1};
 var selectedSlot=null;
-var WORKER='https://vistamount-booking.billowing-recipe-0ae7.workers.dev';
+var WORKER='https://vistamount-worker.billowing-recipe-0ae7.workers.dev';
 var MAIN_PRICES={'<32':100,'32-64':125,'65-84':150,'85+':200};
 var MAIN_WALL_PRICES={drywall:0,stucco:75,brick:100,tile:150,fireplace:75};
 var MAIN_MOUNT_LABELS={fullmotion:'Full-Motion Mount',tilt:'Tilt Mount',flat:'Flat/Fixed Mount',own:'Customer Mount'};
@@ -4632,7 +4632,7 @@ async function submitForm(){
       const sameDayConfirmation = 'VM-' + Math.random().toString(36).substring(2, 6).toUpperCase();
       const summary = 'TVs:'+mainState.tvcount+' '+mainState.tvs.map(function(tv,i){return 'TV'+(i+1)+':'+tv.size+'/'+tv.mount+'/'+tv.cords+'/'+tv.wall;}).join(' ')+(mainState.soundbars?' soundbars:'+mainState.soundbars:'')+(mainState.dismounts?' dismounts:'+mainState.dismounts:'');
       
-      const res = await fetch('https://vistamount-booking.billowing-recipe-0ae7.workers.dev/book', {
+      const res = await fetch('https://vistamount-worker.billowing-recipe-0ae7.workers.dev/book', {
         method: 'POST',
         headers: {'Content-Type': 'application/json'},
         body: JSON.stringify({
