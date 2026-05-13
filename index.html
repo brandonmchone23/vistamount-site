@@ -1104,6 +1104,13 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
     font-size: 1.15rem !important;
     border-radius: 8px !important;
   }
+
+  /* Mobile agreement scroll: shorter + reliable touch scrolling */
+  #agreement-scroll {
+    max-height: 200px !important;
+    padding: 14px !important;
+    font-size: 0.8rem !important;
+  }
   .progress-step {
     width: 36px !important;
     height: 36px !important;
@@ -2828,17 +2835,58 @@ function checkAgreementScroll(el) {
   }
 }
 
+function showSignatureError(msg) {
+  var sigInput = document.getElementById('esignature');
+  var existing = document.getElementById('esignature-error');
+  if (existing) existing.remove();
+  if (!sigInput) { alert(msg); return; }
+  sigInput.style.borderColor = '#dc2626';
+  sigInput.style.boxShadow = '0 0 0 2px rgba(220,38,38,0.15)';
+  var err = document.createElement('div');
+  err.id = 'esignature-error';
+  err.textContent = msg;
+  err.style.cssText = 'color:#dc2626;font-size:0.78rem;font-weight:600;margin-top:6px;line-height:1.4;';
+  sigInput.insertAdjacentElement('afterend', err);
+  try { sigInput.focus({ preventScroll: false }); } catch (e) { sigInput.focus(); }
+  sigInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
+}
+
+function normalizeName(s) {
+  return (s || '')
+    .toLowerCase()
+    .normalize('NFD').replace(/[\u0300-\u036f]/g, '')
+    .replace(/[^a-z\s'-]/g, '')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
 function submitBookingWithConsent() {
   // Validate e-signature
-  const sig = document.getElementById('esignature') ? document.getElementById('esignature').value.trim() : '';
+  const sigInput = document.getElementById('esignature');
+  const sig = sigInput ? sigInput.value.trim() : '';
+  const fnameEl = document.getElementById('fname');
+  const lnameEl = document.getElementById('lname');
+  const fname = fnameEl ? fnameEl.value.trim() : '';
+  const lname = lnameEl ? lnameEl.value.trim() : '';
+
   if (!sig) {
-    alert('Please type your full name as your electronic signature to agree to the Service Agreement.');
+    showSignatureError('Please type your full name as your electronic signature.');
     return;
+  }
+  // Require signature to match the name they entered above
+  if (fname || lname) {
+    var sigN = normalizeName(sig);
+    var fwd = normalizeName(fname + ' ' + lname);
+    var rev = normalizeName(lname + ' ' + fname);
+    if (sigN !== fwd && sigN !== rev) {
+      showSignatureError('Your signature must match the name you entered above (' + (fname + ' ' + lname).trim() + ').');
+      return;
+    }
   }
   // Validate required consent
   const termsChecked = document.getElementById('consent-terms') ? document.getElementById('consent-terms').checked : false;
   if (!termsChecked) {
-    alert('Please agree to the Service Agreement and Terms of Service to continue.');
+    showSignatureError('Please check the box agreeing to the Service Agreement and Terms of Service.');
     return;
   }
   // Store consent data
@@ -3152,7 +3200,7 @@ function initBookingStep4() {
         <span><strong>Scroll to the bottom to accept</strong> — read the full agreement, then sign and agree.</span>
       </div>
       <div style="position:relative;">
-        <div id="agreement-scroll" onscroll="checkAgreementScroll(this)" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:20px;max-height:320px;overflow-y:scroll;-webkit-overflow-scrolling:touch;font-size:0.78rem;color:#444;line-height:1.7;">
+        <div id="agreement-scroll" onscroll="checkAgreementScroll(this)" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:20px;max-height:260px;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;font-size:0.78rem;color:#444;line-height:1.7;scrollbar-gutter:stable;">
 
           <strong style="color:#0f1218;font-size:0.85rem;">VistaMount LLC — Service Agreement</strong><br><br>
           <div style="background:#eef4ff;border:1px solid #b8daff;border-radius:6px;padding:12px;margin-bottom:12px;font-size:0.78rem;line-height:1.8;">
@@ -3173,7 +3221,7 @@ function initBookingStep4() {
           <strong>8. Governing Law.</strong> This agreement is governed by the laws of the State of Arizona. Disputes shall be resolved in Maricopa County, AZ.<br><br>
 
         </div>
-        <div id="scroll-fade" style="position:absolute;bottom:0;left:0;right:0;height:52px;background:linear-gradient(to bottom,transparent,#f8fafc);border-radius:0 0 8px 8px;pointer-events:none;display:flex;align-items:flex-end;justify-content:center;padding-bottom:8px;">
+        <div id="scroll-fade" style="position:absolute;bottom:0;left:0;right:0;height:28px;background:linear-gradient(to bottom,transparent,#f8fafc);border-radius:0 0 8px 8px;pointer-events:none;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px;">
           <span style="font-size:0.7rem;color:#1e5fc4;font-weight:700;letter-spacing:.06em;text-transform:uppercase;">↓ Keep scrolling to accept</span>
         </div>
       </div>
@@ -3181,7 +3229,7 @@ function initBookingStep4() {
       <!-- SIGNATURE + CONSENT - shown after scrolling -->
       <div id="sign-consent-section" style="display:none;margin-top:16px;padding-top:16px;border-top:2px solid #1e5fc4;">
         <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#1e5fc4;font-weight:700;margin-bottom:8px;">Electronic Signature</div>
-        <input type="text" id="esignature" placeholder="Type your full name to sign" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;font-style:italic;box-sizing:border-box;">
+        <input type="text" id="esignature" placeholder="Type your full name to sign" autocomplete="name" oninput="this.style.borderColor='#d0d7e0';this.style.boxShadow='none';var e=document.getElementById('esignature-error');if(e)e.remove();" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;font-style:italic;box-sizing:border-box;">
         <div style="font-size:0.72rem;color:#888;margin-top:4px;margin-bottom:16px;">By typing your name you are electronically signing this service agreement.</div>
 
         <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#1e5fc4;font-weight:700;margin-bottom:10px;">Communication Consent</div>
