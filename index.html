@@ -1094,7 +1094,31 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
   #step-1 [style*="grid-template-columns: repeat(4"] {
     grid-template-columns: repeat(2, 1fr) !important;
   }
+
+  /* Mobile tap-target compliance (Apple HIG 44x44 min) */
+  .qty-btn,
+  #step-1 .qty-btn,
+  #modal-form-container .qty-btn {
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 1.15rem !important;
+    border-radius: 8px !important;
+  }
+  .progress-step {
+    width: 36px !important;
+    height: 36px !important;
+    font-size: 0.85rem !important;
+  }
+  .option-btn { min-height: 48px; padding: 14px !important; }
+  .btn-back, .btn-next { min-height: 52px; padding: 16px 24px !important; font-size: 1rem !important; }
+  /* Pull hero CTA above the fold */
+  #hero { padding: 72px 20px 48px !important; }
+  #hero h1 { font-size: clamp(40px, 9vw, 72px) !important; }
 }
+
+/* Inline validation instead of alert() */
+.field-error { color: #dc2626; font-size: 0.85rem; margin-top: 6px; display: block; }
+input.invalid, select.invalid { border-color: #dc2626 !important; }
 
 
 .modal-footer {

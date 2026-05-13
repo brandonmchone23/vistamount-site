@@ -288,6 +288,26 @@ footer{background:#02030a;border-top:1px solid rgba(79,172,255,.08);padding:24px
   .hero-ctas{flex-direction:column;align-items:flex-start;}
   .btn-neon,.btn-ghost{width:100%;justify-content:center;}
 }
+
+/* Mobile tap-target compliance (Apple HIG 44x44 min) */
+@media (max-width: 768px) {
+  .qty-btn,
+  #step-1 .qty-btn,
+  #modal-form-container .qty-btn {
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 1.15rem !important;
+    border-radius: 8px !important;
+  }
+  .progress-step { width: 36px !important; height: 36px !important; font-size: 0.85rem !important; }
+  .option-btn { min-height: 48px; padding: 14px !important; }
+  .btn-back, .btn-next { min-height: 52px; padding: 16px 24px !important; font-size: 1rem !important; }
+  input, textarea, select { font-size: 16px !important; } /* prevent iOS zoom */
+}
+
+/* Inline validation instead of alert() */
+.field-error { color: #dc2626; font-size: 0.85rem; margin-top: 6px; display: block; }
+input.invalid, select.invalid, textarea.invalid { border-color: #dc2626 !important; }
 </style>
 <!-- Google tag (gtag.js) - deferred for mobile LCP -->
 <script>
