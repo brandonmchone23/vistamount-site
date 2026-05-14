@@ -71,12 +71,22 @@
         utm_campaign: attr.utm_campaign || ''
       });
 
-      // 2. Send a direct Google Ads conversion event (belt-and-suspenders, fires even if GTM tag is misconfigured)
+      // 2. Send a direct Google Ads conversion event with full attribution.
+      // We pass the gclid explicitly so the conversion is attributed even if
+      // Google's own _gcl cookie didn't persist (common on mobile Safari / ITP).
+      // transport_type: 'beacon' makes the conversion send via navigator.sendBeacon
+      // so it completes reliably even though the browser is navigating to the dialer.
       if (typeof gtag === 'function') {
-        gtag('event', 'conversion', {
+        var conversionPayload = {
           'send_to': 'AW-17950543580/qiU6CLSQ_6ccENydvu9C',
+          'transport_type': 'beacon',
           'event_callback': function(){}
-        });
+        };
+        // Only attach gclid if we actually have one — passing empty string can break attribution
+        if (attr.gclid) {
+          conversionPayload['gclid'] = attr.gclid;
+        }
+        gtag('event', 'conversion', conversionPayload);
       }
 
       // 3. Send the click event to our Worker for Supabase logging
@@ -2011,8 +2021,11 @@ section.why-section [id*="counter"] { color: #1e5fc4 !important; }
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
-  gtag('config', 'AW-18018755852');
-  gtag('config', 'AW-17950543580');
+  // conversion_linker: true ensures gclid is captured from URL and persisted in
+  // the _gcl_aw cookie so subsequent conversions on the same site (booking modal
+  // submit, phone tap, etc.) are properly attributed to the originating ad click.
+  gtag('config', 'AW-18018755852', { 'conversion_linker': true });
+  gtag('config', 'AW-17950543580', { 'conversion_linker': true });
   // GA4 ID G-J8415SKQ5Y was returning 404 from Google's servers.
   // TODO: verify correct measurement ID in GA4 admin (Admin > Data Streams)
   // and re-enable this line. GA4 events still flow via GTM container GTM-KL3RS6P8.
