@@ -36,6 +36,83 @@
   } catch(e) { window.getVMAttribution = function(){ return {}; }; }
 })();
 </script>
+
+<!-- VistaMount phone click tracking (Google Ads + Supabase) -->
+<script>
+(function(){
+  // Endpoint: Cloudflare Worker that proxies to Supabase
+  var WORKER_URL = 'https://vistamount-booking.billowing-recipe-0ae7.workers.dev/phone-click';
+
+  function logPhoneClick(e) {
+    try {
+      var a = e.target.closest('a[href^="tel:"]');
+      if (!a) return;
+      var phoneNumber = a.getAttribute('href').replace('tel:', '');
+      // Identify where on the page this was clicked
+      var sourceElement = 'unknown';
+      if (a.closest('.sticky-call,.sticky-cta,[data-source="sticky"]')) sourceElement = 'sticky';
+      else if (a.closest('header,nav,.site-header,.nav-bar')) sourceElement = 'nav';
+      else if (a.closest('footer,.footer-premium')) sourceElement = 'footer';
+      else if (a.closest('.hero,#hero,[data-section="hero"]')) sourceElement = 'hero';
+      else if (a.closest('.modal,.booking-modal,#booking-modal')) sourceElement = 'modal';
+      else if (a.closest('.spec-services,#process-section')) sourceElement = 'body';
+
+      var attr = (typeof window.getVMAttribution === 'function') ? window.getVMAttribution() : {};
+
+      // 1. Fire dataLayer event for GTM → Google Ads conversion
+      window.dataLayer = window.dataLayer || [];
+      window.dataLayer.push({
+        event: 'phone_click',
+        phone_number: phoneNumber,
+        source_element: sourceElement,
+        gclid: attr.gclid || '',
+        utm_source: attr.utm_source || '',
+        utm_medium: attr.utm_medium || '',
+        utm_campaign: attr.utm_campaign || ''
+      });
+
+      // 2. Send a direct Google Ads conversion event (belt-and-suspenders, fires even if GTM tag is misconfigured)
+      if (typeof gtag === 'function') {
+        gtag('event', 'conversion', {
+          'send_to': 'AW-17950543580/phone_click',  // TODO: replace with actual conversion label from Google Ads
+          'event_callback': function(){}
+        });
+      }
+
+      // 3. Send the click event to our Worker for Supabase logging
+      // Use sendBeacon so the call still fires even though browser is navigating away
+      var payload = {
+        phone_number: phoneNumber,
+        source_element: sourceElement,
+        page_url: window.location.href,
+        page_title: document.title,
+        referrer: document.referrer,
+        gclid: attr.gclid || null,
+        utm_source: attr.utm_source || null,
+        utm_medium: attr.utm_medium || null,
+        utm_campaign: attr.utm_campaign || null,
+        utm_term: attr.utm_term || null,
+        utm_content: attr.utm_content || null,
+        attribution_captured_at: attr.captured_at || null,
+        user_agent: navigator.userAgent
+      };
+      var blob = new Blob([JSON.stringify(payload)], { type: 'application/json' });
+      if (navigator.sendBeacon) {
+        navigator.sendBeacon(WORKER_URL, blob);
+      } else {
+        // Fallback for older browsers — non-blocking
+        fetch(WORKER_URL, { method: 'POST', body: blob, keepalive: true }).catch(function(){});
+      }
+    } catch(err) {
+      // Never break the phone call — silently fail
+      console.warn('phone_click tracking error', err);
+    }
+  }
+
+  // Delegate to document so we catch ALL tel: links (including ones added dynamically)
+  document.addEventListener('click', logPhoneClick, true);
+})();
+</script>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
 <title>TV Mounting Phoenix AZ | TV Installation Service | VistaMount</title>
 <link rel="icon" type="image/png" href="/favicon.png"/>
