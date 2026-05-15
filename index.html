@@ -43,6 +43,10 @@
   // Endpoint: Cloudflare Worker that proxies to Supabase
   var WORKER_URL = 'https://vistamount-booking.billowing-recipe-0ae7.workers.dev/phone-click';
 
+  // Conversion IDs (validated via Google Ads API on 2026-05-14)
+  // Owner customer: 3889961796 (VistaMount LLC)
+  var PHONE_CONVERSION_SEND_TO = 'AW-17950543580/qiU6CLSQ_6ccENydvu9C';
+
   function logPhoneClick(e) {
     try {
       var a = e.target.closest('a[href^="tel:"]');
@@ -59,10 +63,10 @@
 
       var attr = (typeof window.getVMAttribution === 'function') ? window.getVMAttribution() : {};
 
-      // 1. Fire dataLayer event for GTM → Google Ads conversion
+      // 1. Fire dataLayer event for GTM → GA4 phone_call_click
       window.dataLayer = window.dataLayer || [];
       window.dataLayer.push({
-        event: 'phone_click',
+        event: 'phone_call_click',
         phone_number: phoneNumber,
         source_element: sourceElement,
         gclid: attr.gclid || '',
@@ -71,23 +75,65 @@
         utm_campaign: attr.utm_campaign || ''
       });
 
-      // 2. Send a direct Google Ads conversion event with full attribution.
-      // We pass the gclid explicitly so the conversion is attributed even if
-      // Google's own _gcl cookie didn't persist (common on mobile Safari / ITP).
-      // transport_type: 'beacon' makes the conversion send via navigator.sendBeacon
-      // so it completes reliably even though the browser is navigating to the dialer.
-      if (typeof gtag === 'function') {
+      // 2. Fire the Google Ads conversion via TWO paths so it works regardless
+      //    of whether gtag.js has finished loading. This is the critical fix for
+      //    the ~96% phone-click conversion loss observed in May 2026.
+      //
+      //    Path A: gtag('event','conversion') - only works if gtag.js library
+      //            is loaded. Uses transport_type:beacon so the request survives
+      //            the page navigation to the dialer.
+      //    Path B: Direct sendBeacon to Google Ads collect endpoint - works
+      //            even before gtag.js loads. Uses _gcl_aw cookie (set by
+      //            conversion_linker) so attribution still works.
+
+      // --- Path A: standard gtag conversion (preferred when library is loaded) ---
+      if (typeof gtag === 'function' && window.google_tag_manager !== undefined) {
         var conversionPayload = {
-          'send_to': 'AW-17950543580/qiU6CLSQ_6ccENydvu9C',
+          'send_to': PHONE_CONVERSION_SEND_TO,
           'transport_type': 'beacon',
           'event_callback': function(){}
         };
-        // Only attach gclid if we actually have one — passing empty string can break attribution
         if (attr.gclid) {
           conversionPayload['gclid'] = attr.gclid;
         }
         gtag('event', 'conversion', conversionPayload);
+      } else {
+        // Library not loaded yet — queue it (will fire when library catches up,
+        // but realistically the page is navigating away so this is best-effort)
+        window.dataLayer.push(['event', 'conversion', {
+          'send_to': PHONE_CONVERSION_SEND_TO,
+          'transport_type': 'beacon',
+          'gclid': attr.gclid || undefined
+        }]);
       }
+
+      // --- Path B: direct sendBeacon to Google's collect endpoint as a backup ---
+      // This fires the conversion via Google's standard pixel URL, which works
+      // independently of the gtag.js library. It uses the _gcl_aw cookie value
+      // (set by conversion_linker in the gtag config) for attribution.
+      try {
+        if (navigator.sendBeacon) {
+          var parts = PHONE_CONVERSION_SEND_TO.split('/');
+          var awId = parts[0]; // e.g. AW-17950543580
+          var label = parts[1]; // e.g. qiU6CLSQ_6ccENydvu9C
+          var gclawCookie = '';
+          try {
+            var m = document.cookie.match(/(?:^|;\s*)_gcl_aw=([^;]+)/);
+            if (m) gclawCookie = decodeURIComponent(m[1]);
+          } catch(e) {}
+
+          var pixelUrl = 'https://www.googleadservices.com/pagead/conversion/' +
+            awId.replace('AW-','') + '/?' +
+            'label=' + encodeURIComponent(label) +
+            '&guid=ON&script=0' +
+            (attr.gclid ? '&gclid=' + encodeURIComponent(attr.gclid) : '') +
+            (gclawCookie ? '&gclaw=' + encodeURIComponent(gclawCookie) : '') +
+            '&url=' + encodeURIComponent(window.location.href) +
+            '&ref=' + encodeURIComponent(document.referrer || '') +
+            '&random=' + Date.now();
+          navigator.sendBeacon(pixelUrl);
+        }
+      } catch(e) {}
 
       // 3. Send the click event to our Worker for Supabase logging
       // Use sendBeacon so the call still fires even though browser is navigating away
@@ -110,17 +156,26 @@
       if (navigator.sendBeacon) {
         navigator.sendBeacon(WORKER_URL, blob);
       } else {
-        // Fallback for older browsers — non-blocking
-        fetch(WORKER_URL, { method: 'POST', body: blob, keepalive: true }).catch(function(){});
+        // Fallback for older browsers
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', WORKER_URL, true);
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.send(JSON.stringify(payload));
       }
     } catch(err) {
-      // Never break the phone call — silently fail
-      console.warn('phone_click tracking error', err);
+      // Never let tracking errors break the actual phone call
+      console.error('phone-click tracking error:', err);
     }
   }
 
-  // Delegate to document so we catch ALL tel: links (including ones added dynamically)
+  // Use capture phase so this runs even if another handler stopPropagation()s
   document.addEventListener('click', logPhoneClick, true);
+  // Also listen for pointerdown — fires earlier on mobile, gives more time
+  // for sendBeacon to complete before navigation
+  document.addEventListener('pointerdown', function(e){
+    var a = e.target.closest('a[href^="tel:"]');
+    if (a) logPhoneClick(e);
+  }, true);
 })();
 </script>
 <meta name="viewport" content="width=device-width,initial-scale=1.0"/>
@@ -2015,9 +2070,11 @@ section.why-section [id*="counter"] { color: #1e5fc4 !important; }
 #soundbar-group{display:none!important;}
 #hero-trust{display:none!important;}
 </style>
-<!-- Google tag (gtag.js) - deferred for mobile LCP performance -->
+<!-- Google tag (gtag.js) - eager preload, deferred execution -->
+<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
+<link rel="dns-prefetch" href="https://www.google.com">
 <script>
-  // Initialize dataLayer immediately so booking events queue properly
+  // Initialize dataLayer immediately so events queue properly even before gtag.js loads
   window.dataLayer = window.dataLayer || [];
   function gtag(){dataLayer.push(arguments);}
   gtag('js', new Date());
@@ -2031,8 +2088,14 @@ section.why-section [id*="counter"] { color: #1e5fc4 !important; }
   // and re-enable this line. GA4 events still flow via GTM container GTM-KL3RS6P8.
   // gtag('config', 'G-J8415SKQ5Y');
 
-  // Defer gtag.js load until browser is idle (after LCP paints)
-  // Loads on first user interaction OR when browser idle (>= 4s after load)
+  // ----- LOAD STRATEGY -----
+  // Previously this was deferred 4-6s for LCP. That caused ~96% phone click
+  // conversion loss: users tap-to-call before gtag.js loads, queued events
+  // never fire because the page navigates to the dialer first.
+  // New strategy: load gtag.js after first paint (DOMContentLoaded + 1s, or
+  // first interaction, whichever is first). This is still LCP-safe because
+  // it's async and post-paint, but ensures gtag is ready BEFORE a user can
+  // realistically scroll-and-tap. Median time-to-first-tap on mobile is 3-5s.
   (function(){
     var loaded = false;
     function loadGtag() {
@@ -2040,21 +2103,23 @@ section.why-section [id*="counter"] { color: #1e5fc4 !important; }
       loaded = true;
       var s = document.createElement('script');
       s.async = true;
-      s.src = 'https://www.googletagmanager.com/gtag/js?id=AW-17950543580';
+      s.src = 'https://www.googletagmanager.com/gtag/js?id=AW-18018755852';
       document.head.appendChild(s);
     }
-    var events = ['scroll','mousemove','touchstart','keydown','click'];
+    // Load on first interaction (one tap = ready for the SECOND tap to fire)
+    var events = ['scroll','mousemove','touchstart','keydown','click','pointerdown'];
     events.forEach(function(e){
-      window.addEventListener(e, loadGtag, {once:true, passive:true});
+      window.addEventListener(e, loadGtag, {once:true, passive:true, capture:true});
     });
-    // Wait until after window load, then idle, with hard 6s ceiling
-    window.addEventListener('load', function() {
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(loadGtag, {timeout: 6000});
-      } else {
-        setTimeout(loadGtag, 4000);
-      }
-    });
+    // ALSO load 1s after DOM ready (mobile users may tap-to-call directly from
+    // hero CTA without any prior interaction — we need to be ready)
+    if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', function(){
+        setTimeout(loadGtag, 1000);
+      });
+    } else {
+      setTimeout(loadGtag, 1000);
+    }
   })();
 </script>
 <script>
