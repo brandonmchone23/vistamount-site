@@ -2158,7 +2158,8 @@ let bookingState = {
   zip: '',
   zipMiles: null,
   zipKnown: null,
-  fuelSurcharge: 0
+  fuelSurcharge: 0,
+  delivery: { on:false, from:'store', loc:'', size:'s55', qty:1 }
 };
 
 // ==================== TRAVEL / FUEL SURCHARGE + SAME-DAY FEE + ROUTE MAP ====================
@@ -2183,6 +2184,22 @@ const VM_TRAVEL = {
   // Add or remove ZIPs freely (e.g. add '85255' to free DC Ranch).
   freeZips: ['85003','85004','85006','85007','85008','85009','85012','85013','85014','85015','85016','85017','85018','85019','85020','85021','85022','85023','85028','85029','85031','85032','85033','85034','85035','85037','85040','85041','85042','85043','85044','85045','85048','85051','85053','85250','85251','85254','85256','85257','85258','85260','85281','85282','85283','85284']
 };
+// ---- TV delivery (same-day pickup from store or another home) ----
+const VM_DELIVERY = {
+  tiers: {                                   // size bucket -> delivery fee (metro pickup)
+    's55': { label: 'Up to 55\u2033',          fee: 79  },
+    's75': { label: '56\u201375\u2033',         fee: 99  },
+    's85': { label: '76\u201385\u2033 (unboxed)', fee: 129 }
+  }
+  // 's55'/'s75'/'s85' auto-priced; 'over' (86\u2033+) = advance notice, fee + vehicle rental, quoted separately
+};
+function vmDeliveryTier(size){ return VM_DELIVERY.tiers[size] || null; }
+function vmDeliveryFee(){
+  const d = bookingState.delivery;
+  if(!d || !d.on || d.size === 'over') return 0;
+  const t = vmDeliveryTier(d.size);
+  return t ? t.fee * (d.qty || 1) : 0;
+}
 // >>> END EDITABLE CONFIG <<<
 
 const VM_GEO = {"W": 320, "H": 374, "pad": 16, "lngMin": -114.8152, "latMax": 37.0057, "kx": 0.82739, "scale": 60.2983, "phx": [152.8, 230.5], "r30": 26.2, "r60": 52.4, "azPath": "M304.0,16.3 303.7,358.1 202.6,358.1 144.2,335.7 16.0,288.1 20.6,274.6 30.5,272.3 33.2,267.0 30.5,255.8 23.7,255.4 20.4,233.0 30.5,224.4 31.8,215.5 29.9,201.3 35.9,190.7 43.9,186.7 49.9,178.8 40.0,170.2 33.2,154.4 25.0,144.5 25.0,136.9 28.0,128.6 26.9,117.4 22.8,105.8 19.8,70.5 38.1,68.2 44.1,75.4 49.1,75.1 54.3,64.9 54.3,16.3 231.3,16.0 304.0,16.3Z"};
@@ -2469,6 +2486,9 @@ function calculatePrice() {
   // Haul-away: $25 for under 55", $50 for 55"+
   total += (bookingState.haulawaySmall ?? 0) * 25;
   total += (bookingState.haulawayLarge ?? 0) * 50;
+
+  // TV delivery add-on (same-day pickup)
+  total += vmDeliveryFee();
 
   // Travel / fuel surcharge (distance-based, set in Step 1 from ZIP)
   total += bookingState.fuelSurcharge || 0;
@@ -3078,6 +3098,52 @@ function initBookingStep2() {
           </div>
         </div>
       </div>
+
+      <div style="padding:16px;background:rgba(30,95,196,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;">
+        <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
+          <div>
+            <div style="font-weight:600;margin-bottom:4px;">Same-Day TV Delivery</div>
+            <div style="font-size:0.75rem;color:#888;">We pick up from a store or another home and bring it. Up to 85&Prime; unboxed / 75&Prime; boxed.</div>
+          </div>
+          <button class="option-btn ${bookingState.delivery.on ? 'selected' : ''}" style="min-width:64px;flex-shrink:0;" onclick="toggleDelivery()">${bookingState.delivery.on ? 'Added' : 'Add'}</button>
+        </div>
+        ${bookingState.delivery.on ? `
+        <div style="margin-top:14px;border-top:1px solid rgba(79,172,255,.18);padding-top:14px;display:flex;flex-direction:column;gap:12px;">
+          <div>
+            <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">Pick up from</label>
+            <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
+              <button class="option-btn ${bookingState.delivery.from==='store' ? 'selected' : ''}" onclick="setDeliveryField('from','store')">Retail store</button>
+              <button class="option-btn ${bookingState.delivery.from==='home' ? 'selected' : ''}" onclick="setDeliveryField('from','home')">Another address</button>
+            </div>
+          </div>
+          <div>
+            <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">${bookingState.delivery.from==='store' ? 'Store &amp; area' : 'Pickup address'}</label>
+            <input type="text" id="del-loc" value="${(bookingState.delivery.loc||'').replace(/"/g,'&quot;')}" oninput="bookingState.delivery.loc=this.value" placeholder="${bookingState.delivery.from==='store' ? 'Best Buy — Tempe Marketplace' : '123 Main St, Phoenix'}" style="width:100%;padding:12px;background:#fff;border:1px solid #d0d7e0;border-radius:6px;color:#000;font-size:16px;box-sizing:border-box;">
+          </div>
+          <div>
+            <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">TV size</label>
+            <select onchange="setDeliveryField('size',this.value)" style="width:100%;padding:12px;background:#fff;border:1px solid #d0d7e0;border-radius:6px;color:#000;font-size:16px;box-sizing:border-box;">
+              <option value="s55" ${bookingState.delivery.size==='s55'?'selected':''}>Up to 55&Prime; — $79</option>
+              <option value="s75" ${bookingState.delivery.size==='s75'?'selected':''}>56–75&Prime; — $99</option>
+              <option value="s85" ${bookingState.delivery.size==='s85'?'selected':''}>76–85&Prime; (unboxed) — $129</option>
+              <option value="over" ${bookingState.delivery.size==='over'?'selected':''}>86&Prime; and up — quote</option>
+            </select>
+            <div style="font-size:0.72rem;color:#888;margin-top:6px;">Boxed TVs up to 75&Prime;; unboxed up to 85&Prime;. Larger needs advance notice.</div>
+          </div>
+          ${bookingState.delivery.size !== 'over' ? `
+          <div style="display:flex;justify-content:space-between;align-items:center;">
+            <div style="font-size:0.85rem;font-weight:600;">How many TVs?</div>
+            <div style="display:flex;align-items:center;gap:12px;">
+              <button class="qty-btn" onclick="adjustDeliveryQty(-1)">&minus;</button>
+              <span style="font-weight:600;min-width:20px;text-align:center;">${bookingState.delivery.qty}</span>
+              <button class="qty-btn" onclick="adjustDeliveryQty(1)">+</button>
+            </div>
+          </div>` : `
+          <div style="background:#fff7e6;border:1px solid #ffd591;border-radius:6px;padding:10px 12px;font-size:0.8rem;color:#8a5a00;line-height:1.5;">
+            <strong>86&Prime; and up:</strong> we can do it, but it needs advance notice and is priced as a delivery fee plus vehicle rental (not same-day). Book your install and note the details &mdash; we'll confirm a delivery quote with you.
+          </div>`}
+        </div>` : ''}
+      </div>
     </div>
     
     <div style="background:#e8f4ff;padding:20px;border-radius:8px;border:1px solid #b8daff;margin-top:24px;text-align:center;">
@@ -3104,6 +3170,11 @@ function adjustQtyDirect(field, delta) {
   initBookingStep2();
   updatePriceDisplay();
 }
+
+function vmDelCaptureLoc(){ const el = document.getElementById('del-loc'); if(el) bookingState.delivery.loc = el.value; }
+function toggleDelivery(){ vmDelCaptureLoc(); bookingState.delivery.on = !bookingState.delivery.on; initBookingStep2(); updatePriceDisplay(); }
+function setDeliveryField(field, val){ vmDelCaptureLoc(); bookingState.delivery[field] = val; initBookingStep2(); updatePriceDisplay(); }
+function adjustDeliveryQty(delta){ vmDelCaptureLoc(); bookingState.delivery.qty = Math.min(4, Math.max(1, (bookingState.delivery.qty || 1) + delta)); initBookingStep2(); updatePriceDisplay(); }
 
 function step4AdjQty(field, delta) {
   bookingState[field] = Math.max(0, (bookingState[field] ?? 0) + delta);
@@ -3360,7 +3431,8 @@ async function submitBooking() {
     (bookingState.dismounts ? ' dismounts:' + bookingState.dismounts : '') +
     (bookingState.zip ? ' zip:' + bookingState.zip : '') +
     (bookingState.fuelSurcharge ? ' travel:$' + bookingState.fuelSurcharge + (bookingState.zipMiles != null ? '(' + bookingState.zipMiles + 'mi)' : '') : '') +
-    (vmIsSameDay() ? ' sameday:$' + VM_TRAVEL.sameDayFee : '');
+    (vmIsSameDay() ? ' sameday:$' + VM_TRAVEL.sameDayFee : '') +
+    ((bookingState.delivery && bookingState.delivery.on) ? ' delivery:' + bookingState.delivery.from + '/' + bookingState.delivery.size + 'x' + bookingState.delivery.qty + (bookingState.delivery.size === 'over' ? '(QUOTE-oversized)' : '($' + vmDeliveryFee() + ')') + (bookingState.delivery.loc ? ' from[' + bookingState.delivery.loc + ']' : '') : '');
   
   // Loading state
   const submitBtn = document.getElementById('modal-submit-btn');
@@ -3567,7 +3639,7 @@ function initBookingStep4() {
       </div>
     </div>` : '';
 
-  const hasAddons = bookingState.soundbars > 0 || bookingState.dismounts > 0 || (bookingState.haulawaySmall ?? 0) > 0 || (bookingState.haulawayLarge ?? 0) > 0;
+  const hasAddons = bookingState.soundbars > 0 || bookingState.dismounts > 0 || (bookingState.haulawaySmall ?? 0) > 0 || (bookingState.haulawayLarge ?? 0) > 0 || (bookingState.delivery && bookingState.delivery.on);
 
   container.innerHTML = `
     ${dateTimeDisplay}
@@ -3581,6 +3653,14 @@ function initBookingStep4() {
       ${addonRow('Mount Removal', '$25 per mount', 'dismounts', bookingState.dismounts, 25)}
       ${(bookingState.haulawaySmall ?? 0) > 0 ? addonRow('Haul-Away (Under 55″)', '$25 each', 'haulawaySmall', bookingState.haulawaySmall, 25) : ''}
       ${(bookingState.haulawayLarge ?? 0) > 0 ? addonRow('Haul-Away (55″+)', '$50 each', 'haulawayLarge', bookingState.haulawayLarge, 50) : ''}
+      ${(bookingState.delivery && bookingState.delivery.on) ? `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;margin-bottom:8px;">
+        <div>
+          <div style="font-weight:600;font-size:0.9rem;color:#0f1218;">TV Delivery${bookingState.delivery.size !== 'over' && bookingState.delivery.qty > 1 ? ' ×' + bookingState.delivery.qty : ''}</div>
+          <div style="font-size:0.75rem;color:#64748b;">${bookingState.delivery.from === 'store' ? 'Store pickup' : 'Address pickup'}${bookingState.delivery.size === 'over' ? ' · 86″+' : ''}${bookingState.delivery.loc ? ' · ' + bookingState.delivery.loc : ''}</div>
+        </div>
+        <span style="font-weight:700;color:#1e5fc4;min-width:40px;text-align:right;white-space:nowrap;">${bookingState.delivery.size === 'over' ? 'Quote' : '$' + vmDeliveryFee()}</span>
+      </div>` : ''}
       ${(bookingState.fuelSurcharge > 0) ? `
       <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;margin-bottom:8px;">
         <div>
@@ -3655,7 +3735,7 @@ function initBookingStep4() {
             <strong>Service Address:</strong> ${(window._step4Cache && window._step4Cache.address) ? window._step4Cache.address : '[Your Address]'}<br>
             <strong>Appointment:</strong> ${bookingState.selectedDate ? new Date(bookingState.selectedDate).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}) + (bookingState.selectedSlot ? ' at ' + bookingState.selectedSlot.time : '') : '[Selected Date & Time]'}<br>
             <strong>Services:</strong> ${bookingState.tvs ? bookingState.tvs.length + ' TV' + (bookingState.tvs.length > 1 ? 's' : '') + ' — ' + bookingState.tvs.map((tv,i) => {const sizes={'<32':'Under 32"','32-64':'32"–64"','65-84':'65"–84"','85+':'85"+'};const mounts={fixed:'Fixed Mount',tilting:'Tilting Mount',fullmotion:'Full-Motion',own:'Customer Mount'};return 'TV'+(i+1)+': '+( sizes[tv.size]||tv.size)+' / '+(mounts[tv.mountType]||tv.mountType);}).join(', ') : '[Services Selected]'}<br>
-            ${bookingState.fuelSurcharge > 0 ? '<strong>Travel/Fuel:</strong> $' + bookingState.fuelSurcharge + (bookingState.zip ? ' (ZIP ' + bookingState.zip + ')' : '') + '<br>' : ''}${vmIsSameDay() ? '<strong>Same-Day Fee:</strong> $' + VM_TRAVEL.sameDayFee + '<br>' : ''}<strong>Quoted Price:</strong> $${calculatePrice()}
+            ${(bookingState.delivery && bookingState.delivery.on) ? '<strong>TV Delivery:</strong> ' + (bookingState.delivery.size === 'over' ? '86″+ (quoted separately)' : '$' + vmDeliveryFee()) + '<br>' : ''}${bookingState.fuelSurcharge > 0 ? '<strong>Travel/Fuel:</strong> $' + bookingState.fuelSurcharge + (bookingState.zip ? ' (ZIP ' + bookingState.zip + ')' : '') + '<br>' : ''}${vmIsSameDay() ? '<strong>Same-Day Fee:</strong> $' + VM_TRAVEL.sameDayFee + '<br>' : ''}<strong>Quoted Price:</strong> $${calculatePrice()}
           </div>
           This agreement is between VistaMount LLC ("Contractor") and the customer named above ("Customer") for the TV mounting and/or smart home installation services listed above ("Services") at the service address provided.<br><br>
           <strong>1. Scope of Work.</strong> Services are limited to those selected during booking. Any additional work requested on-site will be quoted separately before proceeding.<br><br>
