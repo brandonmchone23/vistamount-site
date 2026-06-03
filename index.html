@@ -861,6 +861,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
 @media(max-width:768px){.nav-book-mobile{display:block;}}
 
 /* BOOKING MODAL */
+@keyframes zipspin{to{transform:rotate(360deg);}}
 #booking-modal{display:none;position:fixed;inset:0;z-index:10000;background:rgba(0,0,0,.85);backdrop-filter:blur(6px);overflow-y:auto;}
 #booking-modal.open{display:flex;align-items:flex-start;justify-content:center;padding:90px 10px 20px;box-sizing:border-box;}
 #booking-modal-inner{background:var(--bg);border:1px solid var(--border);width:100%;max-width:900px;position:relative;margin:auto;}
@@ -2133,8 +2134,126 @@ let bookingState = {
   haulawayLarge: 0,
   transport: false,
   selectedSlot: null,
-  currentStep: 1
+  currentStep: 1,
+  zip: '',
+  zipMiles: null,
+  zipKnown: null,
+  fuelSurcharge: 0
 };
+
+// ==================== TRAVEL / FUEL SURCHARGE + SAME-DAY FEE ====================
+// >>> EDIT THESE NUMBERS ANYTIME -- single source of truth <<<
+const VM_TRAVEL = {
+  origin: [33.4484, -112.0740],      // downtown Phoenix shop
+  bands: [                           // one-way miles -> surcharge $ (first match wins)
+    { max: 10,       fee: 0  },       // 0-10 mi: core zone, no charge
+    { max: 20,       fee: 20 },       // 10-20 mi
+    { max: 30,       fee: 35 },       // 20-30 mi
+    { max: Infinity, fee: 50 }        // 30+ mi
+  ],
+  outOfAreaFee: 50,                  // valid 5-digit zip we don't recognize
+  sameDayFee: 75                     // added when the chosen slot is today
+};
+// >>> END EDITABLE CONFIG <<<
+
+const VM_ZIPS = {'85003':[33.4507,-112.0784],'85004':[33.4516,-112.0699],'85006':[33.4652,-112.0488],'85007':[33.4476,-112.0909],'85008':[33.463,-111.9852],'85009':[33.4431,-112.1281],'85012':[33.5076,-112.071],'85013':[33.5111,-112.0847],'85014':[33.5072,-112.0577],'85015':[33.5087,-112.102],'85016':[33.5115,-112.0192],'85017':[33.5088,-112.1231],'85018':[33.506,-111.9854],'85019':[33.5089,-112.1445],'85020':[33.5674,-112.0536],'85021':[33.5594,-112.0929],'85022':[33.6272,-112.0484],'85023':[33.6351,-112.0938],'85024':[33.7361,-112.0296],'85027':[33.6798,-112.0925],'85028':[33.5757,-112.0084],'85029':[33.5947,-112.1099],'85031':[33.494,-112.1669],'85032':[33.6259,-112.0025],'85033':[33.493,-112.2098],'85034':[33.4296,-112.0141],'85035':[33.4714,-112.1947],'85037':[33.4867,-112.2683],'85040':[33.4065,-112.0255],'85041':[33.3859,-112.1103],'85042':[33.3692,-112.0435],'85043':[33.4319,-112.197],'85044':[33.353,-112.0191],'85045':[33.2989,-112.1059],'85048':[33.3126,-112.0572],'85050':[33.6827,-111.9981],'85051':[33.5587,-112.1324],'85053':[33.6299,-112.1316],'85054':[33.6785,-111.9411],'85083':[33.7246,-112.1585],'85085':[33.7508,-112.0906],'85086':[33.8161,-112.12],'85087':[33.9246,-112.1269],'85118':[33.4018,-111.3518],'85119':[33.4097,-111.502],'85120':[33.4024,-111.5679],'85121':[33.1444,-111.9222],'85122':[32.9171,-111.7442],'85123':[32.7153,-111.6977],'85128':[32.9899,-111.538],'85131':[32.6725,-111.5473],'85132':[32.9268,-111.2151],'85137':[33.1364,-111.0226],'85138':[33.0076,-111.9895],'85139':[32.98,-112.1449],'85140':[33.2445,-111.5438],'85142':[33.2,-111.6363],'85143':[33.1587,-111.519],'85147':[33.1291,-111.7335],'85172':[32.8834,-111.9534],'85173':[33.2702,-111.1233],'85193':[32.8028,-111.8182],'85194':[32.9011,-111.6281],'85201':[33.4335,-111.8504],'85202':[33.3798,-111.875],'85203':[33.4504,-111.8029],'85204':[33.3957,-111.7866],'85205':[33.4324,-111.7185],'85206':[33.3963,-111.717],'85207':[33.4546,-111.638],'85208':[33.4033,-111.6281],'85209':[33.3755,-111.6387],'85210':[33.3897,-111.8435],'85212':[33.3223,-111.6353],'85213':[33.4487,-111.769],'85215':[33.5119,-111.5794],'85224':[33.3237,-111.8785],'85225':[33.3174,-111.8305],'85226':[33.2522,-112.0103],'85233':[33.3535,-111.8114],'85234':[33.3617,-111.741],'85248':[33.215,-111.87],'85249':[33.225,-111.7957],'85250':[33.5345,-111.8874],'85251':[33.4935,-111.9192],'85253':[33.5448,-111.9576],'85254':[33.6155,-111.9522],'85255':[33.6682,-111.8225],'85256':[33.5006,-111.8437],'85257':[33.462,-111.9164],'85258':[33.5643,-111.8959],'85259':[33.6011,-111.8095],'85260':[33.6107,-111.8915],'85262':[33.835,-111.806],'85263':[33.8396,-111.5235],'85264':[33.6351,-111.5323],'85266':[33.7665,-111.9181],'85268':[33.6061,-111.7433],'85281':[33.4274,-111.934],'85282':[33.394,-111.9329],'85283':[33.3646,-111.9316],'85284':[33.3383,-111.9346],'85286':[33.272,-111.8318],'85295':[33.3032,-111.7418],'85296':[33.3323,-111.7498],'85297':[33.2778,-111.7315],'85298':[33.2412,-111.7267],'85301':[33.535,-112.1819],'85302':[33.5681,-112.1781],'85303':[33.5327,-112.2211],'85304':[33.5997,-112.1783],'85305':[33.5317,-112.2561],'85306':[33.6246,-112.1766],'85307':[33.5398,-112.3145],'85308':[33.6604,-112.185],'85309':[33.5355,-112.3767],'85310':[33.7076,-112.1592],'85322':[33.1591,-112.872],'85323':[33.4192,-112.3269],'85324':[34.1192,-112.0443],'85326':[33.2938,-112.5905],'85331':[33.8789,-111.9127],'85335':[33.5923,-112.3277],'85337':[32.964,-112.7043],'85338':[33.373,-112.4108],'85339':[33.2377,-112.1586],'85340':[33.5158,-112.414],'85342':[33.9445,-112.4514],'85343':[33.3375,-112.6857],'85345':[33.5732,-112.2459],'85351':[33.6058,-112.2841],'85353':[33.4175,-112.277],'85354':[33.4303,-113.0461],'85355':[33.5761,-112.4546],'85361':[33.7641,-112.6146],'85363':[33.585,-112.3049],'85373':[33.6714,-112.2997],'85374':[33.641,-112.3783],'85375':[33.6858,-112.3662],'85377':[33.8232,-111.9134],'85379':[33.6031,-112.3691],'85381':[33.6092,-112.2304],'85382':[33.6543,-112.2495],'85383':[33.8074,-112.252],'85387':[33.7095,-112.451],'85388':[33.6023,-112.4321],'85390':[33.9036,-112.8757],'85392':[33.4776,-112.3089],'85395':[33.4787,-112.3952],'85396':[33.5278,-112.7013],'85545':[33.565,-111.1406],'85553':[33.8472,-111.1866],'86333':[34.323,-112.082],'86343':[34.177,-112.3]};
+
+function vmHaversine(lat, lng){
+  const o = VM_TRAVEL.origin, R = 3958.8, rad = Math.PI/180;
+  const dphi = (lat - o[0]) * rad, dl = (lng - o[1]) * rad;
+  const a = Math.sin(dphi/2)**2 + Math.cos(o[0]*rad)*Math.cos(lat*rad)*Math.sin(dl/2)**2;
+  return R * 2 * Math.asin(Math.sqrt(a));
+}
+function vmZipLookup(zip){
+  zip = (zip || '').trim();
+  if(!/^\d{5}$/.test(zip)) return null;
+  const c = VM_ZIPS[zip];
+  if(!c) return { miles: null, fee: VM_TRAVEL.outOfAreaFee, known: false };
+  const miles = vmHaversine(c[0], c[1]);
+  const band = VM_TRAVEL.bands.find(b => miles <= b.max) || VM_TRAVEL.bands[VM_TRAVEL.bands.length - 1];
+  return { miles: Math.round(miles * 10) / 10, fee: band.fee, known: true };
+}
+function vmIsSameDay(){
+  const s = bookingState.selectedSlot;
+  if(!s || !s.start) return false;
+  const d = new Date(s.start), n = new Date();
+  return d.getFullYear() === n.getFullYear() && d.getMonth() === n.getMonth() && d.getDate() === n.getDate();
+}
+
+let _zipTimer = null, _zipAnimTimer = null;
+function onZipInput(val){
+  const clean = (val || '').replace(/\D/g, '').slice(0, 5);
+  const input = document.getElementById('booking-zip');
+  if(input && input.value !== clean) input.value = clean;
+  bookingState.zip = clean;
+  const panel = document.getElementById('zip-calc-panel');
+  const nextBtn = document.getElementById('step1-next');
+  if(clean.length < 5){
+    bookingState.fuelSurcharge = 0; bookingState.zipMiles = null; bookingState.zipKnown = null;
+    if(panel) panel.innerHTML = '';
+    if(nextBtn){ nextBtn.disabled = true; nextBtn.style.opacity = '0.5'; nextBtn.style.cursor = 'not-allowed'; }
+    updatePriceDisplay();
+    return;
+  }
+  clearTimeout(_zipTimer);
+  _zipTimer = setTimeout(() => runZipCalc(clean), 250);
+}
+function runZipCalc(zip){
+  const panel = document.getElementById('zip-calc-panel');
+  if(!panel) return;
+  const result = vmZipLookup(zip);
+  if(!result){ panel.innerHTML = ''; return; }
+  const stages = ['Locating service address...', 'Mapping route from our downtown shop...', 'Estimating fuel &amp; travel...'];
+  panel.innerHTML = `
+    <div style="background:#0f1a2e;border:1px solid #1e5fc4;border-radius:8px;padding:14px 16px;color:#cfe2ff;font-size:0.85rem;">
+      <div style="display:flex;align-items:center;gap:10px;">
+        <span style="width:16px;height:16px;border:2px solid rgba(79,172,255,.35);border-top-color:#4facff;border-radius:50%;display:inline-block;animation:zipspin .7s linear infinite;flex-shrink:0;"></span>
+        <span id="zip-stage-text">${stages[0]}</span>
+      </div>
+      <div style="height:5px;background:rgba(255,255,255,.08);border-radius:3px;margin-top:12px;overflow:hidden;">
+        <div id="zip-bar" style="height:100%;width:6%;background:linear-gradient(90deg,#1e5fc4,#4facff);border-radius:3px;transition:width .45s ease;"></div>
+      </div>
+    </div>`;
+  const stageEl = document.getElementById('zip-stage-text');
+  const bar = document.getElementById('zip-bar');
+  let i = 0;
+  clearInterval(_zipAnimTimer);
+  if(bar) setTimeout(() => { bar.style.width = '38%'; }, 60);
+  _zipAnimTimer = setInterval(() => {
+    i++;
+    if(i < stages.length){
+      if(stageEl) stageEl.textContent = stages[i].replace('&amp;', '&');
+      if(bar) bar.style.width = (38 + i * 28) + '%';
+    } else {
+      clearInterval(_zipAnimTimer);
+      if(bar) bar.style.width = '100%';
+      setTimeout(() => finishZipCalc(zip, result), 320);
+    }
+  }, 540);
+}
+function renderZipResultPanel(zip, result){
+  const panel = document.getElementById('zip-calc-panel');
+  if(!panel) return;
+  if(!result.known){
+    panel.innerHTML = `<div style="background:#fff7e6;border:1px solid #ffd591;border-radius:8px;padding:12px 14px;font-size:0.82rem;color:#8a5a00;line-height:1.5;">
+      <strong>Outside our core metro.</strong> We can still come to ${zip} -- we've added an estimated travel charge of <strong>$${result.fee}</strong>. We'll confirm exact travel when we reach out.</div>`;
+  } else if(result.fee === 0){
+    panel.innerHTML = `<div style="background:#ecfdf3;border:1px solid #abefc6;border-radius:8px;padding:12px 14px;font-size:0.85rem;color:#067647;display:flex;align-items:center;gap:8px;">
+      <span style="font-size:1.05rem;">&#9989;</span><span>~${result.miles} mi from our shop -- <strong>you're in our core zone, no travel surcharge.</strong></span></div>`;
+  } else {
+    panel.innerHTML = `<div style="background:#eef4ff;border:1px solid #b8daff;border-radius:8px;padding:12px 14px;font-size:0.85rem;color:#1e3a6b;display:flex;justify-content:space-between;align-items:center;gap:10px;">
+      <span>~${result.miles} mi from downtown Phoenix</span><span style="font-weight:700;color:#1e5fc4;white-space:nowrap;">Travel +$${result.fee}</span></div>`;
+  }
+}
+function finishZipCalc(zip, result){
+  bookingState.fuelSurcharge = result.fee;
+  bookingState.zipMiles = result.miles;
+  bookingState.zipKnown = result.known;
+  const nextBtn = document.getElementById('step1-next');
+  if(nextBtn){ nextBtn.disabled = false; nextBtn.style.opacity = '1'; nextBtn.style.cursor = 'pointer'; }
+  renderZipResultPanel(zip, result);
+  updatePriceDisplay();
+}
 
 
 function renderModalNav(backStep, nextStep, nextLabel, nextAction, disabled) {
@@ -2217,7 +2336,12 @@ function calculatePrice() {
   // Haul-away: $25 for under 55", $50 for 55"+
   total += (bookingState.haulawaySmall ?? 0) * 25;
   total += (bookingState.haulawayLarge ?? 0) * 50;
-  
+
+  // Travel / fuel surcharge (distance-based, set in Step 1 from ZIP)
+  total += bookingState.fuelSurcharge || 0;
+  // Same-day fee (applies once a slot dated today is chosen)
+  if (vmIsSameDay()) total += VM_TRAVEL.sameDayFee;
+
   return total;
 }
 
@@ -2372,6 +2496,13 @@ function initBookingStep1() {
   }
   container.innerHTML = `
     <div style="margin-bottom:24px;">
+      <label style="display:block;font-size:0.85rem;color:#333;margin-bottom:8px;font-weight:600;">What's your ZIP code? <span style="color:#1e5fc4;">*</span></label>
+      <div style="font-size:0.75rem;color:#666;margin-bottom:8px;">So we can estimate travel from our downtown Phoenix shop.</div>
+      <input type="text" id="booking-zip" inputmode="numeric" maxlength="5" placeholder="85003" value="${bookingState.zip || ''}" oninput="onZipInput(this.value)" style="width:100%;padding:14px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000;font-size:18px;letter-spacing:0.18em;font-weight:600;text-align:center;box-sizing:border-box;">
+      <div id="zip-calc-panel" style="margin-top:12px;"></div>
+    </div>
+
+    <div style="margin-bottom:24px;">
       <label style="display:block;font-size:0.85rem;color:#333;margin-bottom:12px;font-weight:500;">How many TVs?</label>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
         <button class="option-btn ${bookingState.tvs.length === 1 ? 'selected' : ''}" onclick="setTVCount(1)">1 TV</button>
@@ -2397,13 +2528,22 @@ function initBookingStep1() {
     
     <div class="modal-nav">
       <div></div>
-      <button class="btn-next" onclick="goBookingStep(2)">Next: Add-ons &rarr;</button>
+      <button class="btn-next" id="step1-next" onclick="goBookingStep(2)" ${(/^\d{5}$/.test(bookingState.zip) && bookingState.zipKnown !== null) ? '' : 'disabled style="opacity:0.5;cursor:not-allowed;"'}>Next: Add-ons &rarr;</button>
     </div>
   `;
   
   // Small delay to ensure DOM is ready
   setTimeout(() => {
     renderTVCards();
+    // Restore resolved ZIP result if returning to this step
+    if (/^\d{5}$/.test(bookingState.zip)) {
+      const r = vmZipLookup(bookingState.zip);
+      if (r && bookingState.zipKnown !== null) {
+        renderZipResultPanel(bookingState.zip, r);
+        const nb = document.getElementById('step1-next');
+        if (nb) { nb.disabled = false; nb.style.opacity = '1'; nb.style.cursor = 'pointer'; }
+      }
+    }
     updatePriceDisplay();
   }, 0);
 }
@@ -3084,7 +3224,10 @@ async function submitBooking() {
       'TV' + (i+1) + ':' + tv.size + '/' + tv.mountType + '/' + tv.cords + '/' + tv.wall + (tv.mantelMount && tv.mantelMount !== 'false' ? '/mantel-' + tv.mantelMount : '')
     ).join(' ') +
     (bookingState.soundbars ? ' soundbars:' + bookingState.soundbars : '') +
-    (bookingState.dismounts ? ' dismounts:' + bookingState.dismounts : '');
+    (bookingState.dismounts ? ' dismounts:' + bookingState.dismounts : '') +
+    (bookingState.zip ? ' zip:' + bookingState.zip : '') +
+    (bookingState.fuelSurcharge ? ' travel:$' + bookingState.fuelSurcharge + (bookingState.zipMiles != null ? '(' + bookingState.zipMiles + 'mi)' : '') : '') +
+    (vmIsSameDay() ? ' sameday:$' + VM_TRAVEL.sameDayFee : '');
   
   // Loading state
   const submitBtn = document.getElementById('modal-submit-btn');
@@ -3305,6 +3448,22 @@ function initBookingStep4() {
       ${addonRow('Mount Removal', '$25 per mount', 'dismounts', bookingState.dismounts, 25)}
       ${(bookingState.haulawaySmall ?? 0) > 0 ? addonRow('Haul-Away (Under 55″)', '$25 each', 'haulawaySmall', bookingState.haulawaySmall, 25) : ''}
       ${(bookingState.haulawayLarge ?? 0) > 0 ? addonRow('Haul-Away (55″+)', '$50 each', 'haulawayLarge', bookingState.haulawayLarge, 50) : ''}
+      ${(bookingState.fuelSurcharge > 0) ? `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;margin-bottom:8px;">
+        <div>
+          <div style="font-weight:600;font-size:0.9rem;color:#0f1218;">Travel / Fuel Surcharge</div>
+          <div style="font-size:0.75rem;color:#64748b;">${bookingState.zipKnown === false ? 'Outside core metro' : ('~' + bookingState.zipMiles + ' mi from downtown')}${bookingState.zip ? ' · ZIP ' + bookingState.zip : ''}</div>
+        </div>
+        <span style="font-weight:700;color:#1e5fc4;min-width:40px;text-align:right;">$${bookingState.fuelSurcharge}</span>
+      </div>` : ''}
+      ${vmIsSameDay() ? `
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;margin-bottom:8px;">
+        <div>
+          <div style="font-weight:600;font-size:0.9rem;color:#0f1218;">Same-Day Service</div>
+          <div style="font-size:0.75rem;color:#9a6a00;">Priority same-day install</div>
+        </div>
+        <span style="font-weight:700;color:#c2680f;min-width:40px;text-align:right;">$${VM_TRAVEL.sameDayFee}</span>
+      </div>` : ''}
     </div>
 
     <!-- Running Total -->
@@ -3363,7 +3522,7 @@ function initBookingStep4() {
             <strong>Service Address:</strong> ${(window._step4Cache && window._step4Cache.address) ? window._step4Cache.address : '[Your Address]'}<br>
             <strong>Appointment:</strong> ${bookingState.selectedDate ? new Date(bookingState.selectedDate).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}) + (bookingState.selectedSlot ? ' at ' + bookingState.selectedSlot.time : '') : '[Selected Date & Time]'}<br>
             <strong>Services:</strong> ${bookingState.tvs ? bookingState.tvs.length + ' TV' + (bookingState.tvs.length > 1 ? 's' : '') + ' — ' + bookingState.tvs.map((tv,i) => {const sizes={'<32':'Under 32"','32-64':'32"–64"','65-84':'65"–84"','85+':'85"+'};const mounts={fixed:'Fixed Mount',tilting:'Tilting Mount',fullmotion:'Full-Motion',own:'Customer Mount'};return 'TV'+(i+1)+': '+( sizes[tv.size]||tv.size)+' / '+(mounts[tv.mountType]||tv.mountType);}).join(', ') : '[Services Selected]'}<br>
-            <strong>Quoted Price:</strong> $${calculatePrice()}
+            ${bookingState.fuelSurcharge > 0 ? '<strong>Travel/Fuel:</strong> $' + bookingState.fuelSurcharge + (bookingState.zip ? ' (ZIP ' + bookingState.zip + ')' : '') + '<br>' : ''}${vmIsSameDay() ? '<strong>Same-Day Fee:</strong> $' + VM_TRAVEL.sameDayFee + '<br>' : ''}<strong>Quoted Price:</strong> $${calculatePrice()}
           </div>
           This agreement is between VistaMount LLC ("Contractor") and the customer named above ("Customer") for the TV mounting and/or smart home installation services listed above ("Services") at the service address provided.<br><br>
           <strong>1. Scope of Work.</strong> Services are limited to those selected during booking. Any additional work requested on-site will be quoted separately before proceeding.<br><br>
