@@ -2177,7 +2177,11 @@ const VM_TRAVEL = {
   metroMiles: 50,                    // beyond this -> "outside metro" styling
   longHaulMiles: 90,                 // beyond this -> long-distance "we'll confirm" note
   outOfAreaFee: 50,                  // ZIP not recognized (out-of-state / typo)
-  sameDayFee: 75                     // added when the chosen slot is today
+  sameDayFee: 75,                    // added when the chosen slot is today
+  // Priority cities (Phoenix / Tempe / Scottsdale) -> always free, regardless of
+  // distance band, within a reasonable drive (~16 mi from the shop).
+  // Add or remove ZIPs freely (e.g. add '85255' to free DC Ranch).
+  freeZips: ['85003','85004','85006','85007','85008','85009','85012','85013','85014','85015','85016','85017','85018','85019','85020','85021','85022','85023','85028','85029','85031','85032','85033','85034','85035','85037','85040','85041','85042','85043','85044','85045','85048','85051','85053','85250','85251','85254','85256','85257','85258','85260','85281','85282','85283','85284']
 };
 // >>> END EDITABLE CONFIG <<<
 
@@ -2200,8 +2204,14 @@ function vmZipLookup(zip){
   const c = VM_ZIPS[zip];
   if(!c) return { miles: null, fee: VM_TRAVEL.outOfAreaFee, known: false, coords: null };
   const miles = vmHaversine(c[0], c[1]);
-  const band = VM_TRAVEL.bands.find(b => miles <= b.max) || VM_TRAVEL.bands[VM_TRAVEL.bands.length - 1];
-  return { miles: Math.round(miles * 10) / 10, fee: band.fee, known: true, coords: c };
+  let fee;
+  if(VM_TRAVEL.freeZips.indexOf(zip) !== -1){
+    fee = 0;                                   // priority-city override
+  } else {
+    const band = VM_TRAVEL.bands.find(b => miles <= b.max) || VM_TRAVEL.bands[VM_TRAVEL.bands.length - 1];
+    fee = band.fee;
+  }
+  return { miles: Math.round(miles * 10) / 10, fee: fee, known: true, coords: c };
 }
 function vmIsSameDay(){
   const s = bookingState.selectedSlot;
@@ -2230,7 +2240,7 @@ function vmReadout(result){
   const far = result.miles != null && result.miles > VM_TRAVEL.metroMiles;
   const longHaul = result.miles != null && result.miles > VM_TRAVEL.longHaulMiles;
   if(result.fee === 0){
-    return `<div style="background:#ecfdf3;border:1px solid #abefc6;border-radius:8px;padding:10px 12px;font-size:0.85rem;color:#067647;display:flex;align-items:center;gap:8px;"><span style="font-size:1.05rem;">&#9989;</span><span>~${result.miles} mi from our shop &mdash; <strong>core service zone, no travel surcharge.</strong></span></div>`;
+    return `<div style="background:#ecfdf3;border:1px solid #abefc6;border-radius:8px;padding:10px 12px;font-size:0.85rem;color:#067647;display:flex;align-items:center;gap:8px;"><span style="font-size:1.05rem;">&#9989;</span><span>~${result.miles} mi &mdash; <strong>no travel surcharge.</strong></span></div>`;
   }
   if(longHaul){
     return `<div style="background:#fff7e6;border:1px solid #ffd591;border-radius:8px;padding:10px 12px;font-size:0.82rem;color:#8a5a00;line-height:1.5;"><strong>Long-distance trip (~${result.miles} mi).</strong> That's well outside metro Phoenix &mdash; estimated travel <strong>+$${result.fee}</strong>. We'll confirm exact long-haul travel before booking.</div>`;
