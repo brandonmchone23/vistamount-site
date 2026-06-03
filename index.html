@@ -2216,56 +2216,129 @@ function vmFallbackPanel(zip, result){
     <strong>Outside our standard service map.</strong> We can still look at ${zip} &mdash; we've added an estimated travel charge of <strong>$${result.fee}</strong> and we'll confirm exact long-distance travel before booking.</div>`;
 }
 
-// ---- animated Arizona route map for a resolved AZ ZIP ----
-function vmMapPanel(zip, result, animate){
-  const g = VM_GEO;
-  const px = g.phx[0], py = g.phx[1];
-  const dst = vmProject(result.coords[0], result.coords[1]);
-  let dx = dst[0], dy = dst[1];
-  // gentle perpendicular arc for the route
-  const mx = (px+dx)/2, my = (py+dy)/2;
-  const len = Math.hypot(dx-px, dy-py) || 1;
-  const lift = Math.min(len*0.18, 44);
-  const cx = (mx + (-(dy-py)/len)*lift).toFixed(1);
-  const cy = (my + ((dx-px)/len)*lift).toFixed(1);
-  const dPath = `M${px},${py} Q${cx},${cy} ${dx.toFixed(1)},${dy.toFixed(1)}`;
-  const mipx = g.scale/69;                       // svg units per mile
-  const rMetro = (VM_TRAVEL.metroMiles*mipx).toFixed(1);
-  const labX = Math.max(24, Math.min(g.W-24, dx)).toFixed(1);
-  const labY = (dy > g.H-26 ? dy-12 : dy+17).toFixed(1);
-  const far = result.miles > VM_TRAVEL.metroMiles;
-  const longHaul = result.miles > VM_TRAVEL.longHaulMiles;
-  const cls = animate ? '' : 'vm-static';
+// ---- metro-area reference cities (for orientation when zoomed in) ----
+const VM_METRO_CITIES = [
+  ['Scottsdale',33.494,-111.926],['Tempe',33.425,-111.940],['Mesa',33.415,-111.831],
+  ['Chandler',33.306,-111.841],['Gilbert',33.353,-111.789],['Glendale',33.539,-112.186],
+  ['Peoria',33.580,-112.237],['Surprise',33.631,-112.368],['Avondale',33.436,-112.349],
+  ['Queen Creek',33.249,-111.634],['Fountain Hills',33.611,-111.722],['Apache Jct',33.415,-111.550],
+  ['Cave Creek',33.833,-111.951]
+];
 
-  let readout;
+// ---- shared: colored distance/surcharge readout under the map ----
+function vmReadout(result){
+  const far = result.miles != null && result.miles > VM_TRAVEL.metroMiles;
+  const longHaul = result.miles != null && result.miles > VM_TRAVEL.longHaulMiles;
   if(result.fee === 0){
-    readout = `<div style="background:#ecfdf3;border:1px solid #abefc6;border-radius:8px;padding:10px 12px;font-size:0.85rem;color:#067647;display:flex;align-items:center;gap:8px;"><span style="font-size:1.05rem;">&#9989;</span><span>~${result.miles} mi from our shop &mdash; <strong>core service zone, no travel surcharge.</strong></span></div>`;
-  } else if(longHaul){
-    readout = `<div style="background:#fff7e6;border:1px solid #ffd591;border-radius:8px;padding:10px 12px;font-size:0.82rem;color:#8a5a00;line-height:1.5;"><strong>Long-distance trip (~${result.miles} mi).</strong> That's well outside metro Phoenix &mdash; estimated travel <strong>+$${result.fee}</strong>. We'll confirm exact long-haul travel before booking.</div>`;
-  } else {
-    readout = `<div style="background:#eef4ff;border:1px solid #b8daff;border-radius:8px;padding:10px 12px;font-size:0.85rem;color:#1e3a6b;display:flex;justify-content:space-between;align-items:center;gap:10px;"><span>${far ? ('Outside metro &middot; ~'+result.miles+' mi') : ('~'+result.miles+' mi from downtown')}</span><span style="font-weight:700;color:#1e5fc4;white-space:nowrap;">Travel +$${result.fee}</span></div>`;
+    return `<div style="background:#ecfdf3;border:1px solid #abefc6;border-radius:8px;padding:10px 12px;font-size:0.85rem;color:#067647;display:flex;align-items:center;gap:8px;"><span style="font-size:1.05rem;">&#9989;</span><span>~${result.miles} mi from our shop &mdash; <strong>core service zone, no travel surcharge.</strong></span></div>`;
   }
+  if(longHaul){
+    return `<div style="background:#fff7e6;border:1px solid #ffd591;border-radius:8px;padding:10px 12px;font-size:0.82rem;color:#8a5a00;line-height:1.5;"><strong>Long-distance trip (~${result.miles} mi).</strong> That's well outside metro Phoenix &mdash; estimated travel <strong>+$${result.fee}</strong>. We'll confirm exact long-haul travel before booking.</div>`;
+  }
+  return `<div style="background:#eef4ff;border:1px solid #b8daff;border-radius:8px;padding:10px 12px;font-size:0.85rem;color:#1e3a6b;display:flex;justify-content:space-between;align-items:center;gap:10px;"><span>${far ? ('Outside metro &middot; ~'+result.miles+' mi') : ('~'+result.miles+' mi from downtown')}</span><span style="font-weight:700;color:#1e5fc4;white-space:nowrap;">Travel +$${result.fee}</span></div>`;
+}
 
+// ---- shared: outer panel wrapper ----
+function vmPanelWrap(caption, svg, result, cls){
   return `
     <div class="vm-mapwrap ${cls}" style="background:#0b1220;border:1px solid #1e5fc4;border-radius:10px;padding:12px;">
-      <div style="font-size:0.7rem;letter-spacing:.1em;text-transform:uppercase;color:#7fb0ee;font-weight:700;margin-bottom:8px;">Route from downtown Phoenix &rarr; ZIP ${zip}</div>
-      <svg viewBox="0 0 ${g.W} ${g.H}" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="display:block;max-width:300px;margin:0 auto;" role="img" aria-label="Map of route from downtown Phoenix to ZIP ${zip}">
+      <div style="font-size:0.7rem;letter-spacing:.1em;text-transform:uppercase;color:#7fb0ee;font-weight:700;margin-bottom:8px;">${caption}</div>
+      ${svg}
+      <div class="vm-readout" style="margin-top:10px;">${vmReadout(result)}</div>
+    </div>`;
+}
+
+// ---- shared: curved route + traveling dot + pulsing destination ----
+function vmRouteAndDest(px, py, dx, dy, zip, W, H){
+  const len = Math.hypot(dx-px, dy-py) || 1;
+  const lift = Math.min(len*0.17, 42);
+  const cx = ((px+dx)/2 + (-(dy-py)/len)*lift).toFixed(1);
+  const cy = ((py+dy)/2 + ((dx-px)/len)*lift).toFixed(1);
+  const dPath = `M${px.toFixed(1)},${py.toFixed(1)} Q${cx},${cy} ${dx.toFixed(1)},${dy.toFixed(1)}`;
+  const labX = Math.max(22, Math.min(W-22, dx)).toFixed(1);
+  const labY = (dy > H-24 ? dy-12 : dy+16).toFixed(1);
+  return `
+    <path id="vm-route-path" class="vm-route" d="${dPath}" fill="none" stroke="#4facff" stroke-width="2.4" stroke-linecap="round" pathLength="1"/>
+    <circle cx="${px.toFixed(1)}" cy="${py.toFixed(1)}" r="4.5" fill="#1e5fc4" stroke="#cfe2ff" stroke-width="1.5"/>
+    <text x="${px.toFixed(1)}" y="${(py-10).toFixed(1)}" fill="#cfe2ff" font-size="8.5" font-weight="700" text-anchor="middle" paint-order="stroke" stroke="#0b1220" stroke-width="2.5">Our Shop</text>
+    <g class="vm-mover"><circle r="3.6" fill="#bfe0ff"/>
+      <animateMotion dur="1.15s" begin="0s" fill="freeze"><mpath href="#vm-route-path" xlink:href="#vm-route-path"/></animateMotion>
+    </g>
+    <g class="vm-dest">
+      <circle class="vm-pulse" cx="${dx.toFixed(1)}" cy="${dy.toFixed(1)}" r="9" fill="none" stroke="#4facff" stroke-width="2"/>
+      <circle cx="${dx.toFixed(1)}" cy="${dy.toFixed(1)}" r="5" fill="#4facff" stroke="#ffffff" stroke-width="1.5"/>
+      <text x="${labX}" y="${labY}" text-anchor="middle" font-size="9.5" font-weight="700" fill="#ffffff" stroke="#0b1220" stroke-width="2.8" paint-order="stroke">${zip}</text>
+    </g>`;
+}
+
+// ---- statewide Arizona view (for far / long-haul ZIPs) ----
+function vmStateMapPanel(zip, result, cls){
+  const g = VM_GEO, px = g.phx[0], py = g.phx[1];
+  const dst = vmProject(result.coords[0], result.coords[1]);
+  const rMetro = (VM_TRAVEL.metroMiles * (g.scale/69)).toFixed(1);
+  const svg = `
+      <svg viewBox="0 0 ${g.W} ${g.H}" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="display:block;max-width:300px;margin:0 auto;" role="img" aria-label="Map of Arizona route from downtown Phoenix to ZIP ${zip}">
         <path d="${g.azPath}" fill="rgba(79,172,255,0.06)" stroke="rgba(127,176,238,0.5)" stroke-width="1.2" stroke-linejoin="round"/>
         <circle cx="${px}" cy="${py}" r="${rMetro}" fill="none" stroke="rgba(79,172,255,0.22)" stroke-width="1" stroke-dasharray="3 4"/>
-        <path id="vm-route-path" class="vm-route" d="${dPath}" fill="none" stroke="#4facff" stroke-width="2.4" stroke-linecap="round" pathLength="1"/>
-        <circle cx="${px}" cy="${py}" r="4.5" fill="#1e5fc4" stroke="#cfe2ff" stroke-width="1.5"/>
-        <text x="${px}" y="${(py-10).toFixed(1)}" fill="#cfe2ff" font-size="8.5" font-weight="700" text-anchor="middle" paint-order="stroke" stroke="#0b1220" stroke-width="2.5">Our Shop</text>
-        <g class="vm-mover"><circle r="3.6" fill="#bfe0ff"/>
-          <animateMotion dur="1.15s" begin="0s" fill="freeze"><mpath href="#vm-route-path" xlink:href="#vm-route-path"/></animateMotion>
-        </g>
-        <g class="vm-dest">
-          <circle class="vm-pulse" cx="${dx.toFixed(1)}" cy="${dy.toFixed(1)}" r="9" fill="none" stroke="#4facff" stroke-width="2"/>
-          <circle cx="${dx.toFixed(1)}" cy="${dy.toFixed(1)}" r="5" fill="#4facff" stroke="#ffffff" stroke-width="1.5"/>
-          <text x="${labX}" y="${labY}" text-anchor="middle" font-size="9.5" font-weight="700" fill="#ffffff" stroke="#0b1220" stroke-width="2.8" paint-order="stroke">${zip}</text>
-        </g>
-      </svg>
-      <div class="vm-readout" style="margin-top:10px;">${readout}</div>
-    </div>`;
+        ${vmRouteAndDest(px, py, dst[0], dst[1], zip, g.W, g.H)}
+      </svg>`;
+  return vmPanelWrap(`Route from downtown Phoenix &rarr; ZIP ${zip}`, svg, result, cls);
+}
+
+// ---- zoomed metro view (downtown-centered) for in-metro ZIPs ----
+function vmMetroMapPanel(zip, result, cls){
+  const OLAT = VM_TRAVEL.origin[0], OLNG = VM_TRAVEL.origin[1];
+  const kx = Math.cos(OLAT*Math.PI/180);
+  const W = 300, H = 300, pad = 18;
+  const radMi = Math.max(result.miles * 1.3, 14);     // window radius in miles
+  const scale = (W/2 - pad) / (radMi/69);
+  const mipx = scale/69;
+  const proj = (lat, lng) => [ W/2 + (lng-OLNG)*kx*scale, H/2 - (lat-OLAT)*scale ];
+  const px = W/2, py = H/2;
+  const dst = proj(result.coords[0], result.coords[1]);
+  const dx = dst[0], dy = dst[1];
+
+  // faint map grid
+  let grid = '';
+  for(const v of [60,120,180,240]){
+    grid += `<line x1="${v}" y1="0" x2="${v}" y2="${H}" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>`;
+    grid += `<line x1="0" y1="${v}" x2="${W}" y2="${v}" stroke="rgba(255,255,255,0.04)" stroke-width="1"/>`;
+  }
+  // mileage rings at band boundaries (only those that fit)
+  let rings = '';
+  for(const R of [10,20,30,50]){
+    if(R <= radMi*1.08){
+      const rr = (R*mipx).toFixed(1);
+      rings += `<circle cx="${px}" cy="${py}" r="${rr}" fill="none" stroke="rgba(79,172,255,0.20)" stroke-width="1" stroke-dasharray="3 4"/>`;
+      rings += `<text x="${px}" y="${(py - R*mipx - 3).toFixed(1)}" text-anchor="middle" font-size="7.5" fill="rgba(127,176,238,0.6)" paint-order="stroke" stroke="#0b1220" stroke-width="2">${R} mi</text>`;
+    }
+  }
+  // nearby reference cities (skip ones too close to shop or destination, or off-canvas)
+  let cities = '';
+  for(const c of VM_METRO_CITIES){
+    const p = proj(c[1], c[2]);
+    if(p[0] < pad+6 || p[0] > W-pad-6 || p[1] < pad+6 || p[1] > H-pad-6) continue;
+    if(Math.hypot(p[0]-px, p[1]-py) < 16) continue;
+    if(Math.hypot(p[0]-dx, p[1]-dy) < 26) continue;
+    cities += `<circle cx="${p[0].toFixed(1)}" cy="${p[1].toFixed(1)}" r="2" fill="rgba(160,190,225,0.5)"/>`;
+    cities += `<text x="${p[0].toFixed(1)}" y="${(p[1]-4).toFixed(1)}" text-anchor="middle" font-size="7.5" fill="rgba(160,190,225,0.65)" paint-order="stroke" stroke="#0b1220" stroke-width="1.8">${c[0]}</text>`;
+  }
+  const svg = `
+      <svg viewBox="0 0 ${W} ${H}" width="100%" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" style="display:block;max-width:300px;margin:0 auto;" role="img" aria-label="Phoenix metro map: route from downtown to ZIP ${zip}">
+        ${grid}
+        ${rings}
+        ${cities}
+        ${vmRouteAndDest(px, py, dx, dy, zip, W, H)}
+      </svg>`;
+  return vmPanelWrap(`Phoenix metro route &rarr; ZIP ${zip}`, svg, result, cls);
+}
+
+// ---- dispatcher: zoom to metro for nearby ZIPs, statewide for far ones ----
+function vmMapPanel(zip, result, animate){
+  const cls = animate ? '' : 'vm-static';
+  return (result.miles <= VM_TRAVEL.metroMiles)
+    ? vmMetroMapPanel(zip, result, cls)
+    : vmStateMapPanel(zip, result, cls);
 }
 
 let _zipTimer = null;
