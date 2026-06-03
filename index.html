@@ -2217,6 +2217,13 @@ function vmDeliveryCustomMsg(){
   if(d.condition === 'new' && d.size === 's85') return "76\u201385\u2033 TVs only fit out of the box \u2014 switch to 'Used', or we'll arrange a custom delivery";
   return "that's more TVs than fit in one trip (" + vmDeliveryCap() + ' ' + (d.condition === 'new' ? 'boxed' : 'out-of-box') + " max), so it becomes a custom delivery \u2014 an extra trip or a larger vehicle";
 }
+function vmDelOptLabel(size){
+  const base = { s55:'Up to 55\u2033', s75:'56\u201375\u2033', s85:'76\u201385\u2033', over:'86\u2033 and up' }[size];
+  if(size === 'over') return base + ' \u2014 quote';
+  if(bookingState.delivery.condition === 'new' && size === 's85') return base + ' \u2014 unbox or quote';
+  const t = vmDeliveryTier(size);
+  return base + ' \u2014 $' + t.fee;
+}
 // >>> END EDITABLE CONFIG <<<
 
 const VM_GEO = {"W": 320, "H": 374, "pad": 16, "lngMin": -114.8152, "latMax": 37.0057, "kx": 0.82739, "scale": 60.2983, "phx": [152.8, 230.5], "r30": 26.2, "r60": 52.4, "azPath": "M304.0,16.3 303.7,358.1 202.6,358.1 144.2,335.7 16.0,288.1 20.6,274.6 30.5,272.3 33.2,267.0 30.5,255.8 23.7,255.4 20.4,233.0 30.5,224.4 31.8,215.5 29.9,201.3 35.9,190.7 43.9,186.7 49.9,178.8 40.0,170.2 33.2,154.4 25.0,144.5 25.0,136.9 28.0,128.6 26.9,117.4 22.8,105.8 19.8,70.5 38.1,68.2 44.1,75.4 49.1,75.1 54.3,64.9 54.3,16.3 231.3,16.0 304.0,16.3Z"};
@@ -3147,10 +3154,10 @@ function initBookingStep2() {
           <div>
             <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">TV size</label>
             <select onchange="setDeliveryField('size',this.value)" style="width:100%;padding:12px;background:#fff;border:1px solid #d0d7e0;border-radius:6px;color:#000;font-size:16px;box-sizing:border-box;">
-              <option value="s55" ${bookingState.delivery.size==='s55'?'selected':''}>Up to 55&Prime; — $79</option>
-              <option value="s75" ${bookingState.delivery.size==='s75'?'selected':''}>56–75&Prime; — $99</option>
-              <option value="s85" ${bookingState.delivery.size==='s85'?'selected':''}>76–85&Prime; — $129</option>
-              <option value="over" ${bookingState.delivery.size==='over'?'selected':''}>86&Prime; and up — quote</option>
+              <option value="s55" ${bookingState.delivery.size==='s55'?'selected':''}>${vmDelOptLabel('s55')}</option>
+              <option value="s75" ${bookingState.delivery.size==='s75'?'selected':''}>${vmDelOptLabel('s75')}</option>
+              <option value="s85" ${bookingState.delivery.size==='s85'?'selected':''}>${vmDelOptLabel('s85')}</option>
+              <option value="over" ${bookingState.delivery.size==='over'?'selected':''}>${vmDelOptLabel('over')}</option>
             </select>
             <div style="font-size:0.72rem;color:#888;margin-top:6px;">Our Jeep fits <strong>1</strong> out-of-box TV (&le;85&Prime;) or up to <strong>2</strong> boxed (&le;75&Prime;) per same-day trip. More, 86&Prime;+, or boxed over 75&Prime; = a custom delivery we'll quote.</div>
           </div>
