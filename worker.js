@@ -6,13 +6,13 @@ const CORS = {
   'Access-Control-Allow-Headers': 'Content-Type',
 };
 
-const DISCORD_WEBHOOK = 'REPLACE_DISCORD';
+let DISCORD_WEBHOOK = '';
 const ALERT_URL = 'https://alert.vistamountaz.com/booking-alert';
 const ALERT_SECRET = 'vistamount-booking-alert';
 
-// Twilio — voice call + SMS on every booking
-const TWILIO_SID   = 'REPLACE_TWILIO_SID';
-const TWILIO_TOKEN = 'REPLACE_TWILIO_TOKEN';
+// Twilio — voice call + SMS on every booking (set from env at request time)
+let TWILIO_SID   = '';
+let TWILIO_TOKEN = '';
 const TWILIO_FROM  = '+18339625204';     // VistaMount Twilio number
 const OWNER_PHONE  = '+14802436961';     // Brandon's cell — receives call + SMS
 
@@ -150,6 +150,43 @@ function bookingSummary(booking) {
   return { name: name || 'Customer', dateStr, timeStr, price, street, fullAddress: address || '' };
 }
 
+// Log every booking to Supabase jobs table with full attribution
+async function logJobToSupabase(env, booking) {
+  const attr = booking.attribution || {};
+  const start = booking.slotStart ? new Date(booking.slotStart) : null;
+  const row = {
+    customer_name: booking.name || null,
+    customer_email: booking.email || null,
+    service_type: booking.summary || null,
+    scheduled_date: start ? start.toLocaleDateString('en-CA', { timeZone: 'America/Phoenix' }) : null,
+    scheduled_time: start ? start.toLocaleTimeString('en-US', { hour: 'numeric', minute: '2-digit', hour12: true, timeZone: 'America/Phoenix' }) : null,
+    address: booking.address || null,
+    status: 'scheduled',
+    notes: [booking.notes, booking.phone ? `Phone: ${booking.phone}` : '', booking.confirmationNumber ? `Conf: ${booking.confirmationNumber}` : '']
+      .filter(Boolean).join(' | ') || null,
+    amount_cents: booking.quotedPrice ? Math.round(Number(booking.quotedPrice) * 100) : null,
+    gclid: attr.gclid || null,
+    utm_source: attr.utm_source || null,
+    utm_medium: attr.utm_medium || null,
+    utm_campaign: attr.utm_campaign || null,
+    utm_term: attr.utm_term || null,
+    utm_content: attr.utm_content || null,
+    attribution_captured_at: attr.captured_at || null,
+  };
+  const res = await fetch(`${env.SUPABASE_URL}/rest/v1/jobs`, {
+    method: 'POST',
+    headers: {
+      'apikey': env.SUPABASE_SERVICE_KEY,
+      'Authorization': `Bearer ${env.SUPABASE_SERVICE_KEY}`,
+      'Content-Type': 'application/json',
+      'Prefer': 'return=minimal',
+    },
+    body: JSON.stringify(row),
+  });
+  if (!res.ok) throw new Error(`supabase insert ${res.status}: ${await res.text()}`);
+  return res;
+}
+
 // Twilio Basic Auth header
 function twilioAuthHeader() {
   return 'Basic ' + btoa(`${TWILIO_SID}:${TWILIO_TOKEN}`);
@@ -190,6 +227,9 @@ async function sendTwilioSms(booking) {
 
 export default {
   async fetch(request, env, ctx) {
+    DISCORD_WEBHOOK = env.DISCORD_WEBHOOK || DISCORD_WEBHOOK;
+    TWILIO_SID = env.TWILIO_SID || TWILIO_SID;
+    TWILIO_TOKEN = env.TWILIO_TOKEN || TWILIO_TOKEN;
     if (request.method === 'OPTIONS') return new Response(null, { headers: CORS });
 
     const url = new URL(request.url);
@@ -214,6 +254,7 @@ export default {
         const event = await createEvent(token, booking);
         const discordResult = await sendDiscordNotification(booking);
         // Fire all alerts async — don't block booking response
+        ctx.waitUntil(logJobToSupabase(env, booking).catch(e => console.warn('supabase log failed:', e.message)));
         ctx.waitUntil(sendBookingAlert(booking).catch(e => console.warn('alert relay failed:', e.message)));
         ctx.waitUntil(sendTwilioCall(booking).catch(e => console.warn('twilio call failed:', e.message)));
         ctx.waitUntil(sendTwilioSms(booking).catch(e => console.warn('twilio sms failed:', e.message)));
