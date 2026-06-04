@@ -79,7 +79,8 @@ async function createEvent(token, booking) {
 }
 
 async function sendDiscordNotification(booking) {
-  const { name, phone, email, address, summary, slotStart, slotEnd, confirmationNumber } = booking;
+  const { name, phone, email, address, summary, slotStart, slotEnd, confirmationNumber, totalPrice, quotedPrice } = booking;
+  const price = totalPrice || quotedPrice || '';
   const start = new Date(slotStart);
   const end = new Date(slotEnd);
   const dateStr = start.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', timeZone: 'America/Phoenix' });
@@ -101,6 +102,7 @@ async function sendDiscordNotification(booking) {
           { name: '📅 Date', value: dateStr, inline: true },
           { name: '⏰ Time', value: `${timeStr} – ${endStr}`, inline: true },
           { name: '🔧 Job Details', value: summary || 'N/A', inline: false },
+          { name: '💰 Quoted Price', value: price ? `$${price}` : 'N/A', inline: true },
           { name: '🎫 Confirmation', value: confirmationNumber || 'N/A', inline: true },
         ],
         footer: { text: 'VistaMount Booking System' },
@@ -169,12 +171,13 @@ async function sendTwilioCall(booking) {
 // Send SMS backup with booking details
 async function sendTwilioSms(booking) {
   const { name, dateStr, timeStr, price, fullAddress } = bookingSummary(booking);
-  const { phone, confirmationNumber } = booking;
+  const { phone, confirmationNumber, summary } = booking;
   const msg =
     `🔔 NEW VISTAMOUNT BOOKING\n` +
     `${name}${phone ? ` — ${phone}` : ''}\n` +
     `${dateStr} ${timeStr}\n` +
     `${fullAddress}\n` +
+    (summary ? `${summary}\n` : '') +
     (price ? `Quoted: $${price}\n` : '') +
     (confirmationNumber ? `Conf: ${confirmationNumber}` : '');
   const body = new URLSearchParams({ To: OWNER_PHONE, From: TWILIO_FROM, Body: msg });
