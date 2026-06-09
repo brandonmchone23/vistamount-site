@@ -335,7 +335,7 @@ html,body{overflow-x:hidden;max-width:100vw}
   nav{padding:10px 12px !important}
   .nav-phone{font-size:13px !important;padding:6px 10px !important}
   .nav-book{padding:8px 14px !important;font-size:13px !important}
-  #hero{padding:24px 10px 32px !important;min-height:0;justify-content:flex-start !important}
+  #hero{padding:24px 10px 32px !important;min-height:100dvh;justify-content:flex-start !important}
   #hero-tv-wrap{width:min(78vw,440px) !important;margin-top:8px !important}
   #hero-tagline-below{font-size:13px !important;max-width:94%}
   #hero-cta{padding:14px 28px !important;font-size:14px !important}
@@ -392,7 +392,7 @@ nav.scrolled-light .nav-book{color:#fff!important;}
 
 /* HERO */
 /* ============ HERO (v2): full-bleed TV-on-wall composition ============ */
-#hero{position:relative;min-height:0;padding:80px 16px 48px;overflow:clip;background:#06080f;display:flex;flex-direction:column;align-items:center;justify-content:center;isolation:isolate}
+#hero{position:relative;min-height:100vh;padding:80px 16px 48px;overflow:clip;background:#06080f;display:flex;flex-direction:column;align-items:center;justify-content:center;isolation:isolate}
 
 /* Plaster wall — warm Phoenix/Scottsdale desert tones */
 #hero-wall{position:absolute;inset:0;background:
@@ -3886,42 +3886,30 @@ document.addEventListener('DOMContentLoaded', function() {
 </head>
 <body>
 <style>
-#site-header{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(6,8,15,0.96);backdrop-filter:blur(12px);border-bottom:1px solid rgba(79,172,255,0.12);}
-#site-header .sh-inner{max-width:1400px;margin:0 auto;padding:9px 40px;display:flex;justify-content:space-between;align-items:center;gap:24px;}
-#site-header .sh-logo{display:flex;align-items:center;gap:10px;text-decoration:none;font-family:'Bebas Neue',sans-serif;font-size:1.6rem;color:#e8edf5;letter-spacing:.5px;}
-#site-header .sh-logo img{height:34px;width:auto;display:block;}
+#site-header{position:fixed;top:0;left:0;right:0;z-index:9999;background:rgba(6,8,15,0.95);backdrop-filter:blur(10px);border-bottom:1px solid rgba(79,172,255,0.1);padding:16px 0;}
+#site-header .sh-inner{max-width:1400px;margin:0 auto;padding:0 40px;display:flex;justify-content:space-between;align-items:center;gap:16px;}
+#site-header .sh-logo{font-family:'Bebas Neue',sans-serif;font-size:1.5rem;color:#e8edf5;}
 #site-header .sh-logo .mt{color:#4facff;}
-#site-header .sh-nav{display:flex;gap:26px;margin:0 auto;}
-#site-header .sh-nav a{color:rgba(255,255,255,0.72);text-decoration:none;font-family:'DM Sans',sans-serif;font-size:0.92rem;font-weight:600;letter-spacing:.02em;transition:color .2s;}
-#site-header .sh-nav a:hover{color:#4facff;}
 #site-header .sh-actions{display:flex;align-items:center;gap:14px;}
-#site-header .sh-phone{display:inline-flex;align-items:center;gap:10px;color:#ffffff;text-decoration:none;white-space:nowrap;}
-#site-header .sh-phone .sh-phone-ico{display:flex;align-items:center;justify-content:center;width:38px;height:38px;border-radius:50%;background:rgba(79,172,255,0.14);border:1px solid rgba(79,172,255,0.35);color:#4facff;flex-shrink:0;}
-#site-header .sh-phone .sh-phone-num{font-family:'DM Sans',sans-serif;font-weight:800;font-size:1.18rem;line-height:1.1;letter-spacing:.01em;}
-#site-header .sh-phone .sh-phone-sub{display:block;font-size:0.65rem;font-weight:700;letter-spacing:.09em;text-transform:uppercase;color:#4facff;margin-top:2px;}
-#site-header .sh-phone:hover .sh-phone-num{color:#4facff;}
-#site-header .sh-portal{display:inline-flex;align-items:center;justify-content:center;width:38px;height:38px;border:1px solid rgba(255,255,255,0.2);border-radius:50%;color:rgba(255,255,255,0.75);text-decoration:none;transition:all 0.2s;}
+#site-header .sh-phone{display:inline-flex;align-items:center;gap:6px;color:#ffffff;text-decoration:none;font-weight:700;font-size:1rem;font-family:'DM Sans',sans-serif;letter-spacing:0.02em;white-space:nowrap;}
+#site-header .sh-phone svg{flex-shrink:0;}
+#site-header .sh-portal{display:inline-flex;align-items:center;justify-content:center;width:40px;height:40px;border:1px solid rgba(255,255,255,0.2);border-radius:50%;color:rgba(255,255,255,0.75);text-decoration:none;transition:all 0.2s;}
 #site-header .sh-portal:hover{border-color:rgba(79,172,255,0.6);color:#4facff;background:rgba(79,172,255,0.08);}
 #site-header .sh-portal svg{width:18px;height:18px;}
-.sh-book{background:#1e5fc4;color:#ffffff;border:none;padding:12px 22px;border-radius:6px;font-weight:700;font-size:0.9rem;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;white-space:nowrap;}
+.sh-book{background:#1e5fc4;color:#ffffff;border:none;padding:12px 24px;border-radius:6px;font-weight:600;font-size:0.9rem;cursor:pointer;transition:all 0.2s;font-family:'DM Sans',sans-serif;white-space:nowrap;}
 #site-header .sh-book:hover{background:#1a6ad4;}
-.sh-spacer{height:62px;}
-@media(max-width:980px){
-  #site-header .sh-nav{display:none;}
-}
+.sh-spacer{height:60px;}
 @media(max-width:640px){
-  .sh-spacer{height:58px;}
-  #site-header .sh-inner{padding:8px 12px;gap:10px;}
-  #site-header .sh-logo{font-size:1.1rem;gap:7px;}
-  #site-header .sh-logo img{height:26px;}
+  .sh-spacer{height:56px;}
+  #site-header{padding:10px 0;}
+  #site-header .sh-inner{flex-direction:row;align-items:center;padding:0 14px;gap:10px;}
+  #site-header .sh-logo{font-size:1.15rem;}
   #site-header .sh-actions{gap:8px;}
-  #site-header .sh-phone{gap:7px;padding:5px 10px 5px 5px;border:1px solid rgba(79,172,255,0.35);border-radius:999px;background:rgba(79,172,255,0.10);}
-  #site-header .sh-phone .sh-phone-ico{width:26px;height:26px;background:transparent;border:none;}
-  #site-header .sh-phone .sh-phone-ico svg{width:14px;height:14px;}
-  #site-header .sh-phone .sh-phone-num{font-size:0.88rem;}
-  #site-header .sh-phone .sh-phone-sub{display:none;}
-  #site-header .sh-portal{display:none;}
-  .sh-book{padding:9px 12px;font-size:0.78rem;letter-spacing:0.02em;}
+  #site-header .sh-phone{font-size:0;padding:8px;border:1px solid rgba(79,172,255,0.35);border-radius:50%;width:38px;height:38px;justify-content:center;gap:0;}
+  #site-header .sh-phone svg{width:18px;height:18px;}
+  #site-header .sh-portal{width:38px;height:38px;}
+  #site-header .sh-portal svg{width:17px;height:17px;}
+  .sh-book{padding:9px 14px;font-size:0.8rem;letter-spacing:0.02em;}
 }
 
 /* Hero speaker removal overrides */
@@ -3933,23 +3921,11 @@ document.addEventListener('DOMContentLoaded', function() {
 </style>
 <header id="site-header">
   <div class="sh-inner">
-    <a href="/" class="sh-logo" aria-label="VistaMount home">
-      <picture>
-        <source type="image/webp" srcset="/images/logo-shield-1x.webp">
-        <img src="/images/logo-shield-1x.png" alt="" width="40" height="34"/>
-      </picture>
-      <span>Vista<span class="mt">Mount</span></span>
-    </a>
-    <nav class="sh-nav" aria-label="Primary">
-      <a href="#services-section">Services</a>
-      <a href="#pricing">Pricing</a>
-      <a href="#reviews">Reviews</a>
-      <a href="#process-section">How It Works</a>
-    </nav>
+    <div class="sh-logo">Vista<span class="mt">Mount</span></div>
     <div class="sh-actions">
-      <a href="tel:4809034769" class="sh-phone" aria-label="Call or text (480) 903-4769">
-        <span class="sh-phone-ico"><svg width="17" height="17" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6.09 6.09l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg></span>
-        <span><span class="sh-phone-num">(480) 903-4769</span><span class="sh-phone-sub">Call or Text &middot; Same-Day</span></span>
+      <a href="tel:4809034769" class="sh-phone" aria-label="Call (480) 903-4769">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6.09 6.09l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+        <span>(480) 903-4769</span>
       </a>
       <a href="https://portal.vistamountaz.com" class="sh-portal" target="_blank" aria-label="Client Portal" title="Client Portal">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
@@ -3971,22 +3947,40 @@ document.addEventListener('DOMContentLoaded', function() {
 <noscript><iframe src="https://www.googletagmanager.com/ns.html?id=GTM-KL3RS6P8" height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
 <!-- End Google Tag Manager (noscript) -->
 
+<nav id="nav">
+  <a href="/" class="nav-logo" style="font-family:DM Sans,sans-serif;font-size:1.5rem;font-weight:500;letter-spacing:.02em;color:#fff;text-decoration:none;">Vista<span style="color:#1e5fc4;font-weight:700;">Mount</span></a>
+  <div class="nav-links">
+    <a href="#services-section">Services</a>
+    <a href="#process-section">Process</a>
+    <a href="#booking" class="nav-book" onclick="openBookingModal();return false;">Book Now</a>
+  </div>
+  <a href="#booking" class="nav-book-mobile" onclick="openBookingModal();return false;">Book Now</a>
+</nav>
 
 <!-- HERO -->
 <main>
-<section id="hero" style="background:#06080f;padding:56px 20px 60px;min-height:0;text-align:center;position:relative;overflow:hidden;width:100%;box-sizing:border-box;">
+<section id="hero" style="background:#06080f;padding:110px 20px 72px;text-align:center;position:relative;overflow:hidden;width:100%;box-sizing:border-box;">
   <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 30%,rgba(37,99,235,0.1) 0%,transparent 70%);pointer-events:none;"></div>
 
   <div style="position:relative;z-index:2;max-width:720px;margin:0 auto;width:100%;box-sizing:border-box;">
 
+    <!-- Logo in hero -->
+    <div style="margin-bottom:24px;">
+      <picture>
+        <source type="image/webp" srcset="/images/logo-shield-1x.webp 1x, /images/logo-shield.webp 2x">
+        <source type="image/png" srcset="/images/logo-shield-1x.png 1x, /images/logo-shield.png 2x">
+        <img src="/images/logo-shield-1x.png" alt="VistaMount" width="162" height="140" style="height:140px;width:auto;margin:0 auto;display:block;"/>
+      </picture>
+    </div>
+
     <!-- Eyebrow -->
-    <div style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#2563eb;font-weight:700;margin-bottom:14px;">Phoenix TV Mounting Service &middot; Owner-Operated</div>
+    <div style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#2563eb;font-weight:700;margin-bottom:20px;">Phoenix TV Mounting Service &middot; Owner-Operated</div>
 
     <!-- Headline -->
-    <h1 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(46px,8.5vw,92px);line-height:0.92;color:#fff;margin:0 0 16px;letter-spacing:1px;">TV Mounting in Phoenix.<br><span style="color:#2563eb;">Done Clean. Done Right.</span></h1>
+    <h1 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,10vw,120px);line-height:0.92;color:#fff;margin:0 0 20px;letter-spacing:1px;">TV Mounting in Phoenix.<br><span style="color:#2563eb;">Done Clean. Done Right.</span></h1>
 
     <!-- Subheadline -->
-    <p style="font-size:clamp(15px,2vw,18px);color:rgba(255,255,255,0.65);margin:0 auto 28px;line-height:1.6;max-width:580px;"><strong style="color:rgba(255,255,255,0.85);font-weight:500;">Same-day TV mounting</strong> and professional <strong style="color:rgba(255,255,255,0.85);font-weight:500;">TV installation service</strong> across Phoenix, Scottsdale, Mesa, Chandler, Gilbert, Tempe, Glendale, and Peoria. This isn't a handyman job. Clean wires, level mounts, zero damage. Owner-operated.</p>
+    <p style="font-size:clamp(15px,2vw,18px);color:rgba(255,255,255,0.65);margin:0 auto 36px;line-height:1.6;max-width:580px;"><strong style="color:rgba(255,255,255,0.85);font-weight:500;">Same-day TV mounting</strong> and professional <strong style="color:rgba(255,255,255,0.85);font-weight:500;">TV installation service</strong> across Phoenix, Scottsdale, Mesa, Chandler, Gilbert, Tempe, Glendale, and Peoria. This isn't a handyman job. Clean wires, level mounts, zero damage. Owner-operated.</p>
 
     <!-- CTAs -->
     <div style="display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;max-width:420px;margin:0 auto 24px;">
@@ -4107,7 +4101,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- services -->
 <!-- REVIEWS - moved up for social proof -->
-<section id="reviews" style="background:#fff;padding:80px 52px;scroll-margin-top:70px;">
+<section style="background:#fff;padding:80px 52px;">
   <div style="max-width:1200px;margin:0 auto;">
     <div style="text-align:center;margin-bottom:40px;">
       <div style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#2563eb;font-weight:700;margin-bottom:12px;">Real Reviews</div>
