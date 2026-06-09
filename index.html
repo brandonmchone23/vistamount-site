@@ -3959,52 +3959,111 @@ document.addEventListener('DOMContentLoaded', function() {
 
 <!-- HERO -->
 <main>
-<section id="hero" style="background:#06080f;padding:110px 20px 72px;text-align:center;position:relative;overflow:hidden;width:100%;box-sizing:border-box;">
-  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 30%,rgba(37,99,235,0.1) 0%,transparent 70%);pointer-events:none;"></div>
+<section id="hero" style="background:#06080f;padding:84px 20px 56px;min-height:0;text-align:center;position:relative;overflow:hidden;width:100%;box-sizing:border-box;display:block;">
+  <div style="position:absolute;inset:0;background:radial-gradient(ellipse 70% 50% at 50% 32%,rgba(37,99,235,0.10) 0%,transparent 70%);pointer-events:none;"></div>
 
-  <div style="position:relative;z-index:2;max-width:720px;margin:0 auto;width:100%;box-sizing:border-box;">
+  <style>
+  /* ===== HERO v3: TV power-on composition ===== */
+  #hv3-stage{position:relative;z-index:2;max-width:880px;margin:0 auto;width:100%;box-sizing:border-box;}
+  #hv3-tv{position:relative;width:min(760px,90vw);margin:0 auto;aspect-ratio:1000/580;}
+  #hv3-tv-svg{position:absolute;inset:0;width:100%;height:100%;overflow:visible;}
+  /* bezel draw-in */
+  .hv3-bezel{stroke-dasharray:1560;stroke-dashoffset:1560;animation:hv3draw 1.05s cubic-bezier(.6,.05,.3,1) forwards;}
+  #hv3-bezel-b{animation-delay:.12s;}
+  @keyframes hv3draw{to{stroke-dashoffset:0;}}
+  /* screen panel */
+  #hv3-screen{opacity:0;animation:hv3screen .4s ease forwards;animation-delay:1.0s;}
+  @keyframes hv3screen{to{opacity:1;}}
+  /* power-on: white line flash then bloom */
+  #hv3-powerline{transform-origin:500px 290px;transform:scaleX(0);opacity:0;animation:hv3line .28s ease-out forwards;animation-delay:1.35s;}
+  @keyframes hv3line{0%{transform:scaleX(0);opacity:0;}40%{opacity:1;}100%{transform:scaleX(1);opacity:1;}}
+  #hv3-bloom{transform-origin:500px 290px;transform:scaleY(.004);opacity:0;animation:hv3bloom .42s cubic-bezier(.2,.7,.3,1) forwards;animation-delay:1.62s;}
+  @keyframes hv3bloom{0%{transform:scaleY(.004);opacity:.9;}100%{transform:scaleY(1);opacity:0;}}
+  /* content inside screen */
+  #hv3-content{position:absolute;inset:4% 5%;display:flex;flex-direction:column;align-items:center;justify-content:center;opacity:0;animation:hv3content .5s ease forwards;animation-delay:1.78s;}
+  @keyframes hv3content{from{opacity:0;transform:scale(.985);}to{opacity:1;transform:scale(1);}}
+  /* cables: hang below TV then get pulled up behind the wall */
+  #hv3-cables{opacity:.9;animation:hv3cables .9s cubic-bezier(.55,0,.6,1) forwards;animation-delay:2.15s;}
+  @keyframes hv3cables{to{transform:translateY(-92px);opacity:0;}}
+  /* cta group: instant, never gated on the animation */
+  #hv3-cta{position:relative;z-index:3;margin:26px auto 0;max-width:460px;}
+  @media (prefers-reduced-motion: reduce){
+    .hv3-bezel{animation:none;stroke-dashoffset:0;}
+    #hv3-screen{animation:none;opacity:1;}
+    #hv3-powerline,#hv3-bloom{display:none;}
+    #hv3-content{animation:none;opacity:1;}
+    #hv3-cables{display:none;}
+  }
+  @media (max-width:640px){
+    #hero{padding-top:72px !important;}
+    #hv3-tv{width:94vw;}
+    #hv3-eyebrow{font-size:8px !important;letter-spacing:2.5px !important;margin-bottom:8px !important;}
+    #hv3-h1{font-size:clamp(26px,8.6vw,40px) !important;}
+    #hv3-tagline{font-size:11px !important;margin-top:8px !important;}
+  }
+  </style>
 
-    <!-- Logo in hero -->
-    <div style="margin-bottom:24px;">
-      <picture>
-        <source type="image/webp" srcset="/images/logo-shield-1x.webp 1x, /images/logo-shield.webp 2x">
-        <source type="image/png" srcset="/images/logo-shield-1x.png 1x, /images/logo-shield.png 2x">
-        <img src="/images/logo-shield-1x.png" alt="VistaMount" width="162" height="140" style="height:140px;width:auto;margin:0 auto;display:block;"/>
-      </picture>
+  <div id="hv3-stage">
+    <!-- TV composition -->
+    <div id="hv3-tv">
+      <svg id="hv3-tv-svg" viewBox="0 0 1000 580" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+        <defs>
+          <linearGradient id="hv3BezelGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+            <stop offset="0%" stop-color="#4facff"/><stop offset="50%" stop-color="#2d7fe8"/><stop offset="100%" stop-color="#4facff"/>
+          </linearGradient>
+          <filter id="hv3Glow" x="-12%" y="-12%" width="124%" height="124%">
+            <feGaussianBlur stdDeviation="4" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+          </filter>
+          <linearGradient id="hv3ScreenGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+            <stop offset="0%" stop-color="#0b1020"/><stop offset="100%" stop-color="#06080f"/>
+          </linearGradient>
+        </defs>
+        <!-- mount stem + plate behind TV -->
+        <rect x="478" y="560" width="44" height="34" rx="6" fill="#10141f"/>
+        <rect x="430" y="588" width="140" height="10" rx="5" fill="#141a28"/>
+        <!-- cables that get concealed -->
+        <g id="hv3-cables" stroke="#2a3142" stroke-width="5" fill="none" stroke-linecap="round">
+          <path d="M 462 574 C 450 640, 470 668, 452 716"/>
+          <path d="M 500 576 C 502 648, 488 676, 506 724"/>
+          <path d="M 538 574 C 552 636, 532 670, 548 712"/>
+        </g>
+        <!-- screen panel -->
+        <rect id="hv3-screen" x="7" y="7" width="986" height="566" rx="14" fill="url(#hv3ScreenGrad)"/>
+        <!-- bezel: two paths drawing from top-center around to bottom-center -->
+        <path class="hv3-bezel" id="hv3-bezel-a" d="M 500 6 L 980 6 Q 994 6 994 20 L 994 560 Q 994 574 980 574 L 500 574" fill="none" stroke="url(#hv3BezelGrad)" stroke-width="3.5" stroke-linecap="round" filter="url(#hv3Glow)"/>
+        <path class="hv3-bezel" id="hv3-bezel-b" d="M 500 6 L 20 6 Q 6 6 6 20 L 6 560 Q 6 574 20 574 L 500 574" fill="none" stroke="url(#hv3BezelGrad)" stroke-width="3.5" stroke-linecap="round" filter="url(#hv3Glow)"/>
+        <!-- power-on flash -->
+        <rect id="hv3-powerline" x="40" y="288" width="920" height="3" rx="1.5" fill="#eaf4ff"/>
+        <rect id="hv3-bloom" x="40" y="60" width="920" height="460" rx="10" fill="#dbeafe"/>
+      </svg>
+
+      <!-- content INSIDE the screen -->
+      <div id="hv3-content">
+        <div id="hv3-eyebrow" style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#4facff;font-weight:700;margin-bottom:14px;">Phoenix TV Mounting Service &middot; Owner-Operated</div>
+        <h1 id="hv3-h1" style="font-family:'Bebas Neue',sans-serif;font-size:clamp(40px,6.6vw,76px);line-height:0.94;color:#fff;margin:0;letter-spacing:1px;">TV Mounting in Phoenix.<br><span style="color:#2563eb;">Done Clean. Done Right.</span></h1>
+        <p id="hv3-tagline" style="font-size:clamp(12px,1.5vw,15px);color:rgba(255,255,255,0.62);margin:14px auto 0;line-height:1.55;max-width:560px;"><strong style="color:rgba(255,255,255,0.85);font-weight:500;">Same-day TV mounting</strong> across Phoenix, Scottsdale, Mesa, Chandler, Gilbert &amp; Tempe. Clean wires. Level mounts. Zero damage.</p>
+      </div>
     </div>
 
-    <!-- Eyebrow -->
-    <div style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#2563eb;font-weight:700;margin-bottom:20px;">Phoenix TV Mounting Service &middot; Owner-Operated</div>
-
-    <!-- Headline -->
-    <h1 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(52px,10vw,120px);line-height:0.92;color:#fff;margin:0 0 20px;letter-spacing:1px;">TV Mounting in Phoenix.<br><span style="color:#2563eb;">Done Clean. Done Right.</span></h1>
-
-    <!-- Subheadline -->
-    <p style="font-size:clamp(15px,2vw,18px);color:rgba(255,255,255,0.65);margin:0 auto 36px;line-height:1.6;max-width:580px;"><strong style="color:rgba(255,255,255,0.85);font-weight:500;">Same-day TV mounting</strong> and professional <strong style="color:rgba(255,255,255,0.85);font-weight:500;">TV installation service</strong> across Phoenix, Scottsdale, Mesa, Chandler, Gilbert, Tempe, Glendale, and Peoria. This isn't a handyman job. Clean wires, level mounts, zero damage. Owner-operated.</p>
-
-    <!-- CTAs -->
-    <div style="display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;max-width:420px;margin:0 auto 24px;">
-      <button onclick="openBookingModal()" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:none;padding:18px 32px;border-radius:999px;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 8px 32px rgba(37,99,235,0.45);width:100%;">
-        Get Your Price &amp; Lock In Your Install &rarr;
-      </button>
-      <a href="tel:4809034769" style="display:flex;align-items:center;justify-content:center;gap:10px;color:#fff;text-decoration:none;font-size:18px;font-weight:700;padding:16px 32px;border:2px solid rgba(255,255,255,0.25);border-radius:999px;width:100%;box-sizing:border-box;">
-        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6.09 6.09l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
-        (480) 903-4769
-      </a>
+    <!-- CTAs: instant, below the TV -->
+    <div id="hv3-cta">
+      <div style="display:flex;flex-direction:column;align-items:center;gap:12px;width:100%;">
+        <button onclick="openBookingModal()" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:none;padding:18px 32px;border-radius:999px;font-size:16px;font-weight:700;cursor:pointer;box-shadow:0 8px 32px rgba(37,99,235,0.45);width:100%;">
+          Get Your Price &amp; Lock In Your Install &rarr;
+        </button>
+        <a href="tel:4809034769" style="display:flex;align-items:center;justify-content:center;gap:10px;color:#0a1628;background:#fff;text-decoration:none;font-size:19px;font-weight:800;padding:15px 32px;border-radius:999px;width:100%;box-sizing:border-box;box-shadow:0 4px 18px rgba(255,255,255,0.16);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#1e5fc4" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07A19.5 19.5 0 0 1 4.69 12a19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 3.6 1.18h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L7.91 9a16 16 0 0 0 6.09 6.09l.91-.91a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"/></svg>
+          (480) 903-4769
+        </a>
+      </div>
+      <div style="display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;color:rgba(255,255,255,0.45);flex-wrap:wrap;margin-top:18px;">
+        <span style="color:#f59e0b;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
+        <span style="color:rgba(255,255,255,0.7);font-weight:600;">4.9</span>
+        <span>&middot;</span><span>150+ Reviews</span>
+        <span>&middot;</span><span>800+ Installs</span>
+        <span>&middot;</span><span>$1M Insured</span>
+      </div>
     </div>
-
-    <!-- Single clean social proof line -->
-    <div style="display:flex;align-items:center;justify-content:center;gap:8px;font-size:14px;color:rgba(255,255,255,0.45);flex-wrap:wrap;">
-      <span style="color:#f59e0b;">&#9733;&#9733;&#9733;&#9733;&#9733;</span>
-      <span style="color:rgba(255,255,255,0.7);font-weight:600;">4.9</span>
-      <span>·</span>
-      <span>150+ Reviews</span>
-      <span>·</span>
-      <span>800+ Installs</span>
-      <span>·</span>
-      <span>$1M Insured</span>
-    </div>
-
   </div>
 </section>
 
