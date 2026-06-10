@@ -3131,6 +3131,7 @@ function toggleMantelMount(index, model) {
 function setTVProp(index, prop, value) {
   bookingState.tvs[index][prop] = value;
   if (prop === 'fireplace' && !value) bookingState.tvs[index].mantelMount = false;
+  if (prop === 'frame' && value && !bookingState.tvs[index].framePower) bookingState.tvs[index].framePower = 'yes';
   renderTVCards();
   updatePriceDisplay();
   updatePriceDisplay();
