@@ -3080,7 +3080,7 @@ function renderTVCards() {
           </div>
 
         </div>
-        ${({'stucco':100,'brick':100,'concrete':100,'tile':150})[tv.wall] ? `<div style="font-size:0.73rem;color:#b45309;font-weight:600;margin-top:6px;">${tvWallLabel(tv.wall)} fireplace surface: +$${({'stucco':100,'brick':100,'concrete':100,'tile':150})[tv.wall]} drilling labor added to pricing below</div>` : ''}
+        ${({'stucco':100,'brick':100,'concrete':100,'tile':150})[tv.wall] ? `<div style="font-size:0.73rem;color:#b45309;font-weight:600;margin-top:6px;">${({'stucco':'Stucco','brick':'Brick','concrete':'Concrete','tile':'Tile/Stone'})[tv.wall]} fireplace surface: +$${({'stucco':100,'brick':100,'concrete':100,'tile':150})[tv.wall]} drilling labor added to pricing below</div>` : ''}
         ${tv.mantelMount && tv.mantelMount !== 'false' ? `<div style="font-size:0.75rem;color:#059669;font-weight:600;margin-top:6px;">✓ Full deposit required at booking — includes mount + installation</div>` : `<div style="font-size:0.75rem;color:#999;margin-top:6px;">Select a model to add to your quote · Tap again to deselect</div>`}
       </div>
       ` : ''}
