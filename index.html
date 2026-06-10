@@ -4406,50 +4406,10 @@ function closeLightbox(){
 
 
 
-<script>
-(function(){
-  var card=document.getElementById('gal-slider');
-  if(!card)return;
-  var during=document.getElementById('gal-during');
-  var div=document.getElementById('gal-sdivider');
-  var dragging=false;
-  function setPos(x){
-    var rect=card.getBoundingClientRect();
-    var pct=Math.max(2,Math.min(98,((x-rect.left)/rect.width)*100));
-    during.style.clipPath='inset(0 '+(100-pct)+'% 0 0)';
-    div.style.left=pct+'%';
-  }
-  card.addEventListener('mousedown',function(e){dragging=true;setPos(e.clientX);});
-  document.addEventListener('mouseup',function(){dragging=false;});
-  document.addEventListener('mousemove',function(e){if(dragging)setPos(e.clientX);});
-  card.addEventListener('touchstart',function(e){dragging=true;setPos(e.touches[0].clientX);},{passive:true});
-  document.addEventListener('touchend',function(){dragging=false;});
-  card.addEventListener('touchmove',function(e){if(dragging)setPos(e.touches[0].clientX);},{passive:true});
-})();
-</script>
 
-<!-- LIGHTBOX -->
-<div id="lightbox" style="display:none;position:fixed;inset:0;background:rgba(0,0,0,.92);z-index:9999;align-items:center;justify-content:center;flex-direction:column;padding:40px;" onclick="closeLightbox()">
-  <img id="lb-img" src="" style="max-width:90vw;max-height:75vh;object-fit:contain;margin-bottom:20px;"/>
-  <div id="lb-tag" style="font-size:.6rem;letter-spacing:.25em;text-transform:uppercase;color:var(--bl);margin-bottom:6px;"></div>
-  <div id="lb-title" style="font-size:1.2rem;font-weight:500;color:#fff;margin-bottom:4px;font-family:'Bebas Neue',sans-serif;letter-spacing:.05em;"></div>
-  <div id="lb-desc" style="font-size:.8rem;color:rgba(255,255,255,.6);"></div>
-  <div style="position:absolute;top:20px;right:28px;color:rgba(255,255,255,.5);font-size:1.5rem;cursor:pointer;" onclick="closeLightbox()">&#x2715;</div>
-</div>
-<script>
-function openLightbox(title,desc,tag,src){
-  document.getElementById('lb-img').src=src;
-  document.getElementById('lb-title').textContent=title;
-  document.getElementById('lb-desc').textContent=desc;
-  document.getElementById('lb-tag').textContent=tag;
-  document.getElementById('lightbox').style.display='flex';
-  document.body.style.overflow='hidden';
-}
-function closeLightbox(){
-  document.getElementById('lightbox').style.display='none';
-  document.body.style.overflow='';
-}
-</script>
+
+
+
 
 <!-- FAQ -->
 <section style="background:#0a0a0a;padding:80px 52px 20px;">
