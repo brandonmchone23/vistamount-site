@@ -2260,6 +2260,23 @@ function vmZipLookup(zip){
 }
 // Parse YYYY-MM-DD as LOCAL date (new Date('YYYY-MM-DD') is UTC midnight = previous day in Phoenix)
 function vmLocalDate(s){ var p = String(s).split('-'); return new Date(+p[0], +p[1]-1, +p[2]); }
+function vmJobDuration(){
+  var mins = 0;
+  var tvs = (bookingState.tvs || []);
+  mins += Math.min(tvs.length, 4) * 60;
+  tvs.forEach(function(tv){
+    if (tv.cords === 'concealed' || tv.cords === 'outlet') mins += (['brick','tile','stucco'].indexOf(tv.wall) > -1 ? 60 : 30);
+    if (tv.mantelMount && tv.mantelMount !== 'false' && tv.mantelMount !== 'none') mins += 60;
+    if (tv.outdoor) mins += 60;
+    if (tv.high) mins += 30;
+    if (tv.frame) mins += 45;
+    if (tv.frame && tv.framePower === 'no') mins += 60;
+  });
+  mins += (bookingState.soundbars || 0) * 45;
+  mins += (bookingState.dismounts || 0) * 20;
+  mins = Math.max(120, Math.ceil(mins / 30) * 30);
+  return Math.min(mins, 480);
+}
 function vmIsSameDay(){
   const s = bookingState.selectedSlot;
   if(!s || !s.start) return false;
@@ -2481,9 +2498,9 @@ function calculatePrice() {
     } else {
       // Standard pricing
       if (tv.size === '<32') total += 100;
-      else if (tv.size === '32-64') total += 125;
-      else if (tv.size === '65-84') total += 150;
-      else if (tv.size === '85+') total += 200;
+      else if (tv.size === '32-64') total += 149;
+      else if (tv.size === '65-84') total += 179;
+      else if (tv.size === '85+') total += 275;
 
       if (tv.mountType === 'fixed') total += 45;
       else if (tv.mountType === 'tilting') total += 45;
@@ -2497,6 +2514,13 @@ function calculatePrice() {
         else if (tv.wall === 'brick') total += 100;
         else if (tv.wall === 'tile') total += 150;
         if (tv.fireplace) total += 75;
+      }
+      if (tv.outdoor) total += 100;
+      if (tv.high) total += 75;
+      if (tv.frame) {
+        total += 75;
+        var fpMasonry = ['brick','tile','stucco'].indexOf(tv.wall) > -1;
+        if (tv.framePower === 'no' && !fpMasonry) total += 350;
       }
     }
 
@@ -2768,9 +2792,9 @@ function renderTVCards() {
         <label style="display:block;font-size:0.8rem;color:#666;margin-bottom:8px;">TV Size</label>
         <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;">
           <button class="option-btn ${tv.size === '<32' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '<32')">Under 32"<br><small style="font-size:0.75rem;opacity:0.8;">$100</small></button>
-          <button class="option-btn ${tv.size === '32-64' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '32-64')">32"&ndash;64"<br><small style="font-size:0.75rem;opacity:0.8;">$125</small></button>
-          <button class="option-btn ${tv.size === '65-84' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '65-84')">65"&ndash;84"<br><small style="font-size:0.75rem;opacity:0.8;">$150</small></button>
-          <button class="option-btn ${tv.size === '85+' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '85+')">85"+<br><small style="font-size:0.75rem;opacity:0.8;">$200</small></button>
+          <button class="option-btn ${tv.size === '32-64' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '32-64')">32"&ndash;64"<br><small style="font-size:0.75rem;opacity:0.8;">$149</small></button>
+          <button class="option-btn ${tv.size === '65-84' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '65-84')">65"&ndash;84"<br><small style="font-size:0.75rem;opacity:0.8;">$179</small></button>
+          <button class="option-btn ${tv.size === '85+' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '85+')">85"+<br><small style="font-size:0.75rem;opacity:0.8;">$275</small></button>
         </div>
       </div>
       
@@ -3060,6 +3084,33 @@ function renderTVCards() {
         ${tv.mantelMount && tv.mantelMount !== 'false' ? `<div style="font-size:0.75rem;color:#059669;font-weight:600;margin-top:6px;">✓ Full deposit required at booking — includes mount + installation</div>` : `<div style="font-size:0.75rem;color:#999;margin-top:6px;">Select a model to add to your quote · Tap again to deselect</div>`}
       </div>
       ` : ''}
+      ${(function(){
+        var anyCond = tv.outdoor || tv.high || tv.frame;
+        var open = tv.condOpen || anyCond;
+        var masonry = ['brick','tile','stucco'].indexOf(tv.wall) > -1;
+        var boxCustom = tv.frame && tv.framePower === 'no' && masonry;
+        if (!open) return `<div onclick="setTVProp(${i},'condOpen',true)" style="margin-top:12px;padding-top:12px;border-top:1px solid #e5e7eb;font-size:0.78rem;color:#64748b;cursor:pointer;">▸ Special conditions — outdoor, 10ft+ height, Frame TV</div>`;
+        return `
+      <div style="margin-top:12px;padding-top:12px;border-top:1px solid #e5e7eb;">
+        <div onclick="setTVProp(${i},'condOpen',false)" style="font-size:0.78rem;color:#64748b;cursor:pointer;margin-bottom:10px;">▾ Special conditions</div>
+        <div style="display:flex;flex-wrap:wrap;gap:8px;">
+          <button class="option-btn ${tv.outdoor ? 'selected' : ''}" onclick="setTVProp(${i},'outdoor',${!tv.outdoor})" style="flex:1 1 140px;">Outdoor install<br><small style="font-size:0.72rem;opacity:0.8;">+$100</small></button>
+          <button class="option-btn ${tv.high ? 'selected' : ''}" onclick="setTVProp(${i},'high',${!tv.high})" style="flex:1 1 140px;">10ft+ / vaulted<br><small style="font-size:0.72rem;opacity:0.8;">+$75</small></button>
+          <button class="option-btn ${tv.frame ? 'selected' : ''}" onclick="setTVProp(${i},'frame',${!tv.frame})" style="flex:1 1 140px;">Frame TV<br><small style="font-size:0.72rem;opacity:0.8;">+$75</small></button>
+        </div>
+        ${tv.high ? `<div style="font-size:0.72rem;color:#92400e;margin-top:8px;">Over ~14 ft (two-story foyer)? Text a photo to (480) 903-4769 for a quote before booking.</div>` : ''}
+        ${tv.frame ? `
+        <div style="margin-top:12px;background:#f0f7ff;border:1px solid #b8daff;border-radius:8px;padding:12px 14px;">
+          <div style="font-size:0.8rem;font-weight:700;color:#0f1218;margin-bottom:8px;">Is there power directly behind the TV?</div>
+          <div style="display:flex;gap:8px;">
+            <button class="option-btn ${tv.framePower === 'yes' ? 'selected' : ''}" onclick="setTVProp(${i},'framePower','yes')" style="flex:1;">Yes</button>
+            <button class="option-btn ${tv.framePower === 'no' ? 'selected' : ''}" onclick="setTVProp(${i},'framePower','no')" style="flex:1;">No<br><small style="font-size:0.72rem;opacity:0.8;">${masonry ? 'quote' : '+$350'}</small></button>
+          </div>
+          ${tv.framePower === 'no' && !boxCustom ? `<div style="font-size:0.72rem;color:#475569;margin-top:8px;line-height:1.5;">Adds the in-wall media box package: recessed enclosure + power behind the TV so the Frame sits truly flush. One Connect extender hardware, if your run needs it, supplied at cost. Unusual wall situations confirmed before install day.</div>` : ''}
+          ${boxCustom ? `<div style="font-size:0.72rem;color:#92400e;margin-top:8px;line-height:1.5;">In-wall power through ${tv.wall} needs eyes on it first — text a photo of the wall to (480) 903-4769 and Brandon will confirm exact pricing. You can still book now; this line item will be quoted separately.</div>` : ''}
+        </div>` : ''}
+      </div>`;
+      })()}
 
     </div>
   `).join('');
@@ -3310,7 +3361,7 @@ async function loadBookingSlots() {
   
   try {
     // Call your existing availability API
-    const response = await fetch(`https://vistamount-worker.billowing-recipe-0ae7.workers.dev/availability?date=${selectedDate}&duration=120`);
+    const response = await fetch(`https://vistamount-worker.billowing-recipe-0ae7.workers.dev/availability?date=${selectedDate}&duration=${vmJobDuration()}`);
     const data = await response.json();
     
     if (data.slots && data.slots.length > 0) {
@@ -3474,7 +3525,7 @@ async function submitBooking() {
   // Build summary
   const summary = 'TVs:' + bookingState.tvs.length + ' ' + 
     bookingState.tvs.map((tv, i) => 
-      'TV' + (i+1) + ':' + tv.size + '/' + tv.mountType + '/' + tv.cords + '/' + tv.wall + (tv.fireplace ? '+fireplace' : '') + (tv.mantelMount && tv.mantelMount !== 'false' ? '/mantel-' + tv.mantelMount : '')
+      'TV' + (i+1) + ':' + tv.size + '/' + tv.mountType + '/' + tv.cords + '/' + tv.wall + (tv.fireplace ? '+fireplace' : '') + (tv.outdoor ? '+outdoor' : '') + (tv.high ? '+high' : '') + (tv.frame ? '+frame[power:' + tv.framePower + (tv.framePower === 'no' ? (['brick','tile','stucco'].indexOf(tv.wall) > -1 ? '/mediabox-CUSTOM-quote' : '/mediabox-$350') : '') + ']' : '') + (tv.mantelMount && tv.mantelMount !== 'false' ? '/mantel-' + tv.mantelMount : '')
     ).join(' ') +
     (bookingState.soundbars ? ' soundbars:' + bookingState.soundbars : '') +
     (bookingState.dismounts ? ' dismounts:' + bookingState.dismounts : '') +
@@ -3650,6 +3701,11 @@ function initBookingStep4() {
         ${lineItem('Cords', tvCordLabel(tv.cords), cordPrice)}
         ${lineItem('Wall', tvWallLabel(tv.wall), wallPrice)}
         ${tv.fireplace && !(tv.mantelMount && tv.mantelMount !== 'false' && tv.mantelMount !== 'none') ? lineItem('Fireplace', 'Above fireplace', 75) : ''}
+        ${tv.outdoor ? lineItem('Outdoor', 'Weatherproof install', 100) : ''}
+        ${tv.high ? lineItem('Height', '10ft+ / vaulted', 75) : ''}
+        ${tv.frame ? lineItem('Frame TV', 'Zero-gap + Art Mode', 75) : ''}
+        ${tv.frame && tv.framePower === 'no' && ['brick','tile','stucco'].indexOf(tv.wall) === -1 ? lineItem('Media box', 'In-wall power package', 350) : ''}
+        ${tv.frame && tv.framePower === 'no' && ['brick','tile','stucco'].indexOf(tv.wall) > -1 ? `<div style="display:flex;justify-content:space-between;font-size:0.82rem;color:#92400e;padding:4px 0;"><span>Media box (masonry)</span><span>Quoted by text</span></div>` : ''}
       </div>`;
   }).join('');
 
@@ -4253,16 +4309,16 @@ function closeLightbox(){
         </div>
         <div class="size-card">
           <div class="size-label">32" &ndash; 64"</div>
-          <div class="size-price">$125</div>
+          <div class="size-price">$149</div>
           <div class="size-tag">Most common</div>
         </div>
         <div class="size-card">
           <div class="size-label">65" &ndash; 84"</div>
-          <div class="size-price">$150</div>
+          <div class="size-price">$179</div>
         </div>
         <div class="size-card">
           <div class="size-label">85"+</div>
-          <div class="size-price">$200</div>
+          <div class="size-price">$275</div>
         </div>
       </div>
     </div>
@@ -4372,6 +4428,83 @@ function closeLightbox(){
       </div>
     </div>
   </section>
+
+<!-- BIG BOX COMPARISON -->
+<section id="compare" style="background:#06080f;padding:80px 20px;border-top:1px solid rgba(255,255,255,0.08);">
+  <div style="max-width:1000px;margin:0 auto;">
+    <div style="text-align:center;margin-bottom:40px;">
+      <div style="font-size:11px;letter-spacing:4px;text-transform:uppercase;color:#2563eb;font-weight:700;margin-bottom:14px;">Honest Comparison</div>
+      <h2 style="font-family:'Bebas Neue',sans-serif;font-size:clamp(34px,5.5vw,58px);line-height:1.04;color:#fff;margin:0 0 14px;">VistaMount vs. the big-box install</h2>
+      <p style="font-size:15px;color:rgba(255,255,255,0.6);max-width:640px;margin:0 auto;line-height:1.6;">Best Buy and Costco prices look simple until you read the service terms. Here's what each actually includes.</p>
+    </div>
+    <div style="overflow-x:auto;-webkit-overflow-scrolling:touch;">
+      <table style="width:100%;min-width:680px;border-collapse:collapse;font-size:14px;color:rgba(255,255,255,0.85);">
+        <thead>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.15);">
+            <th style="text-align:left;padding:12px 14px;font-weight:600;color:rgba(255,255,255,0.5);font-size:12px;text-transform:uppercase;letter-spacing:1px;"></th>
+            <th style="text-align:left;padding:12px 14px;background:rgba(37,99,235,0.12);border-radius:8px 8px 0 0;"><span style="font-family:'Bebas Neue',sans-serif;font-size:1.15rem;letter-spacing:.05em;color:#4facff;">VistaMount</span></th>
+            <th style="text-align:left;padding:12px 14px;font-weight:600;color:rgba(255,255,255,0.7);">Best Buy<br><span style="font-weight:400;font-size:12px;color:rgba(255,255,255,0.45);">Geek Squad</span></th>
+            <th style="text-align:left;padding:12px 14px;font-weight:600;color:rgba(255,255,255,0.7);">Costco<br><span style="font-weight:400;font-size:12px;color:rgba(255,255,255,0.45);">via Angi / Handy</span></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+            <td style="padding:12px 14px;color:rgba(255,255,255,0.6);">Who shows up</td>
+            <td style="padding:12px 14px;background:rgba(37,99,235,0.08);">The owner — 800+ installs, 4.9★</td>
+            <td style="padding:12px 14px;">Geek Squad tech or service partner</td>
+            <td style="padding:12px 14px;">Gig-platform pro, varies by job</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+            <td style="padding:12px 14px;color:rgba(255,255,255,0.6);">65"–84" TV mounting</td>
+            <td style="padding:12px 14px;background:rgba(37,99,235,0.08);">$179, exact price before you book</td>
+            <td style="padding:12px 14px;">$129–$249 + add-on fees</td>
+            <td style="padding:12px 14px;">$149.99 — you may be asked to help lift, or +$50 for a 2nd pro</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+            <td style="padding:12px 14px;color:rgba(255,255,255,0.6);">Tile, stone &amp; brick walls</td>
+            <td style="padding:12px 14px;background:rgba(37,99,235,0.08);">Yes — priced upfront</td>
+            <td style="padding:12px 14px;">Extra fees, non-drywall surcharge</td>
+            <td style="padding:12px 14px;">Tile excluded; no concealment in brick/concrete</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+            <td style="padding:12px 14px;color:rgba(255,255,255,0.6);">Fireplace &amp; MantelMount pull-down</td>
+            <td style="padding:12px 14px;background:rgba(37,99,235,0.08);">Yes — incl. supplied MantelMount</td>
+            <td style="padding:12px 14px;">Fireplace +$99.99; no pull-down service</td>
+            <td style="padding:12px 14px;">Not offered</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+            <td style="padding:12px 14px;color:rgba(255,255,255,0.6);">In-wall power / Frame TV media box</td>
+            <td style="padding:12px 14px;background:rgba(37,99,235,0.08);">Yes — $350 package</td>
+            <td style="padding:12px 14px;">Can't run power in-wall — "call an electrician"</td>
+            <td style="padding:12px 14px;">Electrical work excluded</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+            <td style="padding:12px 14px;color:rgba(255,255,255,0.6);">Mount hardware</td>
+            <td style="padding:12px 14px;background:rgba(37,99,235,0.08);">Bring your own or we supply</td>
+            <td style="padding:12px 14px;">Sold separately</td>
+            <td style="padding:12px 14px;">You must supply mount, kit &amp; cables</td>
+          </tr>
+          <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
+            <td style="padding:12px 14px;color:rgba(255,255,255,0.6);">Box &amp; packaging haul-away</td>
+            <td style="padding:12px 14px;background:rgba(37,99,235,0.08);">Included</td>
+            <td style="padding:12px 14px;">Not included in mounting service</td>
+            <td style="padding:12px 14px;">Excluded</td>
+          </tr>
+          <tr>
+            <td style="padding:12px 14px;color:rgba(255,255,255,0.6);">Scheduling</td>
+            <td style="padding:12px 14px;background:rgba(37,99,235,0.08);border-radius:0 0 8px 8px;">Book online in 60 seconds, same-day available</td>
+            <td style="padding:12px 14px;">Scheduled appointment</td>
+            <td style="padding:12px 14px;">Email within 24h; earliest day after TV delivery</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    <p style="font-size:11.5px;color:rgba(255,255,255,0.35);margin:16px 0 28px;text-align:center;">Competitor details from published service terms and pricing, June 2026. Verify current terms with each provider.</p>
+    <div style="text-align:center;">
+      <button onclick="openBookingModal()" style="background:linear-gradient(135deg,#2563eb,#1d4ed8);color:#fff;border:none;padding:16px 36px;border-radius:999px;font-size:15px;font-weight:700;cursor:pointer;box-shadow:0 8px 24px rgba(37,99,235,0.35);">Get Your Exact Price &rarr;</button>
+    </div>
+  </div>
+</section>
 <section class="guarantee-section" style="background:linear-gradient(135deg,#0b0d18 0%,#0f1218 100%);padding:clamp(64px,10vh,110px) 24px;color:#fff;position:relative;overflow:hidden;">
   <div style="position:absolute;inset:0;background:radial-gradient(ellipse at 20% 40%,rgba(30,95,196,0.15) 0%,transparent 50%),radial-gradient(ellipse at 80% 60%,rgba(79,172,255,0.08) 0%,transparent 50%);pointer-events:none;"></div>
   <div class="inner" style="max-width:1120px;margin:0 auto;position:relative;z-index:1;">
@@ -5048,10 +5181,10 @@ var co=new IntersectionObserver(function(es){
 document.querySelectorAll('.count').forEach(function(el){co.observe(el);});
 
 // ==================== BOOKING FORM ====================
-var mainState={tvs:[{size:'32-64',mount:'own',cords:'none',wall:'drywall',fireplace:false}],soundbars:0,dismounts:0,tvcount:1};
+var mainState={tvs:[{size:'32-64',mount:'own',cords:'none',wall:'drywall',fireplace:false,outdoor:false,high:false,frame:false,framePower:'yes',condOpen:false}],soundbars:0,dismounts:0,tvcount:1};
 var selectedSlot=null;
 var WORKER='https://vistamount-worker.billowing-recipe-0ae7.workers.dev';
-var MAIN_PRICES={'<32':100,'32-64':125,'65-84':150,'85+':200};
+var MAIN_PRICES={'<32':100,'32-64':149,'65-84':179,'85+':275};
 var MAIN_WALL_PRICES={drywall:0,stucco:75,brick:100,tile:150,fireplace:75};
 var MAIN_MOUNT_LABELS={fullmotion:'Full-Motion Mount',tilt:'Tilt Mount',flat:'Flat/Fixed Mount',own:'Customer Mount'};
 var MAIN_CORDS_LABELS={none:'No Cord Management',raceway:'On-Wall Raceway',inwall:'In-Wall Concealment',outlet:'In-Wall + Outlet'};
@@ -5063,7 +5196,7 @@ function setMainTVCount(n,btn){
   btn.classList.add('selected');
   mainState.tvcount=n;
   if(n>=4){return;}
-  while(mainState.tvs.length<n)mainState.tvs.push({size:'32-64',mount:'own',cords:'none',wall:'drywall',fireplace:false});
+  while(mainState.tvs.length<n)mainState.tvs.push({size:'32-64',mount:'own',cords:'none',wall:'drywall',fireplace:false,outdoor:false,high:false,frame:false,framePower:'yes',condOpen:false});
   mainState.tvs=mainState.tvs.slice(0,n);
   
   calcMainEst();
@@ -5172,7 +5305,7 @@ function loadSlots(){
   selectedSlot=null;
   document.getElementById('time-next-btn').style.opacity='.4';
   document.getElementById('time-next-btn').style.pointerEvents='none';
-  fetch(WORKER+'/availability?date='+date+'&duration=120')
+  fetch(WORKER+'/availability?date='+date+'&duration=${vmJobDuration()}')
     .then(function(r){return r.json();})
     .then(function(data){
       var slots=data.slots||[];
