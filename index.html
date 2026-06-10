@@ -2476,6 +2476,8 @@ function calculatePrice() {
     if (hasMantelMount) {
       // MantelMount is all-in (mount + labor) — replaces base TV price entirely
       total += mantelPrices[tv.mantelMount];
+      // Masonry/tile fireplace surface adds drilling labor on top of all-in price
+      total += ({'stucco':100,'brick':100,'concrete':100,'tile':150}[tv.wall] || 0);
     } else {
       // Standard pricing
       if (tv.size === '<32') total += 100;
@@ -2494,7 +2496,7 @@ function calculatePrice() {
         if (tv.wall === 'stucco') total += 75;
         else if (tv.wall === 'brick') total += 100;
         else if (tv.wall === 'tile') total += 150;
-        else if (tv.wall === 'fireplace') total += 75;
+        if (tv.fireplace) total += 75;
       }
     }
 
@@ -2941,11 +2943,18 @@ function renderTVCards() {
           <button class="option-btn ${tv.wall === 'stucco' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'stucco')">Stucco<br><small style="font-size:0.75rem;opacity:0.8;">+$75</small></button>
           <button class="option-btn ${tv.wall === 'brick' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'brick')">Brick<br><small style="font-size:0.75rem;opacity:0.8;">+$100</small></button>
           <button class="option-btn ${tv.wall === 'tile' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'tile')">Tile/Stone<br><small style="font-size:0.75rem;opacity:0.8;">+$150</small></button>
-          <button class="option-btn ${tv.wall === 'fireplace' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'fireplace')">Fireplace<br><small style="font-size:0.75rem;opacity:0.8;">+$75</small></button>
+          
         </div>
       </div>
 
-      ${tv.wall === 'fireplace' ? `
+      <div style="margin-top:14px;">
+        <div style="font-size:0.8rem;font-weight:700;color:#0f1218;margin-bottom:8px;">Mounting above a fireplace?</div>
+        <div style="display:flex;gap:8px;">
+          <button class="option-btn ${!tv.fireplace ? 'selected' : ''}" onclick="setTVProp(${i}, 'fireplace', false)">No</button>
+          <button class="option-btn ${tv.fireplace ? 'selected' : ''}" onclick="setTVProp(${i}, 'fireplace', true)">Yes<br><small style="font-size:0.75rem;opacity:0.8;">+$75</small></button>
+        </div>
+      </div>
+      ${tv.fireplace ? `
       <div style="margin-top:12px;background:linear-gradient(135deg,#fff8f0,#fff3e0);border:1px solid #f59e0b;border-radius:10px;padding:16px;">
         <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
           <span style="font-size:1.2rem;">🔥</span>
@@ -3047,6 +3056,7 @@ function renderTVCards() {
           </div>
 
         </div>
+        ${({'stucco':100,'brick':100,'concrete':100,'tile':150})[tv.wall] ? `<div style="font-size:0.73rem;color:#b45309;font-weight:600;margin-top:6px;">${tvWallLabel(tv.wall)} fireplace surface: +$${({'stucco':100,'brick':100,'concrete':100,'tile':150})[tv.wall]} drilling labor added to pricing below</div>` : ''}
         ${tv.mantelMount && tv.mantelMount !== 'false' ? `<div style="font-size:0.75rem;color:#059669;font-weight:600;margin-top:6px;">✓ Full deposit required at booking — includes mount + installation</div>` : `<div style="font-size:0.75rem;color:#999;margin-top:6px;">Select a model to add to your quote · Tap again to deselect</div>`}
       </div>
       ` : ''}
@@ -3069,6 +3079,7 @@ function toggleMantelMount(index, model) {
 
 function setTVProp(index, prop, value) {
   bookingState.tvs[index][prop] = value;
+  if (prop === 'fireplace' && !value) bookingState.tvs[index].mantelMount = false;
   renderTVCards();
   updatePriceDisplay();
   updatePriceDisplay();
@@ -3463,7 +3474,7 @@ async function submitBooking() {
   // Build summary
   const summary = 'TVs:' + bookingState.tvs.length + ' ' + 
     bookingState.tvs.map((tv, i) => 
-      'TV' + (i+1) + ':' + tv.size + '/' + tv.mountType + '/' + tv.cords + '/' + tv.wall + (tv.mantelMount && tv.mantelMount !== 'false' ? '/mantel-' + tv.mantelMount : '')
+      'TV' + (i+1) + ':' + tv.size + '/' + tv.mountType + '/' + tv.cords + '/' + tv.wall + (tv.fireplace ? '+fireplace' : '') + (tv.mantelMount && tv.mantelMount !== 'false' ? '/mantel-' + tv.mantelMount : '')
     ).join(' ') +
     (bookingState.soundbars ? ' soundbars:' + bookingState.soundbars : '') +
     (bookingState.dismounts ? ' dismounts:' + bookingState.dismounts : '') +
@@ -3583,7 +3594,7 @@ function initBookingStep4() {
   const tvSizePrice = s => ({'<32':100,'32-64':125,'65-84':150,'85+':200}[s] || 0);
   const tvMountPrice = m => ({'fullmotion':90,'fixed':45,'tilting':45}[m] || 0);
   const tvCordPrice = c => ({'raceway':50,'concealed':75}[c] || 0);
-  const tvWallPrice = (w, tv) => (tv && tv.mantelMount && tv.mantelMount !== 'false' && tv.mantelMount !== 'none') ? 0 : ({'stucco':75,'brick':100,'tile':150,'concrete':100,'fireplace':75}[w] || 0);
+  const tvWallPrice = (w, tv) => (tv && tv.mantelMount && tv.mantelMount !== 'false' && tv.mantelMount !== 'none') ? ({'stucco':100,'brick':100,'concrete':100,'tile':150}[w] || 0) : ({'stucco':75,'brick':100,'tile':150,'concrete':100}[w] || 0);
 
   const mantelPricesStep4 = {'mm340':575,'mm540':699,'mm700':885,'max1':1135,'mm815':1325};
   const mantelNamesStep4 = {'mm340':'MM340 Standard','mm540':'MM540 Enhanced','mm700':'MM700 Premier','max1':'MAX1 Full Motion','mm815':'MM815 Motorized'};
@@ -3638,6 +3649,7 @@ function initBookingStep4() {
         ${lineItem('Mount', tvMountLabel(tv.mountType), mountPrice)}
         ${lineItem('Cords', tvCordLabel(tv.cords), cordPrice)}
         ${lineItem('Wall', tvWallLabel(tv.wall), wallPrice)}
+        ${tv.fireplace && !(tv.mantelMount && tv.mantelMount !== 'false' && tv.mantelMount !== 'none') ? lineItem('Fireplace', 'Above fireplace', 75) : ''}
       </div>`;
   }).join('');
 
@@ -5036,7 +5048,7 @@ var co=new IntersectionObserver(function(es){
 document.querySelectorAll('.count').forEach(function(el){co.observe(el);});
 
 // ==================== BOOKING FORM ====================
-var mainState={tvs:[{size:'32-64',mount:'own',cords:'none',wall:'drywall'}],soundbars:0,dismounts:0,tvcount:1};
+var mainState={tvs:[{size:'32-64',mount:'own',cords:'none',wall:'drywall',fireplace:false}],soundbars:0,dismounts:0,tvcount:1};
 var selectedSlot=null;
 var WORKER='https://vistamount-worker.billowing-recipe-0ae7.workers.dev';
 var MAIN_PRICES={'<32':100,'32-64':125,'65-84':150,'85+':200};
@@ -5051,7 +5063,7 @@ function setMainTVCount(n,btn){
   btn.classList.add('selected');
   mainState.tvcount=n;
   if(n>=4){return;}
-  while(mainState.tvs.length<n)mainState.tvs.push({size:'32-64',mount:'own',cords:'none',wall:'drywall'});
+  while(mainState.tvs.length<n)mainState.tvs.push({size:'32-64',mount:'own',cords:'none',wall:'drywall',fireplace:false});
   mainState.tvs=mainState.tvs.slice(0,n);
   
   calcMainEst();
