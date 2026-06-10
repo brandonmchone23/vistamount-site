@@ -2258,6 +2258,8 @@ function vmZipLookup(zip){
   }
   return { miles: Math.round(miles * 10) / 10, fee: fee, known: true, coords: c };
 }
+// Parse YYYY-MM-DD as LOCAL date (new Date('YYYY-MM-DD') is UTC midnight = previous day in Phoenix)
+function vmLocalDate(s){ var p = String(s).split('-'); return new Date(+p[0], +p[1]-1, +p[2]); }
 function vmIsSameDay(){
   const s = bookingState.selectedSlot;
   if(!s || !s.start) return false;
@@ -3560,7 +3562,7 @@ function initBookingStep4() {
   
   let dateTimeDisplay = '';
   if (bookingState.selectedDate) {
-    const date = new Date(bookingState.selectedDate);
+    const date = vmLocalDate(bookingState.selectedDate);
     const dateStr = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
     const timeStr = bookingState.selectedSlot ? bookingState.selectedSlot.time : 'Time TBD';
     dateTimeDisplay = `
@@ -3769,7 +3771,7 @@ function initBookingStep4() {
           <div style="background:#eef4ff;border:1px solid #b8daff;border-radius:6px;padding:12px;margin-bottom:12px;font-size:0.78rem;line-height:1.8;">
             <strong>Customer:</strong> ${(window._step4Cache && (window._step4Cache.fname || window._step4Cache.lname)) ? (window._step4Cache.fname + ' ' + window._step4Cache.lname).trim() : '[Your Name]'}<br>
             <strong>Service Address:</strong> ${(window._step4Cache && window._step4Cache.address) ? window._step4Cache.address : '[Your Address]'}<br>
-            <strong>Appointment:</strong> ${bookingState.selectedDate ? new Date(bookingState.selectedDate).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}) + (bookingState.selectedSlot ? ' at ' + bookingState.selectedSlot.time : '') : '[Selected Date & Time]'}<br>
+            <strong>Appointment:</strong> ${bookingState.selectedDate ? vmLocalDate(bookingState.selectedDate).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}) + (bookingState.selectedSlot ? ' at ' + bookingState.selectedSlot.time : '') : '[Selected Date & Time]'}<br>
             <strong>Services:</strong> ${bookingState.tvs ? bookingState.tvs.length + ' TV' + (bookingState.tvs.length > 1 ? 's' : '') + ' — ' + bookingState.tvs.map((tv,i) => {const sizes={'<32':'Under 32"','32-64':'32"–64"','65-84':'65"–84"','85+':'85"+'};const mounts={fixed:'Fixed Mount',tilting:'Tilting Mount',fullmotion:'Full-Motion',own:'Customer Mount'};return 'TV'+(i+1)+': '+( sizes[tv.size]||tv.size)+' / '+(mounts[tv.mountType]||tv.mountType);}).join(', ') : '[Services Selected]'}<br>
             ${(bookingState.delivery && bookingState.delivery.on) ? '<strong>TV Delivery:</strong> ' + (vmDeliveryStatus() === 'custom' ? 'custom (quoted separately)' : '$' + vmDeliveryFee()) + '<br>' : ''}${bookingState.fuelSurcharge > 0 ? '<strong>Travel/Fuel:</strong> $' + bookingState.fuelSurcharge + (bookingState.zip ? ' (ZIP ' + bookingState.zip + ')' : '') + '<br>' : ''}${vmIsSameDay() ? '<strong>Same-Day Fee:</strong> $' + VM_TRAVEL.sameDayFee + '<br>' : ''}<strong>Quoted Price:</strong> $${calculatePrice()}
           </div>
