@@ -2491,7 +2491,8 @@ function calculatePrice() {
   let total = 0;
   
   // Base TV pricing
-  const mantelPrices = {'mm340':575,'mm540':699,'mm700':885,'max1':1135,'mm815':1325};
+  // 'own' = customer-supplied MantelMount, labor-only all-in install
+  const mantelPrices = {'own':275,'mm340':575,'mm540':699,'mm700':885,'max1':1135,'mm815':1325};
   bookingState.tvs.forEach((tv, i) => {
     const hasMantelMount = tv.mantelMount && mantelPrices[tv.mantelMount];
 
@@ -2983,121 +2984,68 @@ function renderTVCards() {
           <button class="option-btn ${tv.fireplace ? 'selected' : ''}" onclick="setTVProp(${i}, 'fireplace', true)">Yes<br><small style="font-size:0.75rem;opacity:0.8;">+$75</small></button>
         </div>
       </div>
-      ${tv.fireplace ? `
-      <div style="margin-top:12px;background:linear-gradient(135deg,#fff8f0,#fff3e0);border:1px solid #f59e0b;border-radius:10px;padding:16px;">
-        <div style="display:flex;align-items:center;gap:8px;margin-bottom:4px;">
-          <span style="font-size:1.2rem;">🔥</span>
-          <span style="font-size:0.78rem;font-weight:700;color:#b45309;letter-spacing:.06em;text-transform:uppercase;">MantelMount Pull-Down Upgrade</span>
-        </div>
-        <div style="font-size:0.8rem;color:#555;line-height:1.6;margin-bottom:14px;">
-          Instead of your TV sitting high and fixed above the fireplace, a MantelMount lets you <strong>pull it down to eye level</strong> when watching and raise it back up when done. Heat sensor handles alert you if it gets too hot. We supply the mount and install everything — just pick your model below.
-        </div>
-
-        <div style="display:flex;flex-direction:column;gap:8px;margin-bottom:4px;">
-
-          <div onclick="toggleMantelMount(${i}, 'none')"
-            style="background:#fff;border:2px solid ${tv.mantelMount === 'none' || !tv.mantelMount || tv.mantelMount === 'false' ? '#1e5fc4' : '#e5e7eb'};border-radius:8px;padding:12px 14px;cursor:pointer;transition:all .2s;">
-            <div style="display:flex;justify-content:space-between;align-items:center;">
-              <div>
-                <div style="font-size:0.85rem;font-weight:700;color:#0f1218;">Standard Mount — No Pull-Down</div>
-                <div style="font-size:0.75rem;color:#666;margin-top:2px;">Fixed or tilting mount above fireplace · No vertical travel · Lower cost</div>
-              </div>
-              <div style="text-align:right;flex-shrink:0;margin-left:12px;">
-                <div style="font-size:0.9rem;font-weight:700;color:#1e5fc4;">+$75</div>
-                <div style="font-size:0.65rem;color:#999;">fireplace upcharge</div>
-              </div>
-            </div>
-          </div>
-
-          <div onclick="toggleMantelMount(${i}, 'mm340')"
-            style="background:#fff;border:2px solid ${tv.mantelMount === 'mm340' ? '#1e5fc4' : '#e5e7eb'};border-radius:8px;padding:12px 14px;cursor:pointer;transition:all .2s;">
-            <div style="display:flex;justify-content:space-between;align-items:center;">
-              <div>
-                <div style="font-size:0.85rem;font-weight:700;color:#0f1218;">MM340 — Standard</div>
-                <div style="font-size:0.75rem;color:#666;margin-top:2px;">44"–80" TVs up to 90 lbs · 27" drop · Swivels 30° · Entry level</div>
-                <div style="font-size:0.72rem;color:#888;margin-top:3px;">Mount $299 + markup + $200 labor</div>
-              </div>
-              <div style="text-align:right;flex-shrink:0;margin-left:12px;">
-                <div style="font-size:0.9rem;font-weight:700;color:#1e5fc4;">$575</div>
-                <div style="font-size:0.65rem;color:#999;">all-in · full deposit</div>
-              </div>
-            </div>
-          </div>
-
-          <div onclick="toggleMantelMount(${i}, 'mm540')"
-            style="background:#fff;border:2px solid ${tv.mantelMount === 'mm540' ? '#1e5fc4' : '#e5e7eb'};border-radius:8px;padding:12px 14px;cursor:pointer;transition:all .2s;">
-            <div style="display:flex;justify-content:space-between;align-items:center;">
-              <div>
-                <div style="font-size:0.85rem;font-weight:700;color:#0f1218;">MM540 — Enhanced <span style="font-size:0.7rem;background:#fef3c7;color:#b45309;padding:2px 6px;border-radius:4px;margin-left:4px;">Most Popular</span></div>
-                <div style="font-size:0.75rem;color:#666;margin-top:2px;">44"–80" TVs up to 90 lbs · Heat sensor handles · Soundbar attachment · Paintable covers</div>
-                <div style="font-size:0.72rem;color:#888;margin-top:3px;">Mount $399 + markup + $200 labor</div>
-              </div>
-              <div style="text-align:right;flex-shrink:0;margin-left:12px;">
-                <div style="font-size:0.9rem;font-weight:700;color:#1e5fc4;">$699</div>
-                <div style="font-size:0.65rem;color:#999;">all-in · full deposit</div>
-              </div>
-            </div>
-          </div>
-
-          <div onclick="toggleMantelMount(${i}, 'mm700')"
-            style="background:#fff;border:2px solid ${tv.mantelMount === 'mm700' ? '#1e5fc4' : '#e5e7eb'};border-radius:8px;padding:12px 14px;cursor:pointer;transition:all .2s;">
-            <div style="display:flex;justify-content:space-between;align-items:center;">
-              <div>
-                <div style="font-size:0.85rem;font-weight:700;color:#0f1218;">MM700 — Premier</div>
-                <div style="font-size:0.75rem;color:#666;margin-top:2px;">50"–90" TVs up to 115 lbs · Heavy duty steel · Award-winning build · Best for large TVs</div>
-                <div style="font-size:0.72rem;color:#888;margin-top:3px;">Mount $549 + markup + $200 labor</div>
-              </div>
-              <div style="text-align:right;flex-shrink:0;margin-left:12px;">
-                <div style="font-size:0.9rem;font-weight:700;color:#1e5fc4;">$885</div>
-                <div style="font-size:0.65rem;color:#999;">all-in · full deposit</div>
-              </div>
-            </div>
-          </div>
-
-          <div onclick="toggleMantelMount(${i}, 'max1')"
-            style="background:#fff;border:2px solid ${tv.mantelMount === 'max1' ? '#1e5fc4' : '#e5e7eb'};border-radius:8px;padding:12px 14px;cursor:pointer;transition:all .2s;">
-            <div style="display:flex;justify-content:space-between;align-items:center;">
-              <div>
-                <div style="font-size:0.85rem;font-weight:700;color:#0f1218;">MAX1 — Full Motion <span style="font-size:0.7rem;background:#e0f2fe;color:#0369a1;padding:2px 6px;border-radius:4px;margin-left:4px;">Newest</span></div>
-                <div style="font-size:0.75rem;color:#666;margin-top:2px;">Up to 100" · Full range motion (horizontal + vertical) · Flushest to wall · Ultimate install</div>
-                <div style="font-size:0.72rem;color:#888;margin-top:3px;">Mount $749 + markup + $200 labor</div>
-              </div>
-              <div style="text-align:right;flex-shrink:0;margin-left:12px;">
-                <div style="font-size:0.9rem;font-weight:700;color:#1e5fc4;">$1,135</div>
-                <div style="font-size:0.65rem;color:#999;">all-in · full deposit</div>
-              </div>
-            </div>
-          </div>
-
-          <div onclick="toggleMantelMount(${i}, 'mm815')"
-            style="background:#fff;border:2px solid ${tv.mantelMount === 'mm815' ? '#1e5fc4' : '#e5e7eb'};border-radius:8px;padding:12px 14px;cursor:pointer;transition:all .2s;">
-            <div style="display:flex;justify-content:space-between;align-items:center;">
-              <div>
-                <div style="font-size:0.85rem;font-weight:700;color:#0f1218;">MM815 — Motorized <span style="font-size:0.7rem;background:#f3e8ff;color:#7c3aed;padding:2px 6px;border-radius:4px;margin-left:4px;">Premium</span></div>
-                <div style="font-size:0.75rem;color:#666;margin-top:2px;">45"–90" TVs up to 115 lbs · Remote controlled drop & swivel · One-button operation</div>
-                <div style="font-size:0.72rem;color:#888;margin-top:3px;">Mount $899 + markup + $200 labor</div>
-              </div>
-              <div style="text-align:right;flex-shrink:0;margin-left:12px;">
-                <div style="font-size:0.9rem;font-weight:700;color:#1e5fc4;">$1,325</div>
-                <div style="font-size:0.65rem;color:#999;">all-in · full deposit</div>
-              </div>
-            </div>
-          </div>
-
-        </div>
-        ${({'stucco':100,'brick':100,'concrete':100,'tile':150})[tv.wall] ? `<div style="font-size:0.73rem;color:#b45309;font-weight:600;margin-top:6px;">${({'stucco':'Stucco','brick':'Brick','concrete':'Concrete','tile':'Tile/Stone'})[tv.wall]} fireplace surface: +$${({'stucco':100,'brick':100,'concrete':100,'tile':150})[tv.wall]} drilling labor added to pricing below</div>` : ''}
-        ${tv.mantelMount && tv.mantelMount !== 'false' ? `<div style="font-size:0.75rem;color:#059669;font-weight:600;margin-top:6px;">✓ Full deposit required at booking — includes mount + installation</div>` : `<div style="font-size:0.75rem;color:#999;margin-top:6px;">Select a model to add to your quote · Tap again to deselect</div>`}
-      </div>
-      ` : ''}
+      ${tv.fireplace ? (function(){
+        var surfMap = {'stucco':100,'brick':100,'concrete':100,'tile':150};
+        var surfNames = {'stucco':'Stucco','brick':'Brick','concrete':'Concrete','tile':'Tile/Stone'};
+        var surf = surfMap[tv.wall] || 0;
+        var choice = tv.mmChoice || (tv.mantelMount === 'none' ? 'standard' : (tv.mantelMount === 'own' ? 'own' : (tv.mantelMount && tv.mantelMount !== 'false' ? 'buy' : false)));
+        var sel = function(on){ return 'background:#fff;border:2px solid ' + (on ? '#1e5fc4' : '#e5e7eb') + ';border-radius:8px;padding:12px 14px;cursor:pointer;transition:all .2s;'; };
+        var badge = function(t){ return t ? '<span style="font-size:0.68rem;background:#f7f1e3;color:#8a6d1f;border:1px solid #e2d4ae;padding:2px 6px;border-radius:4px;margin-left:6px;font-weight:700;white-space:nowrap;">' + t + '</span>' : ''; };
+        var card = function(onclick, on, title, desc, priceHtml, subHtml){
+          return '<div onclick="' + onclick + '" style="' + sel(on) + '">' +
+            '<div style="display:flex;justify-content:space-between;align-items:center;">' +
+            '<div><div style="font-size:0.85rem;font-weight:700;color:#0f1218;">' + title + '</div>' +
+            '<div style="font-size:0.75rem;color:#666;margin-top:2px;">' + desc + '</div></div>' +
+            '<div style="text-align:right;flex-shrink:0;margin-left:12px;">' +
+            '<div style="font-size:0.9rem;font-weight:700;color:#1e5fc4;">' + priceHtml + '</div>' +
+            '<div style="font-size:0.65rem;color:#999;">' + subHtml + '</div>' +
+            '</div></div></div>';
+        };
+        var choiceCards =
+          card('setMMChoice(' + i + ", 'standard')", choice === 'standard',
+            'Standard Mount — No Pull-Down',
+            'Fixed or tilting mount above the fireplace \u00b7 No vertical travel \u00b7 Lower cost',
+            '+$75', 'fireplace add-on') +
+          card('setMMChoice(' + i + ", 'own')", choice === 'own',
+            'I Already Have a MantelMount',
+            'You supply the pull-down mount (any model) \u2014 we handle the full installation',
+            '$' + (275 + surf), surf ? 'incl. ' + surfNames[tv.wall] + ' drilling' : 'labor \u00b7 all-in') +
+          card('setMMChoice(' + i + ", 'buy')", choice === 'buy',
+            'New MantelMount — We Supply + Install',
+            'Pick your model below \u00b7 Heat-sensor and motorized options available',
+            'From $' + (575 + surf).toLocaleString(), 'mount + install');
+        var models = [
+          {id:'mm340', n:'MM340 — Standard', d:'44\u2033\u201380\u2033 TVs up to 90 lbs \u00b7 27\u2033 drop \u00b7 Swivels 30\u00b0', p:575, b:''},
+          {id:'mm540', n:'MM540 — Enhanced', d:'44\u2033\u201380\u2033 up to 90 lbs \u00b7 Heat-sensor handles \u00b7 Soundbar attachment \u00b7 Paintable covers', p:699, b:'Most Popular'},
+          {id:'mm700', n:'MM700 — Premier', d:'50\u2033\u201390\u2033 TVs up to 115 lbs \u00b7 Heavy-duty steel \u00b7 Best for large TVs', p:885, b:''},
+          {id:'max1', n:'MAX1 — Full Motion', d:'Up to 100\u2033 \u00b7 Full horizontal + vertical motion \u00b7 Flushest to wall', p:1135, b:'Newest', prem:true},
+          {id:'mm815', n:'MM815 — Motorized', d:'45\u2033\u201390\u2033 up to 115 lbs \u00b7 Remote-controlled drop &amp; swivel \u00b7 One-button operation', p:1325, b:'Premium', prem:true}
+        ];
+        var visible = models.filter(function(m){ return !m.prem || tv.mmShowAll || tv.mantelMount === m.id; });
+        var hiddenCount = models.length - visible.length;
+        var modelCards = visible.map(function(m){
+          return card('toggleMantelMount(' + i + ", '" + m.id + "')", tv.mantelMount === m.id,
+            m.n + badge(m.b),
+            m.d + '<div style="font-size:0.72rem;color:#888;margin-top:3px;">Includes mount hardware + professional installation</div>',
+            '$' + (m.p + surf).toLocaleString(),
+            surf ? 'incl. ' + surfNames[tv.wall] + ' drilling' : 'all-in');
+        }).join('');
+        var expander = hiddenCount ? '<div onclick="setTVProp(' + i + ",'mmShowAll',true)" + '" style="text-align:center;font-size:0.78rem;font-weight:600;color:#1e5fc4;cursor:pointer;padding:8px;border:1px dashed #cbd5e1;border-radius:8px;">Show premium models \u2014 MAX1 &amp; motorized MM815 \u25be</div>' : '';
+        var picker = choice === 'buy' ? '<div style="display:flex;flex-direction:column;gap:8px;margin-top:10px;">' + modelCards + expander + '</div>' + (tv.mantelMount && tv.mantelMount !== 'false' && tv.mantelMount !== 'none' ? '' : '<div style="font-size:0.75rem;color:#999;margin-top:6px;">Select a model to add it to your quote \u00b7 Tap again to deselect</div>') : '';
+        var perkNote = (tv.mantelMount && tv.mantelMount !== 'false' && tv.mantelMount !== 'none') ? '<div style="font-size:0.75rem;color:#059669;font-weight:600;margin-top:8px;">\u2713 On-wall cord concealment included \u00b7 Full deposit at booking covers everything shown</div>' : '';
+        return '<div style="margin-top:12px;background:#fff;border:1px solid #e2d4ae;border-left:3px solid #C9A24B;border-radius:10px;padding:16px;">' +
+          '<div style="font-size:0.78rem;font-weight:700;color:#11233F;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;">Above-Fireplace Mounting</div>' +
+          '<div style="font-size:0.8rem;color:#555;line-height:1.6;margin-bottom:14px;">A <strong>MantelMount</strong> pull-down lets you bring the TV to eye level when watching and raise it back when done \u2014 no more craning your neck. Choose how you\u2019d like to handle it:</div>' +
+          '<div style="display:flex;flex-direction:column;gap:8px;">' + choiceCards + '</div>' +
+          picker + perkNote + '</div>';
+      })() : ''}
       ${(function(){
         var anyCond = tv.outdoor || tv.high || tv.frame;
-        var open = tv.condOpen || anyCond;
         var masonry = ['brick','tile','stucco'].indexOf(tv.wall) > -1;
         var boxCustom = tv.frame && tv.framePower === 'no' && masonry;
-        if (!open) return `<div onclick="setTVProp(${i},'condOpen',true)" style="margin-top:12px;padding-top:12px;border-top:1px solid #e5e7eb;font-size:0.78rem;color:#64748b;cursor:pointer;">▸ Special conditions — outdoor, 10ft+ height, Frame TV</div>`;
         return `
       <div style="margin-top:12px;padding-top:12px;border-top:1px solid #e5e7eb;">
-        <div onclick="setTVProp(${i},'condOpen',false)" style="font-size:0.78rem;color:#64748b;cursor:pointer;margin-bottom:10px;">▾ Special conditions</div>
+        <div style="font-size:0.8rem;font-weight:700;color:#0f1218;margin-bottom:8px;">Anything special about this install?</div>
         <div style="display:flex;flex-wrap:wrap;gap:8px;">
           <button class="option-btn ${tv.outdoor ? 'selected' : ''}" onclick="setTVProp(${i},'outdoor',${!tv.outdoor})" style="flex:1 1 140px;">Outdoor install<br><small style="font-size:0.72rem;opacity:0.8;">+$100</small></button>
           <button class="option-btn ${tv.high ? 'selected' : ''}" onclick="setTVProp(${i},'high',${!tv.high})" style="flex:1 1 140px;">10ft+ / vaulted<br><small style="font-size:0.72rem;opacity:0.8;">+$75</small></button>
@@ -3122,12 +3070,28 @@ function renderTVCards() {
 }
 
 function toggleMantelMount(index, model) {
-  const current = bookingState.tvs[index].mantelMount;
-  // 'none' = standard mount selected, false/undefined = nothing selected yet
-  if (model === 'none') {
-    bookingState.tvs[index].mantelMount = (current === 'none') ? false : 'none';
+  const tv = bookingState.tvs[index];
+  tv.mmChoice = 'buy';
+  tv.mantelMount = (tv.mantelMount === model) ? false : model;
+  renderTVCards();
+  updatePriceDisplay();
+}
+
+function setMMChoice(index, choice) {
+  const tv = bookingState.tvs[index];
+  if (tv.mmChoice === choice) {
+    // Tap again to deselect
+    tv.mmChoice = false;
+    tv.mantelMount = false;
   } else {
-    bookingState.tvs[index].mantelMount = (current === model) ? false : model;
+    tv.mmChoice = choice;
+    if (choice === 'standard') tv.mantelMount = 'none';
+    else if (choice === 'own') tv.mantelMount = 'own';
+    else {
+      // 'buy' — keep an already-picked model, otherwise wait for selection
+      var m = tv.mantelMount;
+      tv.mantelMount = (m && m !== 'none' && m !== 'own' && m !== 'false') ? m : false;
+    }
   }
   renderTVCards();
   updatePriceDisplay();
@@ -3135,10 +3099,12 @@ function toggleMantelMount(index, model) {
 
 function setTVProp(index, prop, value) {
   bookingState.tvs[index][prop] = value;
-  if (prop === 'fireplace' && !value) bookingState.tvs[index].mantelMount = false;
+  if (prop === 'fireplace' && !value) {
+    bookingState.tvs[index].mantelMount = false;
+    bookingState.tvs[index].mmChoice = false;
+  }
   if (prop === 'frame' && value && !bookingState.tvs[index].framePower) bookingState.tvs[index].framePower = 'yes';
   renderTVCards();
-  updatePriceDisplay();
   updatePriceDisplay();
 }
 
@@ -3653,8 +3619,8 @@ function initBookingStep4() {
   const tvCordPrice = c => ({'raceway':50,'concealed':75}[c] || 0);
   const tvWallPrice = (w, tv) => (tv && tv.mantelMount && tv.mantelMount !== 'false' && tv.mantelMount !== 'none') ? ({'stucco':100,'brick':100,'concrete':100,'tile':150}[w] || 0) : ({'stucco':75,'brick':100,'tile':150,'concrete':100}[w] || 0);
 
-  const mantelPricesStep4 = {'mm340':575,'mm540':699,'mm700':885,'max1':1135,'mm815':1325};
-  const mantelNamesStep4 = {'mm340':'MM340 Standard','mm540':'MM540 Enhanced','mm700':'MM700 Premier','max1':'MAX1 Full Motion','mm815':'MM815 Motorized'};
+  const mantelPricesStep4 = {'own':275,'mm340':575,'mm540':699,'mm700':885,'max1':1135,'mm815':1325};
+  const mantelNamesStep4 = {'own':'Install Only \u2014 Your Mount','mm340':'MM340 Standard','mm540':'MM540 Enhanced','mm700':'MM700 Premier','max1':'MAX1 Full Motion','mm815':'MM815 Motorized'};
 
   let tvRows = bookingState.tvs.map((tv, i) => {
     const hasMantel = tv.mantelMount && mantelPricesStep4[tv.mantelMount];
@@ -3672,7 +3638,9 @@ function initBookingStep4() {
 
     if (hasMantel) {
       const mantelPrice = mantelPricesStep4[tv.mantelMount];
-      const tvTotal = mantelPrice + multiDiscount;
+      const mantelWall = tvWallPrice(tv.wall, tv);
+      const tvTotal = mantelPrice + mantelWall + multiDiscount;
+      const isOwn = tv.mantelMount === 'own';
       return `
       <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-bottom:8px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
@@ -3682,8 +3650,9 @@ function initBookingStep4() {
             <button onclick="goBookingStep(1)" style="font-size:0.72rem;color:#1e5fc4;background:none;border:1px solid #1e5fc4;border-radius:4px;padding:3px 8px;cursor:pointer;font-weight:600;">Edit</button>
           </div>
         </div>
-        ${lineItem('MantelMount ' + mantelNamesStep4[tv.mantelMount], 'Mount + Install (all-in) · Full deposit required', mantelPrice)}
-        ${lineItem('Cords', tvCordLabel(tv.cords), tvCordPrice(tv.cords))}
+        ${lineItem('MantelMount ' + mantelNamesStep4[tv.mantelMount], isOwn ? 'You supply the mount · Labor all-in · Full deposit required' : 'Mount + Install (all-in) · Full deposit required', mantelPrice)}
+        ${mantelWall ? lineItem('Surface', tvWallLabel(tv.wall) + ' drilling', mantelWall) : ''}
+        ${lineItem('Cords', tvCordLabel(tv.cords), 0)}
       </div>`;
     }
 
