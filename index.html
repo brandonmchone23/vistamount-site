@@ -2434,6 +2434,7 @@ function onZipInput(val){
     bookingState.fuelSurcharge = 0; bookingState.zipMiles = null; bookingState.zipKnown = null;
     if(panel) panel.innerHTML = '';
     if(nextBtn){ nextBtn.disabled = true; nextBtn.style.opacity = '0.5'; nextBtn.style.cursor = 'not-allowed'; }
+    renderTVCards();
     updatePriceDisplay();
     return;
   }
@@ -2451,6 +2452,7 @@ function runZipCalc(zip){
   const nb = document.getElementById('step1-next');
   if(nb){ nb.disabled = false; nb.style.opacity = '1'; nb.style.cursor = 'pointer'; }
   panel.innerHTML = result.known ? vmMapPanel(zip, result, true) : vmFallbackPanel(zip, result);
+  renderTVCards();
   updatePriceDisplay();
 }
 function renderZipResultPanel(zip, result){
@@ -2489,6 +2491,21 @@ function renderModalNav(backStep, nextStep, nextLabel, nextAction, disabled) {
 }
 
 
+// ---- Service zone pricing ----
+// Zone A (premium): Scottsdale, Paradise Valley, Arcadia/Biltmore, Fountain Hills, Rio Verde, Cave Creek, Carefree
+// Everything else = Zone B (core). Distance is monetized separately via the fuel surcharge.
+const VM_ZONE_A = new Set(['85016','85018','85250','85251','85253','85254','85255','85257','85258','85259','85260','85262','85263','85266','85268','85331','85377']);
+function vmZone(){
+  const z = bookingState.zip || '';
+  if (z.length === 5 && !VM_ZONE_A.has(z)) return 'B';
+  return 'A'; // default before/without ZIP: anchor at premium rates so prices only ever drop
+}
+function vmSizePrice(size){
+  const A = {'<32':100,'32-64':149,'65-84':179,'85+':250};
+  const B = {'<32':100,'32-64':125,'65-84':150,'85+':200};
+  return (vmZone() === 'A' ? A : B)[size] || 0;
+}
+
 function calculatePrice() {
   let total = 0;
   
@@ -2505,10 +2522,7 @@ function calculatePrice() {
       total += ({'stucco':100,'brick':100,'concrete':100,'tile':150}[tv.wall] || 0);
     } else {
       // Standard pricing
-      if (tv.size === '<32') total += 100;
-      else if (tv.size === '32-64') total += 125;
-      else if (tv.size === '65-84') total += 150;
-      else if (tv.size === '85+') total += 200;
+      total += vmSizePrice(tv.size);
 
       if (tv.mountType === 'fixed') total += 45;
       else if (tv.mountType === 'tilting') total += 45;
@@ -2799,11 +2813,12 @@ function renderTVCards() {
       <div style="margin-bottom:16px;">
         <label style="display:block;font-size:0.8rem;color:rgba(232,237,245,.6);margin-bottom:8px;">TV Size</label>
         <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;">
-          <button class="option-btn ${tv.size === '<32' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '<32')">Under 32"<br><small style="font-size:0.75rem;opacity:0.8;">$100</small></button>
-          <button class="option-btn ${tv.size === '32-64' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '32-64')">32"&ndash;64"<br><small style="font-size:0.75rem;opacity:0.8;">$125</small></button>
-          <button class="option-btn ${tv.size === '65-84' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '65-84')">65"&ndash;84"<br><small style="font-size:0.75rem;opacity:0.8;">$150</small></button>
-          <button class="option-btn ${tv.size === '85+' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '85+')">85"+<br><small style="font-size:0.75rem;opacity:0.8;">$200</small></button>
+          <button class="option-btn ${tv.size === '<32' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '<32')">Under 32"<br><small style="font-size:0.75rem;opacity:0.8;">$${vmSizePrice('<32')}</small></button>
+          <button class="option-btn ${tv.size === '32-64' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '32-64')">32"&ndash;64"<br><small style="font-size:0.75rem;opacity:0.8;">$${vmSizePrice('32-64')}</small></button>
+          <button class="option-btn ${tv.size === '65-84' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '65-84')">65"&ndash;84"<br><small style="font-size:0.75rem;opacity:0.8;">$${vmSizePrice('65-84')}</small></button>
+          <button class="option-btn ${tv.size === '85+' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '85+')">85"+<br><small style="font-size:0.75rem;opacity:0.8;">$${vmSizePrice('85+')}</small></button>
         </div>
+        ${vmZone() === 'B' ? '<div style="font-size:0.72rem;color:#34d399;font-weight:600;margin-top:6px;">\u2713 Core service area pricing applied</div>' : ''}
       </div>
       
       <div style="margin-bottom:16px;">
@@ -3505,7 +3520,7 @@ async function submitBooking() {
     ).join(' ') +
     (bookingState.soundbars ? ' soundbars:' + bookingState.soundbars : '') +
     (bookingState.dismounts ? ' dismounts:' + bookingState.dismounts : '') +
-    (bookingState.zip ? ' zip:' + bookingState.zip : '') +
+    (bookingState.zip ? ' zip:' + bookingState.zip + ' zone:' + vmZone() : '') +
     (bookingState.fuelSurcharge ? ' travel:$' + bookingState.fuelSurcharge + (bookingState.zipMiles != null ? '(' + bookingState.zipMiles + 'mi)' : '') : '') +
     (vmIsSameDay() ? ' sameday:$' + VM_TRAVEL.sameDayFee : '') +
     ((bookingState.delivery && bookingState.delivery.on) ? ' delivery:' + bookingState.delivery.from + '/' + bookingState.delivery.condition + '/' + bookingState.delivery.size + 'x' + bookingState.delivery.qty + (vmDeliveryStatus() === 'custom' ? '(CUSTOM-quote)' : '($' + vmDeliveryFee() + ')') + (bookingState.delivery.loc ? ' from[' + bookingState.delivery.loc + ']' : '') : '');
@@ -3618,7 +3633,7 @@ function initBookingStep4() {
   const tvCordLabel = c => ({'visible':'Cords Left Visible','raceway':'On-Wall Raceway','concealed':'In-Wall Concealment'}[c] || c);
   const tvWallLabel = w => ({'drywall':'Drywall','stucco':'Stucco','brick':'Brick','tile':'Tile/Stone','concrete':'Concrete','fireplace':'Fireplace / Above Mantel'}[w] || w);
 
-  const tvSizePrice = s => ({'<32':100,'32-64':125,'65-84':150,'85+':200}[s] || 0);
+  const tvSizePrice = s => vmSizePrice(s);
   const tvMountPrice = m => ({'fullmotion':90,'fixed':45,'tilting':45}[m] || 0);
   const tvCordPrice = c => ({'raceway':50,'concealed':75}[c] || 0);
   const tvWallPrice = (w, tv) => (tv && tv.mantelMount && tv.mantelMount !== 'false' && tv.mantelMount !== 'none') ? ({'stucco':100,'brick':100,'concrete':100,'tile':150}[w] || 0) : ({'stucco':75,'brick':100,'tile':150,'concrete':100}[w] || 0);
@@ -5168,7 +5183,7 @@ document.querySelectorAll('.count').forEach(function(el){co.observe(el);});
 var mainState={tvs:[{size:'32-64',mount:'own',cords:'none',wall:'drywall',fireplace:false,outdoor:false,high:false,frame:false,framePower:'yes',condOpen:false}],soundbars:0,dismounts:0,tvcount:1};
 var selectedSlot=null;
 var WORKER='https://vistamount-worker.billowing-recipe-0ae7.workers.dev';
-var MAIN_PRICES={'<32':100,'32-64':125,'65-84':150,'85+':200};
+var MAIN_PRICES={'<32':100,'32-64':149,'65-84':179,'85+':250};
 var MAIN_WALL_PRICES={drywall:0,stucco:75,brick:100,tile:150,fireplace:75};
 var MAIN_MOUNT_LABELS={fullmotion:'Full-Motion Mount',tilt:'Tilt Mount',flat:'Flat/Fixed Mount',own:'Customer Mount'};
 var MAIN_CORDS_LABELS={none:'No Cord Management',raceway:'On-Wall Raceway',inwall:'In-Wall Concealment',outlet:'In-Wall + Outlet'};
