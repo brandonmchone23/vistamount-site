@@ -955,7 +955,8 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
 }
 
 .modal-container {
-  background: #ffffff;
+  background: var(--card);
+  box-shadow: 0 0 80px rgba(79,172,255,0.06);
   width: 90%;
   max-width: 800px;
   max-height: 95vh;
@@ -980,7 +981,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
   right: 20px;
   background: none;
   border: none;
-  color: #666;
+  color: var(--m);
   font-size: 1.5rem;
   cursor: pointer;
   z-index: 10;
@@ -1000,23 +1001,23 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
 
 .modal-header {
   padding: 30px 40px 20px;
-  border-bottom: 1px solid rgba(0, 0, 0, 0.08);
+  border-bottom: 1px solid rgba(79,172,255,0.12);
   flex-shrink: 0;
-  background: #f8f9fa;
+  background: transparent;
 }
 
 .modal-eyebrow {
   font-size: 0.65rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--bl);
+  color: var(--blb);
   margin-bottom: 12px;
 }
 
 .modal-title {
   font-family: 'Bebas Neue', sans-serif;
   font-size: 2rem;
-  color: #1a1a1a;
+  color: var(--w);
   margin-bottom: 20px;
   line-height: 1.2;
 }
@@ -1027,7 +1028,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
   flex-wrap: wrap;
   margin-bottom: 30px;
   font-size: 0.75rem;
-  color: #666;
+  color: var(--m);
 }
 
 .progress-bar {
@@ -1041,13 +1042,13 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
   width: 32px;
   height: 32px;
   border-radius: 50%;
-  background: #e8edf5;
-  border: 2px solid #d0d7e0;
+  background: rgba(255,255,255,0.05);
+  border: 2px solid rgba(79,172,255,0.2);
   display: flex;
   align-items: center;
   justify-content: center;
   font-size: 0.85rem;
-  color: #666;
+  color: var(--m);
   font-weight: 600;
   transition: all 0.3s;
 }
@@ -1059,7 +1060,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
 }
 
 .progress-step.completed {
-  background: #d4e8ff;
+  background: rgba(30,95,196,0.25);
   border-color: var(--bl);
   color: var(--bl);
 }
@@ -1067,7 +1068,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
 .progress-line {
   flex: 1;
   height: 2px;
-  background: #d0d7e0;
+  background: rgba(79,172,255,0.15);
   margin: 0 8px;
 }
 
@@ -1075,7 +1076,7 @@ footer{background:var(--bg);border-top:1px solid var(--border);padding:48px 52px
   display: flex;
   justify-content: space-between;
   font-size: 0.7rem;
-  color: #666;
+  color: var(--m);
   text-transform: uppercase;
   letter-spacing: 0.05em;
 }
@@ -1302,15 +1303,15 @@ input.invalid, select.invalid { border-color: #dc2626 !important; }
 
 .modal-footer {
   padding: 20px 40px;
-  border-top: 1px solid rgba(0, 0, 0, 0.08);
-  background: #f8f9fa;
+  border-top: 1px solid rgba(79,172,255,0.12);
+  background: rgba(255,255,255,0.02);
   flex-shrink: 0;
 }
 
 .option-btn {
-  background: #ffffff;
-  border: 2px solid #d0d7e0;
-  color: #1a1a1a;
+  background: rgba(255,255,255,0.03);
+  border: 2px solid rgba(79,172,255,0.18);
+  color: var(--w);
   padding: 12px 16px;
   border-radius: 6px;
   cursor: pointer;
@@ -1321,20 +1322,21 @@ input.invalid, select.invalid { border-color: #dc2626 !important; }
 }
 
 .option-btn:hover {
-  border-color: var(--bl);
-  background: #f0f7ff;
+  border-color: var(--blb);
+  background: rgba(30,95,196,0.08);
 }
 
 .option-btn.selected {
-  background: var(--bl);
-  border-color: var(--bl);
-  color: #ffffff;
+  background: rgba(30,95,196,0.18);
+  border-color: var(--blb);
+  color: var(--w);
+  box-shadow: 0 0 20px rgba(79,172,255,0.15);
 }
 
 .qty-btn {
-  background: #e8edf5;
-  border: 1px solid #d0d7e0;
-  color: #1a1a1a;
+  background: rgba(255,255,255,0.06);
+  border: 1px solid rgba(79,172,255,0.2);
+  color: var(--w);
   width: 32px;
   height: 32px;
   border-radius: 4px;
@@ -1345,12 +1347,12 @@ input.invalid, select.invalid { border-color: #dc2626 !important; }
 }
 
 .qty-btn:hover {
-  background: #d0d7e0;
+  background: rgba(79,172,255,0.25);
 }
 
 .tv-card {
-  background: #f8f9fa;
-  border: 1px solid #e0e4ea;
+  background: rgba(255,255,255,0.02);
+  border: 1px solid rgba(79,172,255,0.12);
   border-radius: 8px;
   padding: 20px;
   margin-bottom: 16px;
@@ -2291,7 +2293,7 @@ function vmIsSameDay(){
 
 // ---- non-AZ / unrecognized ZIP (no coordinates to plot) ----
 function vmFallbackPanel(zip, result){
-  return `<div style="background:#fff7e6;border:1px solid #ffd591;border-radius:8px;padding:12px 14px;font-size:0.82rem;color:#8a5a00;line-height:1.5;">
+  return `<div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:8px;padding:12px 14px;font-size:0.82rem;color:#8a5a00;line-height:1.5;">
     <strong>Outside our standard service map.</strong> We can still look at ${zip} &mdash; we've added an estimated travel charge of <strong>$${result.fee}</strong> and we'll confirm exact long-distance travel before booking.</div>`;
 }
 
@@ -2309,18 +2311,18 @@ function vmReadout(result){
   const far = result.miles != null && result.miles > VM_TRAVEL.metroMiles;
   const longHaul = result.miles != null && result.miles > VM_TRAVEL.longHaulMiles;
   if(result.fee === 0){
-    return `<div style="background:#ecfdf3;border:1px solid #abefc6;border-radius:8px;padding:10px 12px;font-size:0.85rem;color:#067647;display:flex;align-items:center;gap:8px;"><span style="font-size:1.05rem;">&#9989;</span><span>~${result.miles} mi &mdash; <strong>no travel surcharge.</strong></span></div>`;
+    return `<div style="background:rgba(52,211,153,.08);border:1px solid rgba(52,211,153,.3);border-radius:8px;padding:10px 12px;font-size:0.85rem;color:#34d399;display:flex;align-items:center;gap:8px;"><span style="font-size:1.05rem;">&#9989;</span><span>~${result.miles} mi &mdash; <strong>no travel surcharge.</strong></span></div>`;
   }
   if(longHaul){
-    return `<div style="background:#fff7e6;border:1px solid #ffd591;border-radius:8px;padding:10px 12px;font-size:0.82rem;color:#8a5a00;line-height:1.5;"><strong>Long-distance trip (~${result.miles} mi).</strong> That's well outside metro Phoenix &mdash; estimated travel <strong>+$${result.fee}</strong>. We'll confirm exact long-haul travel before booking.</div>`;
+    return `<div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:8px;padding:10px 12px;font-size:0.82rem;color:#8a5a00;line-height:1.5;"><strong>Long-distance trip (~${result.miles} mi).</strong> That's well outside metro Phoenix &mdash; estimated travel <strong>+$${result.fee}</strong>. We'll confirm exact long-haul travel before booking.</div>`;
   }
-  return `<div style="background:#eef4ff;border:1px solid #b8daff;border-radius:8px;padding:10px 12px;font-size:0.85rem;color:#1e3a6b;display:flex;justify-content:space-between;align-items:center;gap:10px;"><span>${far ? ('Outside metro &middot; ~'+result.miles+' mi') : ('~'+result.miles+' mi from downtown')}</span><span style="font-weight:700;color:#1e5fc4;white-space:nowrap;">Travel +$${result.fee}</span></div>`;
+  return `<div style="background:rgba(30,95,196,.08);border:1px solid rgba(79,172,255,.3);border-radius:8px;padding:10px 12px;font-size:0.85rem;color:#cfe3ff;display:flex;justify-content:space-between;align-items:center;gap:10px;"><span>${far ? ('Outside metro &middot; ~'+result.miles+' mi') : ('~'+result.miles+' mi from downtown')}</span><span style="font-weight:700;color:#4facff;white-space:nowrap;">Travel +$${result.fee}</span></div>`;
 }
 
 // ---- shared: outer panel wrapper ----
 function vmPanelWrap(caption, svg, result, cls){
   return `
-    <div class="vm-mapwrap ${cls}" style="background:#0b1220;border:1px solid #1e5fc4;border-radius:10px;padding:12px;">
+    <div class="vm-mapwrap ${cls}" style="background:#0b1220;border:1px solid rgba(79,172,255,.5);border-radius:10px;padding:12px;">
       <div style="font-size:0.7rem;letter-spacing:.1em;text-transform:uppercase;color:#7fb0ee;font-weight:700;margin-bottom:8px;">${caption}</div>
       ${svg}
       <div class="vm-readout" style="margin-top:10px;">${vmReadout(result)}</div>
@@ -2711,14 +2713,14 @@ function initBookingStep1() {
   }
   container.innerHTML = `
     <div style="margin-bottom:24px;">
-      <label style="display:block;font-size:0.85rem;color:#333;margin-bottom:8px;font-weight:600;">What's your ZIP code? <span style="color:#1e5fc4;">*</span></label>
-      <div style="font-size:0.75rem;color:#666;margin-bottom:8px;">So we can estimate travel from our downtown Phoenix shop.</div>
-      <input type="text" id="booking-zip" inputmode="numeric" maxlength="5" placeholder="85003" value="${bookingState.zip || ''}" oninput="onZipInput(this.value)" style="width:100%;padding:14px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000;font-size:18px;letter-spacing:0.18em;font-weight:600;text-align:center;box-sizing:border-box;">
+      <label style="display:block;font-size:0.85rem;color:rgba(232,237,245,.75);margin-bottom:8px;font-weight:600;">What's your ZIP code? <span style="color:#4facff;">*</span></label>
+      <div style="font-size:0.75rem;color:rgba(232,237,245,.6);margin-bottom:8px;">So we can estimate travel from our downtown Phoenix shop.</div>
+      <input type="text" id="booking-zip" inputmode="numeric" maxlength="5" placeholder="85003" value="${bookingState.zip || ''}" oninput="onZipInput(this.value)" style="width:100%;padding:14px;background:rgba(255,255,255,.03);border:1px solid rgba(79,172,255,.18);border-radius:6px;color:#e8edf5;font-size:18px;letter-spacing:0.18em;font-weight:600;text-align:center;box-sizing:border-box;">
       <div id="zip-calc-panel" style="margin-top:12px;"></div>
     </div>
 
     <div style="margin-bottom:24px;">
-      <label style="display:block;font-size:0.85rem;color:#333;margin-bottom:12px;font-weight:500;">How many TVs?</label>
+      <label style="display:block;font-size:0.85rem;color:rgba(232,237,245,.75);margin-bottom:12px;font-weight:500;">How many TVs?</label>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
         <button class="option-btn ${bookingState.tvs.length === 1 ? 'selected' : ''}" onclick="setTVCount(1)">1 TV</button>
         <button class="option-btn ${bookingState.tvs.length === 2 ? 'selected' : ''}" onclick="setTVCount(2)">2 TVs</button>
@@ -2729,14 +2731,14 @@ function initBookingStep1() {
     
     <div id="tv-cards-container"></div>
     
-    <div style="background:#e8f4ff;padding:20px;border-radius:8px;border:1px solid #b8daff;margin-top:24px;text-align:center;">
-      <div style="font-size:0.85rem;color:#666;margin-bottom:8px;">Estimated Total</div>
-      <div class="price-display" style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#1e5fc4;">$0</div><div style="font-size:0.75rem;color:#666;margin-top:4px;">Final price confirmed on-site</div>
+    <div style="background:rgba(30,95,196,.1);padding:20px;border-radius:8px;border:1px solid rgba(79,172,255,.3);margin-top:24px;text-align:center;">
+      <div style="font-size:0.85rem;color:rgba(232,237,245,.6);margin-bottom:8px;">Estimated Total</div>
+      <div class="price-display" style="font-family:'Bebas Neue',sans-serif;font-size:3rem;color:#4facff;text-shadow:0 0 30px rgba(79,172,255,.35);line-height:1;">$0</div><div style="font-size:0.75rem;color:rgba(232,237,245,.6);margin-top:4px;">Final price confirmed on-site</div>
     </div>
 
-    <div style="margin-top:18px;padding:14px 16px;background:#f8fafc;border:1px dashed #cbd5e1;border-radius:8px;text-align:center;">
-      <div style="font-size:0.78rem;color:#475569;margin-bottom:6px;">Have something more complex? Brick fireplace, in-wall wiring, smart home, multi-room AV?</div>
-      <a href="/quote.html" style="display:inline-block;font-size:0.85rem;font-weight:600;color:#1e5fc4;text-decoration:none;border-bottom:1px solid #1e5fc4;">Request a Custom Quote &rarr;</a>
+    <div style="margin-top:18px;padding:14px 16px;background:rgba(255,255,255,.025);border:1px dashed rgba(79,172,255,.25);border-radius:8px;text-align:center;">
+      <div style="font-size:0.78rem;color:rgba(232,237,245,.6);margin-bottom:6px;">Have something more complex? Brick fireplace, in-wall wiring, smart home, multi-room AV?</div>
+      <a href="/quote.html" style="display:inline-block;font-size:0.85rem;font-weight:600;color:#4facff;text-decoration:none;border-bottom:1px solid #1e5fc4;">Request a Custom Quote &rarr;</a>
     </div>
     
     </div>
@@ -2791,11 +2793,11 @@ function renderTVCards() {
     return;
   }
   container.innerHTML = bookingState.tvs.map((tv, i) => `
-    <div class="tv-card" style="background:#f8f9fa;border:1px solid #e0e4ea;padding:20px;margin-bottom:16px;border-radius:8px;">
+    <div class="tv-card" style="background:rgba(255,255,255,.025);border:1px solid rgba(79,172,255,.12);padding:20px;margin-bottom:16px;border-radius:8px;">
       <div style="font-weight:600;margin-bottom:16px;color:var(--bl);">TV ${i + 1}</div>
       
       <div style="margin-bottom:16px;">
-        <label style="display:block;font-size:0.8rem;color:#666;margin-bottom:8px;">TV Size</label>
+        <label style="display:block;font-size:0.8rem;color:rgba(232,237,245,.6);margin-bottom:8px;">TV Size</label>
         <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;">
           <button class="option-btn ${tv.size === '<32' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '<32')">Under 32"<br><small style="font-size:0.75rem;opacity:0.8;">$100</small></button>
           <button class="option-btn ${tv.size === '32-64' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '32-64')">32"&ndash;64"<br><small style="font-size:0.75rem;opacity:0.8;">$149</small></button>
@@ -2805,7 +2807,7 @@ function renderTVCards() {
       </div>
       
       <div style="margin-bottom:16px;">
-        <label style="display:block;font-size:0.8rem;color:#666;margin-bottom:8px;">Mount Type</label>
+        <label style="display:block;font-size:0.8rem;color:rgba(232,237,245,.6);margin-bottom:8px;">Mount Type</label>
         <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;">
 
           <!-- OWN MOUNT -->
@@ -2893,7 +2895,7 @@ function renderTVCards() {
       </div>
       
       <div style="margin-bottom:16px;">
-        <label style="display:block;font-size:0.8rem;color:#666;margin-bottom:8px;">Cord Management</label>
+        <label style="display:block;font-size:0.8rem;color:rgba(232,237,245,.6);margin-bottom:8px;">Cord Management</label>
         <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
 
           <!-- VISIBLE -->
@@ -2967,7 +2969,7 @@ function renderTVCards() {
       </div>
       
       <div>
-        <label style="display:block;font-size:0.8rem;color:#666;margin-bottom:8px;">Wall Type</label>
+        <label style="display:block;font-size:0.8rem;color:rgba(232,237,245,.6);margin-bottom:8px;">Wall Type</label>
         <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;">
           <button class="option-btn ${tv.wall === 'drywall' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'drywall')">Drywall<br><small style="font-size:0.75rem;opacity:0.8;">Included</small></button>
           <button class="option-btn ${tv.wall === 'stucco' ? 'selected' : ''}" onclick="setTVProp(${i}, 'wall', 'stucco')">Stucco<br><small style="font-size:0.75rem;opacity:0.8;">+$75</small></button>
@@ -2978,7 +2980,7 @@ function renderTVCards() {
       </div>
 
       <div style="margin-top:14px;">
-        <div style="font-size:0.8rem;font-weight:700;color:#0f1218;margin-bottom:8px;">Mounting above a fireplace?</div>
+        <div style="font-size:0.8rem;font-weight:700;color:#e8edf5;margin-bottom:8px;">Mounting above a fireplace?</div>
         <div style="display:flex;gap:8px;">
           <button class="option-btn ${!tv.fireplace ? 'selected' : ''}" onclick="setTVProp(${i}, 'fireplace', false)">No</button>
           <button class="option-btn ${tv.fireplace ? 'selected' : ''}" onclick="setTVProp(${i}, 'fireplace', true)">Yes<br><small style="font-size:0.75rem;opacity:0.8;">+$75</small></button>
@@ -2989,30 +2991,30 @@ function renderTVCards() {
         var surfNames = {'stucco':'Stucco','brick':'Brick','concrete':'Concrete','tile':'Tile/Stone'};
         var surf = surfMap[tv.wall] || 0;
         var choice = tv.mmChoice || (tv.mantelMount === 'none' ? 'standard' : (tv.mantelMount === 'own' ? 'own' : (tv.mantelMount && tv.mantelMount !== 'false' ? 'buy' : false)));
-        var sel = function(on){ return 'background:#fff;border:2px solid ' + (on ? '#1e5fc4' : '#e5e7eb') + ';border-radius:8px;padding:12px 14px;cursor:pointer;transition:all .2s;'; };
-        var badge = function(t){ return t ? '<span style="font-size:0.68rem;background:#f7f1e3;color:#8a6d1f;border:1px solid #e2d4ae;padding:2px 6px;border-radius:4px;margin-left:6px;font-weight:700;white-space:nowrap;">' + t + '</span>' : ''; };
+        var sel = function(on){ return 'background:' + (on ? 'rgba(30,95,196,.12)' : 'rgba(255,255,255,.03)') + ';border:2px solid ' + (on ? '#4facff' : 'rgba(79,172,255,.15)') + ';border-radius:8px;padding:12px 14px;cursor:pointer;transition:all .2s;' + (on ? 'box-shadow:0 0 20px rgba(79,172,255,.12);' : ''); };
+        var badge = function(t){ return t ? '<span style="font-size:0.68rem;background:rgba(79,172,255,.12);color:#4facff;border:1px solid rgba(79,172,255,.3);padding:2px 6px;border-radius:4px;margin-left:6px;font-weight:700;white-space:nowrap;">' + t + '</span>' : ''; };
         var card = function(onclick, on, title, desc, priceHtml, subHtml){
           return '<div onclick="' + onclick + '" style="' + sel(on) + '">' +
             '<div style="display:flex;justify-content:space-between;align-items:center;">' +
-            '<div><div style="font-size:0.85rem;font-weight:700;color:#0f1218;">' + title + '</div>' +
-            '<div style="font-size:0.75rem;color:#666;margin-top:2px;">' + desc + '</div></div>' +
+            '<div style="flex:1;min-width:0;padding-right:10px;"><div style="font-size:0.85rem;font-weight:700;color:#e8edf5;">' + title + '</div>' +
+            '<div style="font-size:0.75rem;color:rgba(232,237,245,.6);margin-top:2px;">' + desc + '</div></div>' +
             '<div style="text-align:right;flex-shrink:0;margin-left:12px;">' +
-            '<div style="font-size:0.9rem;font-weight:700;color:#1e5fc4;">' + priceHtml + '</div>' +
-            '<div style="font-size:0.65rem;color:#999;">' + subHtml + '</div>' +
+            '<div style="font-size:0.9rem;font-weight:700;color:#4facff;">' + priceHtml + '</div>' +
+            '<div style="font-size:0.65rem;color:rgba(232,237,245,.42);">' + subHtml + '</div>' +
             '</div></div></div>';
         };
         var choiceCards =
           card('setMMChoice(' + i + ", 'standard')", choice === 'standard',
             'Standard Mount — No Pull-Down',
-            'Fixed or tilting mount above the fireplace \u00b7 No vertical travel \u00b7 Lower cost',
+            'Fixed or tilting above the fireplace \u00b7 Lower cost',
             '+$75', 'fireplace add-on') +
           card('setMMChoice(' + i + ", 'own')", choice === 'own',
             'I Already Have a MantelMount',
-            'You supply the pull-down mount (any model) \u2014 we handle the full installation',
-            '$' + (275 + surf), surf ? 'incl. ' + surfNames[tv.wall] + ' drilling' : 'labor \u00b7 all-in') +
+            'You supply the mount (any model) \u2014 we install it',
+            '$' + (275 + surf), surf ? 'incl. drilling' : 'labor \u00b7 all-in') +
           card('setMMChoice(' + i + ", 'buy')", choice === 'buy',
             'New MantelMount — We Supply + Install',
-            'Pick your model below \u00b7 Heat-sensor and motorized options available',
+            'Pick a model below \u00b7 Heat-sensor &amp; motorized options',
             'From $' + (575 + surf).toLocaleString(), 'mount + install');
         var models = [
           {id:'mm340', n:'MM340 — Standard', d:'44\u2033\u201380\u2033 TVs up to 90 lbs \u00b7 27\u2033 drop \u00b7 Swivels 30\u00b0', p:575, b:''},
@@ -3026,16 +3028,18 @@ function renderTVCards() {
         var modelCards = visible.map(function(m){
           return card('toggleMantelMount(' + i + ", '" + m.id + "')", tv.mantelMount === m.id,
             m.n + badge(m.b),
-            m.d + '<div style="font-size:0.72rem;color:#888;margin-top:3px;">Includes mount hardware + professional installation</div>',
+            m.d,
             '$' + (m.p + surf).toLocaleString(),
-            surf ? 'incl. ' + surfNames[tv.wall] + ' drilling' : 'all-in');
+            'all-in');
         }).join('');
-        var expander = hiddenCount ? '<div onclick="setTVProp(' + i + ",'mmShowAll',true)" + '" style="text-align:center;font-size:0.78rem;font-weight:600;color:#1e5fc4;cursor:pointer;padding:8px;border:1px dashed #cbd5e1;border-radius:8px;">Show premium models \u2014 MAX1 &amp; motorized MM815 \u25be</div>' : '';
-        var picker = choice === 'buy' ? '<div style="display:flex;flex-direction:column;gap:8px;margin-top:10px;">' + modelCards + expander + '</div>' + (tv.mantelMount && tv.mantelMount !== 'false' && tv.mantelMount !== 'none' ? '' : '<div style="font-size:0.75rem;color:#999;margin-top:6px;">Select a model to add it to your quote \u00b7 Tap again to deselect</div>') : '';
-        var perkNote = (tv.mantelMount && tv.mantelMount !== 'false' && tv.mantelMount !== 'none') ? '<div style="font-size:0.75rem;color:#059669;font-weight:600;margin-top:8px;">\u2713 On-wall cord concealment included \u00b7 Full deposit at booking covers everything shown</div>' : '';
-        return '<div style="margin-top:12px;background:#fff;border:1px solid #e2d4ae;border-left:3px solid #C9A24B;border-radius:10px;padding:16px;">' +
-          '<div style="font-size:0.78rem;font-weight:700;color:#11233F;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;">Above-Fireplace Mounting</div>' +
-          '<div style="font-size:0.8rem;color:#555;line-height:1.6;margin-bottom:14px;">A <strong>MantelMount</strong> pull-down lets you bring the TV to eye level when watching and raise it back when done \u2014 no more craning your neck. Choose how you\u2019d like to handle it:</div>' +
+        var expander = hiddenCount ? '<div onclick="setTVProp(' + i + ",'mmShowAll',true)" + '" style="text-align:center;font-size:0.78rem;font-weight:600;color:#4facff;cursor:pointer;padding:8px;border:1px dashed rgba(79,172,255,.25);border-radius:8px;">Show premium models \u2014 MAX1 &amp; motorized MM815 \u25be</div>' : '';
+        var pickerNote = '<div style="font-size:0.7rem;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#4facff;margin:14px 0 2px;">Select your model</div>' +
+          '<div style="font-size:0.73rem;color:rgba(232,237,245,.5);margin-bottom:8px;">All-in pricing \u2014 mount hardware + professional install' + (surf ? ' + ' + surfNames[tv.wall] + ' drilling' : '') + '.</div>';
+        var picker = choice === 'buy' ? pickerNote + '<div style="display:flex;flex-direction:column;gap:8px;">' + modelCards + expander + '</div>' + (tv.mantelMount && tv.mantelMount !== 'false' && tv.mantelMount !== 'none' ? '' : '<div style="font-size:0.75rem;color:rgba(232,237,245,.42);margin-top:6px;">Select a model to add it to your quote \u00b7 Tap again to deselect</div>') : '';
+        var perkNote = (tv.mantelMount && tv.mantelMount !== 'false' && tv.mantelMount !== 'none') ? '<div style="font-size:0.75rem;color:#34d399;font-weight:600;margin-top:8px;">\u2713 On-wall cord concealment included \u00b7 Full deposit at booking covers everything shown</div>' : '';
+        return '<div style="margin-top:12px;background:rgba(255,255,255,.02);border:1px solid rgba(79,172,255,.12);border-left:3px solid #4facff;border-radius:10px;padding:16px;">' +
+          '<div style="font-size:0.78rem;font-weight:700;color:#4facff;letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px;">Above-Fireplace Mounting</div>' +
+          '<div style="font-size:0.8rem;color:rgba(232,237,245,.65);line-height:1.6;margin-bottom:14px;">A <strong>MantelMount</strong> pull-down lets you bring the TV to eye level when watching and raise it back when done \u2014 no more craning your neck. Choose how you\u2019d like to handle it:</div>' +
           '<div style="display:flex;flex-direction:column;gap:8px;">' + choiceCards + '</div>' +
           picker + perkNote + '</div>';
       })() : ''}
@@ -3044,23 +3048,23 @@ function renderTVCards() {
         var masonry = ['brick','tile','stucco'].indexOf(tv.wall) > -1;
         var boxCustom = tv.frame && tv.framePower === 'no' && masonry;
         return `
-      <div style="margin-top:12px;padding-top:12px;border-top:1px solid #e5e7eb;">
-        <div style="font-size:0.8rem;font-weight:700;color:#0f1218;margin-bottom:8px;">Anything special about this install?</div>
+      <div style="margin-top:12px;padding-top:12px;border-top:1px solid rgba(79,172,255,.15);">
+        <div style="font-size:0.8rem;font-weight:700;color:#e8edf5;margin-bottom:8px;">Anything special about this install?</div>
         <div style="display:flex;flex-wrap:wrap;gap:8px;">
           <button class="option-btn ${tv.outdoor ? 'selected' : ''}" onclick="setTVProp(${i},'outdoor',${!tv.outdoor})" style="flex:1 1 140px;">Outdoor install<br><small style="font-size:0.72rem;opacity:0.8;">+$100</small></button>
           <button class="option-btn ${tv.high ? 'selected' : ''}" onclick="setTVProp(${i},'high',${!tv.high})" style="flex:1 1 140px;">10ft+ / vaulted<br><small style="font-size:0.72rem;opacity:0.8;">+$75</small></button>
           <button class="option-btn ${tv.frame ? 'selected' : ''}" onclick="setTVProp(${i},'frame',${!tv.frame})" style="flex:1 1 140px;">Frame TV<br><small style="font-size:0.72rem;opacity:0.8;">+$75</small></button>
         </div>
-        ${tv.high ? `<div style="font-size:0.72rem;color:#92400e;margin-top:8px;">Over ~14 ft (two-story foyer)? Text a photo to (480) 903-4769 for a quote before booking.</div>` : ''}
+        ${tv.high ? `<div style="font-size:0.72rem;color:#fcd34d;margin-top:8px;">Over ~14 ft (two-story foyer)? Text a photo to (480) 903-4769 for a quote before booking.</div>` : ''}
         ${tv.frame ? `
-        <div style="margin-top:12px;background:#f0f7ff;border:1px solid #b8daff;border-radius:8px;padding:12px 14px;">
-          <div style="font-size:0.8rem;font-weight:700;color:#0f1218;margin-bottom:8px;">Is there power directly behind the TV?</div>
+        <div style="margin-top:12px;background:rgba(30,95,196,.1);border:1px solid rgba(79,172,255,.3);border-radius:8px;padding:12px 14px;">
+          <div style="font-size:0.8rem;font-weight:700;color:#e8edf5;margin-bottom:8px;">Is there power directly behind the TV?</div>
           <div style="display:flex;gap:8px;">
             <button class="option-btn ${tv.framePower === 'yes' ? 'selected' : ''}" onclick="setTVProp(${i},'framePower','yes')" style="flex:1;">Yes</button>
             <button class="option-btn ${tv.framePower === 'no' ? 'selected' : ''}" onclick="setTVProp(${i},'framePower','no')" style="flex:1;">No<br><small style="font-size:0.72rem;opacity:0.8;">${masonry ? 'quote' : '+$350'}</small></button>
           </div>
-          ${tv.framePower === 'no' && !boxCustom ? `<div style="font-size:0.72rem;color:#475569;margin-top:8px;line-height:1.5;">Adds the in-wall media box package: recessed enclosure + power behind the TV so the Frame sits truly flush. One Connect extender hardware, if your run needs it, supplied at cost. Unusual wall situations confirmed before install day.</div>` : ''}
-          ${boxCustom ? `<div style="font-size:0.72rem;color:#92400e;margin-top:8px;line-height:1.5;">In-wall power through ${tv.wall} needs eyes on it first — text a photo of the wall to (480) 903-4769 and Brandon will confirm exact pricing. You can still book now; this line item will be quoted separately.</div>` : ''}
+          ${tv.framePower === 'no' && !boxCustom ? `<div style="font-size:0.72rem;color:rgba(232,237,245,.6);margin-top:8px;line-height:1.5;">Adds the in-wall media box package: recessed enclosure + power behind the TV so the Frame sits truly flush. One Connect extender hardware, if your run needs it, supplied at cost. Unusual wall situations confirmed before install day.</div>` : ''}
+          ${boxCustom ? `<div style="font-size:0.72rem;color:#fcd34d;margin-top:8px;line-height:1.5;">In-wall power through ${tv.wall} needs eyes on it first — text a photo of the wall to (480) 903-4769 and Brandon will confirm exact pricing. You can still book now; this line item will be quoted separately.</div>` : ''}
         </div>` : ''}
       </div>`;
       })()}
@@ -3112,10 +3116,10 @@ function initBookingStep2() {
   const container = document.getElementById('step-2');
   container.innerHTML = `
     <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:16px;background:rgba(30,95,196,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:16px;background:rgba(30,95,196,.1);border:1px solid rgba(79,172,255,.2);border-radius:6px;">
         <div>
           <div style="font-weight:600;margin-bottom:4px;">Soundbar Installation</div>
-          <div style="font-size:0.75rem;color:#666;">$100 first, $75 each after</div>
+          <div style="font-size:0.75rem;color:rgba(232,237,245,.6);">$100 first, $75 each after</div>
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
           <button class="qty-btn" onclick="adjustQty('soundbars', -1)">&minus;</button>
@@ -3124,10 +3128,10 @@ function initBookingStep2() {
         </div>
       </div>
       
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:16px;background:rgba(30,95,196,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:16px;background:rgba(30,95,196,.1);border:1px solid rgba(79,172,255,.2);border-radius:6px;">
         <div>
           <div style="font-weight:600;margin-bottom:4px;">Remove Existing Mount</div>
-          <div style="font-size:0.75rem;color:#666;">$25 each</div>
+          <div style="font-size:0.75rem;color:rgba(232,237,245,.6);">$25 each</div>
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
           <button class="qty-btn" onclick="adjustQty('dismounts', -1)">&minus;</button>
@@ -3136,13 +3140,13 @@ function initBookingStep2() {
         </div>
       </div>
 
-      <div style="padding:16px;background:rgba(30,95,196,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;">
+      <div style="padding:16px;background:rgba(30,95,196,.1);border:1px solid rgba(79,172,255,.2);border-radius:6px;">
         <div style="font-weight:600;margin-bottom:4px;">TV Haul-Away &amp; Recycling</div>
-        <div style="font-size:0.75rem;color:#888;margin-bottom:12px;">Dropped at <a href="https://www.agapecomputerandelectronicsrecycling.com/" target="_blank" rel="noopener" style="color:#4facff;text-decoration:none;border-bottom:1px dotted rgba(79,172,255,.4)">Agape</a> in Phoenix — zero landfill.</div>
+        <div style="font-size:0.75rem;color:rgba(232,237,245,.45);margin-bottom:12px;">Dropped at <a href="https://www.agapecomputerandelectronicsrecycling.com/" target="_blank" rel="noopener" style="color:#4facff;text-decoration:none;border-bottom:1px dotted rgba(79,172,255,.4)">Agape</a> in Phoenix — zero landfill.</div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
           <div>
             <div style="font-size:0.85rem;font-weight:600;">Under 55″</div>
-            <div style="font-size:0.75rem;color:#666;">$25 each</div>
+            <div style="font-size:0.75rem;color:rgba(232,237,245,.6);">$25 each</div>
           </div>
           <div style="display:flex;align-items:center;gap:12px;">
             <button class="qty-btn" onclick="adjustQtyDirect('haulawaySmall', -1)">&minus;</button>
@@ -3153,7 +3157,7 @@ function initBookingStep2() {
         <div style="display:flex;justify-content:space-between;align-items:center;">
           <div>
             <div style="font-size:0.85rem;font-weight:600;">55″ and Larger</div>
-            <div style="font-size:0.75rem;color:#666;">$50 each</div>
+            <div style="font-size:0.75rem;color:rgba(232,237,245,.6);">$50 each</div>
           </div>
           <div style="display:flex;align-items:center;gap:12px;">
             <button class="qty-btn" onclick="adjustQtyDirect('haulawayLarge', -1)">&minus;</button>
@@ -3163,43 +3167,43 @@ function initBookingStep2() {
         </div>
       </div>
 
-      <div style="padding:16px;background:rgba(30,95,196,.05);border:1px solid rgba(79,172,255,.2);border-radius:6px;">
+      <div style="padding:16px;background:rgba(30,95,196,.1);border:1px solid rgba(79,172,255,.2);border-radius:6px;">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
           <div>
             <div style="font-weight:600;margin-bottom:4px;">Same-Day TV Delivery</div>
-            <div style="font-size:0.75rem;color:#888;">We pick up from a store or another home and bring it. Up to 85&Prime; unboxed / 75&Prime; boxed.</div>
+            <div style="font-size:0.75rem;color:rgba(232,237,245,.45);">We pick up from a store or another home and bring it. Up to 85&Prime; unboxed / 75&Prime; boxed.</div>
           </div>
           <button class="option-btn ${bookingState.delivery.on ? 'selected' : ''}" style="min-width:64px;flex-shrink:0;" onclick="toggleDelivery()">${bookingState.delivery.on ? 'Added' : 'Add'}</button>
         </div>
         ${bookingState.delivery.on ? `
         <div style="margin-top:14px;border-top:1px solid rgba(79,172,255,.18);padding-top:14px;display:flex;flex-direction:column;gap:12px;">
           <div>
-            <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">Pick up from</label>
+            <label style="display:block;font-size:0.8rem;color:rgba(232,237,245,.75);margin-bottom:6px;font-weight:500;">Pick up from</label>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
               <button class="option-btn ${bookingState.delivery.from==='store' ? 'selected' : ''}" onclick="setDeliveryField('from','store')">Retail store</button>
               <button class="option-btn ${bookingState.delivery.from==='home' ? 'selected' : ''}" onclick="setDeliveryField('from','home')">Another address</button>
             </div>
           </div>
           <div>
-            <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">${bookingState.delivery.from==='store' ? 'Store &amp; area' : 'Pickup address'}</label>
-            <input type="text" id="del-loc" value="${(bookingState.delivery.loc||'').replace(/"/g,'&quot;')}" oninput="bookingState.delivery.loc=this.value" placeholder="${bookingState.delivery.from==='store' ? 'Best Buy — Tempe Marketplace' : '123 Main St, Phoenix'}" style="width:100%;padding:12px;background:#fff;border:1px solid #d0d7e0;border-radius:6px;color:#000;font-size:16px;box-sizing:border-box;">
+            <label style="display:block;font-size:0.8rem;color:rgba(232,237,245,.75);margin-bottom:6px;font-weight:500;">${bookingState.delivery.from==='store' ? 'Store &amp; area' : 'Pickup address'}</label>
+            <input type="text" id="del-loc" value="${(bookingState.delivery.loc||'').replace(/"/g,'&quot;')}" oninput="bookingState.delivery.loc=this.value" placeholder="${bookingState.delivery.from==='store' ? 'Best Buy — Tempe Marketplace' : '123 Main St, Phoenix'}" style="width:100%;padding:12px;background:rgba(255,255,255,.03);border:1px solid rgba(79,172,255,.18);border-radius:6px;color:#e8edf5;font-size:16px;box-sizing:border-box;">
           </div>
           <div>
-            <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">Condition</label>
+            <label style="display:block;font-size:0.8rem;color:rgba(232,237,245,.75);margin-bottom:6px;font-weight:500;">Condition</label>
             <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;">
               <button class="option-btn ${bookingState.delivery.condition==='new' ? 'selected' : ''}" onclick="setDeliveryField('condition','new')">Brand new (in box)</button>
               <button class="option-btn ${bookingState.delivery.condition==='used' ? 'selected' : ''}" onclick="setDeliveryField('condition','used')">Used (out of box)</button>
             </div>
           </div>
           <div>
-            <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">TV size</label>
-            <select onchange="setDeliveryField('size',this.value)" style="width:100%;padding:12px;background:#fff;border:1px solid #d0d7e0;border-radius:6px;color:#000;font-size:16px;box-sizing:border-box;">
+            <label style="display:block;font-size:0.8rem;color:rgba(232,237,245,.75);margin-bottom:6px;font-weight:500;">TV size</label>
+            <select onchange="setDeliveryField('size',this.value)" style="width:100%;padding:12px;background:rgba(255,255,255,.03);border:1px solid rgba(79,172,255,.18);border-radius:6px;color:#e8edf5;font-size:16px;box-sizing:border-box;">
               <option value="s55" ${bookingState.delivery.size==='s55'?'selected':''}>${vmDelOptLabel('s55')}</option>
               <option value="s75" ${bookingState.delivery.size==='s75'?'selected':''}>${vmDelOptLabel('s75')}</option>
               <option value="s85" ${bookingState.delivery.size==='s85'?'selected':''}>${vmDelOptLabel('s85')}</option>
               <option value="over" ${bookingState.delivery.size==='over'?'selected':''}>${vmDelOptLabel('over')}</option>
             </select>
-            <div style="font-size:0.72rem;color:#888;margin-top:6px;">Our Jeep fits <strong>1</strong> out-of-box TV (&le;85&Prime;) or up to <strong>2</strong> boxed (&le;75&Prime;) per same-day trip. More, 86&Prime;+, or boxed over 75&Prime; = a custom delivery we'll quote.</div>
+            <div style="font-size:0.72rem;color:rgba(232,237,245,.45);margin-top:6px;">Our Jeep fits <strong>1</strong> out-of-box TV (&le;85&Prime;) or up to <strong>2</strong> boxed (&le;75&Prime;) per same-day trip. More, 86&Prime;+, or boxed over 75&Prime; = a custom delivery we'll quote.</div>
           </div>
           ${bookingState.delivery.size !== 'over' ? `
           <div style="display:flex;justify-content:space-between;align-items:center;">
@@ -3211,16 +3215,16 @@ function initBookingStep2() {
             </div>
           </div>` : ''}
           ${vmDeliveryStatus() === 'custom' ? `
-          <div style="background:#fff7e6;border:1px solid #ffd591;border-radius:6px;padding:10px 12px;font-size:0.8rem;color:#8a5a00;line-height:1.5;">
+          <div style="background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.35);border-radius:6px;padding:10px 12px;font-size:0.8rem;color:#8a5a00;line-height:1.5;">
             <strong>Custom delivery:</strong> ${vmDeliveryCustomMsg()}. Book your install and note the details &mdash; we'll confirm a delivery quote with you.
           </div>` : ''}
         </div>` : ''}
       </div>
     </div>
     
-    <div style="background:#e8f4ff;padding:20px;border-radius:8px;border:1px solid #b8daff;margin-top:24px;text-align:center;">
-      <div style="font-size:0.85rem;color:#666;margin-bottom:8px;">Estimated Total</div>
-      <div class="price-display" style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#1e5fc4;">$0</div><div style="font-size:0.75rem;color:#666;margin-top:4px;">Final price confirmed on-site</div>
+    <div style="background:rgba(30,95,196,.1);padding:20px;border-radius:8px;border:1px solid rgba(79,172,255,.3);margin-top:24px;text-align:center;">
+      <div style="font-size:0.85rem;color:rgba(232,237,245,.6);margin-bottom:8px;">Estimated Total</div>
+      <div class="price-display" style="font-family:'Bebas Neue',sans-serif;font-size:3rem;color:#4facff;text-shadow:0 0 30px rgba(79,172,255,.35);line-height:1;">$0</div><div style="font-size:0.75rem;color:rgba(232,237,245,.6);margin-top:4px;">Final price confirmed on-site</div>
     </div>
     
     <div class="modal-nav">
@@ -3278,18 +3282,18 @@ function initBookingStep3() {
   
   container.innerHTML = `
     <div style="margin-bottom:24px;">
-      <label style="display:block;font-size:0.85rem;color:#333;margin-bottom:12px;font-weight:500;">Select Date</label>
-      <input type="date" id="booking-date" min="${new Date().toISOString().split('T')[0]}" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;" onchange="loadBookingSlots()">
+      <label style="display:block;font-size:0.85rem;color:rgba(232,237,245,.75);margin-bottom:12px;font-weight:500;">Select Date</label>
+      <input type="date" id="booking-date" min="${new Date().toISOString().split('T')[0]}" style="width:100%;padding:12px;background:rgba(255,255,255,.03);border:1px solid rgba(79,172,255,.18);border-radius:6px;color:#e8edf5;font-size:16px;" onchange="loadBookingSlots()">
     </div>
     
     <div id="booking-slots" style="margin-bottom:24px;">
-      <p style="font-size:0.85rem;color:#666;">Select a date to see available times</p>
+      <p style="font-size:0.85rem;color:rgba(232,237,245,.6);">Select a date to see available times</p>
     </div>
     
-    <div style="background:#e8f4ff;padding:20px;border-radius:8px;border:1px solid #b8daff;margin-top:24px;text-align:center;">
-      <div style="font-size:0.85rem;color:#666;margin-bottom:8px;">Estimated Total</div>
-      <div style="font-family:'Bebas Neue',sans-serif;font-size:2.5rem;color:#1e5fc4;">$${total}</div>
-      <div style="font-size:0.75rem;color:#666;margin-top:4px;">Final price confirmed on-site</div>
+    <div style="background:rgba(30,95,196,.1);padding:20px;border-radius:8px;border:1px solid rgba(79,172,255,.3);margin-top:24px;text-align:center;">
+      <div style="font-size:0.85rem;color:rgba(232,237,245,.6);margin-bottom:8px;">Estimated Total</div>
+      <div style="font-family:'Bebas Neue',sans-serif;font-size:3rem;color:#4facff;text-shadow:0 0 30px rgba(79,172,255,.35);line-height:1;">$${total}</div>
+      <div style="font-size:0.75rem;color:rgba(232,237,245,.6);margin-top:4px;">Final price confirmed on-site</div>
     </div>
     
     <div class="modal-nav">
@@ -3329,7 +3333,7 @@ async function loadBookingSlots() {
   }
   
   const slotsContainer = document.getElementById('booking-slots');
-  slotsContainer.innerHTML = '<p style="font-size:0.85rem;color:#666;">Loading available times...</p>';
+  slotsContainer.innerHTML = '<p style="font-size:0.85rem;color:rgba(232,237,245,.6);">Loading available times...</p>';
   
   try {
     // Call your existing availability API
@@ -3388,7 +3392,7 @@ function checkAgreementScroll(el) {
     checkbox.style.cursor = 'pointer';
     if (label) {
       label.style.color = '#333';
-      label.innerHTML = '<strong>I agree to the Service Agreement above and VistaMount LLC\'s <a href="/privacy.html" onclick="event.preventDefault();openLegalModal();" style="color:#1e5fc4;">Privacy Policy</a> and <a href="/terms.html" onclick="event.preventDefault();openLegalModal();" style="color:#1e5fc4;">Terms of Service</a>.</strong> (Required)';
+      label.innerHTML = '<strong>I agree to the Service Agreement above and VistaMount LLC\'s <a href="/privacy.html" onclick="event.preventDefault();openLegalModal();" style="color:#4facff;">Privacy Policy</a> and <a href="/terms.html" onclick="event.preventDefault();openLegalModal();" style="color:#4facff;">Terms of Service</a>.</strong> (Required)';
     }
     // Hide scroll fade and hint banner, reveal signature section
     const fade = document.getElementById('scroll-fade');
@@ -3416,7 +3420,7 @@ function showSignatureError(msg) {
   var err = document.createElement('div');
   err.id = 'esignature-error';
   err.textContent = msg;
-  err.style.cssText = 'color:#dc2626;font-size:0.78rem;font-weight:600;margin-top:6px;line-height:1.4;';
+  err.style.cssText = 'color:#f87171;font-size:0.78rem;font-weight:600;margin-top:6px;line-height:1.4;';
   sigInput.insertAdjacentElement('afterend', err);
   try { sigInput.focus({ preventScroll: false }); } catch (e) { sigInput.focus(); }
   sigInput.scrollIntoView({ behavior: 'smooth', block: 'center' });
@@ -3568,9 +3572,9 @@ function showSuccessScreen(confirmationNumber) {
     <div style="text-align:center;padding:60px 40px;">
       <div style="font-size:4rem;margin-bottom:20px;">&#10003;</div>
       <h2 style="font-family:'Bebas Neue',sans-serif;font-size:2rem;color:var(--bl);margin-bottom:12px;">Booking Confirmed!</h2>
-      <div style="font-size:1rem;color:#666;margin-bottom:30px;">Confirmation #: <strong style="color:var(--w)">${confirmationNumber}</strong></div>
-      <div style="background:#f0f4f8;padding:20px;border-radius:6px;margin-bottom:30px;">
-        <div style="font-size:0.85rem;color:#666;line-height:1.6;">
+      <div style="font-size:1rem;color:rgba(232,237,245,.6);margin-bottom:30px;">Confirmation #: <strong style="color:var(--w)">${confirmationNumber}</strong></div>
+      <div style="background:rgba(255,255,255,.03);padding:20px;border-radius:6px;margin-bottom:30px;">
+        <div style="font-size:0.85rem;color:rgba(232,237,245,.6);line-height:1.6;">
           You'll receive a calendar invite at your email.<br/>
           We'll call to confirm details before your appointment.
         </div>
@@ -3600,10 +3604,10 @@ function initBookingStep4() {
     const dateStr = date.toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
     const timeStr = bookingState.selectedSlot ? bookingState.selectedSlot.time : 'Time TBD';
     dateTimeDisplay = `
-      <div style="background:#e8f4ff;padding:16px;border-radius:8px;margin-bottom:24px;border:1px solid #b8daff;">
-        <div style="font-size:0.75rem;color:#666;margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">Appointment</div>
-        <div style="font-size:1.1rem;font-weight:600;color:#1e88e5;">${dateStr}</div>
-        <div style="font-size:0.9rem;color:#666;margin-top:2px;">${timeStr}</div>
+      <div style="background:rgba(30,95,196,.1);padding:16px;border-radius:8px;margin-bottom:24px;border:1px solid rgba(79,172,255,.3);">
+        <div style="font-size:0.75rem;color:rgba(232,237,245,.6);margin-bottom:4px;text-transform:uppercase;letter-spacing:0.05em;">Appointment</div>
+        <div style="font-size:1.1rem;font-weight:600;color:#4facff;">${dateStr}</div>
+        <div style="font-size:0.9rem;color:rgba(232,237,245,.6);margin-top:2px;">${timeStr}</div>
       </div>
     `;
   }
@@ -3627,13 +3631,13 @@ function initBookingStep4() {
     const multiDiscount = i > 0 ? -25 : 0;
 
     const lineItem = (label, val, price) => price === 0 ? `
-      <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #f1f5f9;">
-        <span style="font-size:0.82rem;color:#64748b;">${label}: <span style="color:#0f1218;font-weight:500;">${val}</span></span>
-        <span style="font-size:0.82rem;color:#94a3b8;">Incl.</span>
+      <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(79,172,255,.08);">
+        <span style="font-size:0.82rem;color:rgba(232,237,245,.55);">${label}: <span style="color:#e8edf5;font-weight:500;">${val}</span></span>
+        <span style="font-size:0.82rem;color:rgba(232,237,245,.4);">Incl.</span>
       </div>` : `
-      <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid #f1f5f9;">
-        <span style="font-size:0.82rem;color:#64748b;">${label}: <span style="color:#0f1218;font-weight:500;">${val}</span></span>
-        <span style="font-size:0.82rem;color:#0f1218;font-weight:500;">$${price}</span>
+      <div style="display:flex;justify-content:space-between;padding:5px 0;border-bottom:1px solid rgba(79,172,255,.08);">
+        <span style="font-size:0.82rem;color:rgba(232,237,245,.55);">${label}: <span style="color:#e8edf5;font-weight:500;">${val}</span></span>
+        <span style="font-size:0.82rem;color:#e8edf5;font-weight:500;">$${price}</span>
       </div>`;
 
     if (hasMantel) {
@@ -3642,12 +3646,12 @@ function initBookingStep4() {
       const tvTotal = mantelPrice + mantelWall + multiDiscount;
       const isOwn = tv.mantelMount === 'own';
       return `
-      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-bottom:8px;">
+      <div style="background:rgba(255,255,255,.025);border:1px solid rgba(79,172,255,.12);border-radius:8px;padding:14px;margin-bottom:8px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-          <div style="font-weight:700;color:#0f1218;font-size:0.95rem;">TV ${i+1} ${i > 0 ? '<span style="font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;">−$25 multi</span>' : ''}</div>
+          <div style="font-weight:700;color:#e8edf5;font-size:0.95rem;">TV ${i+1} ${i > 0 ? '<span style="font-size:0.72rem;color:#34d399;font-weight:600;margin-left:6px;">−$25 multi</span>' : ''}</div>
           <div style="display:flex;align-items:center;gap:10px;">
-            <span style="font-weight:700;color:#1e5fc4;font-size:1rem;">$${tvTotal}</span>
-            <button onclick="goBookingStep(1)" style="font-size:0.72rem;color:#1e5fc4;background:none;border:1px solid #1e5fc4;border-radius:4px;padding:3px 8px;cursor:pointer;font-weight:600;">Edit</button>
+            <span style="font-weight:700;color:#4facff;font-size:1rem;">$${tvTotal}</span>
+            <button onclick="goBookingStep(1)" style="font-size:0.72rem;color:#4facff;background:none;border:1px solid rgba(79,172,255,.5);border-radius:4px;padding:3px 8px;cursor:pointer;font-weight:600;">Edit</button>
           </div>
         </div>
         ${lineItem('MantelMount ' + mantelNamesStep4[tv.mantelMount], isOwn ? 'You supply the mount · Labor all-in · Full deposit required' : 'Mount + Install (all-in) · Full deposit required', mantelPrice)}
@@ -3663,12 +3667,12 @@ function initBookingStep4() {
     const tvTotal = basePrice + mountPrice + cordPrice + wallPrice + multiDiscount;
 
     return `
-      <div style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:14px;margin-bottom:8px;">
+      <div style="background:rgba(255,255,255,.025);border:1px solid rgba(79,172,255,.12);border-radius:8px;padding:14px;margin-bottom:8px;">
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
-          <div style="font-weight:700;color:#0f1218;font-size:0.95rem;">TV ${i+1} ${i > 0 ? '<span style="font-size:0.72rem;color:#16a34a;font-weight:600;margin-left:6px;">−$25 multi</span>' : ''}</div>
+          <div style="font-weight:700;color:#e8edf5;font-size:0.95rem;">TV ${i+1} ${i > 0 ? '<span style="font-size:0.72rem;color:#34d399;font-weight:600;margin-left:6px;">−$25 multi</span>' : ''}</div>
           <div style="display:flex;align-items:center;gap:10px;">
-            <span style="font-weight:700;color:#1e5fc4;font-size:1rem;">$${tvTotal}</span>
-            <button onclick="goBookingStep(1)" style="font-size:0.72rem;color:#1e5fc4;background:none;border:1px solid #1e5fc4;border-radius:4px;padding:3px 8px;cursor:pointer;font-weight:600;">Edit</button>
+            <span style="font-weight:700;color:#4facff;font-size:1rem;">$${tvTotal}</span>
+            <button onclick="goBookingStep(1)" style="font-size:0.72rem;color:#4facff;background:none;border:1px solid rgba(79,172,255,.5);border-radius:4px;padding:3px 8px;cursor:pointer;font-weight:600;">Edit</button>
           </div>
         </div>
         ${lineItem('Size', tvSizeLabel(tv.size), basePrice === 100 ? 0 : basePrice)}
@@ -3680,7 +3684,7 @@ function initBookingStep4() {
         ${tv.high ? lineItem('Height', '10ft+ / vaulted', 75) : ''}
         ${tv.frame ? lineItem('Frame TV', 'Zero-gap + Art Mode', 75) : ''}
         ${tv.frame && tv.framePower === 'no' && ['brick','tile','stucco'].indexOf(tv.wall) === -1 ? lineItem('Media box', 'In-wall power package', 350) : ''}
-        ${tv.frame && tv.framePower === 'no' && ['brick','tile','stucco'].indexOf(tv.wall) > -1 ? `<div style="display:flex;justify-content:space-between;font-size:0.82rem;color:#92400e;padding:4px 0;"><span>Media box (masonry)</span><span>Quoted by text</span></div>` : ''}
+        ${tv.frame && tv.framePower === 'no' && ['brick','tile','stucco'].indexOf(tv.wall) > -1 ? `<div style="display:flex;justify-content:space-between;font-size:0.82rem;color:#fcd34d;padding:4px 0;"><span>Media box (masonry)</span><span>Quoted by text</span></div>` : ''}
       </div>`;
   }).join('');
 
@@ -3688,13 +3692,13 @@ function initBookingStep4() {
   const addonRow = (label, sublabel, field, qty, unitPrice) => {
     if (qty === 0) return '';
     return `
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;margin-bottom:8px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:rgba(255,255,255,.025);border:1px solid rgba(79,172,255,.12);border-radius:8px;margin-bottom:8px;">
         <div>
-          <div style="font-weight:600;font-size:0.9rem;color:#0f1218;">${label}</div>
-          <div style="font-size:0.75rem;color:#64748b;">${sublabel}</div>
+          <div style="font-weight:600;font-size:0.9rem;color:#e8edf5;">${label}</div>
+          <div style="font-size:0.75rem;color:rgba(232,237,245,.55);">${sublabel}</div>
         </div>
         <div style="display:flex;align-items:center;gap:10px;">
-          <span style="font-weight:700;color:#1e5fc4;min-width:40px;text-align:right;">$${qty * unitPrice}</span>
+          <span style="font-weight:700;color:#4facff;min-width:40px;text-align:right;">$${qty * unitPrice}</span>
           <div style="display:flex;align-items:center;gap:6px;">
             <button class="qty-btn" onclick="step4AdjQty('${field}', -1)" style="width:28px;height:28px;font-size:1rem;">&minus;</button>
             <span style="font-weight:600;min-width:18px;text-align:center;">${qty}</span>
@@ -3705,13 +3709,13 @@ function initBookingStep4() {
   };
 
   const soundbarRows = bookingState.soundbars > 0 ? `
-    <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;margin-bottom:8px;">
+    <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:rgba(255,255,255,.025);border:1px solid rgba(79,172,255,.12);border-radius:8px;margin-bottom:8px;">
       <div>
-        <div style="font-weight:600;font-size:0.9rem;color:#0f1218;">Soundbar Installation &times;${bookingState.soundbars}</div>
-        <div style="font-size:0.75rem;color:#64748b;">$100 first · $75 each additional</div>
+        <div style="font-weight:600;font-size:0.9rem;color:#e8edf5;">Soundbar Installation &times;${bookingState.soundbars}</div>
+        <div style="font-size:0.75rem;color:rgba(232,237,245,.55);">$100 first · $75 each additional</div>
       </div>
       <div style="display:flex;align-items:center;gap:10px;">
-        <span style="font-weight:700;color:#1e5fc4;min-width:40px;text-align:right;">$${bookingState.soundbars === 1 ? 100 : 100 + (bookingState.soundbars - 1) * 75}</span>
+        <span style="font-weight:700;color:#4facff;min-width:40px;text-align:right;">$${bookingState.soundbars === 1 ? 100 : 100 + (bookingState.soundbars - 1) * 75}</span>
         <div style="display:flex;align-items:center;gap:6px;">
           <button class="qty-btn" onclick="step4AdjQty('soundbars', -1)" style="width:28px;height:28px;font-size:1rem;">&minus;</button>
           <span style="font-weight:600;min-width:18px;text-align:center;">${bookingState.soundbars}</span>
@@ -3727,33 +3731,33 @@ function initBookingStep4() {
 
     <!-- Order Summary -->
     <div style="margin-bottom:20px;">
-      <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#1e5fc4;font-weight:700;margin-bottom:10px;">Order Summary</div>
+      <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#4facff;font-weight:700;margin-bottom:10px;">Order Summary</div>
       ${tvRows}
-      ${hasAddons ? `<div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#64748b;font-weight:600;margin:14px 0 8px;">Add-ons</div>` : ''}
+      ${hasAddons ? `<div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:rgba(232,237,245,.55);font-weight:600;margin:14px 0 8px;">Add-ons</div>` : ''}
       ${soundbarRows}
       ${addonRow('Mount Removal', '$25 per mount', 'dismounts', bookingState.dismounts, 25)}
       ${(bookingState.haulawaySmall ?? 0) > 0 ? addonRow('Haul-Away (Under 55″)', '$25 each', 'haulawaySmall', bookingState.haulawaySmall, 25) : ''}
       ${(bookingState.haulawayLarge ?? 0) > 0 ? addonRow('Haul-Away (55″+)', '$50 each', 'haulawayLarge', bookingState.haulawayLarge, 50) : ''}
       ${(bookingState.delivery && bookingState.delivery.on) ? `
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;margin-bottom:8px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:rgba(255,255,255,.025);border:1px solid rgba(79,172,255,.12);border-radius:8px;margin-bottom:8px;">
         <div>
-          <div style="font-weight:600;font-size:0.9rem;color:#0f1218;">TV Delivery${bookingState.delivery.size !== 'over' && bookingState.delivery.qty > 1 ? ' ×' + bookingState.delivery.qty : ''}</div>
-          <div style="font-size:0.75rem;color:#64748b;">${bookingState.delivery.from === 'store' ? 'Store pickup' : 'Address pickup'} · ${bookingState.delivery.condition === 'new' ? 'new/boxed' : 'used/unboxed'}${vmDeliveryStatus() === 'custom' ? ' · custom' : ''}${bookingState.delivery.loc ? ' · ' + bookingState.delivery.loc : ''}</div>
+          <div style="font-weight:600;font-size:0.9rem;color:#e8edf5;">TV Delivery${bookingState.delivery.size !== 'over' && bookingState.delivery.qty > 1 ? ' ×' + bookingState.delivery.qty : ''}</div>
+          <div style="font-size:0.75rem;color:rgba(232,237,245,.55);">${bookingState.delivery.from === 'store' ? 'Store pickup' : 'Address pickup'} · ${bookingState.delivery.condition === 'new' ? 'new/boxed' : 'used/unboxed'}${vmDeliveryStatus() === 'custom' ? ' · custom' : ''}${bookingState.delivery.loc ? ' · ' + bookingState.delivery.loc : ''}</div>
         </div>
-        <span style="font-weight:700;color:#1e5fc4;min-width:40px;text-align:right;white-space:nowrap;">${vmDeliveryStatus() === 'custom' ? 'Quote' : '$' + vmDeliveryFee()}</span>
+        <span style="font-weight:700;color:#4facff;min-width:40px;text-align:right;white-space:nowrap;">${vmDeliveryStatus() === 'custom' ? 'Quote' : '$' + vmDeliveryFee()}</span>
       </div>` : ''}
       ${(bookingState.fuelSurcharge > 0) ? `
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;margin-bottom:8px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:rgba(255,255,255,.025);border:1px solid rgba(79,172,255,.12);border-radius:8px;margin-bottom:8px;">
         <div>
-          <div style="font-weight:600;font-size:0.9rem;color:#0f1218;">Travel / Fuel Surcharge</div>
-          <div style="font-size:0.75rem;color:#64748b;">${bookingState.zipKnown === false ? 'Outside core metro' : ('~' + bookingState.zipMiles + ' mi from downtown')}${bookingState.zip ? ' · ZIP ' + bookingState.zip : ''}</div>
+          <div style="font-weight:600;font-size:0.9rem;color:#e8edf5;">Travel / Fuel Surcharge</div>
+          <div style="font-size:0.75rem;color:rgba(232,237,245,.55);">${bookingState.zipKnown === false ? 'Outside core metro' : ('~' + bookingState.zipMiles + ' mi from downtown')}${bookingState.zip ? ' · ZIP ' + bookingState.zip : ''}</div>
         </div>
-        <span style="font-weight:700;color:#1e5fc4;min-width:40px;text-align:right;">$${bookingState.fuelSurcharge}</span>
+        <span style="font-weight:700;color:#4facff;min-width:40px;text-align:right;">$${bookingState.fuelSurcharge}</span>
       </div>` : ''}
       ${vmIsSameDay() ? `
-      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:#fff7ed;border:1px solid #fed7aa;border-radius:8px;margin-bottom:8px;">
+      <div style="display:flex;justify-content:space-between;align-items:center;padding:12px 14px;background:rgba(251,191,36,.08);border:1px solid rgba(251,191,36,.3);border-radius:8px;margin-bottom:8px;">
         <div>
-          <div style="font-weight:600;font-size:0.9rem;color:#0f1218;">Same-Day Service</div>
+          <div style="font-weight:600;font-size:0.9rem;color:#e8edf5;">Same-Day Service</div>
           <div style="font-size:0.75rem;color:#9a6a00;">Priority same-day install</div>
         </div>
         <span style="font-weight:700;color:#c2680f;min-width:40px;text-align:right;">$${VM_TRAVEL.sameDayFee}</span>
@@ -3763,55 +3767,55 @@ function initBookingStep4() {
     <!-- Running Total -->
     <div id="step4-total-box" style="background:linear-gradient(135deg,rgba(30,95,196,0.08),rgba(79,172,255,0.05));padding:16px 20px;border-radius:8px;border:1px solid rgba(79,172,255,.25);margin-bottom:24px;display:flex;justify-content:space-between;align-items:center;">
       <div>
-        <div style="font-size:0.78rem;color:#64748b;margin-bottom:2px;">Estimated Total</div>
-        <div style="font-size:0.72rem;color:#94a3b8;">Final price confirmed on-site</div>
+        <div style="font-size:0.78rem;color:rgba(232,237,245,.55);margin-bottom:2px;">Estimated Total</div>
+        <div style="font-size:0.72rem;color:rgba(232,237,245,.4);">Final price confirmed on-site</div>
       </div>
-      <div id="step4-total" style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:#1e5fc4;">$0</div>
+      <div id="step4-total" style="font-family:'Bebas Neue',sans-serif;font-size:2.2rem;color:#4facff;">$0</div>
     </div>
 
     <!-- Contact Form -->
-    <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#1e5fc4;font-weight:700;margin-bottom:12px;">Your Info</div>
+    <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#4facff;font-weight:700;margin-bottom:12px;">Your Info</div>
     <div style="margin-bottom:24px;">
       <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:12px;">
         <div>
-          <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">First Name *</label>
-          <input type="text" id="fname" placeholder="John" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;">
+          <label style="display:block;font-size:0.8rem;color:rgba(232,237,245,.75);margin-bottom:6px;font-weight:500;">First Name *</label>
+          <input type="text" id="fname" placeholder="John" style="width:100%;padding:12px;background:rgba(255,255,255,.03);border:1px solid rgba(79,172,255,.18);border-radius:6px;color:#e8edf5;font-size:16px;">
         </div>
         <div>
-          <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">Last Name *</label>
-          <input type="text" id="lname" placeholder="Smith" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;">
+          <label style="display:block;font-size:0.8rem;color:rgba(232,237,245,.75);margin-bottom:6px;font-weight:500;">Last Name *</label>
+          <input type="text" id="lname" placeholder="Smith" style="width:100%;padding:12px;background:rgba(255,255,255,.03);border:1px solid rgba(79,172,255,.18);border-radius:6px;color:#e8edf5;font-size:16px;">
         </div>
       </div>
       <div style="margin-bottom:12px;">
-        <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">Phone *</label>
-        <input type="tel" id="phone" placeholder="(480) 555-1234" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;">
+        <label style="display:block;font-size:0.8rem;color:rgba(232,237,245,.75);margin-bottom:6px;font-weight:500;">Phone *</label>
+        <input type="tel" id="phone" placeholder="(480) 555-1234" style="width:100%;padding:12px;background:rgba(255,255,255,.03);border:1px solid rgba(79,172,255,.18);border-radius:6px;color:#e8edf5;font-size:16px;">
       </div>
       <div style="margin-bottom:12px;">
-        <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">Email *</label>
-        <input type="email" id="email" placeholder="john@example.com" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;">
+        <label style="display:block;font-size:0.8rem;color:rgba(232,237,245,.75);margin-bottom:6px;font-weight:500;">Email *</label>
+        <input type="email" id="email" placeholder="john@example.com" style="width:100%;padding:12px;background:rgba(255,255,255,.03);border:1px solid rgba(79,172,255,.18);border-radius:6px;color:#e8edf5;font-size:16px;">
       </div>
       <div style="margin-bottom:12px;">
-        <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">Address *</label>
-        <input type="text" id="address" placeholder="123 Main St, Phoenix AZ 85001" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;">
+        <label style="display:block;font-size:0.8rem;color:rgba(232,237,245,.75);margin-bottom:6px;font-weight:500;">Address *</label>
+        <input type="text" id="address" placeholder="123 Main St, Phoenix AZ 85001" style="width:100%;padding:12px;background:rgba(255,255,255,.03);border:1px solid rgba(79,172,255,.18);border-radius:6px;color:#e8edf5;font-size:16px;">
       </div>
       <div style="margin-bottom:12px;">
-        <label style="display:block;font-size:0.8rem;color:#333;margin-bottom:6px;font-weight:500;">Gate Code / Special Instructions</label>
-        <textarea id="special-notes" placeholder="e.g. Gate code #1234, ring doorbell twice, park in driveway, dog in backyard..." style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:15px;min-height:80px;resize:vertical;font-family:inherit;"></textarea>
+        <label style="display:block;font-size:0.8rem;color:rgba(232,237,245,.75);margin-bottom:6px;font-weight:500;">Gate Code / Special Instructions</label>
+        <textarea id="special-notes" placeholder="e.g. Gate code #1234, ring doorbell twice, park in driveway, dog in backyard..." style="width:100%;padding:12px;background:rgba(255,255,255,.03);border:1px solid rgba(79,172,255,.18);border-radius:6px;color:#e8edf5;font-size:15px;min-height:80px;resize:vertical;font-family:inherit;"></textarea>
       </div>
     </div>
 
     <!-- SERVICE AGREEMENT + CONSENT -->
     <div style="margin-bottom:20px;">
-      <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#1e5fc4;font-weight:700;margin-bottom:8px;">Service Agreement &amp; Consent</div>
-      <div style="background:#fff3cd;border:1px solid #ffc107;border-radius:6px;padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;font-size:0.8rem;color:#856404;" id="scroll-hint-banner">
+      <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#4facff;font-weight:700;margin-bottom:8px;">Service Agreement &amp; Consent</div>
+      <div style="background:rgba(251,191,36,.1);border:1px solid rgba(251,191,36,.4);border-radius:6px;padding:10px 14px;margin-bottom:8px;display:flex;align-items:center;gap:10px;font-size:0.8rem;color:#856404;" id="scroll-hint-banner">
         <span style="font-size:1.1rem;">👇</span>
         <span><strong>Scroll to the bottom to accept</strong> — read the full agreement, then sign and agree.</span>
       </div>
       <div style="position:relative;">
-        <div id="agreement-scroll" onscroll="checkAgreementScroll(this)" style="background:#f8fafc;border:1px solid #e2e8f0;border-radius:8px;padding:20px;max-height:260px;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;font-size:0.78rem;color:#444;line-height:1.7;scrollbar-gutter:stable;">
+        <div id="agreement-scroll" onscroll="checkAgreementScroll(this)" style="background:rgba(255,255,255,.025);border:1px solid rgba(79,172,255,.12);border-radius:8px;padding:20px;max-height:260px;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior:contain;touch-action:pan-y;font-size:0.78rem;color:rgba(232,237,245,.7);line-height:1.7;scrollbar-gutter:stable;">
 
-          <strong style="color:#0f1218;font-size:0.85rem;">VistaMount LLC — Service Agreement</strong><br><br>
-          <div style="background:#eef4ff;border:1px solid #b8daff;border-radius:6px;padding:12px;margin-bottom:12px;font-size:0.78rem;line-height:1.8;">
+          <strong style="color:#e8edf5;font-size:0.85rem;">VistaMount LLC — Service Agreement</strong><br><br>
+          <div style="background:rgba(30,95,196,.08);border:1px solid rgba(79,172,255,.3);border-radius:6px;padding:12px;margin-bottom:12px;font-size:0.78rem;line-height:1.8;">
             <strong>Customer:</strong> ${(window._step4Cache && (window._step4Cache.fname || window._step4Cache.lname)) ? (window._step4Cache.fname + ' ' + window._step4Cache.lname).trim() : '[Your Name]'}<br>
             <strong>Service Address:</strong> ${(window._step4Cache && window._step4Cache.address) ? window._step4Cache.address : '[Your Address]'}<br>
             <strong>Appointment:</strong> ${bookingState.selectedDate ? vmLocalDate(bookingState.selectedDate).toLocaleDateString('en-US',{weekday:'long',month:'long',day:'numeric',year:'numeric'}) + (bookingState.selectedSlot ? ' at ' + bookingState.selectedSlot.time : '') : '[Selected Date & Time]'}<br>
@@ -3829,34 +3833,34 @@ function initBookingStep4() {
           <strong>8. Governing Law.</strong> This agreement is governed by the laws of the State of Arizona. Disputes shall be resolved in Maricopa County, AZ.<br><br>
 
         </div>
-        <div id="scroll-fade" style="position:absolute;bottom:0;left:0;right:0;height:28px;background:linear-gradient(to bottom,transparent,#f8fafc);border-radius:0 0 8px 8px;pointer-events:none;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px;">
-          <span style="font-size:0.7rem;color:#1e5fc4;font-weight:700;letter-spacing:.06em;text-transform:uppercase;">↓ Keep scrolling to accept</span>
+        <div id="scroll-fade" style="position:absolute;bottom:0;left:0;right:0;height:28px;background:linear-gradient(to bottom,transparent,#0b0d18);border-radius:0 0 8px 8px;pointer-events:none;display:flex;align-items:flex-end;justify-content:center;padding-bottom:4px;">
+          <span style="font-size:0.7rem;color:#4facff;font-weight:700;letter-spacing:.06em;text-transform:uppercase;">↓ Keep scrolling to accept</span>
         </div>
       </div>
 
       <!-- SIGNATURE + CONSENT - shown after scrolling -->
       <div id="sign-consent-section" style="display:none;margin-top:16px;padding-top:16px;border-top:2px solid #1e5fc4;">
-        <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#1e5fc4;font-weight:700;margin-bottom:8px;">Electronic Signature</div>
-        <input type="text" id="esignature" placeholder="Type your full name to sign" autocomplete="name" oninput="this.style.borderColor='#d0d7e0';this.style.boxShadow='none';var e=document.getElementById('esignature-error');if(e)e.remove();" style="width:100%;padding:12px;background:#ffffff;border:1px solid #d0d7e0;border-radius:6px;color:#000000;font-size:16px;font-style:italic;box-sizing:border-box;">
-        <div style="font-size:0.72rem;color:#888;margin-top:4px;margin-bottom:16px;">By typing your name you are electronically signing this service agreement.</div>
+        <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#4facff;font-weight:700;margin-bottom:8px;">Electronic Signature</div>
+        <input type="text" id="esignature" placeholder="Type your full name to sign" autocomplete="name" oninput="this.style.borderColor='rgba(79,172,255,.18)';this.style.boxShadow='none';var e=document.getElementById('esignature-error');if(e)e.remove();" style="width:100%;padding:12px;background:rgba(255,255,255,.03);border:1px solid rgba(79,172,255,.18);border-radius:6px;color:#e8edf5;font-size:16px;font-style:italic;box-sizing:border-box;">
+        <div style="font-size:0.72rem;color:rgba(232,237,245,.45);margin-top:4px;margin-bottom:16px;">By typing your name you are electronically signing this service agreement.</div>
 
-        <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#1e5fc4;font-weight:700;margin-bottom:10px;">Communication Consent</div>
+        <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#4facff;font-weight:700;margin-bottom:10px;">Communication Consent</div>
         <div style="display:flex;flex-direction:column;gap:10px;">
-          <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.82rem;color:#333;line-height:1.5;">
-            <input type="checkbox" id="consent-sms" style="margin-top:2px;width:16px;height:16px;flex-shrink:0;accent-color:#1e5fc4;">
+          <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.82rem;color:rgba(232,237,245,.75);line-height:1.5;">
+            <input type="checkbox" id="consent-sms" style="margin-top:2px;width:16px;height:16px;flex-shrink:0;accent-color:#4facff;">
             <span>I consent to receive SMS/text messages from VistaMount LLC regarding my appointment, confirmations, and follow-ups. Message &amp; data rates may apply. Reply STOP to opt out.</span>
           </label>
-          <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.82rem;color:#333;line-height:1.5;">
-            <input type="checkbox" id="consent-phone" style="margin-top:2px;width:16px;height:16px;flex-shrink:0;accent-color:#1e5fc4;">
+          <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.82rem;color:rgba(232,237,245,.75);line-height:1.5;">
+            <input type="checkbox" id="consent-phone" style="margin-top:2px;width:16px;height:16px;flex-shrink:0;accent-color:#4facff;">
             <span>I consent to receive phone calls from VistaMount LLC regarding my appointment and services.</span>
           </label>
-          <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.82rem;color:#333;line-height:1.5;">
-            <input type="checkbox" id="consent-email" style="margin-top:2px;width:16px;height:16px;flex-shrink:0;accent-color:#1e5fc4;">
+          <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.82rem;color:rgba(232,237,245,.75);line-height:1.5;">
+            <input type="checkbox" id="consent-email" style="margin-top:2px;width:16px;height:16px;flex-shrink:0;accent-color:#4facff;">
             <span>I consent to receive emails from VistaMount LLC including booking confirmations, receipts, and occasional service updates.</span>
           </label>
-          <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.82rem;color:#333;line-height:1.5;">
-            <input type="checkbox" id="consent-terms" required disabled style="margin-top:2px;width:16px;height:16px;flex-shrink:0;accent-color:#1e5fc4;opacity:0.4;cursor:not-allowed;">
-            <span id="consent-terms-label" style="color:#aaa;"><strong>I agree to the Service Agreement above and VistaMount LLC's Privacy Policy and Terms of Service.</strong> — <em>Scroll to unlock</em></span>
+          <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.82rem;color:rgba(232,237,245,.75);line-height:1.5;">
+            <input type="checkbox" id="consent-terms" required disabled style="margin-top:2px;width:16px;height:16px;flex-shrink:0;accent-color:#4facff;opacity:0.4;cursor:not-allowed;">
+            <span id="consent-terms-label" style="color:rgba(232,237,245,.55);"><strong>I agree to the Service Agreement above and VistaMount LLC's Privacy Policy and Terms of Service.</strong> — <em>Scroll to unlock</em></span>
           </label>
         </div>
       </div>
