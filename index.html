@@ -4333,28 +4333,35 @@ function closeLightbox(){
     <!-- MAIN: TV size pricing -->
     <div class="pricing-block fade-up d1">
       <div class="pricing-block-head">
-        <div class="pricing-block-eyebrow">Base Install &middot; by TV size</div>
+        <div class="pricing-block-eyebrow">Base Install &middot; by TV size &amp; area</div>
         <div class="pricing-block-note">Labor &middot; per TV &middot; drywall</div>
       </div>
+      <div style="display:flex;gap:8px;flex-wrap:wrap;margin-bottom:6px;">
+        <button class="zone-chip selected" onclick="setPricingZone('B', this)" style="flex:1;min-width:110px;padding:10px 8px;background:rgba(30,95,196,.18);border:2px solid #4facff;border-radius:8px;color:#fff;font-size:0.82rem;font-weight:700;cursor:pointer;transition:all .2s;">Phoenix Metro</button>
+        <button class="zone-chip" onclick="setPricingZone('A', this)" style="flex:1;min-width:110px;padding:10px 8px;background:rgba(255,255,255,.04);border:2px solid rgba(79,172,255,.2);border-radius:8px;color:rgba(232,237,245,.8);font-size:0.82rem;font-weight:700;cursor:pointer;transition:all .2s;">Scottsdale &amp; North Valley</button>
+        <button class="zone-chip" onclick="setPricingZone('C', this)" style="flex:1;min-width:110px;padding:10px 8px;background:rgba(255,255,255,.04);border:2px solid rgba(79,172,255,.2);border-radius:8px;color:rgba(232,237,245,.8);font-size:0.82rem;font-weight:700;cursor:pointer;transition:all .2s;">Extended Valley</button>
+      </div>
+      <div id="zone-cities" style="font-size:0.74rem;color:rgba(232,237,245,.5);margin-bottom:16px;">Phoenix &middot; Tempe &middot; Mesa &middot; Chandler &middot; Gilbert &middot; Glendale &amp; surrounding</div>
       <div class="size-grid">
         <div class="size-card">
           <div class="size-label">Under 32"</div>
-          <div class="size-price">$100</div>
+          <div class="size-price" id="zp-32">100</div>
         </div>
         <div class="size-card">
           <div class="size-label">32" &ndash; 64"</div>
-          <div class="size-price">$149</div>
+          <div class="size-price" id="zp-64">125</div>
           <div class="size-tag">Most common</div>
         </div>
         <div class="size-card">
           <div class="size-label">65" &ndash; 84"</div>
-          <div class="size-price">$179</div>
+          <div class="size-price" id="zp-84">150</div>
         </div>
         <div class="size-card">
           <div class="size-label">85"+</div>
-          <div class="size-price">$275</div>
+          <div class="size-price" id="zp-85">200</div>
         </div>
       </div>
+      <div id="zone-travel-note" style="display:none;font-size:0.78rem;color:#fcd34d;margin-top:10px;">Extended Valley installs use Phoenix Metro rates plus a travel fee &mdash; calculated by ZIP in the booking form.</div>
     </div>
 
     <!-- UPGRADES: 3 columns for Mount, Cord, Wall -->
@@ -4490,7 +4497,7 @@ function closeLightbox(){
           </tr>
           <tr style="border-bottom:1px solid rgba(255,255,255,0.07);">
             <td style="padding:12px 14px;color:rgba(255,255,255,0.6);">65"–84" TV mounting</td>
-            <td style="padding:12px 14px;background:rgba(37,99,235,0.08);">$179, exact price before you book</td>
+            <td style="padding:12px 14px;background:rgba(37,99,235,0.08);">$125&ndash;$179 by area, exact price before you book</td>
             <td style="padding:12px 14px;">$129–$249 + add-on fees</td>
             <td style="padding:12px 14px;">$149.99 — you may be asked to help lift, or +$50 for a 2nd pro</td>
           </tr>
@@ -4677,7 +4684,7 @@ function closeLightbox(){
   <div class="acc-icon"><span class="acc-chevron">&#9660;</span></div>
 </div>
 <div class="acc-body">
-  <div style="padding:18px 24px 24px;color:#1e293b;font-size:15px;line-height:1.65;">Our <strong>TV mounting service</strong> starts at $100 for TVs under 32" and scales with size: $149 (32"&ndash;64"), $179 (65"&ndash;84"), and $275 for 85"+ TVs. That's the <strong>TV wall mount installation</strong> labor : mounts, in-wall cord concealment, soundbar installation, and fireplace mounts are added based on what you need. You'll see your full price before booking, and we confirm everything on a quick call so there are zero surprises on install day.</div>
+  <div style="padding:18px 24px 24px;color:#1e293b;font-size:15px;line-height:1.65;">Our <strong>TV mounting service</strong> starts at $100 for TVs under 32" and scales with size and area. In the Phoenix metro core (Phoenix, Tempe, Mesa, Chandler, Gilbert): $125 (32"&ndash;64"), $150 (65"&ndash;84"), and $200 for 85"+. In our Scottsdale &amp; North Valley zone: $149, $179, and $250. That's the <strong>TV wall mount installation</strong> labor : mounts, in-wall cord concealment, soundbar installation, and fireplace mounts are added based on what you need. You'll see your full price before booking, and we confirm everything on a quick call so there are zero surprises on install day.</div>
 </div>
 </div>
 
@@ -5437,6 +5444,30 @@ async function submitForm(){
 // Init
 
 calcMainEst();
+
+// ==================== HOMEPAGE ZONE PRICING ====================
+var ZONE_PRICE_TABLES = {
+  A: {z32:'100', z64:'149', z84:'179', z85:'250', cities:'Scottsdale &middot; Paradise Valley &middot; Fountain Hills &middot; Cave Creek &middot; Carefree &middot; Arcadia'},
+  B: {z32:'100', z64:'125', z84:'150', z85:'200', cities:'Phoenix &middot; Tempe &middot; Mesa &middot; Chandler &middot; Gilbert &middot; Glendale &amp; surrounding'},
+  C: {z32:'100', z64:'125', z84:'150', z85:'200', cities:'Queen Creek &middot; San Tan Valley &middot; Maricopa &middot; Buckeye &middot; Casa Grande &amp; beyond'}
+};
+function setPricingZone(z, btn){
+  var t = ZONE_PRICE_TABLES[z];
+  document.getElementById('zp-32').textContent = t.z32;
+  document.getElementById('zp-64').textContent = t.z64;
+  document.getElementById('zp-84').textContent = t.z84;
+  document.getElementById('zp-85').textContent = t.z85;
+  document.getElementById('zone-cities').innerHTML = t.cities;
+  document.getElementById('zone-travel-note').style.display = (z === 'C') ? 'block' : 'none';
+  document.querySelectorAll('.zone-chip').forEach(function(b){
+    b.style.background = 'rgba(255,255,255,.04)';
+    b.style.borderColor = 'rgba(79,172,255,.2)';
+    b.style.color = 'rgba(232,237,245,.8)';
+  });
+  btn.style.background = 'rgba(30,95,196,.18)';
+  btn.style.borderColor = '#4facff';
+  btn.style.color = '#fff';
+}
 </script>
 
 <!-- BOOKING MODAL -->
