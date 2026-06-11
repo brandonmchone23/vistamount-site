@@ -2434,6 +2434,10 @@ function onZipInput(val){
     bookingState.fuelSurcharge = 0; bookingState.zipMiles = null; bookingState.zipKnown = null;
     if(panel) panel.innerHTML = '';
     if(nextBtn){ nextBtn.disabled = true; nextBtn.style.opacity = '0.5'; nextBtn.style.cursor = 'not-allowed'; }
+    const gate = document.getElementById('tv-pricing-section');
+    const ph = document.getElementById('zip-gate-placeholder');
+    if (gate) gate.style.display = 'none';
+    if (ph) ph.style.display = '';
     renderTVCards();
     updatePriceDisplay();
     return;
@@ -2452,6 +2456,10 @@ function runZipCalc(zip){
   const nb = document.getElementById('step1-next');
   if(nb){ nb.disabled = false; nb.style.opacity = '1'; nb.style.cursor = 'pointer'; }
   panel.innerHTML = result.known ? vmMapPanel(zip, result, true) : vmFallbackPanel(zip, result);
+  const gate = document.getElementById('tv-pricing-section');
+  const ph = document.getElementById('zip-gate-placeholder');
+  if (gate) gate.style.display = '';
+  if (ph) ph.style.display = 'none';
   renderTVCards();
   updatePriceDisplay();
 }
@@ -2492,13 +2500,18 @@ function renderModalNav(backStep, nextStep, nextLabel, nextAction, disabled) {
 
 
 // ---- Service zone pricing ----
-// Zone A (premium): Scottsdale, Paradise Valley, Arcadia/Biltmore, Fountain Hills, Rio Verde, Cave Creek, Carefree
-// Everything else = Zone B (core). Distance is monetized separately via the fuel surcharge.
-const VM_ZONE_A = new Set(['85016','85018','85250','85251','85253','85254','85255','85257','85258','85259','85260','85262','85263','85266','85268','85331','85377']);
+// ZIP->city lookup (GeoNames / public census data). Unmapped ZIPs default to Zone B (core).
+const VM_ZIP_CITY = {'85003':'phoenix','85004':'phoenix','85006':'phoenix','85007':'phoenix','85008':'phoenix','85009':'phoenix','85012':'phoenix','85013':'phoenix','85014':'phoenix','85015':'phoenix','85016':'phoenix','85017':'phoenix','85018':'phoenix','85019':'phoenix','85020':'phoenix','85021':'phoenix','85022':'phoenix','85023':'phoenix','85024':'phoenix','85027':'new river stage','85028':'phoenix','85029':'phoenix','85031':'phoenix','85032':'phoenix','85033':'phoenix','85034':'phoenix','85035':'phoenix','85037':'phoenix','85040':'phoenix','85041':'phoenix','85042':'phoenix','85043':'phoenix','85044':'phoenix','85045':'phoenix','85048':'phoenix','85050':'phoenix','85051':'phoenix','85053':'phoenix','85054':'phoenix','85083':'phoenix','85085':'phoenix','85086':'phoenix','85087':'zcta 85087','85138':'maricopa','85139':'maricopa','85140':'san tan valley','85142':'queen creek','85143':'san tan valley','85201':'mesa','85202':'mesa','85203':'mesa','85204':'mesa','85205':'mesa','85206':'mesa','85207':'mesa','85208':'mesa','85209':'mesa','85210':'mesa','85212':'mesa','85213':'mesa','85215':'mesa','85224':'chandler','85225':'chandler','85226':'chandler','85233':'gilbert','85234':'gilbert','85248':'sun lakes','85249':'chandler','85250':'scottsdale','85251':'scottsdale','85253':'paradise valley','85254':'scottsdale','85255':'scottsdale','85256':'scottsdale','85257':'scottsdale','85258':'scottsdale','85259':'scottsdale','85260':'scottsdale','85262':'scottsdale','85263':'rio verde','85264':'fort mcdowell','85266':'scottsdale','85268':'fountain hills','85281':'tempe','85282':'tempe','85283':'tempe','85284':'tempe','85286':'chandler','85295':'gilbert','85296':'gilbert','85297':'gilbert','85298':'gilbert','85301':'glendale','85302':'glendale','85303':'glendale','85304':'glendale','85305':'glendale','85306':'glendale','85307':'luke afb','85308':'glendale','85309':'luke afb','85310':'glendale','85320':'aguila','85321':'why','85322':'arlington','85323':'avondale','85324':'rock springs','85325':'bouse','85326':'buckeye','85328':'cibola','85331':'cave creek','85332':'congress','85333':'dateland','85334':'ehrenberg','85335':'el mirage','85336':'gadsden','85337':'gila bend','85338':'goodyear','85339':'laveen','85340':'litchfield park','85341':'lukeville','85342':'morristown','85343':'palo verde','85344':'empire landing','85345':'peoria','85346':'quartzsite','85347':'roll','85348':'salome','85349':'san luis','85350':'somerton','85351':'sun city','85352':'tacna','85353':'tolleson','85354':'tonopah','85355':'waddell','85356':'wellton','85357':'wenden','85360':'wikieup','85361':'wittmann','85362':'yarnell','85363':'youngtown','85364':'yuma','85365':'yuma proving gro','85367':'yuma','85371':'poston','85373':'sun city','85374':'surprise','85375':'sun city west','85377':'carefree','85379':'zcta 85379','85381':'peoria','85382':'peoria','85383':'peoria','85387':'surprise','85388':'surprise','85390':'wickenburg','85392':'avondale','85395':'goodyear','85396':'buckeye','85501':'globe','85530':'bylas','85531':'central','85533':'clifton','85534':'franklin','85535':'eden','85536':'fort thomas','85539':'miami','85540':'morenci','85541':'payson','85542':'peridot','85543':'pima','85544':'strawberry','85545':'roosevelt','85546':'safford','85550':'san carlos','85551':'solomon','85552':'thatcher','85553':'tonto basin','85554':'young','85601':'arivaca','85602':'benson','85603':'bisbee','85605':'bowie','85606':'cochise','85607':'douglas','85608':'douglas','85609':'dragoon','85610':'elfrida','85611':'elgin','85613':'fort huachuca','85614':'green valley','85615':'hereford','85616':'huachuca city','85617':'mc neal','85618':'mammoth','85619':'mount lemmon','85620':'naco','85621':'nogales','85622':'green valley','85623':'oracle','85624':'patagonia','85625':'pearce','85626':'pirtleville','85627':'pomerene','85629':'sahuarita','85630':'saint david','85631':'san manuel','85632':'portal','85633':'sasabe','85634':'pisinemo','85635':'sierra vista','85637':'sonoita','85638':'tombstone','85640':'amado','85641':'vail','85643':'willcox','85645':'amado','85646':'tubac','85648':'rio rico','85650':'zcta 85650','85653':'marana','85654':'rillito','85701':'tucson','85704':'casas adobes','85705':'tucson','85706':'tucson','85707':'tucson','85708':'tucson','85710':'tucson','85711':'tucson','85712':'tucson','85713':'tucson','85714':'tucson','85715':'tucson','85716':'tucson','85718':'tucson','85719':'tucson','85723':'tucson','85724':'tucson','85726':'tucson','85730':'tucson','85735':'tucson','85736':'tucson','85737':'oro valley','85739':'zcta 85739','85741':'tucson','85742':'tucson','85743':'tucson','85745':'tucson','85746':'tucson','85747':'tucson','85748':'tucson','85749':'tucson','85750':'tucson','85901':'show low','85911':'cibeque','85912':'white mountain lake','85920':'alpine','85922':'blue','85923':'clay springs','85924':'concho','85925':'eagar','85926':'fort apache','85927':'greer','85928':'heber','85929':'lakeside','85930':'mc nary','85931':'forest lakes','85932':'nutrioso','85933':'overgaard','85934':'pinedale','85935':'pinetop','85936':'saint johns','85937':'snowflake','85938':'springerville','85939':'taylor','85940':'vernon','85941':'whiteriver','85942':'woodruff','86001':'flagstaff','86003':'flagstaff','86004':'flagstaff','86011':'flagstaff','86015':'bellemont','86016':'gray mountain','86017':'munds park','86018':'parks','86020':'cameron','86021':'colorado city','86022':'fredonia','86023':'grand canyon','86024':'happy jack','86025':'holbrook','86028':'petrified forest natl pk','86029':'sun valley','86030':'hotevilla','86031':'indian wells','86032':'joseph city','86033':'kayenta','86034':'keams canyon','86035':'leupp','86036':'marble canyon','86038':'mormon lake','86039':'kykotsmovi villa','86040':'greenehaven','86042':'polacca','86043':'second mesa','86044':'tonalea','86045':'tuba city','86046':'williams','86047':'winslow','86052':'north rim','86053':'kaibito','86054':'shonto','86301':'prescott','86303':'groom creek','86305':'zcta 86305','86313':'prescott','86314':'prescott valley','86320':'ash fork','86321':'bagdad','86322':'camp verde','86323':'chino valley','86324':'clarkdale','86325':'cornville','86326':'cottonwood','86327':'dewey','86329':'humboldt','86331':'jerome','86332':'kirkland','86333':'mayer','86334':'paulden','86335':'rimrock','86336':'sedona','86337':'seligman','86338':'skull valley','86343':'crown king','86351':'sedona','86401':'kingman','86403':'desert hills','86404':'lake havasu city','86406':'lake havasu city','86411':'hackberry','86413':'golden valley','86426':'bullhead city','86429':'bullhead city','86431':'chloride','86432':'littlefield','86433':'oatman','86434':'peach springs','86435':'supai','86436':'topock','86437':'valentine','86438':'yucca','86440':'mohave valley','86441':'dolan springs','86442':'bullhead city','86443':'temple bar marina','86444':'meadview','86445':'willow beach','86502':'chambers','86503':'chinle','86504':'fort defiance','86505':'ganado','86506':'houck','86507':'lukachukai','86508':'lupton','86510':'pinon','86511':'saint michaels','86512':'sanders','86514':'teec nos pos','86515':'window rock','86520':'blue gap','86535':'dennehotso','86538':'many farms','86540':'nazlini','86544':'red valley','86545':'rock point','86547':'round rock','86556':'tsaile'};
+// Premium cities price at Zone A; Arcadia/Biltmore are 'Phoenix' by city so they ride the ZIP override list.
+const VM_PREMIUM_CITIES = new Set(['scottsdale','paradise valley','fountain hills','cave creek','carefree','rio verde']);
+const VM_ZONE_A_OVERRIDES = new Set(['85016','85018']);
+function vmCityForZip(zip){ return VM_ZIP_CITY[zip] || null; }
 function vmZone(){
   const z = bookingState.zip || '';
-  if (z.length === 5 && !VM_ZONE_A.has(z)) return 'B';
-  return 'A'; // default before/without ZIP: anchor at premium rates so prices only ever drop
+  if (z.length !== 5) return 'A'; // anchor at premium before a valid ZIP (landing/edge paths only ever drop)
+  if (VM_ZONE_A_OVERRIDES.has(z)) return 'A';
+  const c = vmCityForZip(z);
+  return (c && VM_PREMIUM_CITIES.has(c)) ? 'A' : 'B';
 }
 function vmSizePrice(size){
   const A = {'<32':100,'32-64':149,'65-84':179,'85+':250};
@@ -2728,11 +2741,17 @@ function initBookingStep1() {
   container.innerHTML = `
     <div style="margin-bottom:24px;">
       <label style="display:block;font-size:0.85rem;color:rgba(232,237,245,.75);margin-bottom:8px;font-weight:600;">What's your ZIP code? <span style="color:#4facff;">*</span></label>
-      <div style="font-size:0.75rem;color:rgba(232,237,245,.6);margin-bottom:8px;">So we can estimate travel from our downtown Phoenix shop.</div>
+      <div style="font-size:0.75rem;color:rgba(232,237,245,.6);margin-bottom:8px;">We'll show exact pricing for your area and estimate travel from our downtown Phoenix shop.</div>
       <input type="text" id="booking-zip" inputmode="numeric" maxlength="5" placeholder="85003" value="${bookingState.zip || ''}" oninput="onZipInput(this.value)" style="width:100%;padding:14px;background:rgba(255,255,255,.03);border:1px solid rgba(79,172,255,.18);border-radius:6px;color:#e8edf5;font-size:18px;letter-spacing:0.18em;font-weight:600;text-align:center;box-sizing:border-box;">
       <div id="zip-calc-panel" style="margin-top:12px;"></div>
     </div>
 
+    <div id="zip-gate-placeholder" style="${(/^\d{5}$/.test(bookingState.zip) && bookingState.zipKnown !== null) ? 'display:none;' : ''}padding:28px 20px;border:1px dashed rgba(79,172,255,.25);border-radius:8px;text-align:center;margin-bottom:24px;">
+      <div style="font-size:0.9rem;color:rgba(232,237,245,.7);font-weight:600;margin-bottom:4px;">Enter your ZIP above to get started</div>
+      <div style="font-size:0.75rem;color:rgba(232,237,245,.45);">We'll show exact pricing and availability for your area</div>
+    </div>
+
+    <div id="tv-pricing-section" style="${(/^\d{5}$/.test(bookingState.zip) && bookingState.zipKnown !== null) ? '' : 'display:none;'}">
     <div style="margin-bottom:24px;">
       <label style="display:block;font-size:0.85rem;color:rgba(232,237,245,.75);margin-bottom:12px;font-weight:500;">How many TVs?</label>
       <div style="display:grid;grid-template-columns:repeat(4,1fr);gap:8px;">
@@ -2753,6 +2772,7 @@ function initBookingStep1() {
     <div style="margin-top:18px;padding:14px 16px;background:rgba(255,255,255,.025);border:1px dashed rgba(79,172,255,.25);border-radius:8px;text-align:center;">
       <div style="font-size:0.78rem;color:rgba(232,237,245,.6);margin-bottom:6px;">Have something more complex? Brick fireplace, in-wall wiring, smart home, multi-room AV?</div>
       <a href="/quote.html" style="display:inline-block;font-size:0.85rem;font-weight:600;color:#4facff;text-decoration:none;border-bottom:1px solid #1e5fc4;">Request a Custom Quote &rarr;</a>
+    </div>
     </div>
     
     </div>
@@ -2818,7 +2838,6 @@ function renderTVCards() {
           <button class="option-btn ${tv.size === '65-84' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '65-84')">65"&ndash;84"<br><small style="font-size:0.75rem;opacity:0.8;">$${vmSizePrice('65-84')}</small></button>
           <button class="option-btn ${tv.size === '85+' ? 'selected' : ''}" onclick="setTVProp(${i}, 'size', '85+')">85"+<br><small style="font-size:0.75rem;opacity:0.8;">$${vmSizePrice('85+')}</small></button>
         </div>
-        ${vmZone() === 'B' ? '<div style="font-size:0.72rem;color:#34d399;font-weight:600;margin-top:6px;">\u2713 Core service area pricing applied</div>' : ''}
       </div>
       
       <div style="margin-bottom:16px;">
@@ -3520,7 +3539,7 @@ async function submitBooking() {
     ).join(' ') +
     (bookingState.soundbars ? ' soundbars:' + bookingState.soundbars : '') +
     (bookingState.dismounts ? ' dismounts:' + bookingState.dismounts : '') +
-    (bookingState.zip ? ' zip:' + bookingState.zip + ' zone:' + vmZone() : '') +
+    (bookingState.zip ? ' zip:' + bookingState.zip + ' zone:' + vmZone() + (vmCityForZip(bookingState.zip) ? ' city:' + vmCityForZip(bookingState.zip).replace(/ /g,'_') : '') : '') +
     (bookingState.fuelSurcharge ? ' travel:$' + bookingState.fuelSurcharge + (bookingState.zipMiles != null ? '(' + bookingState.zipMiles + 'mi)' : '') : '') +
     (vmIsSameDay() ? ' sameday:$' + VM_TRAVEL.sameDayFee : '') +
     ((bookingState.delivery && bookingState.delivery.on) ? ' delivery:' + bookingState.delivery.from + '/' + bookingState.delivery.condition + '/' + bookingState.delivery.size + 'x' + bookingState.delivery.qty + (vmDeliveryStatus() === 'custom' ? '(CUSTOM-quote)' : '($' + vmDeliveryFee() + ')') + (bookingState.delivery.loc ? ' from[' + bookingState.delivery.loc + ']' : '') : '');
