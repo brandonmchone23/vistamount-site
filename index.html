@@ -48,10 +48,18 @@
   // Owner customer: 3889961796 (VistaMount LLC)
   var PHONE_CONVERSION_SEND_TO = 'AW-17950543580/qiU6CLSQ_6ccENydvu9C';
 
+  // Dedup: pointerdown + click both fire for one tap. Collapse to a single
+  // event/conversion per tel: link within a short window.
+  var _lastPhoneFire = { href: null, t: 0 };
+
   function logPhoneClick(e) {
     try {
       var a = e.target.closest('a[href^="tel:"]');
       if (!a) return;
+      var _telHref = a.getAttribute('href');
+      var _now = Date.now();
+      if (_lastPhoneFire.href === _telHref && (_now - _lastPhoneFire.t) < 1500) return;
+      _lastPhoneFire.href = _telHref; _lastPhoneFire.t = _now;
       var phoneNumber = a.getAttribute('href').replace('tel:', '');
       // Identify where on the page this was clicked
       var sourceElement = 'unknown';
