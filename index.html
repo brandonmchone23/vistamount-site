@@ -11,7 +11,7 @@
     var KEY = 'vm_attr';
     var TTL_MS = 90 * 24 * 60 * 60 * 1000; // 90 days
     var params = new URLSearchParams(window.location.search);
-    var keys = ['gclid','utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
+    var keys = ['gclid','gbraid','wbraid','utm_source','utm_medium','utm_campaign','utm_term','utm_content'];
     var fresh = {};
     var hasFresh = false;
     keys.forEach(function(k){
@@ -145,6 +145,8 @@
         page_title: document.title,
         referrer: document.referrer,
         gclid: attr.gclid || null,
+        gbraid: attr.gbraid || null,
+        wbraid: attr.wbraid || null,
         utm_source: attr.utm_source || null,
         utm_medium: attr.utm_medium || null,
         utm_campaign: attr.utm_campaign || null,
