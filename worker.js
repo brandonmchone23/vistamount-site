@@ -166,6 +166,8 @@ async function logJobToSupabase(env, booking) {
       .filter(Boolean).join(' | ') || null,
     amount_cents: booking.quotedPrice ? Math.round(Number(booking.quotedPrice) * 100) : null,
     gclid: attr.gclid || null,
+    gbraid: attr.gbraid || null,
+    wbraid: attr.wbraid || null,
     utm_source: attr.utm_source || null,
     utm_medium: attr.utm_medium || null,
     utm_campaign: attr.utm_campaign || null,
