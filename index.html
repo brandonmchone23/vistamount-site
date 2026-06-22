@@ -2218,6 +2218,16 @@ function vmJobDuration(){
   mins = Math.max(T.floor, Math.ceil(mins / T.roundTo) * T.roundTo);
   return Math.min(mins, T.cap);
 }
+function vmTravelMinutes(){
+  // One-way drive time from base to the customer's ZIP, used as the calendar
+  // travel buffer around each booking (replaces the old flat 1 hr). bookingState
+  // .zipMiles is the straight-line distance already computed for the fuel surcharge.
+  var mi = bookingState.zipMiles;
+  if (mi == null) return 45;             // unknown / out-of-area ZIP -> moderate default
+  var MIN_PER_MILE = 2.5;                // straight-line mi -> drive min (Phoenix grid, ~28 mph effective)
+  var t = Math.round(mi * MIN_PER_MILE);
+  return Math.max(25, Math.min(t, 90));  // floor 25 min, cap 90 min
+}
 function vmIsSameDay(){
   const s = bookingState.selectedSlot;
   if(!s || !s.start) return false;
@@ -3313,7 +3323,7 @@ async function loadBookingSlots() {
   
   try {
     // Call your existing availability API
-    const response = await fetch(`https://vistamount-worker.billowing-recipe-0ae7.workers.dev/availability?date=${selectedDate}&duration=${vmJobDuration()}`);
+    const response = await fetch(`https://vistamount-worker.billowing-recipe-0ae7.workers.dev/availability?date=${selectedDate}&duration=${vmJobDuration()}&travel=${vmTravelMinutes()}`);
     const data = await response.json();
     
     if (data.slots && data.slots.length > 0) {
@@ -3507,6 +3517,7 @@ async function submitBooking() {
         sourceId: sourceId,
         confirmationNumber: confirmationNumber,
         quotedPrice: calculatePrice(),
+        travelMinutes: vmTravelMinutes(),
         attribution: (typeof window.getVMAttribution === 'function') ? window.getVMAttribution() : {},
         consent: window._consentData || {
           signature: '',

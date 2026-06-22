@@ -31,7 +31,7 @@ async function getAccessToken(env) {
   return data.access_token;
 }
 
-async function getAvailability(date, duration, token) {
+async function getAvailability(date, duration, travelMin, token) {
   const start = new Date(`${date}T07:00:00-07:00`);
   const end = new Date(`${date}T19:00:00-07:00`);
   const res = await fetch('https://www.googleapis.com/calendar/v3/freeBusy', {
@@ -41,7 +41,11 @@ async function getAvailability(date, duration, token) {
   });
   const data = await res.json();
   const busy = Object.values(data.calendars || {}).flatMap(cal => cal.busy || []);
-  const BUFFER = 60 * 60 * 1000;
+  // Travel buffer around each existing job = the new booking's drive time from
+  // base (passed from the site as ?travel=minutes). Far jobs reserve more time,
+  // nearby jobs less — replacing the old flat 1 hr. Clamped 25–90 min.
+  const bufferMin = Math.max(25, Math.min(parseInt(travelMin) || 45, 90));
+  const BUFFER = bufferMin * 60 * 1000;
   const slotTimes = [
     { label: 'Morning', start: '08:00', display: '8:00 AM' },
     { label: 'Late Morning', start: '10:00', display: '10:00 AM' },
@@ -63,7 +67,7 @@ async function getAvailability(date, duration, token) {
 }
 
 async function createEvent(token, booking) {
-  const { slotStart, slotEnd, name, phone, email, address, summary, notes } = booking;
+  const { slotStart, slotEnd, name, phone, email, address, summary, notes, travelMinutes } = booking;
   const res = await fetch('https://www.googleapis.com/calendar/v3/calendars/primary/events', {
     method: 'POST',
     headers: { Authorization: `Bearer ${token}`, 'Content-Type': 'application/json' },
@@ -73,6 +77,7 @@ async function createEvent(token, booking) {
       start: { dateTime: slotStart, timeZone: 'America/Phoenix' },
       end: { dateTime: slotEnd, timeZone: 'America/Phoenix' },
       location: address,
+      extendedProperties: { private: { travelMin: String(travelMinutes || '') } },
     }),
   });
   return res.json();
@@ -239,10 +244,11 @@ export default {
     if (url.pathname === '/availability' && request.method === 'GET') {
       const date = url.searchParams.get('date');
       const duration = parseInt(url.searchParams.get('duration') || '120');
+      const travel = parseInt(url.searchParams.get('travel') || '45');
       if (!date) return new Response(JSON.stringify({ error: 'date required' }), { status: 400, headers: CORS });
       try {
         const token = await getAccessToken(env);
-        const slots = await getAvailability(date, duration, token);
+        const slots = await getAvailability(date, duration, travel, token);
         return new Response(JSON.stringify({ slots }), { headers: { ...CORS, 'Content-Type': 'application/json' } });
       } catch (e) {
         return new Response(JSON.stringify({ error: e.message }), { status: 500, headers: CORS });
