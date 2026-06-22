@@ -2171,21 +2171,52 @@ function vmZipLookup(zip){
 // Parse YYYY-MM-DD as LOCAL date (new Date('YYYY-MM-DD') is UTC midnight = previous day in Phoenix)
 function vmLocalDate(s){ var p = String(s).split('-'); return new Date(+p[0], +p[1]-1, +p[2]); }
 function vmJobDuration(){
+  // ====== Estimated on-site time per service (MINUTES) ======
+  // This is what blocks your Google Calendar, so availability updates itself.
+  // Numbers marked (you) are the ones you gave me; the rest are sensible
+  // defaults — tweak any of them and the calendar follows.
+  var T = {
+    tv:          40,   // (you) avg per TV mount
+    raceway:     20,   // on-wall cord raceway (per TV)
+    concealed:   30,   // (you) in-wall cord concealment (per TV)  — your 20–30
+    outlet:      60,   // (you) in-wall + new outlet behind TV (per TV) — your ~1 hr
+    soundbar:    50,   // (you) per soundbar — your 40–60
+    fireplace:   30,   // above-fireplace mount (per TV)
+    dismount:    20,   // remove an existing mount (per mount)
+    haulaway:    10,   // load an old TV for haul-off (per TV)
+    delivery:    60,   // same-day store pickup + transport (flat; varies by distance)
+    mantelMount: 60,   // MantelMount pull-down install (per TV)
+    outdoor:     60,   // outdoor install (per TV)
+    highMount:   30,   // 10ft+/high-ceiling mount (per TV)
+    frame:       45,   // Frame TV setup (per TV)
+    framePower:  60,   // recessed power for a Frame TV w/ no existing outlet (per TV)
+    masonryAdd:  20,   // extra for drilling brick/tile/stone/stucco when going in-wall
+    floor:       45,   // never block less than this
+    roundTo:     15,   // round the total up to a clean increment
+    cap:        480    // never block more than 8 hrs
+  };
+  var masonryWalls = ['brick','tile','stone','stucco'];
   var mins = 0;
   var tvs = (bookingState.tvs || []);
-  mins += Math.min(tvs.length, 4) * 60;
+  mins += tvs.length * T.tv;
   tvs.forEach(function(tv){
-    if (tv.cords === 'concealed' || tv.cords === 'outlet') mins += (['brick','tile','stucco'].indexOf(tv.wall) > -1 ? 60 : 30);
-    if (tv.mantelMount && tv.mantelMount !== 'false' && tv.mantelMount !== 'none') mins += 60;
-    if (tv.outdoor) mins += 60;
-    if (tv.high) mins += 30;
-    if (tv.frame) mins += 45;
-    if (tv.frame && tv.framePower === 'no') mins += 60;
+    var masonry = masonryWalls.indexOf(tv.wall) > -1;
+    if (tv.cords === 'raceway')   mins += T.raceway;
+    if (tv.cords === 'concealed') mins += T.concealed + (masonry ? T.masonryAdd : 0);
+    if (tv.cords === 'outlet')    mins += T.outlet    + (masonry ? T.masonryAdd : 0); // (not yet a bookable option)
+    if (tv.fireplace) mins += T.fireplace;
+    if (tv.mantelMount && tv.mantelMount !== 'false' && tv.mantelMount !== 'none') mins += T.mantelMount;
+    if (tv.outdoor) mins += T.outdoor;
+    if (tv.high)    mins += T.highMount;
+    if (tv.frame)   mins += T.frame;
+    if (tv.frame && tv.framePower === 'no') mins += T.framePower;
   });
-  mins += (bookingState.soundbars || 0) * 45;
-  mins += (bookingState.dismounts || 0) * 20;
-  mins = Math.max(120, Math.ceil(mins / 30) * 30);
-  return Math.min(mins, 480);
+  mins += (bookingState.soundbars || 0) * T.soundbar;
+  mins += (bookingState.dismounts || 0) * T.dismount;
+  mins += ((bookingState.haulawaySmall || 0) + (bookingState.haulawayLarge || 0)) * T.haulaway;
+  if (bookingState.delivery && bookingState.delivery.on) mins += T.delivery;
+  mins = Math.max(T.floor, Math.ceil(mins / T.roundTo) * T.roundTo);
+  return Math.min(mins, T.cap);
 }
 function vmIsSameDay(){
   const s = bookingState.selectedSlot;
@@ -5234,7 +5265,7 @@ function loadSlots(){
   selectedSlot=null;
   document.getElementById('time-next-btn').style.opacity='.4';
   document.getElementById('time-next-btn').style.pointerEvents='none';
-  fetch(WORKER+'/availability?date='+date+'&duration=${vmJobDuration()}')
+  fetch(WORKER+'/availability?date='+date+'&duration='+vmJobDuration())
     .then(function(r){return r.json();})
     .then(function(data){
       var slots=data.slots||[];
