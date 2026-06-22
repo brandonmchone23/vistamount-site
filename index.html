@@ -3063,7 +3063,7 @@ function initBookingStep2() {
     <div style="display:flex;flex-direction:column;gap:16px;margin-bottom:24px;">
       <div style="display:flex;justify-content:space-between;align-items:center;padding:16px;background:rgba(30,95,196,.1);border:1px solid rgba(79,172,255,.2);border-radius:6px;">
         <div>
-          <div style="font-weight:600;margin-bottom:4px;">Soundbar Installation</div>
+          <div style="font-weight:600;margin-bottom:4px;color:#e8edf5;">Soundbar Installation</div>
           <div style="font-size:0.75rem;color:rgba(232,237,245,.6);">$100 first, $75 each after</div>
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
@@ -3075,7 +3075,7 @@ function initBookingStep2() {
       
       <div style="display:flex;justify-content:space-between;align-items:center;padding:16px;background:rgba(30,95,196,.1);border:1px solid rgba(79,172,255,.2);border-radius:6px;">
         <div>
-          <div style="font-weight:600;margin-bottom:4px;">Remove Existing Mount</div>
+          <div style="font-weight:600;margin-bottom:4px;color:#e8edf5;">Remove Existing Mount</div>
           <div style="font-size:0.75rem;color:rgba(232,237,245,.6);">$25 each</div>
         </div>
         <div style="display:flex;align-items:center;gap:12px;">
@@ -3086,11 +3086,11 @@ function initBookingStep2() {
       </div>
 
       <div style="padding:16px;background:rgba(30,95,196,.1);border:1px solid rgba(79,172,255,.2);border-radius:6px;">
-        <div style="font-weight:600;margin-bottom:4px;">TV Haul-Away &amp; Recycling</div>
+        <div style="font-weight:600;margin-bottom:4px;color:#e8edf5;">TV Haul-Away &amp; Recycling</div>
         <div style="font-size:0.75rem;color:rgba(232,237,245,.45);margin-bottom:12px;">Dropped at <a href="https://www.agapecomputerandelectronicsrecycling.com/" target="_blank" rel="noopener" style="color:#4facff;text-decoration:none;border-bottom:1px dotted rgba(79,172,255,.4)">Agape</a> in Phoenix — zero landfill.</div>
         <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px;">
           <div>
-            <div style="font-size:0.85rem;font-weight:600;">Under 55″</div>
+            <div style="font-size:0.85rem;font-weight:600;color:#e8edf5;">Under 55″</div>
             <div style="font-size:0.75rem;color:rgba(232,237,245,.6);">$25 each</div>
           </div>
           <div style="display:flex;align-items:center;gap:12px;">
@@ -3101,7 +3101,7 @@ function initBookingStep2() {
         </div>
         <div style="display:flex;justify-content:space-between;align-items:center;">
           <div>
-            <div style="font-size:0.85rem;font-weight:600;">55″ and Larger</div>
+            <div style="font-size:0.85rem;font-weight:600;color:#e8edf5;">55″ and Larger</div>
             <div style="font-size:0.75rem;color:rgba(232,237,245,.6);">$50 each</div>
           </div>
           <div style="display:flex;align-items:center;gap:12px;">
@@ -3115,7 +3115,7 @@ function initBookingStep2() {
       <div style="padding:16px;background:rgba(30,95,196,.1);border:1px solid rgba(79,172,255,.2);border-radius:6px;">
         <div style="display:flex;justify-content:space-between;align-items:center;gap:12px;">
           <div>
-            <div style="font-weight:600;margin-bottom:4px;">Same-Day TV Delivery</div>
+            <div style="font-weight:600;margin-bottom:4px;color:#e8edf5;">Same-Day TV Delivery</div>
             <div style="font-size:0.75rem;color:rgba(232,237,245,.45);">We pick up from a store or another home and bring it. Up to 85&Prime; unboxed / 75&Prime; boxed.</div>
           </div>
           <button class="option-btn ${bookingState.delivery.on ? 'selected' : ''}" style="min-width:64px;flex-shrink:0;" onclick="toggleDelivery()">${bookingState.delivery.on ? 'Added' : 'Add'}</button>
@@ -3152,7 +3152,7 @@ function initBookingStep2() {
           </div>
           ${bookingState.delivery.size !== 'over' ? `
           <div style="display:flex;justify-content:space-between;align-items:center;">
-            <div style="font-size:0.85rem;font-weight:600;">How many TVs?</div>
+            <div style="font-size:0.85rem;font-weight:600;color:#e8edf5;">How many TVs?</div>
             <div style="display:flex;align-items:center;gap:12px;">
               <button class="qty-btn" onclick="adjustDeliveryQty(-1)">&minus;</button>
               <span style="font-weight:600;min-width:20px;text-align:center;">${bookingState.delivery.qty}</span>
