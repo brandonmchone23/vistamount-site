@@ -310,60 +310,18 @@ footer{background:#02030a;border-top:1px solid rgba(79,172,255,.08);padding:24px
 .field-error { color: #dc2626; font-size: 0.85rem; margin-top: 6px; display: block; }
 input.invalid, select.invalid, textarea.invalid { border-color: #dc2626 !important; }
 </style>
-<!-- Google tag (gtag.js) - deferred for mobile LCP -->
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
-  gtag('config', 'AW-18018755852');
-  gtag('config', 'AW-17950543580');
-  // GA4 ID G-J8415SKQ5Y returns 404; verify correct ID in GA4 admin and re-enable.
-  // gtag('config', 'G-J8415SKQ5Y');
-
-  (function(){
-    var loaded = false;
-    function loadGtag() {
-      if (loaded) return;
-      loaded = true;
-      var s = document.createElement('script');
-      s.async = true;
-      s.src = 'https://www.googletagmanager.com/gtag/js?id=AW-17950543580';
-      document.head.appendChild(s);
-    }
-    var events = ['scroll','mousemove','touchstart','keydown','click'];
-    events.forEach(function(e){ window.addEventListener(e, loadGtag, {once:true, passive:true}); });
-    window.addEventListener('load', function() {
-      if ('requestIdleCallback' in window) {
-        requestIdleCallback(loadGtag, {timeout: 6000});
-      } else {
-        setTimeout(loadGtag, 4000);
-      }
-    });
-  })();
-</script>
-<!-- Google Tag Manager - deferred for mobile LCP -->
+<!-- Tagging (GA4 + Google Ads conversions) handled entirely by GTM (GTM-KL3RS6P8).
+     No hardcoded gtag on the page. GTM loaded early/async so conversion tags are
+     ready BEFORE tap-to-call (LCP-safe; do not re-add an interaction/idle gate). -->
+<link rel="preconnect" href="https://www.googletagmanager.com" crossorigin>
 <script>
 (function(){
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
-  var loaded = false;
-  function loadGTM() {
-    if (loaded) return;
-    loaded = true;
-    var s = document.createElement('script');
-    s.async = true;
-    s.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-KL3RS6P8';
-    document.head.appendChild(s);
-  }
-  var events = ['scroll','mousemove','touchstart','keydown','click'];
-  events.forEach(function(e){ window.addEventListener(e, loadGTM, {once:true, passive:true}); });
-  window.addEventListener('load', function() {
-    if ('requestIdleCallback' in window) {
-      requestIdleCallback(loadGTM, {timeout: 6000});
-    } else {
-      setTimeout(loadGTM, 4000);
-    }
-  });
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-KL3RS6P8';
+  document.head.appendChild(s);
 })();
 </script>
 <!-- End Google Tag Manager -->
