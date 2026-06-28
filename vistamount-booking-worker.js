@@ -180,40 +180,9 @@ async function handlePhoneClick(request, env, ctx) {
       });
     }
 
-    // ---- Discord alert on EVERY phone click (ad clicks flagged as hot leads) ----
-    const fromAd = !!body.gclid;
-    const ts = new Date().toLocaleTimeString("en-US", { timeZone: "America/Phoenix", hour: "numeric", minute: "2-digit" });
-    let channel;
-    if (fromAd) channel = "Google Ad";
-    else if (body.utm_source) channel = body.utm_source + (body.utm_medium ? " / " + body.utm_medium : "");
-    else channel = "Direct / Organic";
-    const fields = [
-      { name: "Phone tapped", value: body.phone_number || "(call button)", inline: true },
-      { name: "Time", value: ts, inline: true },
-      { name: "Channel", value: channel, inline: true },
-      { name: "Where", value: body.source_element || "unknown", inline: true },
-      { name: "Country", value: request.headers.get("cf-ipcountry") || "-", inline: true }
-    ];
-    if (body.utm_campaign) fields.push({ name: "Campaign", value: body.utm_campaign, inline: true });
-    if (fromAd) fields.push({ name: "GCLID", value: "`" + body.gclid.substring(0, 24) + "...`", inline: false });
-    fields.push({ name: "Page", value: body.page_url || "-", inline: false });
-    ctx.waitUntil(fetch(DISCORD_WEBHOOK, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        content: fromAd ? "\u{1F4DE} **Phone click \u2014 from a Google Ad**" : "\u{1F4DE} **Phone click**",
-        embeds: [{
-          title: fromAd ? "Hot lead \u2014 watch your phone" : "Someone tapped your call button",
-          description: fromAd
-            ? "They clicked an ad, then tapped to call. They may ring any second."
-            : "A visitor tapped to call (not from a paid ad).",
-          color: fromAd ? 15844367 : 5793266,
-          fields,
-          footer: { text: "VistaMount \u2022 phone-click tracking" },
-          timestamp: new Date().toISOString()
-        }]
-      })
-    }).catch((e) => console.warn("phone-click discord failed:", e.message)));
+    // Phone clicks are logged to phone_click_events for attribution but no longer
+    // ping Discord. The only Discord alert is /call-lead — i.e. when a visitor
+    // actually leaves their number via the call-capture gate.
 
     return new Response(JSON.stringify({ ok: true }), {
       status: 200,
