@@ -6203,5 +6203,91 @@ document.getElementById('legal-modal').addEventListener('click', function(e) {
 })();
 </script>
 
+<!-- VistaMount call-capture gate: collect visitor phone + attribution before dialing -->
+<div id="vm-cc-overlay" role="dialog" aria-modal="true" aria-labelledby="vm-cc-title" style="display:none;position:fixed;inset:0;z-index:99999;background:rgba(8,14,28,.62);align-items:center;justify-content:center;padding:18px;">
+  <div style="background:#fff;max-width:392px;width:100%;border-radius:16px;padding:26px 24px 20px;font-family:'DM Sans',system-ui,-apple-system,'Segoe UI',Roboto,sans-serif;box-shadow:0 24px 70px rgba(0,0,0,.38);border-top:4px solid #C9A24B;">
+    <h3 id="vm-cc-title" style="margin:0 0 6px;font-size:1.28rem;line-height:1.2;color:#11233F;font-weight:700;">Connect your call</h3>
+    <p style="margin:0 0 16px;font-size:.93rem;color:#4a5568;line-height:1.45;">Enter your number and we'll connect you now. If the call drops or we miss you, we'll call you right back.</p>
+    <input id="vm-cc-input" type="tel" inputmode="tel" autocomplete="tel" placeholder="(602) 555-0123" aria-label="Your phone number" style="width:100%;box-sizing:border-box;padding:13px 15px;font-size:1.05rem;border:1.5px solid #cbd5e0;border-radius:11px;margin-bottom:6px;outline:none;color:#11233F;" />
+    <div id="vm-cc-err" style="display:none;color:#c0392b;font-size:.82rem;margin:2px 2px 8px;"></div>
+    <button id="vm-cc-go" type="button" style="width:100%;padding:14px;font-size:1.05rem;font-weight:700;color:#fff;background:#11233F;border:none;border-radius:11px;cursor:pointer;letter-spacing:.2px;">Call now &rarr;</button>
+    <button id="vm-cc-skip" type="button" style="display:none;width:100%;margin-top:9px;padding:8px;background:none;border:none;color:#718096;font-size:.86rem;cursor:pointer;text-decoration:underline;">Just call without leaving my number</button>
+    <p style="margin:12px 2px 0;font-size:.7rem;color:#a0aec0;line-height:1.4;">By continuing you agree VistaMount may contact you about your request.</p>
+  </div>
+</div>
+<script>
+(function(){
+  // ---- config ----
+  var WORKER_LEAD_URL = 'https://vistamount-booking.billowing-recipe-0ae7.workers.dev/call-lead';
+  var GATE_MODE = 'all';   // 'all' = gate every tap | 'desktop' = only gate desktop (mobile dials straight through)
+  var ALLOW_SKIP = false;  // false = number required to call (matches the requirement) | true = one-tap bypass
+
+  var overlay = document.getElementById('vm-cc-overlay');
+  var input   = document.getElementById('vm-cc-input');
+  var errBox  = document.getElementById('vm-cc-err');
+  var goBtn   = document.getElementById('vm-cc-go');
+  var skipBtn = document.getElementById('vm-cc-skip');
+  if(!overlay) return;
+
+  var pendingTel = null;
+  var isMobile = /Android|iPhone|iPad|iPod|Mobile/i.test(navigator.userAgent);
+  if(ALLOW_SKIP){ skipBtn.style.display='block'; }
+
+  function openModal(telHref){
+    pendingTel = telHref;
+    errBox.style.display='none'; input.value='';
+    overlay.style.display='flex';
+    setTimeout(function(){ try{ input.focus(); }catch(e){} }, 60);
+  }
+  function closeModal(){ overlay.style.display='none'; pendingTel=null; }
+  function dial(){ var t=pendingTel; closeModal(); if(t) window.location.href=t; }
+
+  function saveLead(phoneDigits){
+    var attr = (typeof window.getVMAttribution === 'function') ? window.getVMAttribution() : {};
+    var payload = {
+      phone: phoneDigits,
+      dialed_number: pendingTel ? pendingTel.replace('tel:','') : null,
+      page_url: window.location.href,
+      page_title: document.title,
+      referrer: document.referrer,
+      gclid: attr.gclid || null,
+      gbraid: attr.gbraid || null,
+      wbraid: attr.wbraid || null,
+      utm_source: attr.utm_source || null,
+      utm_medium: attr.utm_medium || null,
+      utm_campaign: attr.utm_campaign || null,
+      utm_term: attr.utm_term || null,
+      utm_content: attr.utm_content || null,
+      attribution_captured_at: attr.captured_at || null,
+      user_agent: navigator.userAgent
+    };
+    try {
+      fetch(WORKER_LEAD_URL, { method:'POST', headers:{'Content-Type':'application/json'}, keepalive:true, body:JSON.stringify(payload) }).catch(function(){});
+    } catch(e){}
+  }
+
+  // Intercept tel: taps on the BUBBLE phase so the existing capture-phase
+  // attribution logger still runs first; we only cancel the default dial.
+  document.addEventListener('click', function(e){
+    var a = e.target.closest && e.target.closest('a[href^="tel:"]');
+    if(!a) return;
+    if(GATE_MODE === 'desktop' && isMobile) return;
+    e.preventDefault();
+    openModal(a.getAttribute('href'));
+  }, false);
+
+  goBtn.addEventListener('click', function(){
+    var digits = (input.value||'').replace(/\D/g,'');
+    if(digits.length < 10){ errBox.textContent='Please enter a valid 10-digit number.'; errBox.style.display='block'; return; }
+    saveLead(digits);
+    dial();
+  });
+  skipBtn.addEventListener('click', dial);
+  input.addEventListener('keydown', function(e){ if(e.key==='Enter') goBtn.click(); });
+  overlay.addEventListener('click', function(e){ if(e.target===overlay) closeModal(); });
+  document.addEventListener('keydown', function(e){ if(e.key==='Escape' && overlay.style.display==='flex') closeModal(); });
+})();
+</script>
+
 </body>
 </html>
