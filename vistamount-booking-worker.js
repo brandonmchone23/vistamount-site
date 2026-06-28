@@ -228,12 +228,102 @@ async function handlePhoneClick(request, env, ctx) {
   }
 }
 
+async function handleCallLead(request, env, ctx) {
+  const CORS_HEADERS = {
+    "Access-Control-Allow-Origin": "*",
+    "Access-Control-Allow-Methods": "POST, OPTIONS",
+    "Access-Control-Allow-Headers": "Content-Type"
+  };
+  if (request.method !== "POST") {
+    return new Response(JSON.stringify({ ok: false, error: "method_not_allowed" }), {
+      status: 405, headers: { ...CORS_HEADERS, "Content-Type": "application/json" }
+    });
+  }
+  try {
+    const body = await request.json();
+    const raw = (body.phone || "").toString();
+    const digits = raw.replace(/\D/g, "");
+    const pretty = digits.length === 10
+      ? `(${digits.slice(0, 3)}) ${digits.slice(3, 6)}-${digits.slice(6)}`
+      : (raw || "(not provided)");
+    const fromAd = !!body.gclid;
+    const ts = new Date().toLocaleTimeString("en-US", { timeZone: "America/Phoenix", hour: "numeric", minute: "2-digit" });
+    let channel;
+    if (fromAd) channel = "Google Ad";
+    else if (body.utm_source) channel = body.utm_source + (body.utm_medium ? " / " + body.utm_medium : "");
+    else channel = "Direct / Organic";
+
+    // PRIMARY: Discord alert with THEIR callback number (NOT gated behind the DB write)
+    const fields = [
+      { name: "\u{1F4DE} Call them back", value: "**" + pretty + "**", inline: false },
+      { name: "Time", value: ts, inline: true },
+      { name: "Channel", value: channel, inline: true }
+    ];
+    if (body.utm_campaign) fields.push({ name: "Campaign", value: body.utm_campaign, inline: true });
+    if (fromAd) fields.push({ name: "GCLID", value: "`" + String(body.gclid).substring(0, 24) + "...`", inline: false });
+    fields.push({ name: "Page", value: body.page_url || "-", inline: false });
+    ctx.waitUntil(fetch(DISCORD_WEBHOOK, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        content: fromAd ? "\u{1F525} **NEW CALL LEAD \u2014 from a Google Ad**" : "\u{1F525} **NEW CALL LEAD**",
+        embeds: [{
+          title: "A visitor left their number to be called",
+          color: fromAd ? 15844367 : 3066993,
+          fields,
+          footer: { text: "VistaMount \u2022 call-capture" },
+          timestamp: new Date().toISOString()
+        }]
+      })
+    }).catch((e) => console.warn("call-lead discord failed:", e.message)));
+
+    // SECONDARY (best-effort): store in call_leads. Won't break the alert if the table is absent.
+    ctx.waitUntil(fetch(`${env.SUPABASE_URL}/rest/v1/call_leads`, {
+      method: "POST",
+      headers: {
+        "Authorization": `Bearer ${env.SUPABASE_SERVICE_KEY}`,
+        "apikey": env.SUPABASE_SERVICE_KEY,
+        "Content-Type": "application/json",
+        "Prefer": "return=minimal"
+      },
+      body: JSON.stringify({
+        phone: raw || null,
+        dialed_number: body.dialed_number || null,
+        page_url: body.page_url || null,
+        page_title: body.page_title || null,
+        referrer: body.referrer || null,
+        gclid: body.gclid || null,
+        gbraid: body.gbraid || null,
+        wbraid: body.wbraid || null,
+        utm_source: body.utm_source || null,
+        utm_medium: body.utm_medium || null,
+        utm_campaign: body.utm_campaign || null,
+        utm_term: body.utm_term || null,
+        utm_content: body.utm_content || null,
+        attribution_captured_at: body.attribution_captured_at || null,
+        user_agent: body.user_agent || null,
+        ip_country: request.headers.get("cf-ipcountry") || null
+      })
+    }).catch((e) => console.warn("call-lead insert failed:", e.message)));
+
+    return new Response(JSON.stringify({ ok: true }), {
+      status: 200, headers: { ...CORS_HEADERS, "Content-Type": "application/json" }
+    });
+  } catch (err) {
+    console.error("call-lead error:", err.message);
+    return new Response(JSON.stringify({ ok: false, error: "invalid_request" }), {
+      status: 400, headers: { ...CORS_HEADERS, "Content-Type": "application/json" }
+    });
+  }
+}
+
 export default {
   async fetch(request, env, ctx) {
     if (request.method === "OPTIONS") return new Response(null, { headers: CORS });
     const url = new URL(request.url);
 
     if (url.pathname === "/phone-click") return handlePhoneClick(request, env, ctx);
+    if (url.pathname === "/call-lead") return handleCallLead(request, env, ctx);
 
     if (url.pathname === "/availability" && request.method === "GET") {
       const date = url.searchParams.get("date");
@@ -285,6 +375,17 @@ export default {
       });
       await handlePhoneClick(fake, env, ctx);
       return new Response(JSON.stringify({ success: true, note: "check Discord" }), { headers: { ...CORS, "Content-Type": "application/json" } });
+    }
+
+    // Quick way to verify call-lead alerts fire with a visitor number
+    if (url.pathname === "/test-call-lead" && request.method === "GET") {
+      const fake = new Request("https://x/call-lead", {
+        method: "POST",
+        headers: { "Content-Type": "application/json", "cf-ipcountry": "US" },
+        body: JSON.stringify({ phone: "6025551234", dialed_number: "4809034769", page_url: "https://vistamountaz.com/", utm_source: "test-endpoint" })
+      });
+      await handleCallLead(fake, env, ctx);
+      return new Response(JSON.stringify({ success: true, note: "check Discord for the callback number" }), { headers: { ...CORS, "Content-Type": "application/json" } });
     }
 
     return new Response(JSON.stringify({ status: "VistaMount Booking API" }), { headers: { ...CORS, "Content-Type": "application/json" } });
