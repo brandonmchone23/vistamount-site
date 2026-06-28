@@ -2203,7 +2203,8 @@ function vmJobDuration(){
     var masonry = masonryWalls.indexOf(tv.wall) > -1;
     if (tv.cords === 'raceway')   mins += T.raceway;
     if (tv.cords === 'concealed') mins += T.concealed + (masonry ? T.masonryAdd : 0);
-    if (tv.cords === 'outlet')    mins += T.outlet    + (masonry ? T.masonryAdd : 0); // (not yet a bookable option)
+    if (tv.cords === 'premium')   mins += T.concealed + (masonry ? T.masonryAdd : 0); // same in-wall run as concealed, square plates
+    if (tv.cords === 'outlet')    mins += T.outlet    + (masonry ? T.masonryAdd : 0); // rated in-wall power relocation
     if (tv.fireplace) mins += T.fireplace;
     if (tv.mantelMount && tv.mantelMount !== 'false' && tv.mantelMount !== 'none') mins += T.mantelMount;
     if (tv.outdoor) mins += T.outdoor;
@@ -2233,6 +2234,17 @@ function vmIsSameDay(){
   if(!s || !s.start) return false;
   const d = new Date(s.start), n = new Date();
   return d.getFullYear() === n.getFullYear() && d.getMonth() === n.getMonth() && d.getDate() === n.getDate();
+}
+
+// Non-rated in-wall cord routing (Basic or Premium plates) requires a signed liability waiver.
+// Rated power relocation ('outlet') is to-code and does NOT require the waiver.
+function vmNeedsCordWaiver(){
+  return (bookingState.tvs || []).some(function(tv){ return tv.cords === 'concealed' || tv.cords === 'premium'; });
+}
+function vmWaiverTVList(){
+  return (bookingState.tvs || [])
+    .map(function(tv, i){ return (tv.cords === 'concealed' || tv.cords === 'premium') ? ('TV' + (i+1)) : null; })
+    .filter(Boolean);
 }
 
 // ---- non-AZ / unrecognized ZIP (no coordinates to plot) ----
@@ -2493,6 +2505,8 @@ function calculatePrice() {
 
       if (tv.cords === 'raceway') total += 50;
       else if (tv.cords === 'concealed') total += 75;
+      else if (tv.cords === 'premium') total += 100;
+      else if (tv.cords === 'outlet') total += 200;
 
       if (!tv.mantelMount || tv.mantelMount === 'false' || tv.mantelMount === 'none' || tv.mantelMount === 'own') {
         if (tv.wall === 'stucco') total += 75;
@@ -2880,7 +2894,8 @@ function renderTVCards() {
       
       <div style="margin-bottom:16px;">
         <label style="display:block;font-size:0.8rem;color:rgba(232,237,245,.6);margin-bottom:8px;">Cord Management</label>
-        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
+        <div style="font-size:0.6rem;letter-spacing:.13em;text-transform:uppercase;color:rgba(232,237,245,.38);font-weight:700;margin-bottom:6px;">On the surface</div>
+        <div style="display:grid;grid-template-columns:repeat(2,1fr);gap:6px;margin-bottom:12px;">
 
           <!-- VISIBLE -->
           <button class="option-btn ${tv.cords === 'visible' ? 'selected' : ''}" onclick="setTVProp(${i}, 'cords', 'visible')" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;">
@@ -2925,7 +2940,12 @@ function renderTVCards() {
             <small style="font-size:0.68rem;font-weight:600;">+$50</small>
           </button>
 
-          <!-- IN-WALL CONCEALED -->
+        </div>
+
+        <div style="font-size:0.6rem;letter-spacing:.13em;text-transform:uppercase;color:rgba(232,237,245,.38);font-weight:700;margin-bottom:6px;">Inside the wall</div>
+        <div style="display:grid;grid-template-columns:repeat(3,1fr);gap:6px;">
+
+          <!-- BASIC IN-WALL · round brush plates -->
           <button class="option-btn ${tv.cords === 'concealed' ? 'selected' : ''}" onclick="setTVProp(${i}, 'cords', 'concealed')" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;">
             <svg width="48" height="44" viewBox="0 0 48 44" fill="none" xmlns="http://www.w3.org/2000/svg">
               <!-- Wall bar -->
@@ -2945,11 +2965,48 @@ function renderTVCards() {
               <path d="M37 8 L42 8" stroke="currentColor" stroke-width="0.8" opacity="0.3"/>
             </svg>
             <span style="font-size:0.72rem;font-weight:700;">In-Wall</span>
-            <small style="font-size:0.65rem;opacity:0.7;">Fully hidden</small>
+            <small style="font-size:0.65rem;opacity:0.7;">Round plates</small>
             <small style="font-size:0.68rem;font-weight:600;">+$75</small>
           </button>
 
+          <!-- PREMIUM IN-WALL · square plates -->
+          <button class="option-btn ${tv.cords === 'premium' ? 'selected' : ''}" onclick="setTVProp(${i}, 'cords', 'premium')" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;">
+            <svg width="48" height="44" viewBox="0 0 48 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4" y="0" width="40" height="4" rx="1" fill="currentColor" opacity="0.3"/>
+              <rect x="6" y="4" width="36" height="22" rx="2" fill="currentColor" opacity="0.12" stroke="currentColor" stroke-width="1.8"/>
+              <rect x="9" y="7" width="30" height="16" rx="1" fill="currentColor" opacity="0.07"/>
+              <rect x="6" y="26" width="36" height="16" rx="1" fill="currentColor" opacity="0.06"/>
+              <path d="M24 29 L24 39" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.5,2.5" opacity="0.28"/>
+              <!-- Square paintable plates top + bottom -->
+              <rect x="21.4" y="24.6" width="5.2" height="5.2" rx="0.8" fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.6"/>
+              <rect x="21.4" y="37.4" width="5.2" height="5.2" rx="0.8" fill="none" stroke="currentColor" stroke-width="1.4" opacity="0.6"/>
+            </svg>
+            <span style="font-size:0.72rem;font-weight:700;">Premium</span>
+            <small style="font-size:0.65rem;opacity:0.7;">Square plates</small>
+            <small style="font-size:0.68rem;font-weight:600;">+$100</small>
+          </button>
+
+          <!-- RATED POWER · to-code outlet relocation -->
+          <button class="option-btn ${tv.cords === 'outlet' ? 'selected' : ''}" onclick="setTVProp(${i}, 'cords', 'outlet')" style="display:flex;flex-direction:column;align-items:center;gap:3px;padding:10px 4px;">
+            <svg width="48" height="44" viewBox="0 0 48 44" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <rect x="4" y="0" width="40" height="4" rx="1" fill="currentColor" opacity="0.3"/>
+              <rect x="6" y="4" width="36" height="22" rx="2" fill="currentColor" opacity="0.12" stroke="currentColor" stroke-width="1.8"/>
+              <rect x="9" y="7" width="30" height="16" rx="1" fill="currentColor" opacity="0.07"/>
+              <rect x="6" y="26" width="36" height="16" rx="1" fill="currentColor" opacity="0.06"/>
+              <path d="M24 26 L24 31" stroke="currentColor" stroke-width="1.5" stroke-dasharray="2.5,2.5" opacity="0.28"/>
+              <!-- Code-rated duplex receptacle -->
+              <rect x="18" y="31" width="12" height="9" rx="1.6" fill="currentColor" opacity="0.1" stroke="currentColor" stroke-width="1.6"/>
+              <line x1="22" y1="33.4" x2="22" y2="35" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>
+              <line x1="26" y1="33.4" x2="26" y2="35" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" opacity="0.7"/>
+              <circle cx="24" cy="37.4" r="0.9" fill="currentColor" opacity="0.7"/>
+            </svg>
+            <span style="font-size:0.72rem;font-weight:700;">Rated Power</span>
+            <small style="font-size:0.65rem;opacity:0.7;">To-code outlet</small>
+            <small style="font-size:0.68rem;font-weight:600;">+$200</small>
+          </button>
+
         </div>
+        ${(tv.cords === 'concealed' || tv.cords === 'premium') ? `<div style="margin-top:8px;font-size:0.7rem;line-height:1.45;color:#fcd34d;background:rgba(252,211,153,.07);border:1px solid rgba(252,211,153,.18);border-radius:6px;padding:8px 10px;">Routes a standard power cord inside the wall — not NEC-rated for in-wall power. You'll sign a short liability waiver at checkout. Want it fully to code? Choose <strong>Rated Power</strong>.</div>` : (tv.cords === 'outlet' ? `<div style="margin-top:8px;font-size:0.7rem;line-height:1.45;color:#34d399;background:rgba(52,211,153,.07);border:1px solid rgba(52,211,153,.18);border-radius:6px;padding:8px 10px;">A new code-compliant outlet relocated behind your TV. No waiver needed.</div>` : '')}
       </div>
       
       <div>
@@ -3450,6 +3507,15 @@ function submitBookingWithConsent() {
     showSignatureError('Please check the box agreeing to the Service Agreement and Terms of Service.');
     return;
   }
+  // In-wall power cord waiver (required only when a Basic/Premium in-wall option is selected)
+  const cordWaiverRequired = vmNeedsCordWaiver();
+  const cordWaiverEl = document.getElementById('consent-cordwaiver');
+  const cordWaiverChecked = cordWaiverEl ? cordWaiverEl.checked : false;
+  if (cordWaiverRequired && !cordWaiverChecked) {
+    showSignatureError('Please check the box agreeing to the In-Wall Power Cord Liability Waiver.');
+    if (cordWaiverEl) cordWaiverEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    return;
+  }
   // Store consent data
   window._consentData = {
     signature: sig,
@@ -3457,6 +3523,8 @@ function submitBookingWithConsent() {
     phone: document.getElementById('consent-phone') ? document.getElementById('consent-phone').checked : false,
     email: document.getElementById('consent-email') ? document.getElementById('consent-email').checked : false,
     terms: true,
+    cordWaiver: cordWaiverRequired ? true : null,
+    cordWaiverTVs: cordWaiverRequired ? vmWaiverTVList() : [],
     timestamp: new Date().toISOString()
   };
   submitBooking();
@@ -3602,12 +3670,12 @@ function initBookingStep4() {
   // Build TV line items
   const tvSizeLabel = s => ({'<32':'Under 32"','32-64':'32"–64"','65-84':'65"–84"','85+':'85"+'}[s] || s);
   const tvMountLabel = m => ({'fixed':'Fixed Mount','tilting':'Tilting Mount','fullmotion':'Full-Motion Mount','own':"Customer's Own Mount"}[m] || m);
-  const tvCordLabel = c => ({'visible':'Cords Left Visible','raceway':'On-Wall Raceway','concealed':'In-Wall Concealment'}[c] || c);
+  const tvCordLabel = c => ({'visible':'Cords Left Visible','raceway':'On-Wall Raceway','concealed':'In-Wall · Basic Plates','premium':'In-Wall · Premium Plates','outlet':'In-Wall Rated Power'}[c] || c);
   const tvWallLabel = w => ({'drywall':'Drywall','stucco':'Stucco','brick':'Brick','tile':'Tile/Stone','concrete':'Concrete','fireplace':'Fireplace / Above Mantel'}[w] || w);
 
   const tvSizePrice = s => vmSizePrice(s);
   const tvMountPrice = m => ({'fullmotion':90,'fixed':45,'tilting':45}[m] || 0);
-  const tvCordPrice = c => ({'raceway':50,'concealed':75}[c] || 0);
+  const tvCordPrice = c => ({'raceway':50,'concealed':75,'premium':100,'outlet':200}[c] || 0);
   const tvWallPrice = (w, tv) => (tv && tv.mantelMount && tv.mantelMount !== 'false' && tv.mantelMount !== 'none' && tv.mantelMount !== 'own') ? ({'stucco':100,'brick':100,'concrete':100,'tile':150}[w] || 0) : ({'stucco':75,'brick':100,'tile':150,'concrete':100}[w] || 0);
 
   const mantelPricesStep4 = {'mm340':429,'mm540':499,'mm700':625,'max1':875,'mm815':1055};
@@ -3838,6 +3906,19 @@ function initBookingStep4() {
         <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#4facff;font-weight:700;margin-bottom:8px;">Electronic Signature</div>
         <input type="text" id="esignature" placeholder="Type your full name to sign" autocomplete="name" oninput="this.style.borderColor='rgba(79,172,255,.18)';this.style.boxShadow='none';var e=document.getElementById('esignature-error');if(e)e.remove();" style="width:100%;padding:12px;background:rgba(255,255,255,.03);border:1px solid rgba(79,172,255,.18);border-radius:6px;color:#e8edf5;font-size:16px;font-style:italic;box-sizing:border-box;">
         <div style="font-size:0.72rem;color:rgba(232,237,245,.45);margin-top:4px;margin-bottom:16px;">By typing your name you are electronically signing this service agreement.</div>
+
+        ${vmNeedsCordWaiver() ? `
+        <div style="margin-bottom:16px;padding:14px;background:rgba(252,211,153,.06);border:1px solid rgba(252,211,153,.28);border-radius:8px;">
+          <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#fcd34d;font-weight:700;margin-bottom:8px;">In-Wall Power Cord Waiver</div>
+          <div style="font-size:0.62rem;color:rgba(232,237,245,.5);margin-bottom:8px;">Applies to: ${vmWaiverTVList().join(', ')}</div>
+          <div style="font-size:0.78rem;line-height:1.55;color:rgba(232,237,245,.78);">
+            I'm asking VistaMount LLC to route a standard TV/AV power cord inside the wall. I understand a standard power cord is not rated or listed for in-wall use under the National Electrical Code, so this method is not code-compliant, may not pass inspection, and could affect home insurance or resale. VistaMount offered me the code-compliant Rated Power option, which I'm declining. I accept full responsibility for the in-wall power-cord routing and release VistaMount LLC and its agents from any liability arising from it. No warranty is provided on the in-wall power routing itself.
+          </div>
+          <label style="display:flex;align-items:flex-start;gap:10px;cursor:pointer;font-size:0.82rem;color:rgba(232,237,245,.85);line-height:1.5;margin-top:12px;">
+            <input type="checkbox" id="consent-cordwaiver" style="margin-top:2px;width:16px;height:16px;flex-shrink:0;accent-color:#fcd34d;" oninput="this.style.outline='none';var e=document.getElementById('esignature-error');if(e)e.remove();">
+            <span><strong>I have read and agree to the In-Wall Power Cord Liability Waiver above.</strong> (Required)</span>
+          </label>
+        </div>` : ''}
 
         <div style="font-size:0.72rem;letter-spacing:.14em;text-transform:uppercase;color:#4facff;font-weight:700;margin-bottom:10px;">Communication Consent</div>
         <div style="display:flex;flex-direction:column;gap:10px;">
