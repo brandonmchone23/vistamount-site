@@ -3906,10 +3906,11 @@ document.addEventListener('DOMContentLoaded', function() {
 (function(){
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
-  var s = document.createElement('script');
-  s.async = true;
-  s.src = 'https://www.googletagmanager.com/gtm.js?id=GTM-KL3RS6P8';
-  document.head.appendChild(s);
+  // GTM container GTM-KL3RS6P8 is loaded FIRST-PARTY by the Cloudflare Google tag gateway
+  // (dashboard "Set up tag" injection -> /metrics/). Do NOT add a googletagmanager.com loader
+  // here; it double-loads the container. If the gateway is ever disabled, restore the loader:
+  //   var s=document.createElement('script');s.async=true;
+  //   s.src='https://www.googletagmanager.com/gtm.js?id=GTM-KL3RS6P8';document.head.appendChild(s);
 })();
 </script>
 <!-- End Google Tag Manager -->
