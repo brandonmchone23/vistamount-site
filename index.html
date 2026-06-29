@@ -3906,11 +3906,14 @@ document.addEventListener('DOMContentLoaded', function() {
 (function(){
   window.dataLayer = window.dataLayer || [];
   window.dataLayer.push({'gtm.start': new Date().getTime(), event: 'gtm.js'});
-  // GTM container GTM-KL3RS6P8 is loaded FIRST-PARTY by the Cloudflare Google tag gateway
-  // (dashboard "Set up tag" injection -> /metrics/). Do NOT add a googletagmanager.com loader
-  // here; it double-loads the container. If the gateway is ever disabled, restore the loader:
-  //   var s=document.createElement('script');s.async=true;
-  //   s.src='https://www.googletagmanager.com/gtm.js?id=GTM-KL3RS6P8';document.head.appendChild(s);
+  // First-party load through the Cloudflare Google tag gateway proxy (/metrics path).
+  // Deterministic: fires on every page load. Does NOT rely on Cloudflare's "Set up tag"
+  // auto-injection, which caches inconsistently. Keep "Set up tag" OFF in the gateway
+  // config so the edge does not ALSO inject a loader and double-load the container.
+  var s = document.createElement('script');
+  s.async = true;
+  s.src = '/metrics/gtm.js?id=GTM-KL3RS6P8';
+  document.head.appendChild(s);
 })();
 </script>
 <!-- End Google Tag Manager -->
